@@ -86,19 +86,19 @@ function showButton() {
 
 	async function requestRevive() {
 		const details = getUserDetails();
-		if (details.error) return false;
+		if ("error" in details) return false;
 
 		button.setAttribute("disabled", "");
 
 		const { id, name } = details;
 		const faction = getFactionName();
 
-		let country = document.body.dataset.country;
+		let country = document.body.dataset.country!;
 		if (country === "uk") country = "United Kingdom";
 		else if (country === "uae") country = "UAE";
 		else country = capitalizeText(country.replaceAll("-", " "), { everyWord: true });
 
-		doRequestRevive(id.toString(), name, country, faction)
+		doRequestRevive(String(id), name, country, faction)
 			.then(({ provider }) => displayMessage(`Revive requested for ${calculateRevivePrice(provider)}!`))
 			.catch(({ provider, response }) => {
 				if (response.code === "COOLDOWN") {

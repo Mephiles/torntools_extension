@@ -72,7 +72,7 @@ export default class FFScouterMiniProfileFeature extends Feature {
 	}
 
 	override async initialise() {
-		SCOUTER_SERVICE = scouterService();
+		SCOUTER_SERVICE = scouterService()!;
 		initialiseMiniProfile();
 	}
 

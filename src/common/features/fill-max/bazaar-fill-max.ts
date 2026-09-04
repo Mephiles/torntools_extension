@@ -19,7 +19,7 @@ function initialiseListeners() {
 async function addFillMax() {
 	if (mobile || tabletVertical) {
 		await maxBuyListener();
-		reactObserver.observe(await requireElement(SELECTOR_MOBILE_LIST), { childList: true });
+		reactObserver!.observe(await requireElement(SELECTOR_MOBILE_LIST), { childList: true });
 	} else document.addEventListener("click", maxBuyListener);
 }
 async function maxBuyListener(clickEvent: any = null) {
@@ -43,13 +43,13 @@ async function maxBuyListener(clickEvent: any = null) {
 				click(event) {
 					event.stopPropagation();
 					let max = mobile
-						? parseInt(findElement("[class*='amount__']", parent).firstElementChild.textContent)
-						: parseInt(findElement("[class*='amount__']", parent).childNodes[1].textContent);
+						? parseInt(findElement("[class*='amount__']", parent).firstElementChild!.textContent!)
+						: parseInt(findElement("[class*='amount__']", parent).childNodes[1].textContent!);
 					if (!settings.pages.bazaar.maxBuyIgnoreCash) {
 						const price = mobile
-							? parseInt(findElement("[class*='price_']", parent).childNodes[0].textContent.replaceAll(/[,$]/g, ""))
+							? parseInt(findElement("[class*='price_']", parent).childNodes[0].textContent!.replaceAll(/[,$]/g, ""))
 							: parseInt(findElement("[class*='price_']", parent).textContent.replaceAll(/[,$]/g, ""));
-						const money = parseInt(findElement("#user-money").dataset.money);
+						const money = parseInt(findElement("#user-money").dataset.money!);
 						if (Math.floor(money / price) < max) max = Math.floor(money / price);
 					}
 					if (max > 10000) max = 10000;
@@ -62,7 +62,7 @@ async function maxBuyListener(clickEvent: any = null) {
 
 		const buyButton = findElement("[class*='buy_']", parent);
 		buyButton.classList.add(styles.ttBuyBazaar);
-		buyButton.parentElement.appendChild(fillMax);
+		buyButton.parentElement!.appendChild(fillMax);
 	}
 }
 

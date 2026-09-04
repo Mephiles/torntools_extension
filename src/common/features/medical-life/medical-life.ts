@@ -65,7 +65,7 @@ function doesRestoreLife(id: number) {
 async function showInformation(id: number) {
 	const perks = userdata.perks.education
 		.filter((perk) => perk.toLowerCase().includes("medical item effectiveness"))
-		.map((perk) => parseInt(perk.match(/\+ (\d+)%/i)[1]))
+		.map((perk) => parseInt(perk.match(/\+ (\d+)%/i)![1]))
 		.reduce((a, b) => a + b, 0);
 	const percentage = (1 + perks / 100) * MEDICAL_ITEMS[id];
 
@@ -83,6 +83,8 @@ async function showInformation(id: number) {
 		actionWrap = await requireElement(".use-action[style*='display: block;'] #wai-action-desc, .use-action:not([style]) #wai-action-desc");
 	} else if (page === "factions") {
 		actionWrap = await requireElement(`.action-cont[data-itemid='${id}'] .confirm`);
+	} else {
+		return;
 	}
 
 	const text = `Your life total will be ${roundNearest(newLife, 1)}/${roundNearest(maximumLife, 1)}.`;

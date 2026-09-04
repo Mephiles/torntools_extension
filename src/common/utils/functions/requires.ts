@@ -1,14 +1,14 @@
 import { findElement } from "@common/utils/functions/find-elements";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 
-type RequireConditionFn<T = any> = () => T | { value: T; success: boolean };
+type RequireConditionFn<T = any> = () => T | { value: NonNullable<T>; success: boolean };
 
 interface RequireConditionOptions {
 	delay: number;
 	maxCycles: number;
 }
 
-export function requireCondition<T = any>(condition: RequireConditionFn<T>, partialOptions: Partial<RequireConditionOptions> = {}): Promise<T> {
+export function requireCondition<T = any>(condition: RequireConditionFn<T>, partialOptions: Partial<RequireConditionOptions> = {}): Promise<NonNullable<T>> {
 	const options: RequireConditionOptions = {
 		delay: 50,
 		maxCycles: 100,
@@ -35,7 +35,7 @@ export function requireCondition<T = any>(condition: RequireConditionFn<T>, part
 				else reject();
 			} else if (typeof response === "object") {
 				if ("success" in response) {
-					if (response.success === true) resolve(response.value);
+					if (response.success) resolve(response.value);
 					else reject(response.value);
 				} else {
 					resolve(response);
@@ -198,7 +198,7 @@ export function requireChatsLoaded() {
 
 interface ChainedObserver {
 	observer: MutationObserver;
-	selectorResult: Element;
+	selectorResult: Element | undefined;
 }
 
 /**

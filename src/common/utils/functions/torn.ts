@@ -1790,12 +1790,12 @@ export function getPage() {
 			break;
 		}
 		case "page": {
-			const sid = getSearchParameters().get("sid").toLowerCase();
+			const sid = getSearchParameters().get("sid")?.toLowerCase();
 
-			if (sid === "list") page = getSearchParameters().get("type");
+			if (sid === "list") page = getSearchParameters().get("type") ?? page;
 			else if (sid === "crimes") page = "crimes-v2";
 			else if (sid === "holdemfull") page = "poker-fullscreen";
-			else page = sid;
+			else if (sid) page = sid;
 			break;
 		}
 		case "properties": {
@@ -1829,7 +1829,7 @@ export function getPage() {
 		case "war": {
 			const step = getSearchParameters().get("step")?.toLowerCase();
 
-			if (["chainreport", "raidreport", "rankreport", "warreport"].includes(step)) page = step;
+			if (step && ["chainreport", "raidreport", "rankreport", "warreport"].includes(step)) page = step;
 			break;
 		}
 	}
@@ -1919,8 +1919,8 @@ export function updateReactInput(input: HTMLInputElement | HTMLTextAreaElement, 
 			// 	break;
 			throw new Error(`Provided version is not supported at this moment: '${options.version}}'.`);
 		case REACT_UPDATE_VERSIONS.NATIVE_SETTER: {
-			const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value").set;
-			nativeSetter.call(input, valueString);
+			const nativeSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set;
+			if (nativeSetter) nativeSetter.call(input, valueString);
 
 			input.dispatchEvent(new Event("input", { bubbles: true }));
 			break;
@@ -1983,7 +1983,7 @@ export function getStockReward(reward: string, increment: number) {
 	} else if (reward.match(/^\d+x? /i)) {
 		const splitBenefit = reward.split(" ");
 		const hasX = splitBenefit[0].endsWith("x");
-		const amount = parseInt(splitBenefit.shift().replace("x", "")) * increment;
+		const amount = parseInt(splitBenefit.shift()!.replace("x", "")) * increment;
 		const item = splitBenefit.join(" ");
 
 		value = `${formatNumber(amount)}${hasX ? "x" : ""} ${item}`;
@@ -1997,7 +1997,7 @@ export function getStockReward(reward: string, increment: number) {
 export function getRewardValue(reward: string) {
 	if (!ITEM_RESOLVER.hasFullItems()) return -1;
 
-	let value: number;
+	let value: number | undefined;
 	if (reward.startsWith("$")) {
 		value = parseInt(reward.replace("$", "").replaceAll(",", ""));
 	} else if (reward.match(/^\d+x? /i)) {
@@ -2013,11 +2013,11 @@ export function getRewardValue(reward: string) {
 				case "Ammunition Pack":
 					break;
 				case "Clothing Cache":
-					prices = [1057, 1112, 1113, 1114, 1115, 1116, 1117].map((id) => ITEM_RESOLVER.getFullItem(id).value.market_price);
+					prices = [1057, 1112, 1113, 1114, 1115, 1116, 1117].map((id) => ITEM_RESOLVER.getFullItem(id)!.value.market_price);
 					break;
 				case "Random Property":
-					prices = torndata.properties
-						.filter(({ name }) => COMMON_PROPERTY_TYPES.includes(name))
+					prices = torndata
+						.properties!.filter(({ name }) => COMMON_PROPERTY_TYPES.includes(name))
 						.map((property) => property.cost)
 						.filter((price) => !!price)
 						.map((price) => price * 0.75);
@@ -2137,15 +2137,17 @@ export function millisToNewDay() {
 	return newDate.getTime() - now;
 }
 
-export function getUserDetails() {
+export type UserDetails = { id: number; name: string } | { error: string };
+
+export function getUserDetails(): UserDetails {
 	let id: number, name: string;
 
 	if (!hasAPIData()) {
 		const script = findElement("script[uid][name]", true);
 		if (!script) return { error: "Couldn't get details" };
 
-		id = parseInt(script.getAttribute("uid"));
-		name = script.getAttribute("name");
+		id = parseInt(script.getAttribute("uid")!);
+		name = script.getAttribute("name")!;
 	} else {
 		id = userdata.profile.id;
 		name = userdata.profile.name;
@@ -2156,13 +2158,12 @@ export function getUserDetails() {
 
 export function isOwnProfile() {
 	const details = getUserDetails();
-
-	if (details.error) return false;
+	if ("error" in details) return false;
 
 	const { id, name } = details;
 	const params = getSearchParameters();
 
-	return (params.has("XID") && parseInt(params.get("XID")) === id) || (params.has("NID") && params.get("NID") === name);
+	return (params.has("XID") && parseInt(params.get("XID")!) === id) || (params.has("NID") && params.get("NID") === name);
 }
 
 export function getUserEnergy() {
@@ -2196,11 +2197,11 @@ export function getUsername(row: Element) {
 	if (element) {
 		const title = findElement(":scope > [title]", element, true);
 		if (title) {
-			combined = title.getAttribute("title");
+			combined = title.getAttribute("title")!;
 
 			const regex = combined.match(/(.*) \[(\d+)]/);
-			name = regex[1];
-			id = parseInt(regex[2]);
+			name = regex![1];
+			id = parseInt(regex![2]);
 		} else {
 			name = element.textContent;
 			id = convertToNumber(element.href);
@@ -2209,14 +2210,15 @@ export function getUsername(row: Element) {
 		}
 	} else {
 		const link = findElement<HTMLLinkElement>("a[href*='profiles']", row);
-		if (link.getAttribute("id")) {
+		const linkId = link.getAttribute("id");
+		if (linkId) {
 			name = findElement("span", link).textContent || "";
-			id = convertToNumber(link.getAttribute("id").split("-")[0]);
+			id = convertToNumber(linkId.split("-")[0]);
 
 			combined = name ? `${name} [${id}]` : id.toString();
 		} else {
 			name = link.textContent;
-			id = convertToNumber(link.href.match(/XID=(\d*)/i)[1]);
+			id = convertToNumber(link.href.match(/XID=(\d*)/i)![1]);
 
 			combined = `${name} [${id}]`;
 		}
@@ -2246,12 +2248,13 @@ export async function createTTTopLinks() {
 	}
 
 	ttTopLinksCreating = true;
-	ttTopLinks = elementBuilder({ type: "div", class: "tt-top-icons" });
+	const topLinks = elementBuilder({ type: "div", class: "tt-top-icons" });
+	ttTopLinks = topLinks;
 	await requireElement("[class*='titleContainer___']").then((title) => {
-		title.appendChild(ttTopLinks);
+		title.appendChild(topLinks);
 		ttTopLinksCreating = false;
 	});
-	return ttTopLinks;
+	return topLinks;
 }
 
 interface TornEvent {
@@ -2658,7 +2661,7 @@ export function extractXIDFromJson(json: any): ExtractedXID[] {
 		return items
 			.filter((x) => !!x)
 			.filter((item) => (item.type2 || item.type || item.category || item.itemType) === "Temporary")
-			.map<ExtractedXID>((id) => {
+			.map<ExtractedXID | null>((id) => {
 				const itemId = id.ID || id.id || id.itemID || id.itemId || id.number || id.item;
 				if (!itemId) return null;
 
@@ -2666,7 +2669,8 @@ export function extractXIDFromJson(json: any): ExtractedXID[] {
 				if (!xid) return null;
 
 				return { item: parseInt(itemId), xid: parseInt(xid) };
-			});
+			})
+			.filter((x) => x !== null);
 	} else if (typeof items === "object") {
 		return Object.values(items).flatMap((x) => extractXIDFromJson(x));
 	}
@@ -2681,7 +2685,7 @@ export function extractXIDFromHTML(html: string): ExtractedXID[] {
 	if (!nodes.length) return [];
 
 	return nodes
-		.map<ExtractedXID>((li) => {
+		.map<ExtractedXID | null>((li) => {
 			const itemId = li.getAttribute("data-item") || li.getAttribute("data-itemid");
 			if (!itemId) return null;
 
@@ -2691,7 +2695,7 @@ export function extractXIDFromHTML(html: string): ExtractedXID[] {
 
 			return { item: parseInt(itemId), xid: parseInt(armoryId) };
 		})
-		.filter((x) => !!x);
+		.filter((x) => x !== null);
 }
 
 // End of XID extraction
@@ -2704,8 +2708,8 @@ export function extractFactionsFromPage() {
 		findElement(".users-list > li .user.faction img", true)
 			? factionLinks
 					.map((row) => findElement("img", row, true))
-					.filter((img) => !!img)
-					.map((img) => img.getAttribute("title").trim())
+					.filter((img) => img !== null)
+					.map((img) => img.getAttribute("title")!.trim())
 					.filter((tag) => !!tag)
 			: factionLinks.map((row) => row.textContent.trim()).filter((tag) => !!tag),
 	);
@@ -2752,7 +2756,7 @@ export function getBloodType(): BloodType | null {
 export function getHospitalTime(): number | null {
 	const header = findElement("#topHeaderBanner[data-hospital]", true);
 	if (header) {
-		const timestamp = parseInt(header.dataset.hospital) * 1000;
+		const timestamp = parseInt(header.dataset.hospital!) * 1000;
 		if (timestamp < Date.now()) return null;
 
 		return timestamp;

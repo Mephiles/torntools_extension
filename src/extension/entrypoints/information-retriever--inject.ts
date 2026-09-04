@@ -15,6 +15,8 @@ function registerInformationRetriever() {
 	};
 
 	document.addEventListener("tt-information-request", (event: CustomEventInit<{ type: string }>) => {
+		if (!event.detail) return;
+
 		const { type } = event.detail;
 		const handler = handlers[type];
 		if (!handler) return;

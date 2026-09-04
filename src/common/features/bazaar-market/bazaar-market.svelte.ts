@@ -24,7 +24,7 @@ async function startFeature() {
 	const params = getHashParameters();
 	if (!params.has("itemID")) return;
 
-	const id = parseInt(params.get("itemID"));
+	const id = parseInt(params.get("itemID")!);
 	if (!id) return;
 
 	await displayBazaars(id);
@@ -56,7 +56,7 @@ async function displayBazaars(itemId: number, retry = 0) {
 
 	// For some reason the element sometimes gets disconnected immediately, without even triggering a MutationObserver.
 	if (retry < 3) {
-		const marketBox = anchor.previousElementSibling;
+		const marketBox = anchor.previousElementSibling!;
 		setTimeout(() => {
 			if (marketBox.isConnected || !anchor.isConnected || request !== latestRequest || pendingItemId !== itemId) return;
 

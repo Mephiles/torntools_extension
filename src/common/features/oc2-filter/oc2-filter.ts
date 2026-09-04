@@ -73,7 +73,7 @@ async function addFilterContainer() {
 		container: {
 			title: "OC Filter",
 			class: "mt10 mb10",
-			previousElement: findElement(".page-head-delimiter", list.parentElement),
+			previousElement: findElement(".page-head-delimiter", list.parentElement!),
 		},
 		statisticsLabel: "crimes",
 		enabled: filters.oc2.enabled,

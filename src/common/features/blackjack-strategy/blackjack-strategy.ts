@@ -90,7 +90,7 @@ function executeStrategy(data: any) {
 
 	function getWorth(card: string | number) {
 		let symbol: string | number;
-		if (typeof card === "string") symbol = card.split("-").at(-1);
+		if (typeof card === "string") symbol = card.split("-").at(-1)!;
 		else symbol = card;
 
 		return Number.isNaN(parseInt(symbol.toString())) ? (symbol === "A" ? "A" : 10) : parseInt(symbol.toString());

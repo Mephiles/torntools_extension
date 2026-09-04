@@ -25,7 +25,7 @@ function showWarning() {
 
 	const hash = getHashParameters();
 
-	const subforum = parseInt(hash.get("f"));
+	const subforum = parseInt(hash.get("f")!);
 	// Only trigger on the B&I subforum.
 	if (subforum !== 19) return;
 
@@ -36,7 +36,7 @@ function showWarning() {
 	if (page === "forums") {
 		parent = findElement("ul.title");
 		position = "afterend";
-	} else if (page === "newthread") {
+	} else {
 		parent = findElement("#editor-wrapper");
 		position = "beforebegin";
 

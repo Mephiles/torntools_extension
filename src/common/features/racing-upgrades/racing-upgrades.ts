@@ -53,7 +53,7 @@ async function startFeature() {
 async function showUpgrades() {
 	let parts: string[] = [];
 	for (const item of findAllElements(".pm-items-wrap .d-wrap .pm-items .unlock")) {
-		parts.push(item.getAttribute("data-part"));
+		parts.push(item.getAttribute("data-part")!);
 
 		for (const property of findAllElements(".properties", item)) {
 			const statNew = parseFloat(findElement(".progressbar.progress-light-green, .progressbar.progress-red", property).style.width) / 100;
@@ -88,9 +88,11 @@ async function showUpgrades() {
 		const color = `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`;
 		needed.push(`<span class="tt-race-upgrade-needed" part="${part}" style="color: ${color};">${part}</span>`);
 
-		let category: string;
+		let category: string | undefined;
 		for (const item of findAllElements(`.pm-items .unlock[data-part="${part}"]`)) {
-			if (!category) category = findParent(item, { class: "pm-items-wrap" }).getAttribute("category");
+			if (!category) {
+				category = findParent(item, { class: "pm-items-wrap" })!.getAttribute("category")!;
+			}
 
 			item.classList.add("tt-modified");
 			findElement(".status", item).style.setProperty("background-color", color);
@@ -117,6 +119,8 @@ async function showUpgrades() {
 				}
 			};
 		}
+
+		if (!category) return;
 
 		const elCategory = findElement(`.pm-categories > li[data-category="${category}"]`);
 		if (findElement(".tt-race-need-icon", elCategory, true)) {
@@ -171,7 +175,7 @@ function cleanUpgrade(unlockElement: HTMLElement, part: string | null) {
 		item.style.opacity = "1";
 	}
 
-	const category = findParent(unlockElement, { class: "pm-items-wrap" }).getAttribute("category");
+	const category = findParent(unlockElement, { class: "pm-items-wrap" })!.getAttribute("category")!;
 	const counter = findElement(`.pm-categories > .unlock[data-category="${category}"] .tt-race-need-icon`);
 	counter.textContent = (parseInt(counter.textContent) - 1).toString();
 	if (counter.textContent === "0") counter.remove();

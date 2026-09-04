@@ -16,10 +16,10 @@ async function addProgress() {
 	const currentGym = await requireElement("[class*='gymButton_'][class*='inProgress_']").catch((): undefined => undefined);
 	if (!currentGym) return;
 
-	const categoryElement = currentGym.parentElement;
-	const categoryElementIndex = Array.from(categoryElement.parentElement.children).indexOf(categoryElement);
+	const categoryElement = currentGym.parentElement!;
+	const categoryElementIndex = Array.from(categoryElement.parentElement!.children).indexOf(categoryElement);
 
-	const currentGymIndex = Array.from(currentGym.parentElement.children).indexOf(currentGym);
+	const currentGymIndex = Array.from(currentGym.parentElement!.children).indexOf(currentGym);
 	const index = categoryElementIndex * 8 + currentGymIndex - 1;
 
 	const percentage = convertToNumber(findElement("[class*='percentage_']", currentGym).textContent);
@@ -29,7 +29,7 @@ async function addProgress() {
 	const stat = dropDecimals(goal * (percentage / 100));
 	if (!stat || !goal) return;
 
-	gymNotification.closest("[class*='notification__']").classList.add("tt-modified");
+	gymNotification.closest("[class*='notification__']")!.classList.add("tt-modified");
 	gymNotification.appendChild(
 		elementBuilder({
 			type: "p",

@@ -14,10 +14,10 @@ export type ChangelogEntry = {
 
 export function readableChangelog() {
 	return changelog.map((entry) => {
-		const log: ChangelogEntry = {
+		const log = {
 			...entry,
 			date: false,
-		};
+		} as unknown as ChangelogEntry;
 
 		// Convert the date to something usable
 		if (typeof entry.date === "string") {

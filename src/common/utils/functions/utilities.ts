@@ -272,7 +272,7 @@ export function isSpeechSynthesisAvailable() {
 }
 
 export function contextSafeCustomEvent<T = never>(event: string, detail: T): CustomEvent<T> {
-	const safeDetail: T = usingFirefox() ? document.defaultView.structuredClone(detail) : detail;
+	const safeDetail: T = usingFirefox() ? structuredClone(detail) : detail;
 
 	return new CustomEvent(event, { detail: safeDetail });
 }

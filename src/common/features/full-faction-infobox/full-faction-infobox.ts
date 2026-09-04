@@ -31,7 +31,7 @@ async function startFeature() {
 }
 
 async function showFull() {
-	let title: Element, description: Element, key: string;
+	let title: Element | null, description: Element | null, key: string;
 
 	if (isInternalFaction) {
 		if (getFactionSubpage() === "info") {
@@ -40,7 +40,7 @@ async function showFull() {
 			key = "faction_description_full";
 		} else {
 			title = findElement("#faction-main [data-title='announcement'][role='heading']", true);
-			description = title?.nextElementSibling;
+			description = title?.nextElementSibling ?? null;
 			key = "faction_announcement_full";
 		}
 	} else {

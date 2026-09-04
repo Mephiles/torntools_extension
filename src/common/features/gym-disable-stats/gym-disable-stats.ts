@@ -58,7 +58,7 @@ function initialiseListeners() {
 async function showCheckboxes() {
 	await sleep(10);
 
-	const properties = (await requireElement("#gymroot ul[class*='properties___'] [class*='strength___']")).closest("#gymroot ul[class*='properties___']");
+	const properties = (await requireElement("#gymroot ul[class*='properties___'] [class*='strength___']")).closest("#gymroot ul[class*='properties___']")!;
 
 	for (const stat of findAllElements(":scope > li:not([class*='locked___']):not(.tt-modified)", properties)) {
 		stat.classList.add("tt-modified");

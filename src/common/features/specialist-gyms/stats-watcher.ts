@@ -13,8 +13,7 @@ export function createStatsWatcher() {
 		const statsObservers = battleStats.map((statName) => {
 			const selector = `[class*="${statName.toLowerCase()}___"] [class*="propertyTitle___"] [class*="propertyValue___"]`;
 			const observer = new MutationObserver(() => onChangeCallback?.(true));
-			const element = findElement(selector, gymContent, true);
-
+			const element = findElement(selector, gymContent);
 			statsValueElementsMap[statName] = element;
 			observer.observe(element, { characterData: true, childList: true, subtree: true });
 
@@ -31,7 +30,7 @@ export function createStatsWatcher() {
 	});
 
 	function readStats() {
-		return toRecord(battleStats, (statName) => [statName, +statsValueElementsMap[statName].textContent.replaceAll(",", "")]);
+		return toRecord(battleStats, (statName) => [statName, +statsValueElementsMap[statName]!.textContent.replaceAll(",", "")]);
 	}
 
 	function onChange(cb: ChangeCallback) {

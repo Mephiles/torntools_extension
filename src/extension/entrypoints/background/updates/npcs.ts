@@ -40,9 +40,9 @@ export async function updateNPCs() {
 			{ service: "yata", method: fetchYata, check: useYata },
 			{ service: "tornstats", method: fetchTornStats, check: useTornstats && hasAPIData() },
 		].filter((s) => s.check);
-		const service = services.find((s) => s.service === settings.pages.sidebar.npcLootTimesService) || services[0];
+		const service = services.find((s) => s.service === settings.pages.sidebar.npcLootTimesService) ?? services[0];
 
-		updated = await service.method();
+		updated = (service ? await service.method() : false) ?? false;
 	}
 
 	if (updated || !npcUpdater) triggerUpdate();

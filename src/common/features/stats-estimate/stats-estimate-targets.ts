@@ -38,7 +38,7 @@ async function registerListeners() {
 			FEATURE_MANAGER.isEnabled(StatsEstimateTargetsFeature)
 		) {
 			showEstimates();
-			listObserver.observe(findElement(".tableWrapper > ul"), { childList: true });
+			listObserver!.observe(findElement(".tableWrapper > ul"), { childList: true });
 		}
 	});
 
@@ -54,7 +54,7 @@ async function showEstimates() {
 	statsEstimate.showEstimates(
 		".tableWrapper ul > li",
 		(row) => ({
-			id: parseInt(findElement<HTMLAnchorElement>("[class*='userInfoBox__'] a[href*='profiles.php']", row).href.match(/(?<=XID=).*/)[0]),
+			id: parseInt(findElement<HTMLAnchorElement>("[class*='userInfoBox__'] a[href*='profiles.php']", row).href.match(/(?<=XID=).*/)![0]),
 			level: convertToNumber(findElement("[class*='level__']", row).textContent),
 		}),
 		{ hasFilter: true },

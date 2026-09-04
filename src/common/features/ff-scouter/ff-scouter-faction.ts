@@ -29,10 +29,10 @@ async function showFF(force: boolean) {
 
 	await requireElement(".members-list .table-body > li");
 
-	const list = findElement(".members-list .table-body", true);
+	const list = findElement(".members-list .table-body");
 
 	const memberIds = findAllElements<HTMLAnchorElement>("[class*='honorWrap___'] a[class*='linkWrap___']", list).map((link) =>
-		parseInt(new URL(link.href).searchParams.get("XID")),
+		parseInt(new URL(link.href).searchParams.get("XID")!),
 	);
 
 	SCOUTER_SERVICE.scoutGroup(memberIds)
@@ -64,7 +64,7 @@ function fillFF(list: Element, results: ScouterResult[]) {
 
 		const userID = getUsername(row).id;
 		const scout = results.find((r) => r.player_id === userID);
-		if ("message" in scout || scout.fair_fight === null) {
+		if (!scout || "message" in scout || scout.fair_fight === null) {
 			row.dataset.ffScout = "N/A";
 			findElement(".table-cell.lvl", row).insertAdjacentElement(
 				"afterend",
@@ -120,7 +120,7 @@ export default class FFScouterFactionFeature extends Feature {
 	}
 
 	override initialise() {
-		SCOUTER_SERVICE = scouterService();
+		SCOUTER_SERVICE = scouterService()!;
 		initialise();
 	}
 

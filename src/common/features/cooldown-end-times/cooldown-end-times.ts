@@ -30,8 +30,13 @@ const tooltipObserver = new MutationObserver((mutations: MutationRecord[]) => {
 			const tooltipElement = addedNode;
 			let tooltipTitleElement = findElement("b", tooltipElement, true);
 			let tooltipTitle = tooltipTitleElement?.textContent;
-			if (!tooltipTitle || (!REQUIRED_TOOLTIP_TITLES.includes(tooltipTitle) && BAR_TOOLTIP_TITLES.every((title) => !tooltipTitle.startsWith(title))))
+			if (
+				!tooltipTitleElement ||
+				!tooltipTitle ||
+				(!REQUIRED_TOOLTIP_TITLES.includes(tooltipTitle) && BAR_TOOLTIP_TITLES.every((title) => !tooltipTitle.startsWith(title)))
+			) {
 				return;
+			}
 
 			const timeElement =
 				findElement("[class*='static-width___']", tooltipElement, true)?.firstChild ?? // For cooldown icon tooltips.
@@ -40,8 +45,8 @@ const tooltipObserver = new MutationObserver((mutations: MutationRecord[]) => {
 			if (!timeElement) return;
 
 			findAllElements(".tt-tooltip-end-times").forEach((x) => x.remove());
-			const time = Date.now() + textToTime(timeElement.textContent);
-			tooltipTitleElement.parentElement.appendChild(
+			const time = Date.now() + textToTime(timeElement.textContent!);
+			tooltipTitleElement.parentElement!.appendChild(
 				elementBuilder({
 					type: "div",
 					class: "tt-tooltip-end-times",

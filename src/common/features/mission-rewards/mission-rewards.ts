@@ -24,7 +24,7 @@ async function showRewards() {
 	const credits = parseInt(findElement(".total-mission-points").textContent.replace(",", ""));
 
 	for (const reward of findAllElements(".rewards-list li")) {
-		const information = JSON.parse(reward.dataset.ammoInfo);
+		const information = JSON.parse(reward.dataset.ammoInfo!);
 		const { points, basicType: type } = information;
 
 		// Show if you can afford it.
@@ -34,7 +34,7 @@ async function showRewards() {
 		if (type === "Ammo") {
 			const { title: size, ammoType } = information;
 
-			const ammoSize = userdata.ammo.find((ammo) => ammo.name === size)?.types.find((ammoSize) => ammoSize.name === ammoType);
+			const ammoSize = (userdata.ammo ?? []).find((ammo) => ammo.name === size)?.types.find((ammoSize) => ammoSize.name === ammoType);
 			const owned = ammoSize?.quantity ?? 0;
 
 			actionsWrap.insertBefore(
@@ -56,7 +56,10 @@ async function showRewards() {
 			const { image: id, amount } = information;
 			if (!id || typeof id !== "number") continue;
 
-			const value = ITEM_RESOLVER.getFullItem(id).value.market_price;
+			const fullItem = ITEM_RESOLVER.getFullItem(id);
+			if (!fullItem) continue;
+
+			const value = fullItem.value.market_price;
 			const totalValue = amount * value;
 
 			findElement(".img-wrap", reward).appendChild(

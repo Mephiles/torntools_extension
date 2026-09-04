@@ -32,7 +32,7 @@ function showMarketLink() {
 
 	const existingLink = findElement(".tt-museum-market-link", infoElement, true);
 	if (existingLink) {
-		if (parseInt(existingLink.dataset.itemId) === id) return;
+		if (parseInt(existingLink.dataset.itemId!) === id) return;
 
 		removeMarketLink(infoElement);
 	}

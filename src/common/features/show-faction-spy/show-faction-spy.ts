@@ -53,7 +53,7 @@ class TornStatsFactionSpyPerformer extends FactionSpyPerformer {
 		let isCached = false;
 
 		if (ttCache.hasValue("faction-spy-tornstats", this.factionID)) {
-			data = ttCache.get<TornstatsFactionSpyResponse>("faction-spy-tornstats", this.factionID);
+			data = ttCache.get<TornstatsFactionSpyResponse>("faction-spy-tornstats", this.factionID)!;
 			isCached = true;
 		} else {
 			data = await fetchData<TornstatsFactionSpyResponse>("tornstats", { section: "spy/faction", id: this.factionID });
@@ -63,7 +63,7 @@ class TornStatsFactionSpyPerformer extends FactionSpyPerformer {
 		const spies: Record<string, FactionSpyData> =
 			data.status && data.faction.spies
 				? Object.entries(data.faction.members).reduce<Record<string, FactionSpyData>>((spies, [memberID, { spy }]) => {
-						spies[memberID] = spy;
+						if (spy) spies[memberID] = spy;
 						return spies;
 					}, {})
 				: {};
@@ -88,7 +88,7 @@ class YATAFactionSpyPerformer extends FactionSpyPerformer {
 		let isCached = false;
 
 		if (ttCache.hasValue("faction-spy-yata", this.factionID)) {
-			data = ttCache.get<YATASpyResponse>("faction-spy-yata", this.factionID);
+			data = ttCache.get<YATASpyResponse>("faction-spy-yata", this.factionID)!;
 			isCached = true;
 		} else {
 			data = await fetchData<YATASpyResponse>("yata", { relay: true, section: "spies", includeKey: true, params: { faction: this.factionID } });
@@ -162,7 +162,7 @@ async function fetchAndAddSpies() {
 	tableBody.classList.add("tt-modified-faction-spy");
 
 	Array.from(tableBody.children).forEach((row) => {
-		const memberID = findElement(".member.icons [href*='/profiles.php']", row, true)?.getAttribute("href").split("XID=")[1];
+		const memberID = findElement(".member.icons [href*='/profiles.php']", row, true)?.getAttribute("href")!.split("XID=")[1];
 		if (!memberID) return;
 		const spyData = spies[memberID];
 
@@ -196,12 +196,12 @@ async function fetchAndAddSpies() {
 
 async function showRWSpies() {
 	const enemiesMembersList = await requireElement(".act[class*='warListItem__'] ~ .descriptions .faction-war .enemy-faction.left .members-list");
-	const enemyFactionID = parseInt(findElement("a[href*='/factions.php?step=profile&ID=']", enemiesMembersList).getAttribute("href").split("ID=")[1]);
+	const enemyFactionID = parseInt(findElement("a[href*='/factions.php?step=profile&ID=']", enemiesMembersList).getAttribute("href")!.split("ID=")[1]);
 
 	const spies = await fetchSpies(enemyFactionID);
 
 	Array.from(enemiesMembersList.children).forEach((row) => {
-		const memberID = findElement("a[href*='/profiles.php']", row).getAttribute("href").split("XID=")[1];
+		const memberID = findElement("a[href*='/profiles.php']", row).getAttribute("href")!.split("XID=")[1];
 		const spyData = spies[memberID];
 
 		let statFields = [];

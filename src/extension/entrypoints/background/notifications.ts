@@ -7,8 +7,8 @@ import { isSpeechSynthesisAvailable, sleep, TO_MILLIS } from "@common/utils/func
 import type { OffscreenMessage } from "@extension/entrypoints/offscreen/offscreen";
 
 class AudioPlayer {
-	private _src: string;
-	private _volume: number;
+	private _src = "";
+	private _volume = 0;
 	private audio: HTMLAudioElement | undefined;
 
 	set src(src: string) {
@@ -206,9 +206,12 @@ async function notifyUser(title: string, message: string, url?: string) {
 			});
 		}
 
+		const worker = notificationWorker;
+		if (!worker) throw new Error("Notification worker could not be set up.");
+
 		// Send the actual notification.
 		await new Promise<void>((resolve, reject) => {
-			notificationWorker
+			worker
 				.showNotification(title, options)
 				.then(() => {
 					if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().catch(console.error);

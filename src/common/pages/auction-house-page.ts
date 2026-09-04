@@ -13,7 +13,7 @@ export async function setupAuctionHousePage() {
 				return;
 			}
 
-			const type = list.parentElement.parentElement.dataset.itemtype;
+			const type = list.parentElement!.parentElement!.dataset.itemtype!;
 
 			if (type === previousType) {
 				triggerCustomListener(EVENT_CHANNELS.SWITCH_PAGE);

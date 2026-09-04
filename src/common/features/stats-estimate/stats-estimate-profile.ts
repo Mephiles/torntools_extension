@@ -16,7 +16,7 @@ async function showEstimate() {
 
 	if (settings.scripts.statsEstimate.maxLevel && settings.scripts.statsEstimate.maxLevel < getLevel()) return;
 
-	const id = parseInt(userInfoValue.textContent.trim().match(/\[(\d*)]/i)[1]);
+	const id = parseInt(userInfoValue.textContent.trim().match(/\[(\d*)]/i)![1]);
 
 	const estimate = await statsEstimate.fetchEstimate(id);
 

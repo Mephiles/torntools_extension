@@ -41,7 +41,7 @@ async function addFilterContainer() {
 			test: (row, name) => {
 				if (!name) return true;
 
-				const id = parseInt(row.getAttribute("id"));
+				const id = parseInt(row.getAttribute("id")!);
 				const stock = stockdata.stocks.find((s) => s.id === id);
 				const acronym = (stock?.acronym ?? findElement(".tt-acronym", row, true)?.dataset.acronym)?.toLowerCase();
 				const names = name
@@ -91,7 +91,7 @@ async function addFilterContainer() {
 
 				if (pg.profit === "yes" || pg.profit === "no") {
 					if (!hasAPIData() || !settings.apiUsage.user.stocks) return true;
-					const id = parseInt(row.getAttribute("id"));
+					const id = parseInt(row.getAttribute("id")!);
 					const stock = stockdata.stocks.find((s) => s.id === id);
 					if (!stock) return true;
 
@@ -117,7 +117,7 @@ async function addFilterContainer() {
 		container: {
 			title: "Stocks Filter",
 			class: "mt10 mb10",
-			previousElement: stockMarketRoot.firstElementChild,
+			previousElement: stockMarketRoot.firstElementChild!,
 			compact: true,
 		},
 		statisticsLabel: "stocks",

@@ -61,13 +61,12 @@ async function addAutocomplete(chat: HTMLElement) {
 		event.preventDefault();
 
 		const valueBeforeCursor = textarea.value.slice(0, textarea.selectionStart);
-		const searchValueMatch = valueBeforeCursor.match(/([^A-Za-z\d\-_]?)([A-Za-z\d\-_]*)$/);
-
+		const searchValueMatch = valueBeforeCursor.match(/([^A-Za-z\d\-_]?)([A-Za-z\d\-_]*)$/)!;
 		if (currentSearchValue === null) currentSearchValue = searchValueMatch[2].toLowerCase();
 
 		const matchedUsernames = findAllElements(`${SELECTOR_CHAT_V2__MESSAGE_SENDER}, ${SELECTOR_CHAT_V3__MESSAGE_SENDER}`, chat)
 			.map((message) => message.textContent.split(":")[0])
-			.filter((username, index, array) => array.indexOf(username) === index && username.toLowerCase().startsWith(currentSearchValue))
+			.filter((username, index, array) => array.indexOf(username) === index && username.toLowerCase().startsWith(currentSearchValue!))
 			.sort();
 		if (!matchedUsernames.length) return;
 
@@ -76,7 +75,7 @@ async function addAutocomplete(chat: HTMLElement) {
 
 		currentUsername = matchedUsernames[index];
 
-		const valueStart = searchValueMatch.index + searchValueMatch[1].length;
+		const valueStart = (searchValueMatch.index ?? 0) + (searchValueMatch[1].length ?? 0);
 		updateReactInput(textarea, textarea.value.slice(0, valueStart) + currentUsername + textarea.value.slice(valueBeforeCursor.length), {
 			version: REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT,
 		});

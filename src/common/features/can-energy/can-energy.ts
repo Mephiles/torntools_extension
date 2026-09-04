@@ -26,14 +26,14 @@ function addEnergyGains() {
 	findAllElements("[data-category='Energy Drink']").forEach((eCanElement) => {
 		if (findElement(".tt-e-gains", eCanElement, true)) return;
 
-		const item = ITEM_RESOLVER.getStaticItem(parseInt(eCanElement.dataset.item));
+		const item = ITEM_RESOLVER.getStaticItem(parseInt(eCanElement.dataset.item!));
 		if (!item) return;
 
 		const baseEnergy = parseInt(
-			item.effect
-				.split(" ")
+			item
+				.effect!.split(" ")
 				.map((x) => parseInt(x))
-				.find((x) => !Number.isNaN(x))
+				.find((x) => !Number.isNaN(x))!
 				.toString(),
 		);
 		let totalEnergy = Math.round(baseEnergy * totalPerkMultiplier);

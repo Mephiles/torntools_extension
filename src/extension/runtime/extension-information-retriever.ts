@@ -43,7 +43,7 @@ function retrieve<M extends keyof InformationRetriever>(type: M): ReturnType<Inf
 }
 
 export const ExtensionInformationRetriever: InformationRetriever = {
-	getStatusIcons(): Promise<StatusIcons> {
+	getStatusIcons(): Promise<StatusIcons | null> {
 		return retrieve("getStatusIcons");
 	},
 };

@@ -18,7 +18,7 @@ export function setupItemPage() {
 		if (page !== "item") return;
 
 		const params = new URLSearchParams(xhr.requestBody);
-		const step = params.get("step");
+		const step = params.get("step") ?? "";
 
 		if ("json" in detail) {
 			const { json } = detail;
@@ -47,11 +47,11 @@ export function setupItemPage() {
 						}
 					}
 				} else {
-					const itemId = parseInt(params.get("itemID"));
+					const itemId = parseInt(params.get("itemID")!);
 
 					if (!isInfiniteUsageItem(itemId)) {
 						triggerCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, {
-							item: parseInt(params.get("itemID")),
+							item: itemId,
 							amount: -1,
 							reason: "usage",
 							loaned: params.has("loaned", "1"),
@@ -61,8 +61,8 @@ export function setupItemPage() {
 			} else if (isSendItemAction(step, json)) {
 				if (!json.success) return;
 
-				const actionId = "confirm" in json ? json.itemID : params.get("XID");
-				const item = "confirm" in json ? params.get("itemID") : pendingActions[actionId].item;
+				const actionId = "confirm" in json ? json.itemID : params.get("XID")!;
+				const item = "confirm" in json ? params.get("itemID")! : pendingActions[actionId].item;
 				const amount = json.amount;
 
 				if ("confirm" in json) pendingActions[actionId] = { item };
@@ -113,11 +113,14 @@ export function setupItemPage() {
 			icon.addEventListener("click", async () => {
 				await requireItemsLoaded();
 
-				triggerCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, { tab: icon.dataset.type });
+				triggerCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, { tab: icon.dataset.type! });
 			});
 		}
 
-		triggerCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, { tab: getCurrentTab(), initial: false });
+		const tab = getCurrentTab();
+		if (tab) {
+			triggerCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, { tab, initial: false });
+		}
 	});
 }
 

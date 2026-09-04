@@ -24,15 +24,15 @@ function addGains() {
 	findAllElements("[data-category='Candy']").forEach((candy) => {
 		if (findElement(".tt-candy-gains", candy, true)) return;
 
-		const item = ITEM_RESOLVER.getStaticItem(parseInt(candy.dataset.item));
+		const item = ITEM_RESOLVER.getStaticItem(parseInt(candy.dataset.item!));
 		if (!item) return;
 
 		// noinspection DuplicatedCode
 		const baseHappy = parseInt(
-			item.effect
-				.split(" ")
+			item
+				.effect!.split(" ")
 				.map((x) => parseInt(x))
-				.find((x) => !Number.isNaN(x))
+				.find((x) => !Number.isNaN(x))!
 				.toString(),
 		);
 		let totalHappy = baseHappy;

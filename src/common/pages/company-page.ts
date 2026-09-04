@@ -49,11 +49,11 @@ export async function readCompanyDetails() {
 	const params = getHashParameters();
 
 	if (isIntNumber(params.get("ID"))) {
-		return { id: parseInt(params.get("ID")) };
+		return { id: parseInt(params.get("ID")!) };
 	}
 
 	if (isIntNumber(params.get("userID")) && hasAPIData()) {
-		return { id: await getCompanyIDFromUser(parseInt(params.get("userID"))) };
+		return { id: await getCompanyIDFromUser(parseInt(params.get("userID")!)) };
 	}
 
 	return null; // ID could not be found

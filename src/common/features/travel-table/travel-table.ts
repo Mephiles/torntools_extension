@@ -53,7 +53,7 @@ function initialise() {
 	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, ({ country }) => {
 		if (!FEATURE_MANAGER.isEnabled(TravelTableFeature) || !settings.pages.travel.autoTravelTableCountry) return;
 
-		const content = findContainer("Travel Destinations", { selector: ":scope > main" });
+		const content = findContainer("Travel Destinations", { selector: ":scope > main" })!;
 
 		findAllElements(".countries .flag.selected", content).forEach((flag) => flag.classList.remove("selected"));
 		findElement(`.countries .flag[country*="${country}"]`, content).classList.add("selected");
@@ -558,7 +558,7 @@ async function startTable() {
 			}
 		}
 
-		type StockItem = TravelData["stocks"][string]["stocks"][number];
+		type StockItem = NonNullable<TravelData["stocks"]>[string]["stocks"][number];
 
 		function toRow(item: StockItem, country: CountryInformation, lastUpdate: number) {
 			const tornItem = ITEM_RESOLVER.getFullItem(item.id);
@@ -704,13 +704,13 @@ async function startTable() {
 		function showTable() {
 			findElement("#travel-root", true)?.classList.add("tt-travel-table-hide-plane");
 
-			findContainer("Travel Destinations").classList.remove("tt-hidden");
+			findContainer("Travel Destinations")!.classList.remove("tt-hidden");
 		}
 
 		function hideTable() {
 			findElement("#travel-root", true)?.classList.remove("tt-travel-table-hide-plane");
 
-			findContainer("Travel Destinations").classList.add("tt-hidden");
+			findContainer("Travel Destinations")!.classList.add("tt-hidden");
 		}
 	}
 }
@@ -722,11 +722,15 @@ function getValueClass(value: number | "N/A") {
 }
 
 function getSelectedCategories(content: Element) {
-	return findAllElements(".categories input[name='item']:checked", content).map((el) => el.getAttribute("category"));
+	return findAllElements(".categories input[name='item']:checked", content)
+		.map((el) => el.getAttribute("category"))
+		.filter((category) => category !== null);
 }
 
 function getSelectedCountries(content: Element) {
-	return findAllElements(".countries .flag.selected", content).map((el) => el.getAttribute("country"));
+	return findAllElements(".countries .flag.selected", content)
+		.map((el) => el.getAttribute("country"))
+		.filter((country) => country !== null);
 }
 
 function updateTable(content: Element) {
@@ -738,7 +742,9 @@ function updateTable(content: Element) {
 	const hideOutOfStock = findElement<HTMLInputElement>("#hide-out-of-stock", content).checked;
 
 	for (const row of findAllElements(".row:not(.header)", table)) {
-		const { country, category, stock } = row.dataset;
+		const country = row.dataset.country!;
+		const category = row.dataset.category!;
+		const stock = row.dataset.stock!;
 
 		if (
 			(categories.length > 0 && !categories.includes(category)) ||
@@ -751,7 +757,7 @@ function updateTable(content: Element) {
 }
 
 function updateValues() {
-	const content = findContainer("Travel Destinations", { selector: ":scope > main" });
+	const content = findContainer("Travel Destinations", { selector: ":scope > main" })!;
 	const table = findElement("#tt-travel-table", content, true);
 	if (!table) return;
 

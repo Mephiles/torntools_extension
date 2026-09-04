@@ -88,7 +88,7 @@ async function enableLastAction() {
 	if (lastActionState) return;
 
 	await requireElement(".members-list .table-body.tt-modified > .tt-last-action");
-	lastActionMax = parseInt(findElement(".members-list .table-body.tt-modified").getAttribute("max-hours")) || 1000;
+	lastActionMax = parseInt(findElement(".members-list .table-body.tt-modified").getAttribute("max-hours")!) || 1000;
 	lastActionState = true;
 	filter?.rerenderSections();
 }
@@ -198,7 +198,7 @@ async function addFilterContainer() {
 				const nextRow = row.nextElementSibling;
 				if (!isElement(nextRow) || !nextRow.className.includes("tt-last-action")) return true;
 
-				const hours = parseInt(nextRow.getAttribute("hours"));
+				const hours = parseInt(nextRow.getAttribute("hours")!);
 				if (range.start && hours < range.start) return false;
 				if (range.end !== -1 && hours > range.end) return false;
 
@@ -290,7 +290,7 @@ async function loadRevivableStatus() {
 
 	let data: FactionMembersResponse;
 	if (ttCache.hasValue("faction-filter-members", details.id)) {
-		data = ttCache.get("faction-filter-members", details.id);
+		data = ttCache.get("faction-filter-members", details.id)!;
 	} else {
 		data = await fetchData<FactionMembersResponse>("tornv2", {
 			section: "faction",

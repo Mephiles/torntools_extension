@@ -31,7 +31,7 @@ async function showRWValue() {
 
 				return quantity * item.value.market_price;
 			})
-			.filter((x) => !!x);
+			.filter((x) => x !== null);
 
 		const value = items.reduce((total, value) => total + value, 0);
 

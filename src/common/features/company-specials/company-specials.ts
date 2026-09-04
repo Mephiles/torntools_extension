@@ -42,18 +42,11 @@ async function showMuggableCash(json: any) {
 		percentageMax *= merits;
 
 		const id = json.result.user.userID;
-		let jobResult: UserJob | UserCompany;
+		let jobResult: UserJob | UserCompany | null;
 		if (ttCache.hasValue("user-job", id)) {
-			jobResult = ttCache.get("user-job", id);
+			jobResult = ttCache.get("user-job", id)!;
 		} else {
-			jobResult = (
-				await fetchData<UserJobResponse>("tornv2", {
-					section: "user",
-					id,
-					selections: ["job"],
-					silent: true,
-				})
-			).job;
+			jobResult = (await fetchData<UserJobResponse>("tornv2", { section: "user", id, selections: ["job"], silent: true })).job ?? null;
 
 			ttCache.set({ [id]: jobResult }, TO_MILLIS.SECONDS * 30, "user-job");
 		}
@@ -108,7 +101,7 @@ async function calculateSpies(json: any) {
 
 	await requireElement(".specials-confirm-cont ul.job-info > li");
 
-	const specialContext = findElement(".specials-confirm-cont", true);
+	const specialContext = findElement(".specials-confirm-cont");
 
 	if (missing.length === 1) {
 		const missingStat = missing[0];

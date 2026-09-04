@@ -22,7 +22,7 @@ async function startFeature() {
 
 function removeConfirmation() {
 	for (const item of findAllElements(".users-point-sell > li:not(.yes) > span[href]")) {
-		const url = item.getAttribute("href");
+		const url = item.getAttribute("href")!;
 		if (settings.scripts.noConfirm.pointsMarketRemove && url.includes("ajax_action=remove")) {
 			item.classList.add("yes");
 			item.setAttribute("href", url.replace("ajax_action=remove", "ajax_action=remove1"));

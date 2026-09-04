@@ -43,7 +43,7 @@ async function showEstimates() {
 	statsEstimate.showEstimates(
 		".user-info-list-wrap > li",
 		(row) => ({
-			id: parseInt(findElement<HTMLAnchorElement>(".user.name[href*='profiles.php']", row).href.match(/(?<=XID=).*/)[0]),
+			id: parseInt(findElement<HTMLAnchorElement>(".user.name[href*='profiles.php']", row).href.match(/(?<=XID=).*/)![0]),
 			level: parseInt(findElement(".level", row).textContent.replaceAll("\n", "").split(":").at(-1)!.trim()),
 		}),
 		{ hasFilter: true },

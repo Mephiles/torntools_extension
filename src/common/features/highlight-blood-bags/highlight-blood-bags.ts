@@ -43,17 +43,18 @@ async function highlightBloodBags() {
 		} else return;
 	}
 
-	const allowedBlood: number[] = ALLOWED_BLOOD[getBloodType()] ?? [];
+	const bloodType = getBloodType();
+	const allowedBlood: number[] = (bloodType && ALLOWED_BLOOD[bloodType]) ?? [];
 
 	for (const item of findAllElements("ul.items-cont[aria-expanded=true] > li[data-category='Medical'], [id='tab=armoury&sub=medical'] .item-list > li")) {
 		if (!findElement(".name-wrap, .name", item, true)) continue;
 		findElement(".name-wrap, .name", item).classList.remove("good-blood", "bad-blood");
 
 		// Filter out items that aren't blood bags.
-		if (page === "item" && !item.dataset.sort.includes("Blood Bag : ")) continue;
+		if (page === "item" && !item.dataset.sort?.includes("Blood Bag : ")) continue;
 		else if (page === "factions" && !findElement(".name", item).textContent.split(" x")[0].includes("Blood Bag : ")) continue;
 
-		const itemId = parseInt(item.dataset.item || findElement(".img-wrap", item).dataset.itemid);
+		const itemId = parseInt(item.dataset.item ?? findElement(".img-wrap", item).dataset.itemid ?? "");
 		if (itemId === 1012) continue; // is an irradiated blood bag
 
 		findElement(".name-wrap, .name", item).classList.add(allowedBlood.includes(itemId) ? "good-blood" : "bad-blood");
@@ -62,11 +63,14 @@ async function highlightBloodBags() {
 			if (findElement(".tt-item-price", item, true)) findElement(".tt-item-price", item).remove();
 
 			if (ITEM_RESOLVER.hasFullItems() && !findElement(".tt-blood-price", item, true)) {
+				const fullItem = ITEM_RESOLVER.getFullItem(itemId);
+				if (!fullItem) continue;
+
 				findElement(".name", item).appendChild(
 					elementBuilder({
 						type: "span",
 						class: "tt-blood-price",
-						text: formatNumber(ITEM_RESOLVER.getFullItem(itemId).value.market_price, { currency: true }),
+						text: formatNumber(fullItem.value.market_price, { currency: true }),
 					}),
 				);
 			}
@@ -75,7 +79,7 @@ async function highlightBloodBags() {
 }
 
 function getCurrentTab() {
-	return findElement("#factions > ul.faction-tabs > li[aria-selected='true']").getAttribute("data-case").replace("faction-", "");
+	return findElement("#factions > ul.faction-tabs > li[aria-selected='true']").getAttribute("data-case")!.replace("faction-", "");
 }
 
 export default class HighlightBloodBagsFeature extends Feature {

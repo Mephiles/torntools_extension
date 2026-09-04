@@ -43,7 +43,7 @@ export function createRadioList(name: string, partialOptions: Partial<RadioListO
 
 	function getValue() {
 		return Object.values(radios)
-			.find((radio) => radio.isChecked())
+			.find((radio) => radio.isChecked())!
 			.getValue();
 	}
 

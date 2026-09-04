@@ -4,7 +4,8 @@ import { DEFAULT_RUNTIME_INFORMATION } from "@common/utils/functions/context-int
 // noinspection JSUnusedGlobalSymbols
 export default defineUnlistedScript(() => {
 	setRuntimeInformation(DEFAULT_RUNTIME_INFORMATION);
-	if (typeof RUNTIME_INFORMATION.getWindow().xhrSendAdjustments === "undefined") RUNTIME_INFORMATION.getWindow().xhrSendAdjustments = {};
+	const infoWindow = RUNTIME_INFORMATION.getWindow();
+	if (typeof infoWindow.xhrSendAdjustments === "undefined") infoWindow.xhrSendAdjustments = {};
 
 	function getParams(body: string) {
 		const params: { [key: string]: string } = {};
@@ -28,7 +29,7 @@ export default defineUnlistedScript(() => {
 		return _params.join("&");
 	}
 
-	RUNTIME_INFORMATION.getWindow().xhrSendAdjustments.noconfirm_items = (_xhr, body) => {
+	infoWindow.xhrSendAdjustments.noconfirm_items = (_xhr, body) => {
 		if (!body) return body;
 
 		const { step, action, confirm } = getParams(body);

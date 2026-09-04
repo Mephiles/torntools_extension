@@ -26,7 +26,7 @@ function initialiseListeners() {
 				return;
 			}
 
-			if (!detail.xhr.responseText.includes("events-list")) return;
+			if (!detail.xhr.responseText!.includes("events-list")) return;
 
 			await requireElement(".events-list");
 			void addFilterContainer();
@@ -138,8 +138,8 @@ async function addFilterContainer() {
 					}
 
 					const clean = timeText.toLowerCase();
-					const hours = parseInt(clean.match(/(\d+)\s*h/)?.[1]) || 0;
-					const minutes = parseInt(clean.match(/(\d+)\s*m/)?.[1]) || 0;
+					const hours = parseInt(clean.match(/(\d+)\s*h/)?.[1] ?? "") || 0;
+					const minutes = parseInt(clean.match(/(\d+)\s*m/)?.[1] ?? "") || 0;
 					const totalHours = hours + Math.floor(minutes / 60);
 
 					if (range.start && totalHours < range.start) return false;
@@ -156,7 +156,7 @@ async function addFilterContainer() {
 				defaults: { low: filters.racing.lapsMin, high: filters.racing.lapsMax },
 				formatCounter: (r) => `Laps ${r.start} - ${r.end}`,
 				test: (row, range) => {
-					const laps = parseInt(findElement(".laps", row).textContent.match(/\d+/)[0], 10);
+					const laps = parseInt(findElement(".laps", row).textContent.match(/\d+/)?.[0] ?? "", 10);
 					return laps >= range.start && laps <= range.end;
 				},
 			}),

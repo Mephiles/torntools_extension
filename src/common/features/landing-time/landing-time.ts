@@ -10,14 +10,14 @@ import { Feature } from "@features/feature";
 async function showTime() {
 	const destinationTitle = await requireElement("#travel-root [class*='progressTextLineBreaker___']");
 
-	if (findElement(".tt-landing-time", destinationTitle.parentElement, true)) return;
+	if (findElement(".tt-landing-time", destinationTitle.parentElement!, true)) return;
 
 	const timer = await requireElement("#travel-root time[datetime]");
 	const duration = textToTime(timer.textContent);
 
 	const arrival = Date.now() + duration;
 
-	destinationTitle.parentElement.insertBefore(
+	destinationTitle.parentElement!.insertBefore(
 		elementBuilder({
 			type: "div",
 			class: "tt-landing-time",

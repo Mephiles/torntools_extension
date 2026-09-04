@@ -76,6 +76,7 @@ function executeStrategy(data: any) {
 		let action: string;
 		if (outcome === "lower" || outcome === "higher") action = outcome;
 		else if (outcome === "50/50") action = Math.random() < 0.5 ? "higher" : "lower";
+		else return;
 
 		actions.dataset.outcome = action;
 		findElement(".startGame").style.display = "none";

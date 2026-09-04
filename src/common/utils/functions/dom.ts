@@ -142,7 +142,9 @@ interface FindParentOptions {
 	currentAttempt: number;
 }
 
-export function findParent(element: Node, partialOptions: Partial<FindParentOptions> = {}) {
+export function findParent(element: Node | undefined | null, partialOptions: Partial<FindParentOptions> = {}) {
+	if (!element) return null;
+
 	const options: FindParentOptions = {
 		tag: undefined,
 		class: undefined,
@@ -155,7 +157,7 @@ export function findParent(element: Node, partialOptions: Partial<FindParentOpti
 	};
 
 	if (!element?.parentElement) return undefined;
-	if (options.maxAttempts !== -1 && options.currentAttempt > options.maxAttempts) return undefined;
+	if (options.maxAttempts !== -1 && options.currentAttempt > options.maxAttempts) return null;
 
 	if (options.tag && element.parentElement.tagName === options.tag) return element.parentElement;
 	if (options.id && element.parentElement.id === options.id) return element.parentElement;
@@ -427,7 +429,7 @@ export function showInformationSection() {
 	findElement(".tt-sidebar-information", true)?.classList.remove("tt-hidden");
 }
 
-export function isElement(node: Node | EventTarget | null): node is Element {
+export function isElement(node: Node | EventTarget | null | undefined): node is Element {
 	return !!node && node instanceof Element;
 }
 
@@ -439,7 +441,7 @@ export function isHTMLElement(node: Node | EventTarget | null): node is HTMLElem
 	return !!node && node instanceof HTMLElement;
 }
 
-export function isElementOfTag<K extends keyof HTMLElementTagNameMap>(node: Node | EventTarget, tag: K): node is HTMLElementTagNameMap[K] {
+export function isElementOfTag<K extends keyof HTMLElementTagNameMap>(node: Node | EventTarget | null, tag: K): node is HTMLElementTagNameMap[K] {
 	return isHTMLElement(node) && node.tagName.toLowerCase() === tag;
 }
 

@@ -22,7 +22,7 @@ export function findElement<T extends Element = Element>(
 	parentOrOptional: ParentNode | boolean = document,
 	optionalParameter = false,
 ): T | null {
-	const parent: ParentNode = typeof parentOrOptional === "boolean" ? document : parentOrOptional;
+	const parent = typeof parentOrOptional === "boolean" ? document : parentOrOptional;
 	const optional = typeof parentOrOptional === "boolean" ? parentOrOptional : optionalParameter;
 
 	const element = parent.querySelector<T>(selector);

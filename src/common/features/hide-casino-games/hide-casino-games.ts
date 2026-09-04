@@ -22,14 +22,14 @@ function hideCasinoGames() {
 		);
 	}
 	findAllElements(`.games-list .${styles.ttHiddenGame}`).forEach((game) => {
-		game.parentElement.classList.remove(styles.ttHiddenParent);
+		game.parentElement!.classList.remove(styles.ttHiddenParent);
 		game.remove();
 	});
 
 	for (const gameClass of settings.hideCasinoGames) {
 		const game = findElement(`.${gameClass}`);
 
-		game.parentElement.classList.add(styles.ttHiddenParent);
+		game.parentElement!.classList.add(styles.ttHiddenParent);
 		game.classList.add(styles.ttHiddenGame);
 		game.insertAdjacentElement(
 			"beforebegin",

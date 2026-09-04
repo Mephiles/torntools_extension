@@ -54,10 +54,10 @@ async function handleTab(params: URLSearchParams) {
 		case "customrace": {
 			if (section === "chooseRacingCar") {
 				await requireElement(".enlist-wrap");
-				triggerCustomListener(EVENT_CHANNELS.RACING__SELECT_CAR_CUSTOM, { id: parseInt(params.get("id")) });
+				triggerCustomListener(EVENT_CHANNELS.RACING__SELECT_CAR_CUSTOM, { id: parseInt(params.get("id")!) });
 			} else if (section === "createCustomRace") {
 				if (params.has("trackID")) {
-					const trackId = parseInt(params.get("trackID"));
+					const trackId = parseInt(params.get("trackID")!);
 
 					triggerCustomListener(EVENT_CHANNELS.RACING__SELECT_CAR_CUSTOM_CREATED, { trackId });
 				}

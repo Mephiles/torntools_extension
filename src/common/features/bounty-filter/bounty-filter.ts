@@ -49,7 +49,7 @@ async function addFilter() {
 	let statistics: StatisticsResult;
 	if (!device.mobile && !device.tablet) {
 		statistics = createStatistics("rows", true, true);
-		findElement(".title .text", options.parentElement).appendChild(statistics.element);
+		findElement(".title .text", options.parentElement!).appendChild(statistics.element);
 	}
 
 	// Setup saved filters
@@ -79,7 +79,7 @@ async function addFilter() {
 
 		const list = findElement(".bounties-list");
 		for (const bounty of findAllElements(":scope > li[data-id]", list)) {
-			if (maxLevel > 0 && parseInt(findElement(".level", bounty).lastChild.textContent) > maxLevel) {
+			if (maxLevel > 0 && parseInt(findElement(".level", bounty).lastChild!.textContent!) > maxLevel) {
 				hideBounty(bounty);
 				continue;
 			} else showBounty(bounty);
@@ -93,14 +93,14 @@ async function addFilter() {
 			statistics.updateStatistics(
 				findAllElements(".bounties-list > li[data-id]:not(.tt-hidden)").length,
 				findAllElements(".bounties-list > li[data-id]").length,
-				findElement(".title .text", options.parentElement),
+				findElement(".title .text", options.parentElement!),
 			);
 		triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Bounty Filter" });
 
 		function hideBounty(bounty: Element) {
 			bounty.classList.add("tt-hidden");
 
-			if (bounty.nextElementSibling.classList.contains("tt-stats-estimate")) {
+			if (bounty.nextElementSibling?.classList.contains("tt-stats-estimate")) {
 				bounty.nextElementSibling.classList.add("tt-hidden");
 			}
 		}
@@ -108,7 +108,7 @@ async function addFilter() {
 		function showBounty(bounty: Element) {
 			bounty.classList.remove("tt-hidden");
 
-			if (bounty.nextElementSibling.classList.contains("tt-stats-estimate")) {
+			if (bounty.nextElementSibling?.classList.contains("tt-stats-estimate")) {
 				bounty.nextElementSibling.classList.remove("tt-hidden");
 			}
 		}

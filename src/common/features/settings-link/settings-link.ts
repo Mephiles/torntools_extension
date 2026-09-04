@@ -19,8 +19,8 @@ function initialiseLink() {
 
 		new MutationObserver((_mutations, observer) => {
 			observer.disconnect();
-			setting.parentElement.appendChild(setting);
-		}).observe(setting.parentElement, { childList: true });
+			setting.parentElement!.appendChild(setting);
+		}).observe(setting.parentElement!, { childList: true });
 	});
 }
 

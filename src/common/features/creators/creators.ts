@@ -9,7 +9,9 @@ import { Feature } from "@features/feature";
 
 async function showCreators() {
 	const id = parseInt(
-		(await requireElement(".basic-information .profile-container ul.info-table .user-info-value > *:first-child")).textContent.match(/(?<=\[)\d*(?=])/i)[0],
+		(await requireElement(".basic-information .profile-container ul.info-table .user-info-value > *:first-child")).textContent!.match(
+			/(?<=\[)\d*(?=])/i,
+		)![0],
 	);
 
 	const creator = TEAM.find(({ torn }) => torn === id);

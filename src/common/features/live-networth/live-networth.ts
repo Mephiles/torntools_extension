@@ -122,7 +122,7 @@ async function showNetworth() {
 		showHeader: false,
 		applyRounding: false,
 		compact: true,
-		parentElement: findElement("ul.info-cont-wrap", findElementWithText("h5", "General Information").parentElement.nextElementSibling),
+		parentElement: findElement("ul.info-cont-wrap", findElementWithText("h5", "General Information").parentElement!.nextElementSibling!),
 	});
 	const networthRow = newRow("(Live) Networth", formatNumber(userdata.networth.total, { currency: true }));
 
@@ -143,7 +143,7 @@ async function showNetworth() {
 	setInterval(() => {
 		if (infoIcon.hasAttribute("aria-describedby")) return;
 
-		const updated = parseInt(infoIcon.getAttribute("updatedAt"));
+		const updated = parseInt(infoIcon.getAttribute("updatedAt")!);
 
 		infoIcon.setAttribute("title", `Last updated: ${formatTime({ seconds: updated }, { type: "ago" })}`);
 	}, 1000);

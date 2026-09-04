@@ -54,7 +54,7 @@ async function startFeature() {
 
 	remindersBox = mount(RemindersBox, {
 		target: previousElement.parentElement!,
-		anchor: previousElement.nextSibling,
+		anchor: previousElement.nextSibling!,
 		props: {
 			get reminders() {
 				return reminders;

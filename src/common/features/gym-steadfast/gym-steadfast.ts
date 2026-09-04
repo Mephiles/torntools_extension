@@ -23,7 +23,7 @@ function initialiseListeners() {
 }
 
 async function showSteadfast() {
-	const properties = (await requireElement("#gymroot ul[class*='properties___'] [class*='strength___']")).closest("#gymroot ul[class*='properties___']");
+	const properties = (await requireElement("#gymroot ul[class*='properties___'] [class*='strength___']")).closest("#gymroot ul[class*='properties___']")!;
 
 	const factionPerks = userdata.perks.faction.filter((perk) => perk.includes("gym gains"));
 	const jobPerks = userdata.perks.job.filter((perk) => perk.includes("gym gains"));
@@ -83,7 +83,7 @@ async function showSteadfast() {
 		if (findElement(".tt-gym-steadfast", box, true)) continue;
 
 		const parent = elementBuilder({ type: "div", class: "tt-gym-steadfast", style: { height: `${maxBonus * 12}px` } });
-		box.insertBefore(parent, box.firstElementChild);
+		box.insertBefore(parent, box.firstElementChild!);
 
 		for (const perk of perks) {
 			let title: string;

@@ -22,7 +22,7 @@ async function showMarketIcons() {
 
 		if (item.classList.contains("item-group")) item.classList.add("tt-modified");
 
-		const id = parseInt(item.dataset.item);
+		const id = parseInt(item.dataset.item!);
 		if (!isSellable(id)) continue;
 
 		let parent = findElement(".outside-actions", item, true);

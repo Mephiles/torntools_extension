@@ -40,14 +40,14 @@ async function addCSVContainer() {
 
 				for (const row of findAllElements(".flexslides li:not(.slide)", contributionsWrap)) {
 					const link = findElement<HTMLAnchorElement>(".player a", row);
-					const name = link.getAttribute("aria-label");
+					const name = link.getAttribute("aria-label")!;
 
 					csv.append(
 						findElement(".numb", row).textContent,
-						name.match(/.*(?= \()/)[0],
+						name.match(/.*(?= \()/)![0],
 						link.href,
 						row.classList.contains("ex-member") ? "Yes" : "No",
-						name.match(/(?<= \().*(?=\))/)[0],
+						name.match(/(?<= \().*(?=\))/)![0],
 					);
 				}
 

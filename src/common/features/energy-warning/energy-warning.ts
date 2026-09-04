@@ -13,7 +13,7 @@ function initialiseListener() {
 		if (!FEATURE_MANAGER.isEnabled(EnergyWarningFeature) || !isElement(event.target)) return;
 
 		const factionPage = getPage() === "factions";
-		let item: HTMLElement | undefined;
+		let item: HTMLElement | null;
 		if (factionPage) item = event.target.closest("li");
 		else item = event.target.closest("li[data-category]");
 
@@ -32,7 +32,7 @@ async function addWarning(item: HTMLElement) {
 	if (!message) return;
 
 	const factionPage = getPage() === "factions";
-	const received = getItemEnergy(parseInt(factionPage ? findElement(".img-wrap", item).dataset.itemid : item.dataset.item));
+	const received = getItemEnergy(parseInt(factionPage ? findElement(".img-wrap", item).dataset.itemid! : item.dataset.item!));
 	if (!received) return;
 
 	const [current] = getUserEnergy();

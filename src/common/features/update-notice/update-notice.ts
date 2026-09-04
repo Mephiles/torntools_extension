@@ -18,7 +18,7 @@ async function showNotice() {
 
 	const currentVersion = browser.runtime.getManifest().version;
 
-	findElementWithText("h2", "Areas").parentElement.insertAdjacentElement(
+	findElementWithText("h2", "Areas").parentElement!.insertAdjacentElement(
 		"afterend",
 		elementBuilder({
 			type: "div",

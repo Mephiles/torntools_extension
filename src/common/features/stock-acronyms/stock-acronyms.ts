@@ -11,9 +11,8 @@ async function addAcronyms() {
 	await requireElement("[class*='stockMarket__'] ul[class*='stock__'] [class*='nameContainer__']");
 
 	for (const stockName of findAllElements("[class*='stockMarket__'] ul[class*='stock__'] [class*='stockName__']")) {
-		const container = findElement("[class*='nameContainer__']", stockName, true);
-
-		const id = parseInt(stockName.closest("[class*='stock___']").id);
+		const container = findElement("[class*='nameContainer__']", stockName);
+		const id = parseInt(stockName.closest("[class*='stock___']")!.id);
 		const stock = stockdata.stocks.find((s) => s.id === id);
 		if (!stock) continue;
 

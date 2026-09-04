@@ -41,7 +41,7 @@ async function showThreads() {
 	await requireElement(".forums-committee-wrap");
 
 	let countHiddenThread = 0;
-	let firstHiddenThread: HTMLElement;
+	let firstHiddenThread: HTMLElement | undefined;
 
 	const threads = findAllElements(".threads-list > li");
 	for (let i = 0; i < threads.length; i++) {
@@ -72,7 +72,7 @@ async function showThreads() {
 		else thread.classList.remove("tt-forums-highlight");
 
 		if (countHiddenThread && (!shouldHideThreads || i === threads.length - 1)) {
-			firstHiddenThread.insertAdjacentElement(
+			firstHiddenThread!.insertAdjacentElement(
 				"beforebegin",
 				elementBuilder({
 					type: "li",
@@ -100,7 +100,7 @@ async function showPosts() {
 	await requireElement(".forums-thread");
 
 	let countHiddenPost = 0;
-	let firstHiddenPost: HTMLElement;
+	let firstHiddenPost: HTMLElement | undefined;
 
 	const threadId = convertToNumber(getHashParameters().get("t"));
 
@@ -135,7 +135,7 @@ async function showPosts() {
 		else post.classList.remove("tt-forums-highlight");
 
 		if (countHiddenPost && (!shouldHidePosts || i === posts.length - 1)) {
-			firstHiddenPost.insertAdjacentElement(
+			firstHiddenPost!.insertAdjacentElement(
 				"beforebegin",
 				elementBuilder({
 					type: "li",
@@ -397,7 +397,7 @@ async function hideSubscriptions() {
 			let hasReducedNew = false;
 			findAllElements(".panel > li:not(.empty)", feed).forEach((post) => {
 				const params = getHashParameters(new URL(findElement<HTMLAnchorElement>("a[href*='t=']", post).href).hash);
-				const threadId = parseInt(params.get("t"));
+				const threadId = parseInt(params.get("t")!);
 
 				if (!localdata.threadsHiddenInFeed.includes(threadId)) return;
 

@@ -16,7 +16,7 @@ async function addWarning() {
 	const factionNode = findElement<HTMLAnchorElement>(".user-info-value [href*='/factions.php']", true);
 	if (!factionNode) return;
 
-	const factionID = parseInt(new URLSearchParams(factionNode.href).get("ID"));
+	const factionID = parseInt(new URLSearchParams(factionNode.href).get("ID")!);
 	const factionName = factionNode.textContent.trim();
 
 	let warning: string | undefined;

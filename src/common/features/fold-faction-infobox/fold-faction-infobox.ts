@@ -31,7 +31,9 @@ async function startFeature() {
 }
 
 async function foldInfobox() {
-	let title: Element, description: Element, key: string;
+	let title: Element;
+	let description: Element | null;
+	let key: string;
 
 	if (isInternalFaction) {
 		if (getFactionSubpage() === "info") {
@@ -66,7 +68,7 @@ async function foldInfobox() {
 	}
 
 	function fold(state: boolean | null) {
-		if (!FEATURE_MANAGER.isEnabled(FoldFactionInfoboxFeature)) return;
+		if (!FEATURE_MANAGER.isEnabled(FoldFactionInfoboxFeature) || !description) return;
 
 		if (state === null) {
 			state = description.classList.toggle("folded");

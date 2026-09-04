@@ -39,7 +39,7 @@ async function showWarnings() {
 	if (!durationText) return;
 
 	const duration = textToTime(durationText) * 2;
-	let cooldowns = findElement(".tt-cooldowns", container.parentElement, true);
+	let cooldowns = findElement(".tt-cooldowns", container.parentElement!, true);
 	if (!cooldowns) {
 		cooldowns = elementBuilder({
 			type: "div",
@@ -112,11 +112,11 @@ async function showWarnings() {
 		handleClass(findElement(".medical", cooldowns, true), userdata.cooldowns.medical);
 		if (!hasFinishedEducation())
 			handleClass(
-				findElement(".education", cooldowns.parentElement, true),
+				findElement(".education", cooldowns.parentElement!, true),
 				userdata.education.current ? userdata.education.current.until - userdata.date / 1000 : 0,
 			);
 		handleClass(
-			findElement(".investment", cooldowns.parentElement, true),
+			findElement(".investment", cooldowns.parentElement!, true),
 			userdata.money.city_bank ? userdata.money.city_bank.until - userdata.date / 1000 : 0,
 		);
 	}

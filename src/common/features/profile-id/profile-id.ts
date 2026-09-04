@@ -9,7 +9,7 @@ async function addID() {
 	await requireElement(".basic-info .info-table > *:first-child");
 
 	const title = findElement("h4#skip-to-content");
-	title.textContent = `${title.textContent.trim().match(/(.*)'s? Profile/i)[1]} [${getUserID()}]`;
+	title.textContent = `${title.textContent!.trim().match(/(.*)'s? Profile/i)![1]} [${getUserID()}]`;
 	title.setAttribute("title", "Click to copy.");
 	title.addEventListener("click", copyID);
 }
@@ -19,7 +19,7 @@ function copyID() {
 
 function getUserID() {
 	return parseInt(
-		findElement(".basic-information .profile-container ul.info-table .user-info-value > *:first-child").textContent.match(/(?<=\[)\d*(?=])/i)[0],
+		findElement(".basic-information .profile-container ul.info-table .user-info-value > *:first-child").textContent!.match(/(?<=\[)\d*(?=])/i)![0],
 	);
 }
 

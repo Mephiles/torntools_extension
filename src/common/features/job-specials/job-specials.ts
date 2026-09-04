@@ -31,10 +31,11 @@ async function showSpecials() {
 
 	for (const stars of [1, 3, 5, 7, 10] as const) {
 		let name: string, cost: string, effect: string;
-		if (stars in companyInfo) {
-			name = companyInfo[stars].name;
-			cost = companyInfo[stars].cost;
-			effect = companyInfo[stars].effect;
+		const special = companyInfo[stars];
+		if (special) {
+			name = special.name;
+			cost = special.cost;
+			effect = special.effect;
 		} else {
 			name = "No Special";
 			cost = "N/A";

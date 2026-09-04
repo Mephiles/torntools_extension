@@ -37,7 +37,7 @@ async function addLastAction(force: boolean) {
 
 	let company: FetchedCompany;
 	if (ttCache.hasValue("company", id)) {
-		company = ttCache.get("company", id);
+		company = ttCache.get("company", id)!;
 	} else {
 		company = await fetchData<FetchedCompany>("tornv2", { section: "company", id: id, selections: ["employees", "profile"], silent: true });
 
@@ -97,14 +97,12 @@ async function extractCompanyId(): Promise<number> {
 		return userdata.job.id;
 	}
 
-	const id = parseInt(getHashParameters().get("ID"));
-	if (!Number.isNaN(id)) {
-		return id;
-	}
+	const id = parseInt(getHashParameters().get("ID")!);
+	if (!Number.isNaN(id)) return id;
 
-	const companyName = findElement(".company-details").dataset.name;
+	const companyName = findElement(".company-details").dataset.name!;
 	if (ttCache.hasValue("company-ids", companyName)) {
-		return ttCache.get<number>("company-ids", companyName);
+		return ttCache.get<number>("company-ids", companyName)!;
 	} else {
 		const directorID = findElement<HTMLAnchorElement>(".company-details-wrap [href*='profiles.php']").href.split("=")[1];
 		const directorData = await fetchData<UserJobResponse>("tornv2", { section: "user", selections: ["job"], id: directorID });

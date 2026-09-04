@@ -725,7 +725,7 @@ export function presetSection(options: PresetSectionOptions): FilterSectionDef<u
 				};
 			},
 			test: (row, { min, max }) => {
-				let ff: number;
+				let ff: number | undefined;
 
 				if (row.dataset.ffScout) ff = parseFloat(row.dataset.ffScout);
 				else {
@@ -733,7 +733,7 @@ export function presetSection(options: PresetSectionOptions): FilterSectionDef<u
 					if (gauge) ff = parseFloat(gauge.getAttribute("data-ff-scout")!);
 				}
 
-				if (Number.isNaN(ff) || ff < 0) return true;
+				if (ff === undefined || Number.isNaN(ff) || ff < 0) return true;
 
 				if (max && !Number.isNaN(max) && ff > max) return false;
 				if (min && !Number.isNaN(min) && ff < min) return false;
@@ -835,7 +835,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 
 		const hiddenCount = rows.filter((r) => r.classList.contains("tt-hidden")).length;
 		if (hiddenCount === 0) {
-			delete list.style.minHeight;
+			list.style.minHeight = "";
 			return;
 		}
 
@@ -848,7 +848,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 		const target = viewportHeight + buffer;
 
 		if (contentBottom >= target) {
-			delete list.style.minHeight;
+			list.style.minHeight = "";
 			return;
 		}
 
@@ -878,7 +878,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 				}
 			}
 
-			if (activeSectionReasons.includes(row.dataset.hideReason)) {
+			if (row.dataset.hideReason && activeSectionReasons.includes(row.dataset.hideReason)) {
 				row.classList.remove("tt-hidden");
 				_toggleSiblings(row, false);
 				delete row.dataset.hideReason;
@@ -932,7 +932,8 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 
 	async function runScoped(options?: { rows?: HTMLElement[]; sections?: string[] | null }) {
 		const scopedRows = options?.rows ?? findAllElements(rowSelector);
-		const activeSections = options?.sections ? sections.filter((s) => options.sections.includes(s.key)) : sections;
+		const requestedSections = options?.sections;
+		const activeSections = requestedSections ? sections.filter((s) => requestedSections.includes(s.key)) : sections;
 		activeSections.sort((a, b) => a.priority - b.priority);
 
 		activeSections.forEach((s) => s.onBeforeFilter?.());

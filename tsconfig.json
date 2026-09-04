@@ -1,8 +1,6 @@
 {
 	"extends": "./.wxt/tsconfig.json",
 	"compilerOptions": {
-		"strictNullChecks": false,
-		"strictPropertyInitialization": false,
 		"noUncheckedIndexedAccess": false,
 		"types": ["user-agent-data-types"]
 	},

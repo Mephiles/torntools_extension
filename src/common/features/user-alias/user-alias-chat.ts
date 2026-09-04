@@ -78,7 +78,7 @@ function addAliasTitle() {
 
 			const nameNode = findElement("[class*='minimized-chat-box__username-text__']", chatHeader);
 			nameNode.dataset.original = nameNode.textContent;
-			nameNode.firstChild.textContent = alias.alias;
+			nameNode.firstChild!.textContent = alias.alias;
 		});
 		findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX} > ${SELECTOR_CHAT_V2__CHAT_BOX_HEADER}`).forEach((chatHeader) => {
 			const chatPlayerTitle = chatHeader.textContent;
@@ -89,7 +89,7 @@ function addAliasTitle() {
 
 			const nameNode = findElement(SELECTOR_CHAT_V2__HEADER_NAME, chatHeader);
 			nameNode.dataset.original = nameNode.textContent;
-			nameNode.firstChild.textContent = alias.alias;
+			nameNode.firstChild!.textContent = alias.alias;
 		});
 	}
 }
@@ -104,7 +104,7 @@ function addAliasMessage(message: Element | null = null) {
 				].join(", "),
 			).forEach((profileLink) => {
 				profileLink.dataset.original = profileLink.textContent;
-				profileLink.firstChild.textContent = alias;
+				profileLink.firstChild!.textContent = alias;
 			});
 		});
 		return;
@@ -118,16 +118,16 @@ function addAliasMessage(message: Element | null = null) {
 	if (!alias) return;
 
 	profileLink.dataset.original = profileLink.textContent;
-	profileLink.firstChild.textContent = alias.alias;
+	profileLink.firstChild!.textContent = alias.alias;
 }
 
 function removeAlias() {
 	findAllElements(`${SELECTOR_CHAT_ROOT} [data-original]`).forEach((element) => {
-		if (element.dataset.original) element.firstChild.textContent = element.dataset.original;
+		if (element.dataset.original) element.firstChild!.textContent = element.dataset.original;
 		delete element.dataset.original;
 	});
 	findAllElements(`${SELECTOR_CHAT_ROOT} [data-original-self]`).forEach((element) => {
-		if (element.dataset.original) element.textContent = element.dataset.originalSelf;
+		if (element.dataset.original) element.textContent = element.dataset.originalSelf!;
 		delete element.dataset.original;
 	});
 }

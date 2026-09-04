@@ -17,10 +17,13 @@ async function showProfits() {
 		if (priceElement.classList.contains("tt-modified")) continue;
 		priceElement.classList.add("tt-modified");
 
-		const id = parseInt(findElement(".item", item).getAttribute("itemid"));
+		const id = parseInt(findElement(".item", item).getAttribute("itemid")!);
 
-		const price = parseInt(priceElement.firstChild.textContent.replaceAll(/[$,]/g, ""));
-		const value = ITEM_RESOLVER.getFullItem(id).value.market_price;
+		const price = parseInt(priceElement.firstChild!.textContent!.replaceAll(/[$,]/g, ""));
+		const fullItem = ITEM_RESOLVER.getFullItem(id);
+		if (!fullItem) continue;
+
+		const value = fullItem.value.market_price;
 
 		const profit = value - price;
 

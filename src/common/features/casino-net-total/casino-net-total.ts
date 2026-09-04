@@ -42,7 +42,7 @@ async function addTotal() {
 			null,
 		);
 		if (moneyElementsList.snapshotLength !== 2) continue;
-		const totalWon = parseInt(moneyElementsList.snapshotItem(0).textContent.replaceAll(/[$, ]/g, ""));
+		const totalWon = parseInt(moneyElementsList.snapshotItem(0)!.textContent!.replaceAll(/[$, ]/g, ""));
 		const totalLostElement = moneyElementsList.snapshotItem(1);
 		if (!isElement(totalLostElement)) return;
 
@@ -51,7 +51,7 @@ async function addTotal() {
 		if (findElement(`.${statsType}-stats-wrap .tt-net-total`, true)) return;
 
 		await requireElement(`.stats-wrap .${statsType}-stats-wrap .stat`);
-		totalLostElement.closest("li:not(.stat-value)").insertAdjacentElement(
+		totalLostElement.closest("li:not(.stat-value)")!.insertAdjacentElement(
 			"afterend",
 			elementBuilder({
 				type: "ul",

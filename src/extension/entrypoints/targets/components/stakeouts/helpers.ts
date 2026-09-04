@@ -30,14 +30,14 @@ export function getStoredStakeouts(sourceRows: StakeoutRow[], currentDate = 0): 
 
 export function getAlerts(alerts?: Partial<StakeoutAlerts>): StakeoutAlerts {
 	return {
-		okay: alerts?.okay,
-		hospital: alerts?.hospital,
-		flying: alerts?.flying,
-		landing: alerts?.landing,
-		online: alerts?.online,
-		idle: alerts?.idle,
-		goesOffline: alerts?.goesOffline,
-		life: alerts?.life,
+		okay: alerts?.okay ?? false,
+		hospital: alerts?.hospital ?? false,
+		flying: alerts?.flying ?? false,
+		landing: alerts?.landing ?? false,
+		online: alerts?.online ?? false,
+		idle: alerts?.idle ?? false,
+		goesOffline: alerts?.goesOffline ?? false,
+		life: alerts?.life ?? false,
 		offline: typeof alerts?.offline === "number" ? alerts.offline : false,
 		revivable: alerts?.revivable ?? false,
 	};

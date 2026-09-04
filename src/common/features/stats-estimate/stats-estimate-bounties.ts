@@ -36,15 +36,15 @@ async function startFeature() {
 async function showEstimates() {
 	await requireElement(".bounties-list");
 
-	const startParam = parseInt(getHashParameters().get("start")) || 0;
-	const start = parseInt(getHashParameters(findElement<HTMLAnchorElement>(".claim a").href.split("#!")[1] ?? "").get("start")) || 0;
+	const startParam = parseInt(getHashParameters().get("start")!) || 0;
+	const start = parseInt(getHashParameters(findElement<HTMLAnchorElement>(".claim a").href.split("#!")[1] ?? "").get("start")!) || 0;
 	if (start !== startParam) return;
 
 	statsEstimate.clearQueue();
 	statsEstimate.showEstimates(
 		".bounties-list > li[data-id]",
 		(row) => ({
-			id: parseInt(findElement<HTMLAnchorElement>(".target a", row).href.match(/(\d+)/g)?.at(-1)),
+			id: parseInt(findElement<HTMLAnchorElement>(".target a", row).href.match(/(\d+)/g)?.at(-1) ?? ""),
 			level: parseInt(findElement(".level", row).textContent.replaceAll("\n", "").split(":").at(-1)!.trim()),
 		}),
 		{ hasFilter: true },

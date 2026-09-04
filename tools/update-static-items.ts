@@ -38,11 +38,11 @@ if (!("items" in result)) {
 }
 
 function isWeaponDetails(details: TornItemWeaponDetails | TornItemArmorDetails | null): details is TornItemWeaponDetails {
-	return details && "category" in details;
+	return !!details && "category" in details;
 }
 
 function isArmorDetails(details: TornItemWeaponDetails | TornItemArmorDetails | null): details is TornItemArmorDetails {
-	return details && "coverage" in details;
+	return !!details && "coverage" in details;
 }
 
 function tornItemToStaticItem(item: TornItem): StaticItem {
@@ -59,8 +59,8 @@ function tornItemToStaticItem(item: TornItem): StaticItem {
 		is_tradable: item.is_tradable,
 		is_found_in_city: item.is_found_in_city,
 		value: {
-			buy_price: item.value.buy_price,
-			sell_price: item.value.sell_price,
+			buy_price: item.value.buy_price ?? null,
+			sell_price: item.value.sell_price ?? null,
 			vendor: item.value.vendor as Vendor | null,
 		},
 		details: null,

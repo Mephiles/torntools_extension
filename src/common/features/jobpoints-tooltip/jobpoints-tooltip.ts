@@ -18,7 +18,7 @@ async function addJobPointsTooltip() {
 async function tooltipListener() {
 	if (!FEATURE_MANAGER.isEnabled(JobPointsTooltipFeature)) return;
 
-	const jobId = userdata.job?.type === "job" ? userdata.job.name.toLowerCase() : userdata.job.type_id;
+	const jobId = userdata.job?.type === "job" ? userdata.job.name.toLowerCase() : userdata.job!.type_id;
 	const allJobPoints = getAllJobPoints();
 
 	const jobPoints = jobId in allJobPoints ? allJobPoints[jobId] : 0;

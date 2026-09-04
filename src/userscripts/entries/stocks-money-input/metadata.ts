@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Stocks Money Input",
 	description: "Easier money parking in stocks.",
-	version: "1.1.0",
+	version: "1.1.1",
 	matches: ["https://*.torn.com/page.php?sid=stocks*"],
 	runAt: "document-end",
 };

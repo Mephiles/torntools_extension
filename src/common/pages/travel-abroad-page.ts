@@ -47,7 +47,7 @@ export async function setupTravelAbroadPage() {
 		const data = json as InternalTornTravelDataShop;
 
 		let items: SyncItem[];
-		if ("shops" in data) {
+		if ("shops" in data && data.shops) {
 			items = data.shops
 				.flatMap((shop) => shop.stock)
 				.map((s) => ({
@@ -55,7 +55,7 @@ export async function setupTravelAbroadPage() {
 					quantity: s.stock,
 					cost: s.price,
 				}));
-		} else if ("stock" in data) {
+		} else if ("stock" in data && data.stock) {
 			items = data.stock.map<SyncItem>((s) => ({ id: s.ID, quantity: s.stock, cost: s.price }));
 		} else {
 			throw new Error("Unexpected abroad travel data response!");

@@ -156,7 +156,7 @@ async function executeMedicalHospitalAction(options: MedicalActionOptions) {
 
 	const bestItem = path.items[0];
 	await options.useItem(bestItem.id);
-	medicalQuantities.set(bestItem.id, medicalQuantities.get(bestItem.id) - 1);
+	medicalQuantities.set(bestItem.id, medicalQuantities.get(bestItem.id)! - 1);
 }
 
 async function executeMedicalLifeAction(options: MedicalActionOptions) {
@@ -183,7 +183,7 @@ async function executeMedicalLifeAction(options: MedicalActionOptions) {
 	}
 
 	await options.useItem(item.id);
-	medicalQuantities.set(item.id, medicalQuantities.get(item.id) - 1);
+	medicalQuantities.set(item.id, medicalQuantities.get(item.id)! - 1);
 }
 
 function findOptimalHospitalItems(minutesLeft: number, bloodType: BloodType | null): OptimalHospitalResponse {
@@ -196,7 +196,7 @@ function findOptimalHospitalItems(minutesLeft: number, bloodType: BloodType | nu
 		const remainderItems = items.filter(({ quantity }) => quantity > 0);
 		if (!remainderItems.length) return { error: "You lack the items to leave the hospital." };
 
-		const item = remainderItems.find((i) => i.medical.time >= ongoingMinutesLeft) ?? remainderItems.at(-1);
+		const item = remainderItems.find((i) => i.medical.time >= ongoingMinutesLeft) ?? remainderItems.at(-1)!;
 		item.quantity--;
 		ids.push({ id: item.id, cooldown: item.medical.cooldown });
 		ongoingMinutesLeft -= item.medical.time;
@@ -212,20 +212,23 @@ function getOptimalLifeItem(percentageMissing: number, bloodType: BloodType | nu
 	const fillItems = items.filter((item) => item.medical.life >= percentageMissing);
 	if (fillItems.length) return fillItems[0];
 
-	const bestLife = items.at(-1).medical.life;
-	return items.find((i) => i.medical.life === bestLife);
+	const bestLife = items.at(-1)!.medical.life;
+	return items.find((i) => i.medical.life === bestLife) ?? null;
 }
 
 function availableMedicalItems(bloodType: BloodType | null) {
 	const perks = (hasAPIData() ? (userdata?.perks.education ?? []) : [])
 		.filter((perk) => perk.toLowerCase().includes("medical item effectiveness"))
-		.map((perk) => parseInt(perk.match(/\+ (\d+)%/i)[1]))
+		.map((perk) => parseInt(perk.match(/\+ (\d+)%/i)![1]))
 		.reduce((a, b) => a + b, 0);
 
 	return (ITEM_RESOLVER.hasFullItems() ? ITEM_RESOLVER.getAllFullItems() : ITEM_RESOLVER.getAllStaticItems())
-		.filter(({ type, effect }) => type === "Medical" && effect)
-		.map((item): MedicalStaticItem => {
-			const effectMatched = MEDICAL_EFFECT_REGEX.exec(item.effect);
+		.filter(({ type, effect }) => type === "Medical" && !!effect)
+		.map<MedicalStaticItem | null>((item) => {
+			const effect = item.effect;
+			if (!effect) return null;
+
+			const effectMatched = MEDICAL_EFFECT_REGEX.exec(effect);
 			if (!effectMatched) return null;
 
 			if (item.name.startsWith("Blood Bag") && (bloodType === null || !ALLOWED_BLOOD[bloodType].includes(item.id))) return null;
@@ -245,7 +248,7 @@ function availableMedicalItems(bloodType: BloodType | null) {
 				},
 			};
 		})
-		.filter((item) => !!item)
+		.filter((item) => item !== null)
 		.filter((item) => item.quantity > 0)
 		.sort((a, b) => {
 			if (b.medical.time !== a.medical.time) return a.medical.time - b.medical.time;

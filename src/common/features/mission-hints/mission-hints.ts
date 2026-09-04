@@ -344,7 +344,7 @@ async function showHints() {
 		let title: string;
 		if (context.dataset.originalTitle) title = context.dataset.originalTitle;
 		else {
-			title = findElement(".title-black", context).childNodes[0].textContent;
+			title = findElement(".title-black", context).childNodes[0].textContent!;
 		}
 		title = title?.trim();
 

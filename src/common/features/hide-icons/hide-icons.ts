@@ -30,9 +30,9 @@ function applyStyle() {
 
 function moveIcons() {
 	for (const icon of findAllElements("#sidebarroot ul:is([class*='status-icons_'], [class*='statusIcons_']) > li[class]")) {
-		if (!settings.hideIcons.includes(icon.getAttribute("class").split("_")[0])) continue;
+		if (!settings.hideIcons.includes(icon.getAttribute("class")!.split("_")[0])) continue;
 
-		icon.parentElement.appendChild(icon);
+		icon.parentElement!.appendChild(icon);
 	}
 }
 

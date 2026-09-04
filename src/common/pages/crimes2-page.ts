@@ -23,7 +23,7 @@ export function setupCrimesV2Page() {
 				}
 
 				// If not doing a Crimes 2 statuses list or attempt call, return.
-				if (!(page === "page" && sid === "crimesData" && ["crimesList", "attempt"].includes(step))) return;
+				if (!(page === "page" && sid === "crimesData" && ["crimesList", "attempt"].includes(step ?? ""))) return;
 
 				// If any new crime needs a filter, add it here and in listeners.js.
 				const CRIMES_MAPPING = {

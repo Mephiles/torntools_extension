@@ -99,7 +99,7 @@ async function addFilterContainer() {
 						const hospEl = findElement("li[title*='Hospital']", row, true);
 						if (!hospEl) return value === "yes";
 
-						const reason = hospEl.getAttribute("title").split("<br>")[1];
+						const reason = hospEl.getAttribute("title")!.split("<br>")[1];
 						if (key === "other") {
 							return (
 								(value === "yes" && HOSPITALIZATION_REASONS.other.some((r) => reason.match(r))) ||

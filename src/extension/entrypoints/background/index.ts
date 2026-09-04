@@ -59,7 +59,7 @@ async function checkUpdate() {
 	const change: RecursivePartial<Writable<Database>> = { version: { oldVersion: newVersion } };
 	if (oldVersion !== newVersion) {
 		console.log("New version detected!", newVersion);
-		change.version.showNotice = true;
+		change.version!.showNotice = true;
 	}
 
 	await ttStorage.change(change);

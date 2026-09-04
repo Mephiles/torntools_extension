@@ -15,7 +15,7 @@ const CUSTOM_LISTENERS: { [K in keyof EventPayloads]: CustomEventListener<K>[] }
 export const ExtensionEventHandler: EventHandler = {
 	triggerEvent<T extends keyof EventPayloads>(channel: T, payload?: EventPayloads[T]) {
 		for (const listener of CUSTOM_LISTENERS[channel]) {
-			listener(payload);
+			listener(payload as EventPayloads[T]);
 		}
 	},
 

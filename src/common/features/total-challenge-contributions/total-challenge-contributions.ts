@@ -27,9 +27,9 @@ async function addCSVContainer() {
 	const totalContributions = findAllElements(".flexslides li:not(.slide)", contributionsWrap)
 		.map((row) => {
 			const link = findElement<HTMLAnchorElement>(".player a", row);
-			const name = link.getAttribute("aria-label");
+			const name = link.getAttribute("aria-label")!;
 
-			return parseInt(name.match(/(?<= \().*(?=\))/)[0].replaceAll(",", ""));
+			return parseInt(name.match(/(?<= \().*(?=\))/)![0].replaceAll(",", ""));
 		})
 		.reduce((total, value) => total + value, 0);
 

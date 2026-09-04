@@ -66,7 +66,7 @@ function createMoneyInputHandler(blockType: string) {
 
 const INPUT_OBSERVERS: Record<string, MutationObserver> = {};
 
-async function addMoneyInputs(event: { target: EventTarget }) {
+async function addMoneyInputs(event: { target: EventTarget | null }) {
 	if (!isHTMLElement(event.target)) return;
 
 	const stockOwnedElement = event.target.closest("li[class*='stockOwned__']");

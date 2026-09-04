@@ -31,7 +31,7 @@ export type TableColumnDef<T, K extends keyof T = keyof T> = {
 	[P in K]: ColumnDef<T, P>;
 }[K];
 
-type TableRowGroupInfo<T> = {
+export type TableRowGroupInfo<T> = {
 	groupBy: TypedKeyOf<T, string>;
 	cellRenderer: TableCellRenderer<string>;
 };
@@ -191,7 +191,7 @@ export function createTable<T extends Record<string, any>>(
 		tableClass?: string;
 		rowClass?: (data: T) => string;
 		stretchColumns: boolean;
-		rowGroupInfo?: TableRowGroupInfo<T>;
+		rowGroupInfo?: TableRowGroupInfo<T> | undefined;
 	},
 ) {
 	let sortInfo: { columnId: keyof T; direction: COLUMN_SORT_DIRECTION } | undefined;

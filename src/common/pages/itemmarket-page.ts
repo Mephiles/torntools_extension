@@ -33,7 +33,7 @@ export async function setupItemMarketPage() {
 	const view = hash.get("market/view");
 	if (view === "category" || view === "search") {
 		if (hash.has("itemID")) {
-			requireElement("[class*='sellerList___']").then((list) => handleSellerList(list, parseInt(hash.get("itemID"))));
+			requireElement("[class*='sellerList___']").then((list) => handleSellerList(list, parseInt(hash.get("itemID")!)));
 		}
 
 		if (!mobile || !hash.has("itemID")) {
@@ -50,7 +50,7 @@ export async function setupItemMarketPage() {
 				.find((element) => element.classList.contains("item-info"));
 			if (!itemInfo) return;
 
-			const item = parseInt(itemInfo.id.match(/wai-itemInfo-([0-9]+)-0/)[1]);
+			const item = parseInt(itemInfo.id.match(/wai-itemInfo-([0-9]+)-0/)![1]);
 
 			triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEM_DETAILS, { item, element: itemInfo });
 		}).observe(root, { childList: true, subtree: true });
@@ -83,7 +83,9 @@ function handleItemList(list: Element) {
 
 			await requireElement(".tornPreloader", { invert: true });
 
-			const item = parseInt(findElement<HTMLImageElement>("img", infoWrapper).src.match(/https:\/\/www\.torn\.com\/images\/items\/([0-9]+)\/.*\.png/)[1]);
+			const item = parseInt(
+				findElement<HTMLImageElement>("img", infoWrapper).src.match(/https:\/\/www\.torn\.com\/images\/items\/([0-9]+)\/.*\.png/)![1],
+			);
 
 			triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEM_DETAILS, { item, element: infoWrapper });
 		}).observe(list, { childList: true });
@@ -93,6 +95,7 @@ function handleItemList(list: Element) {
 			.map((mutation) => mutation.target.parentNode)
 			.filter(isElement)
 			.map((target) => target.closest("li"))
+			.filter((li) => li !== null)
 			.forEach((item) => triggerCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS_UPDATE, { item }));
 	}).observe(list, { characterData: true, subtree: true });
 }

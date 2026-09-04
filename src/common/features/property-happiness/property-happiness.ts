@@ -29,7 +29,7 @@ async function addPropertyHappiness() {
 	await requireElement("#properties-page-wrap .properties-list .title");
 
 	for (const property of findAllElements(".properties-list > li:not(.clear):not(.tt-modified)")) {
-		const propertyID = parseInt(findElement(".image-place", property).dataset.id);
+		const propertyID = parseInt(findElement(".image-place", property).dataset.id!);
 		const apiProperty = userdata.properties.find((p) => p.id === propertyID);
 
 		property.classList.add("tt-modified");

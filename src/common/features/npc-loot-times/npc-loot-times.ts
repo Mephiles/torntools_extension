@@ -90,9 +90,10 @@ async function showNPCs() {
 	}
 
 	let hasNotScheduled = false;
-	for (const [id, npc] of Object.entries(npcs.targets).sort(([, a], [, b]) => a.order - b.order)) {
-		const status = npc.current === 0 ? "Hospital" : `Level ${npc.current}`;
-		const next = npc.current !== 5 ? npc.current + 1 : null;
+	for (const [id, npc] of Object.entries(npcs.targets).sort(([, a], [, b]) => (a.order ?? 0) - (b.order ?? 0))) {
+		const current = npc.current ?? 0;
+		const status = current === 0 ? "Hospital" : `Level ${current}`;
+		const next = current !== 5 ? current + 1 : null;
 
 		let timer: HTMLElement;
 		if (next) {

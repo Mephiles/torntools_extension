@@ -30,10 +30,10 @@ function addNerveGains() {
 		if (!item?.effect) return;
 
 		let totalNerve = parseInt(
-			item.effect
-				.split(" ")
+			item
+				.effect!.split(" ")
 				.map((x) => parseInt(x))
-				.find((x) => !Number.isNaN(x))
+				.find((x) => !Number.isNaN(x))!
 				.toString(),
 		);
 		if (!Number.isNaN(factionPerk)) totalNerve *= 1 + factionPerk / 100;

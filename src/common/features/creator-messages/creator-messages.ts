@@ -17,7 +17,7 @@ function initialiseListeners() {
 async function startCreatorMessage() {
 	const params = getHashParameters();
 	if (params?.has("XID")) {
-		const id = parseInt(params.get("XID"));
+		const id = parseInt(params.get("XID")!);
 
 		await showCreatorMessageWarning(id);
 	}

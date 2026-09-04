@@ -239,7 +239,7 @@ export async function updateUserdata(forceUpdate = false) {
 		if (newUserdata.attacks) {
 			await updateAttackHistory();
 
-			delete newUserdata.attacks;
+			delete (newUserdata as Partial<typeof newUserdata>).attacks;
 		}
 
 		if (oldUserdata.personalstats && newUserdata.personalstats) {
@@ -288,7 +288,8 @@ export async function updateUserdata(forceUpdate = false) {
 					};
 
 					if (attack.defender.id === newUserdata.profile.id) {
-						if (attack.attacker.name) attackHistory.history[enemyId].name = attack.attacker.name;
+						const attacker = attack.attacker;
+						if (attacker?.name) attackHistory.history[enemyId].name = attacker.name;
 
 						if (attack.result === "Assist") {
 							// Ignore group attacks that isn't the finishing hit
@@ -369,7 +370,7 @@ export async function updateUserdata(forceUpdate = false) {
 		if ("icons" in newUserdata) {
 			const icon85 = newUserdata.icons.find(({ id }) => id === 85);
 			if (icon85) {
-				newUserdata.userCrime = icon85.until * 1000;
+				newUserdata.userCrime = (icon85.until ?? 0) * 1000;
 			} else if (newUserdata.icons.some(({ id }) => id === 86)) {
 				newUserdata.userCrime = newUserdata.timestamp * TO_MILLIS.SECONDS;
 			} else {
@@ -616,6 +617,10 @@ export async function updateUserdata(forceUpdate = false) {
 		) {
 			const count = newUserdata.bars.chain.current;
 			const nextBonus = getNextChainBonus(count);
+			if (!nextBonus) {
+				await ttStorage.update("notifications", (notifications) => (notifications.chainCount = {}));
+				return;
+			}
 
 			for (const checkpoint of settings.notifications.types.chainBonus.slice().sort((a, b) => b - a)) {
 				const key = `${nextBonus}_${checkpoint}`;
@@ -644,8 +649,11 @@ export async function updateUserdata(forceUpdate = false) {
 			settings.notifications.types.leavingHospital.length &&
 			newUserdata.profile.status.state === "Hospital"
 		) {
+			const until = newUserdata.profile.status.until;
+			if (until === null) return;
+
 			for (const checkpoint of settings.notifications.types.leavingHospital.slice().sort((a, b) => a - b)) {
-				const timeLeft = newUserdata.profile.status.until * 1000 - now;
+				const timeLeft = until * 1000 - now;
 
 				if (timeLeft > checkpoint * TO_MILLIS.MINUTES || notifications.hospital[checkpoint]) continue;
 
@@ -667,8 +675,11 @@ export async function updateUserdata(forceUpdate = false) {
 		if (!settings.apiUsage.user.travel || !settings.notifications.types.global) return;
 
 		if (settings.notifications.types.landingEnabled && settings.notifications.types.landing.length && newUserdata.travel.time_left) {
+			const arrivalAt = newUserdata.travel.arrival_at;
+			if (arrivalAt === null) return;
+
 			for (const checkpoint of settings.notifications.types.landing.slice().sort((a, b) => a - b)) {
-				const timeLeft = newUserdata.travel.arrival_at * 1000 - now;
+				const timeLeft = arrivalAt * 1000 - now;
 
 				if (timeLeft > checkpoint * TO_MILLIS.MINUTES || notifications.travel[checkpoint]) continue;
 
@@ -769,8 +780,11 @@ export async function updateUserdata(forceUpdate = false) {
 				const ongoingMissions = contracts.filter((contract) => contract.status === "Accepted");
 
 				for (const mission of ongoingMissions) {
+					const expiresAt = mission.expires_at;
+					if (expiresAt === null) continue;
+
 					for (const checkpoint of settings.notifications.types.missionsExpire.slice().sort((a, b) => a - b)) {
-						const timeLeft = mission.expires_at * 1000 - now;
+						const timeLeft = expiresAt * 1000 - now;
 						const key = `${name}_${mission.title}_${mission.created_at}_${checkpoint}`;
 
 						if (timeLeft > checkpoint * TO_MILLIS.HOURS || notifications.missionsExpire[key]) continue;

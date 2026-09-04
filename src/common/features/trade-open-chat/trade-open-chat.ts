@@ -36,7 +36,10 @@ async function addButton() {
 }
 
 export async function getTraderID() {
-	const playerID = (await cookieStore.get("uid")).value;
+	const cookie = await cookieStore.get("uid");
+	if (!cookie) return null;
+
+	const playerID = cookie.value;
 
 	const traderLink = findElement(`#trade-container .log > li .desc a:not([href*="${playerID}"]), .info-msg-cont a:not([href*='${playerID}'])`, true);
 	const traderMatch = traderLink?.getAttribute("href")?.match(/XID=(\d*)/i);

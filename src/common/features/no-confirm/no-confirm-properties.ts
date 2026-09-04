@@ -30,7 +30,7 @@ async function startFeature() {
 		event.preventDefault();
 		event.stopPropagation();
 
-		const propertyId = parseInt(getHashParameters().get("ID"));
+		const propertyId = parseInt(getHashParameters().get("ID")!);
 
 		await sellProperty(propertyId)
 			.then((result) => {
