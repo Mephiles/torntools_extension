@@ -10,7 +10,7 @@
 	import StakeoutsTable from "./StakeoutsTable.svelte";
 
 	const amountOfRows = $derived($stakeoutsStore?.list?.length ?? 0);
-	let stakeoutId = $state<number>(null);
+	let stakeoutId = $state<number | null>(null);
 
 	async function resetStakeouts() {
 		await ttStorage.reset("stakeouts");

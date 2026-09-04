@@ -90,7 +90,7 @@ async function startFeature() {
 							selectedSpecialGym2 = value;
 						},
 						get gymsData() {
-							return gymsData;
+							return gymsData!;
 						},
 					},
 				});

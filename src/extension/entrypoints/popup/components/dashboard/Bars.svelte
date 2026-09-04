@@ -71,18 +71,18 @@
 			percent: clampPercent((current / maximum) * 100),
 			href,
 			color,
-			...getBarTimers(id, fullAt, tickAt, (bar?.interval ?? 0) * 1000, currentTime, settings?.pages?.popup?.fullBarTime),
+			...getBarTimers(id, fullAt, tickAt, (bar?.interval ?? 0) * 1000, currentTime, settings?.pages?.popup?.fullBarTime ?? false),
 		};
 	}
 
-	function getChainBar(bar: FactionOngoingChain | undefined, currentTime: number): DashboardBar | null {
+	function getChainBar(bar: FactionOngoingChain | null | undefined, currentTime: number): DashboardBar | null {
 		const current = bar?.current ?? 0;
 		if (!current) return null;
 
 		const serverTime = Math.floor(currentTime / 1000);
 		const maximum = current === bar?.max ? bar.max : (getNextChainBonus(current) ?? bar?.max ?? current);
 		const isCooldown = !!bar?.cooldown;
-		const fullAt = (serverTime + (isCooldown ? bar.cooldown : (bar?.timeout ?? 0))) * 1000;
+		const fullAt = (serverTime + (isCooldown ? bar!.cooldown : (bar?.timeout ?? 0))) * 1000;
 
 		return {
 			id: "chain",
@@ -96,11 +96,12 @@
 	}
 
 	function getTravelBar(userdata: DatabaseUserdata, currentTime: number): DashboardBar | null {
-		if (!userdata?.travel?.time_left) return null;
+		const { arrival_at, departed_at, time_left } = userdata?.travel ?? {};
+		if (!time_left || !arrival_at || !departed_at) return null;
 
-		const maximum = userdata.travel.arrival_at - userdata.travel.departed_at;
-		const current = maximum - userdata.travel.time_left;
-		const arrivalAt = userdata.travel.arrival_at * 1000;
+		const maximum = arrival_at - departed_at;
+		const current = maximum - time_left;
+		const arrivalAt = arrival_at * 1000;
 
 		return {
 			id: "traveling",

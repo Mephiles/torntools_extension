@@ -1,10 +1,8 @@
 <script lang="ts">
 	import type { TornW3BResult } from "@common/utils/functions/api.types.ts";
 	import { formatNumber, formatTime } from "@common/utils/functions/formatting";
+	import type { SortField, SortOrder } from "./bazaar-listings.types.ts";
 	import styles from "./bazaar-market.module.css";
-
-	export type SortField = "price" | "quantity";
-	export type SortOrder = "ASC" | "DESC";
 
 	interface BazaarListingsProps {
 		market: TornW3BResult;

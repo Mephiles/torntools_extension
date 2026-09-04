@@ -2040,7 +2040,7 @@ export function getRewardValue(reward: string) {
 		value = -1;
 	}
 
-	return value;
+	return value ?? -1;
 }
 
 export function getStockBoughtPrice(stock: UserStock) {
