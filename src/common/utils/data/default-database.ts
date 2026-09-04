@@ -279,6 +279,7 @@ export const DEFAULT_STORAGE = {
 			},
 			items: {
 				quickItems: new DefaultSetting("boolean", true),
+				highlightQuickItemBloodBags: new DefaultSetting("boolean", true),
 				values: new DefaultSetting("boolean", true),
 				drugDetails: new DefaultSetting("boolean", true),
 				marketLinks: new DefaultSetting("boolean", false),

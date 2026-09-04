@@ -20,7 +20,13 @@
 <div class="space-y-2">
 	<PreferenceSectionCard title="Items">
 		<PreferenceSettingGroup>
-			<StorageSwitch path="settings.pages.items.quickItems" label="Show the quick items container" />
+			<StorageSwitch path="settings.pages.items.quickItems" label="Show the quick items container">
+				<StorageSwitch
+					path="settings.pages.items.highlightQuickItemBloodBags"
+					label="Highlight blood bags in the quick items"
+					description="Also affects the faction armory quick items. Requires 'Highlight blood bags' to be configured as well."
+				/>
+			</StorageSwitch>
 			<StorageSwitch
 				path="settings.pages.items.drugDetails"
 				label="Show details about drugs"

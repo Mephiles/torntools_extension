@@ -5,11 +5,14 @@ import { elementBuilder, findParent, isElement, isHTMLElement, mobile, tablet } 
 import { findAllElements, findElement } from "@common/utils/functions/find-elements.ts";
 import { formatTime } from "@common/utils/functions/formatting.ts";
 import { createSwipeSafeClickEvents } from "@common/utils/functions/gestures.ts";
-import { getEquipPosition, getItemEnergy, getUserEnergy, isEquipable } from "@common/utils/functions/torn.ts";
+import { ALLOWED_BLOOD, getBloodType, getEquipPosition, getItemEnergy, getUserEnergy, isEquipable } from "@common/utils/functions/torn.ts";
 import { PHEye, PHPlus, PHX } from "@common/utils/icons/phosphor-icons.ts";
 import { getSpecialAction, isSpecialAction, toggleSpecialQuickOptions } from "@features/quick-items/shared/special-actions.ts";
+import "@features/highlight-blood-bags/highlight-blood-bags.css";
 import styles from "./quick-items-common.module.css";
 import "./quick-items-common.css";
+
+const IRRADIATED_BLOOD_BAG = 1012;
 
 export type QuickItem = { id: QuickItemId };
 export type QuickItemId = number | string;
@@ -353,6 +356,8 @@ export function createQuickItemsController(options: QuickItemsControllerOptions)
 			if (staticItem) {
 				wrapper.setAttribute("title", staticItem.name);
 				wrapper.appendChild(elementBuilder({ type: "div", class: styles.name, text: staticItem.name }));
+
+				highlightBloodBag(item.id, staticItem.name, wrapper);
 			} else {
 				wrapper.appendChild(elementBuilder({ type: "div", class: styles.name, text: item.id }));
 			}
@@ -366,6 +371,21 @@ export function createQuickItemsController(options: QuickItemsControllerOptions)
 		} else {
 			throw new Error("Failed to build the quick item due to a missing additional item builder.");
 		}
+	}
+
+	function highlightBloodBag(id: number, name: string, wrapper: HTMLElement) {
+		wrapper.classList.remove("good-blood", "bad-blood");
+
+		if (
+			!settings.pages.items.highlightQuickItemBloodBags ||
+			settings.pages.items.highlightBloodBags === "none" ||
+			!name.startsWith("Blood Bag : ") ||
+			id === IRRADIATED_BLOOD_BAG
+		)
+			return;
+
+		const allowedBlood: number[] = ALLOWED_BLOOD[getBloodType()] ?? [];
+		wrapper.classList.add(allowedBlood.includes(id) ? "good-blood" : "bad-blood");
 	}
 
 	async function saveQuickItems() {
