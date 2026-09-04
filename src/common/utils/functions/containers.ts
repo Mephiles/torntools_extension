@@ -32,7 +32,12 @@ interface Container {
 	collapsed: boolean;
 }
 
-export function createContainer(title: string, partialOptions: Partial<ContainerOptions> & ContainerPosition): Container {
+export function createContainer(
+	title: string,
+	partialOptions: Partial<ContainerOptions> & ContainerPosition & { onlyHeader: true },
+): Omit<Container, "content">;
+export function createContainer(title: string, partialOptions: Partial<ContainerOptions> & ContainerPosition): Container;
+export function createContainer(title: string, partialOptions: Partial<ContainerOptions> & ContainerPosition): Container | Omit<Container, "content"> {
 	const options: ContainerOptions = {
 		id: camelCase(title),
 		class: [],
@@ -64,7 +69,11 @@ export function createContainer(title: string, partialOptions: Partial<Container
 	else if ("previousElement" in options) parentElement.insertBefore(container, options.previousElement.nextSibling);
 	else parentElement.appendChild(container);
 
-	return { container, content: findElement(":scope > main", container), options: findElement(".options", container), collapsed };
+	const optionsElement = findElement(".options", container);
+
+	return options.onlyHeader
+		? { container, options: optionsElement, collapsed }
+		: { container, content: findElement(":scope > main", container), options: optionsElement, collapsed };
 
 	function _createContainer(title: string, options: ContainerOptions) {
 		findElement(`#${options.id}`, true)?.remove();
