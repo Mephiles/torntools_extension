@@ -171,6 +171,7 @@ async function addFilterContainer(rankedWarList?: Element) {
 
 			triggerCustomListener(EVENT_CHANNELS.FILTER_APPLIED, { filter: "Ranked War Filter" });
 		},
+		presets: { key: "ranked-war" },
 	});
 
 	await filter.run();
