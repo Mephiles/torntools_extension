@@ -8,7 +8,8 @@
 				{
 					"message": "Highlight blood bags matching your blood type in 'Quick Items' and 'Faction Quick Items' as well, on by default (requires 'Highlight blood bags' to be configured).",
 					"contributor": "Callz"
-				}
+				},
+				{ "message": "Filter based on username in the 'Ranked War Filter'.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [],
 			"changes": [],

@@ -3,12 +3,12 @@ import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
-import { checkboxesSection, createFilter, presetSection, sliderSection } from "@common/utils/functions/filters";
+import { checkboxesSection, createFilter, presetSection, sliderSection, textSection } from "@common/utils/functions/filters";
 import type { FilterController, SliderRange } from "@common/utils/functions/filters";
 import { findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
-import { getPageStatus } from "@common/utils/functions/torn";
+import { getPageStatus, getUsername } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 let filter: FilterController | undefined;
@@ -50,6 +50,7 @@ type RankedWarFilterState = {
 	enabled: boolean;
 	activity: string[];
 	status: string[];
+	name: string;
 	level: SliderRange;
 	statsEstimates: string[] | undefined;
 	ffScore: { min: number; max: number } | undefined;
@@ -110,6 +111,23 @@ async function addFilterContainer(rankedWarList?: Element) {
 			},
 		}),
 
+		textSection({
+			key: "name",
+			title: "Name",
+			defaultValue: filters.factionRankedWar.name,
+			test: (row, name) => {
+				if (!name) return true;
+
+				try {
+					const username = getUsername(row);
+
+					return username.name.toLowerCase().includes(name.toLowerCase());
+				} catch {
+					return true;
+				}
+			},
+		}),
+
 		presetSection({
 			preset: "stats-estimates",
 			enabled: () => settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.rankedWars && hasAPIData(),
@@ -141,6 +159,7 @@ async function addFilterContainer(rankedWarList?: Element) {
 						enabled: state.enabled,
 						activity: state.activity,
 						status: state.status,
+						name: state.name,
 						levelStart: state.level.start,
 						levelEnd: state.level.end,
 						estimates: state.statsEstimates ?? filters.factionRankedWar.estimates,

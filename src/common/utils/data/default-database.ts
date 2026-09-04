@@ -800,6 +800,7 @@ export const DEFAULT_STORAGE = {
 			enabled: new DefaultSetting("boolean", true),
 			activity: new DefaultSetting<string[]>("array", []),
 			status: new DefaultSetting<string[]>("array", []),
+			name: new DefaultSetting<string>("string", ""),
 			levelStart: new DefaultSetting("number", 1),
 			levelEnd: new DefaultSetting("number", 100),
 			estimates: new DefaultSetting<string[]>("array", []),
