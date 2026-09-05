@@ -44,13 +44,10 @@
 
 		loading = true;
 
-		Promise.all([
-			loadTornMarket(selectedItem.id),
-			showExternalMarket ? loadTornW3bMarket(selectedItem.id) : Promise.resolve<TornW3BResult>({ listings: [] }),
-		])
+		Promise.all([loadTornMarket(selectedItem.id), showExternalMarket ? loadTornW3bMarket(selectedItem.id) : Promise.resolve<TornW3BResult | null>(null)])
 			.then(([tornResult, tornW3bResult]) => {
-				itemMarket = tornResult;
-				tornW3bMarket = tornW3bResult;
+				itemMarket = tornResult ?? null;
+				tornW3bMarket = tornW3bResult ?? null;
 			})
 			.catch((err: Error) => {
 				error = err.message ?? "Unable to load market prices.";

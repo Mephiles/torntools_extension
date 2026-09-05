@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { ButtonGroupOrientation, buttonGroupVariants } from "@svelte/components/ui/button-group/helper";
+	import { buttonGroupVariants } from "@svelte/components/ui/button-group/helper";
+	import type { ButtonGroupOrientation } from "@svelte/components/ui/button-group/helper";
 	import { cn } from "@svelte/utils.js";
 	import type { WithElementRef } from "@svelte/utils.js";
 	import type { HTMLAttributes } from "svelte/elements";

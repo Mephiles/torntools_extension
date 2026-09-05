@@ -10,7 +10,7 @@
 	import { getFactionStakeoutRow, getFactionStakeoutRows, getStoredFactionStakeouts } from "./helpers";
 
 	const amountOfRows = $derived($factionStakeoutsStore?.list?.length ?? 0);
-	let factionId = $state<number>(null);
+	let factionId = $state<number | null>(null);
 
 	async function resetFactionStakeouts() {
 		await ttStorage.reset("factionStakeouts");

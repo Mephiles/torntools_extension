@@ -4,8 +4,8 @@
 	import { formatNumber } from "@common/utils/functions/formatting.ts";
 	import { readableErrorMessage } from "@common/utils/functions/utilities.ts";
 	import type { StaticItem } from "@common/utils/torn-api/items.types.ts";
+	import type { SortField, SortOrder } from "@features/bazaar-market/bazaar-listings.types.ts";
 	import BazaarListings from "@features/bazaar-market/BazaarListings.svelte";
-	import type { SortField, SortOrder } from "@features/bazaar-market/BazaarListings.svelte";
 	import { Spinner } from "@svelte/components/ui/spinner";
 	import styles from "./bazaar-market.module.css";
 
@@ -17,8 +17,8 @@
 
 	let sortField: SortField = $state("price");
 	let sortOrder: SortOrder = $state("ASC");
-	let minQuantity: number = $state();
-	let maxPrice: number = $state();
+	let minQuantity: number | undefined = $state();
+	let maxPrice: number | undefined = $state();
 	let resultLimit: number = $state(100);
 
 	let market = $derived.by(() => {

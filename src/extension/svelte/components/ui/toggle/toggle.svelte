@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { ToggleSize, ToggleVariant, toggleVariants } from "@svelte/components/ui/toggle/helper";
+	import { toggleVariants } from "@svelte/components/ui/toggle/helper";
+	import type { ToggleSize, ToggleVariant } from "@svelte/components/ui/toggle/helper";
 	import { cn } from "@svelte/utils.js";
 	import { Toggle as TogglePrimitive } from "bits-ui";
 
