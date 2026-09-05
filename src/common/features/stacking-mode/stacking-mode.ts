@@ -57,14 +57,12 @@ async function disableUsage() {
 	} else if (currentPage === "dump") {
 		await disableSection(".dump-main-page");
 	} else if (currentPage === "profiles") {
-		// Disable attacking on profile page
-		const attackBtn = await requireElement("#profileroot .profile-button-attack");
-		attackBtn.classList.add("tt-mouse-block");
-		attackBtn.appendChild(stackBlockSvg());
+		await requireElement("#profileroot .profile-button-personalStats");
 
-		const revBtn = await requireElement("#profileroot .profile-button-revive");
-		revBtn.classList.add("tt-mouse-block");
-		revBtn.appendChild(stackBlockSvg());
+		findAllElements(".profile-button-attack, .profile-button-revive").forEach((button) => {
+			button.classList.add("tt-mouse-block");
+			button.appendChild(stackBlockSvg());
+		});
 	} else if (currentPage === "hospital") {
 		await disableReviving();
 	} else if (currentPage === "abroad-people") {
