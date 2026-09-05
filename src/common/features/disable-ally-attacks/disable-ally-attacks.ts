@@ -52,7 +52,7 @@ async function disableAttackButton() {
 }
 
 function enableButton() {
-	findAllElements("#profileroot .tt-disable-ally.tt-cross").forEach((x) => x.remove());
+	findAllElements("#profileroot .tt-disable-ally").forEach((x) => x.remove());
 }
 
 export default class DisableAllyAttacksFeature extends Feature {
