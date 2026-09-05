@@ -63,6 +63,7 @@ async function highlightEgg(egg: Element) {
 	window.addEventListener("beforeunload", (event) => {
 		if (egg.isConnected) {
 			event.preventDefault();
+			// oxlint-disable-next-line typescript/no-deprecated -- legacy fallback so Chrome/Edge < 119 still show the dialog
 			event.returnValue = "Egg present.";
 		}
 	});

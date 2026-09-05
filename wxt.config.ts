@@ -89,6 +89,7 @@ export default defineConfig({
 		const manifest: UserManifest = {
 			name: "TornTools",
 			description: "Several tools for Torn.",
+			/* oxlint-disable typescript/no-deprecated -- Firefox still supports the `author` key; only Chrome/Chrome Web Store ignore it */
 			// @ts-expect-error Discouraged notation, but supported.
 			author: "Gregor Kaljulaid - Mephiles[2087524]",
 			host_permissions: ["https://torn.com/"],

@@ -139,6 +139,7 @@ export function toClipboard(text: string) {
 		document.body.appendChild(textarea);
 
 		textarea.select();
+		// oxlint-disable-next-line typescript/no-deprecated -- legacy fallback for browsers without navigator.clipboard; no modern replacement exists for this path
 		const copied = document.execCommand("copy");
 
 		textarea.remove();

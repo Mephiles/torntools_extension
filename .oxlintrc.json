@@ -74,7 +74,7 @@
 		"typescript/consistent-return": "off",
 		"typescript/consistent-type-imports": "warn",
 		"typescript/no-base-to-string": "off",
-		"typescript/no-deprecated": "allow",
+		"typescript/no-deprecated": "warn",
 		"typescript/no-empty-object-type": "off",
 		"typescript/no-explicit-any": "off",
 		"typescript/no-floating-promises": "off",
