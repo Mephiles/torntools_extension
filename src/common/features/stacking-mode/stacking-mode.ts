@@ -59,10 +59,12 @@ async function disableUsage() {
 	} else if (currentPage === "profiles") {
 		await requireElement("#profileroot .profile-button-personalStats");
 
-		findAllElements(".profile-button-attack, .profile-button-revive").forEach((button) => {
-			button.classList.add("tt-mouse-block");
-			button.appendChild(stackBlockSvg());
-		});
+		findAllElements(".profile-button-attack, .profile-button-revive")
+			.filter((button) => !button.classList.contains("cross"))
+			.forEach((button) => {
+				button.classList.add("tt-mouse-block");
+				button.appendChild(stackBlockSvg());
+			});
 	} else if (currentPage === "hospital") {
 		await disableReviving();
 	} else if (currentPage === "abroad-people") {

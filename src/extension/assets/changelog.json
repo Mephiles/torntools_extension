@@ -14,7 +14,11 @@
 			],
 			"fixes": [
 				{ "message": "Disable 'Stacking Mode' on your own profile.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors with 'Stacking Mode' if there is no revive button present.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors with 'Stacking Mode' if there is no revive button present.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Don't overlap the disabling of the revive button with 'Stacking Mode', if it's already disabled.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [],
 			"removed": [],
