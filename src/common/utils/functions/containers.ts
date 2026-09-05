@@ -34,10 +34,17 @@ interface Container {
 
 export function createContainer(
 	title: string,
+	partialOptions: Partial<ContainerOptions> & ContainerPosition & { showHeader: false },
+): Omit<Container, "options">;
+export function createContainer(
+	title: string,
 	partialOptions: Partial<ContainerOptions> & ContainerPosition & { onlyHeader: true },
 ): Omit<Container, "content">;
 export function createContainer(title: string, partialOptions: Partial<ContainerOptions> & ContainerPosition): Container;
-export function createContainer(title: string, partialOptions: Partial<ContainerOptions> & ContainerPosition): Container | Omit<Container, "content"> {
+export function createContainer(
+	title: string,
+	partialOptions: Partial<ContainerOptions> & ContainerPosition,
+): Container | Omit<Container, "content"> | Omit<Container, "options"> {
 	const options: ContainerOptions = {
 		id: camelCase(title),
 		class: [],
@@ -69,11 +76,14 @@ export function createContainer(title: string, partialOptions: Partial<Container
 	else if ("previousElement" in options) parentElement.insertBefore(container, options.previousElement.nextSibling);
 	else parentElement.appendChild(container);
 
-	const optionsElement = findElement(".options", container);
+	if (options.onlyHeader) {
+		return { container, options: findElement(".options", container), collapsed };
+	}
+	if (!options.showHeader) {
+		return { container, content: findElement(":scope > main", container), collapsed };
+	}
 
-	return options.onlyHeader
-		? { container, options: optionsElement, collapsed }
-		: { container, content: findElement(":scope > main", container), options: optionsElement, collapsed };
+	return { container, content: findElement(":scope > main", container), options: findElement(".options", container), collapsed };
 
 	function _createContainer(title: string, options: ContainerOptions) {
 		findElement(`#${options.id}`, true)?.remove();
@@ -120,7 +130,7 @@ export function createContainer(title: string, partialOptions: Partial<Container
 			container.appendChild(elementBuilder({ type: "main", class: mainClasses }));
 		}
 
-		if (options.collapsible) {
+		if (options.collapsible && options.showHeader) {
 			findElement(".title", container).addEventListener("click", async () => {
 				findElement(".title", container).classList.toggle("collapsed");
 
