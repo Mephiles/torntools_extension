@@ -78,7 +78,12 @@ export function elementBuilder<K extends keyof HTMLElementTagNameMap>(options: K
 			.filter((entry): entry is [string, EventListener] => !!entry)
 			.forEach(([event, handler]) => newElement.addEventListener(event, handler));
 
-		Object.entries(options.style || {}).forEach(([key, value]) => newElement.style.setProperty(key, value));
+		Object.entries(options.style || {}).forEach(([key, value]) =>
+			newElement.style.setProperty(
+				key.replaceAll(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`),
+				value,
+			),
+		);
 		Object.entries(options.dataset || {}).forEach(([key, value]) => {
 			if (typeof value === "object") newElement.dataset[key] = JSON.stringify(value);
 			else newElement.dataset[key] = value.toString();
