@@ -251,8 +251,6 @@ export type TornW3BResult = {
 	}[];
 };
 
-export type TornDirectPostItemResult = { success: false; text: string };
-
 export interface PrometheusTravelResponse {
 	stocks: {
 		[country: string]: {

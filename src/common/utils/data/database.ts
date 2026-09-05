@@ -358,10 +358,6 @@ export function setFactiondata(data: DatabaseFactiondata) {
 	factiondata = data;
 }
 
-export function setFactionStakeouts(data: DatabaseFactionStakeouts) {
-	factionStakeouts = data;
-}
-
 export function setTorndata(data: DatabaseTorndata) {
 	torndata = data;
 }

@@ -161,10 +161,6 @@ export default class StocksFilterFeature extends Feature {
 		await addFilterContainer();
 	}
 
-	cleanup() {
-		filter?.dispose();
-	}
-
 	override storageKeys() {
 		return ["settings.pages.stocks.filter"];
 	}

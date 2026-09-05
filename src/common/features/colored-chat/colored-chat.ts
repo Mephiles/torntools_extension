@@ -81,8 +81,8 @@ export default class ColoredChatFeature extends Feature {
 		return !!settings.pages.chat.titleHighlights.length;
 	}
 
-	override initialise() {
-		initialiseColoredChats();
+	override async initialise() {
+		await initialiseColoredChats();
 	}
 
 	override async execute() {

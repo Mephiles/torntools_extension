@@ -41,7 +41,7 @@ function createGymContentManager(gymsDataFn: () => SpecialGymsCalcResult) {
 			const component = statInfoComponentsMap[statName];
 
 			if (component) {
-				unmount(component);
+				void unmount(component);
 			}
 		}
 

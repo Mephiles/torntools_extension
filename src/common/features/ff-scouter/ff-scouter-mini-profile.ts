@@ -11,7 +11,7 @@ import type { ScouterResult, ScouterService } from "@features/ff-scouter/ff-scou
 let SCOUTER_SERVICE: ScouterService;
 
 function initialiseMiniProfile() {
-	addFetchListener((event) => {
+	addFetchListener(async (event) => {
 		if (!FEATURE_MANAGER.isEnabled(FFScouterMiniProfileFeature)) return;
 
 		const {
@@ -25,7 +25,7 @@ function initialiseMiniProfile() {
 		const sid = params.get("sid");
 		if (sid !== "UserMiniProfile") return;
 
-		showFF(json);
+		await showFF(json);
 	});
 }
 

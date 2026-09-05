@@ -2597,10 +2597,6 @@ export const RANKS: Record<string, number> = {
 	Invincible: 26,
 };
 
-export function isDarkTheme() {
-	return document.body.classList.contains("dark-mode");
-}
-
 /*
  * XID extraction
  */

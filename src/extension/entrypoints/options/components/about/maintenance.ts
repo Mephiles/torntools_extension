@@ -15,7 +15,7 @@ export async function runMaintenanceAction(action: MaintenanceAction) {
 			toast.success("Cleared cache.");
 		} else {
 			const result = await BACKGROUND_SERVICE.forceUpdate(action);
-			if (result.success === false) {
+			if (!result.success) {
 				toast.error("message" in result ? result.message : getActionError(result.error, `Failed to fetch ${action}.`));
 			} else {
 				await loadDatabase(true);

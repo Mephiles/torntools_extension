@@ -85,6 +85,7 @@ export default defineConfig({
 		},
 	},
 	manifest: ({ browser }): UserManifest => {
+		// noinspection JSDeprecatedSymbols
 		const manifest: UserManifest = {
 			name: "TornTools",
 			description: "Several tools for Torn.",

@@ -27,7 +27,6 @@ import PHFillInfoData from "@phosphor-icons/core/fill/info-fill.svg";
 import PHFillPlusData from "@phosphor-icons/core/fill/plus-fill.svg";
 import PHFillStethoscopeData from "@phosphor-icons/core/fill/stethoscope-fill.svg";
 import PHFillTableData from "@phosphor-icons/core/fill/table-fill.svg";
-import PHCaretDownData from "@phosphor-icons/core/regular/caret-down.svg";
 import PHEyeSlashData from "@phosphor-icons/core/regular/eye-slash.svg";
 import PHEyeData from "@phosphor-icons/core/regular/eye.svg";
 import PHPencilSimpleData from "@phosphor-icons/core/regular/pencil-simple.svg";
@@ -46,7 +45,6 @@ const lazyImport = (svgData: string): SVGFactory => {
 	};
 };
 
-export const PHCaretDown = lazyImport(PHCaretDownData);
 export const PHEye = lazyImport(PHEyeData);
 export const PHEyeSlash = lazyImport(PHEyeSlashData);
 export const PHPlus = lazyImport(PHPlusData);

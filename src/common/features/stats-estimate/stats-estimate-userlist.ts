@@ -13,10 +13,10 @@ const statsEstimate = new StatsEstimate("Userlist", true);
 let triggerFilter: number | undefined;
 
 function registerListeners() {
-	addCustomListener(EVENT_CHANNELS.USERLIST_SWITCH_PAGE, () => {
+	addCustomListener(EVENT_CHANNELS.USERLIST_SWITCH_PAGE, async () => {
 		if (!FEATURE_MANAGER.isEnabled(StatsEstimateUserlistFeature) || settings.pages.userlist.filter) return;
 
-		showEstimates();
+		await showEstimates();
 	});
 	addCustomListener(EVENT_CHANNELS.FILTER_APPLIED, () => {
 		if (!FEATURE_MANAGER.isEnabled(StatsEstimateUserlistFeature)) return;

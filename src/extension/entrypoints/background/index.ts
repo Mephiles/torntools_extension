@@ -36,7 +36,7 @@ function registerShowIconBarsListener() {
 
 async function onInstall() {
 	await migrateDatabase(true);
-	initializeDatabase();
+	void initializeDatabase();
 	void checkUpdate();
 
 	initializeBackoff();
@@ -67,7 +67,7 @@ async function checkUpdate() {
 
 async function onStartup() {
 	await migrateDatabase(false);
-	initializeDatabase();
+	void initializeDatabase();
 	void checkUpdate();
 
 	initializeBackoff();

@@ -75,11 +75,6 @@ export async function setupTravelAbroadPage() {
 	});
 }
 
-export interface TravelAbroadShopLoadDetails {
-	items: AbroadItem[];
-	country: string;
-}
-
 export async function markTravelTableColumns() {
 	findAllElements("[class*='itemsHeader___'] > *:not([data-tt-content-type])").forEach((header) => {
 		let contentType: string;

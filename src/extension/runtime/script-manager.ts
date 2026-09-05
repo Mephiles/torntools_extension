@@ -247,7 +247,7 @@ import WeaponBonusInformationFeature from "@features/weapon-bonus-information/we
 import WeaponExperienceFeature from "@features/weapon-experience/weapon-experience";
 
 export function scriptManager() {
-	initializeDatabase();
+	void initializeDatabase();
 
 	/*
 	 * Feature Management

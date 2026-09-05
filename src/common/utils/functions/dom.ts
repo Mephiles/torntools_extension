@@ -365,17 +365,6 @@ export function executeScript(filename: string, remove = true, unique = false) {
 	});
 }
 
-export function updateQuery(key: string, value: string) {
-	if (history.pushState) {
-		const url = new URL(location.href);
-		const params = url.searchParams;
-
-		params.set(key, value);
-
-		history.pushState({ path: url.toString() }, "", url.toString());
-	}
-}
-
 export async function addInformationSection() {
 	if (findElement(".tt-sidebar-information", true)) return;
 

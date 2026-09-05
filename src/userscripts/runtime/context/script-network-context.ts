@@ -36,7 +36,7 @@ const ScriptDataFetcher: DataFetcher = {
 				url = u.toString();
 			} catch {}
 
-			GM.xmlHttpRequest({
+			void GM.xmlHttpRequest({
 				method: options?.method || "GET",
 				url,
 				headers: options?.headers,

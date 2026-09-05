@@ -238,7 +238,3 @@ export class StatsEstimate {
 		return estimate;
 	}
 }
-
-export function hasStatsEstimatesLoaded(name: string) {
-	return name in ESTIMATE_INSTANCES && !ESTIMATE_INSTANCES[name].running;
-}

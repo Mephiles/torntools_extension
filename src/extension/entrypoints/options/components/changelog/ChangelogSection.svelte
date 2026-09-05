@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { capitalizeText } from "@common/utils/functions/formatting";
-	import type { DisplayableLog } from "../../../../utils/changelog";
+	import type { DisplayableLog } from "@/utils/changelog.ts";
 
 	export let title: string;
 	export let logs: DisplayableLog[];

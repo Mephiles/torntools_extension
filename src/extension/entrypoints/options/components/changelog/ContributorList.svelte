@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Contributor } from "../../../../utils/changelog";
+	import type { Contributor } from "@/utils/changelog.ts";
 
 	export let contributors: Contributor[];
 </script>
