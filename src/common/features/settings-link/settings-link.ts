@@ -32,7 +32,7 @@ async function addLink() {
 			type: "div",
 			class: ["tt-settings", "pill"],
 			children: [torntools(), elementBuilder({ type: "span", text: "TornTools Settings" })],
-			attributes: { icon: "" },
+			dataset: { icon: "" },
 			events: {
 				click: generateFrame,
 			},

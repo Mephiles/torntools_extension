@@ -77,7 +77,7 @@ async function addLastAction(force: boolean) {
 			type: "div",
 			class: "tt-last-action",
 			text: `Last action: ${member.last_action.relative}`,
-			attributes: {
+			dataset: {
 				hours: hours,
 			},
 		});
@@ -86,7 +86,7 @@ async function addLastAction(force: boolean) {
 		row.insertAdjacentElement("afterend", element);
 		if (hours > maxHours) maxHours = hours;
 	});
-	list.setAttribute("max-hours", maxHours.toString());
+	list.dataset.maxHours = maxHours.toString();
 
 	async function loadMembers(id: number | "own") {
 		if (!_members) {

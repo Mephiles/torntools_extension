@@ -64,19 +64,19 @@ body.dark-mode #tt-page-status .tt-features-list {
 }
 
 /* Show error count, if any */
-#tt-page-status:not([error-count="0"])::before {
+#tt-page-status:not([data-error-count="0"])::before {
 	top: 3px;
 	right: 1px;
 	position: absolute;
 	padding: 2px 4px;
 	background-color: #d90000;
-	content: attr(error-count);
+	content: attr(data-error-count);
 	border-radius: 100%;
 }
 
 /* Hide disabled && Show failed only */
-#tt-page-status.hide-disabled .tt-features-list .tt-feature[status="disabled"],
-#tt-page-status.only-fails .tt-features-list .tt-feature:not([status="failed"]) {
+#tt-page-status.hide-disabled .tt-features-list .tt-feature[data-status="disabled"],
+#tt-page-status.only-fails .tt-features-list .tt-feature:not([data-status="failed"]) {
 	display: none;
 }
 
@@ -143,7 +143,7 @@ body.dark-mode #tt-page-status .tt-features-list {
 }
 
 /* General padding for icons & features  */
-#tt-page-status .tt-features-list div[scope] > div:first-child {
+#tt-page-status .tt-features-list div[data-scope] > div:first-child {
 	border-bottom: 2px solid lightgray;
 	font-weight: bold;
 	padding-bottom: 3px;
@@ -158,23 +158,23 @@ body.dark-mode #tt-page-status .tt-features-list {
 	display: flex;
 	gap: 3px;
 
-	&[status="disabled"] svg {
+	&[data-status="disabled"] svg {
 		color: var(--tt-color-orange);
 	}
 
-	&[status="failed"] svg {
+	&[data-status="failed"] svg {
 		color: var(--tt-color-red);
 	}
 
-	&[status="loaded"] svg {
+	&[data-status="loaded"] svg {
 		color: var(--tt-color-green);
 	}
 
-	&[status="information"] svg {
+	&[data-status="information"] svg {
 		color: var(--tt-color-blue);
 	}
 }
 
-#tt-page-status div[scope].no-content {
+#tt-page-status div[data-scope].no-content {
 	display: none;
 }

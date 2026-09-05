@@ -5,7 +5,7 @@ import { ttCache } from "@common/utils/data/cache";
 import { filters, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
-import { isElement } from "@common/utils/functions/dom";
+import { isHTMLElement } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import {
 	checkboxesSection,
@@ -88,7 +88,7 @@ async function enableLastAction() {
 	if (lastActionState) return;
 
 	await requireElement(".members-list .table-body.tt-modified > .tt-last-action");
-	lastActionMax = parseInt(findElement(".members-list .table-body.tt-modified").getAttribute("max-hours")!) || 1000;
+	lastActionMax = parseInt(findElement(".members-list .table-body.tt-modified").dataset.maxHours!) || 1000;
 	lastActionState = true;
 	filter?.rerenderSections();
 }
@@ -196,9 +196,9 @@ async function addFilterContainer() {
 				if (!lastActionState) return true;
 
 				const nextRow = row.nextElementSibling;
-				if (!isElement(nextRow) || !nextRow.className.includes("tt-last-action")) return true;
+				if (!isHTMLElement(nextRow) || !nextRow.className.includes("tt-last-action")) return true;
 
-				const hours = parseInt(nextRow.getAttribute("hours")!);
+				const hours = parseInt(nextRow.dataset.hours!);
 				if (range.start && hours < range.start) return false;
 				if (range.end !== -1 && hours > range.end) return false;
 

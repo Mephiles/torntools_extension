@@ -130,8 +130,10 @@ async function showNetworth() {
 	const infoIcon = elementBuilder({
 		type: "i",
 		class: "networth-info-icon",
-		attributes: {
+		dataset: {
 			updatedAt: userdata.networth.timestamp,
+		},
+		attributes: {
 			title: `Last updated ${formatTime({ seconds: userdata.networth.timestamp }, { type: "ago" })}`,
 			style: "margin-left: 9px;",
 		},
@@ -143,7 +145,7 @@ async function showNetworth() {
 	setInterval(() => {
 		if (infoIcon.hasAttribute("aria-describedby")) return;
 
-		const updated = parseInt(infoIcon.getAttribute("updatedAt")!);
+		const updated = parseInt(infoIcon.dataset.updatedAt!);
 
 		infoIcon.setAttribute("title", `Last updated: ${formatTime({ seconds: updated }, { type: "ago" })}`);
 	}, 1000);

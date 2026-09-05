@@ -44,7 +44,7 @@ function showLastAction() {
 
 		row.insertAdjacentElement(
 			"afterend",
-			elementBuilder({ type: "div", class: "tt-oc-last-action", text: `Last action: ${relative}`, attributes: { hours } }),
+			elementBuilder({ type: "div", class: "tt-oc-last-action", text: `Last action: ${relative}`, dataset: { hours } }),
 		);
 	}
 }

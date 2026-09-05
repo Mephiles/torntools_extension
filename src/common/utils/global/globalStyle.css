@@ -272,14 +272,14 @@
 	text-decoration: none;
 }
 
-#sidebarroot .pill:not([icon]) {
+#sidebarroot .pill:not([data-icon]) {
 	padding-top: 5px;
 	padding-bottom: 5px;
 	box-sizing: border-box;
 }
 
-#sidebarroot .pill:not([icon]),
-#sidebarroot .pill[icon] span {
+#sidebarroot .pill:not([data-icon]),
+#sidebarroot .pill[data-icon] span {
 	height: 100%;
 	justify-content: flex-start;
 	padding-left: 8px;

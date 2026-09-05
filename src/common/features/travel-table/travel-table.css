@@ -61,7 +61,7 @@
 	.table-type-wrap {
 		margin-right: 10px;
 
-		span[type] {
+		span[data-type] {
 			cursor: pointer;
 
 			&.active {

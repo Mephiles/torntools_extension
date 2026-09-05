@@ -1,10 +1,8 @@
 import "./dom.css";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements.ts";
 import { requireCondition, requireDOMInteractive, requireElement } from "@common/utils/functions/requires";
-import { getUUID } from "@common/utils/functions/utilities";
 import { PHFillCaretDown, PHFillCaretUp } from "@common/utils/icons/phosphor-icons";
 
-export const rotatingElements: Record<string, { interval: number; totalDegrees: number }> = {};
 export let mobile: boolean, tablet: boolean, hasSidebar: boolean, tabletHorizontal: boolean, tabletVertical: boolean;
 
 interface ElementBuilderOptions {
@@ -179,41 +177,6 @@ export function findParent(element: Node | undefined | null, partialOptions: Par
 	return findParent(element.parentElement, { ...options, currentAttempt: (options.currentAttempt ?? 0) + 1 });
 }
 
-export function rotateElement(element: HTMLElement | SVGElement, degrees: number) {
-	let uuid: string;
-	if (element.hasAttribute("rotate-id")) uuid = element.getAttribute("rotate-id")!;
-	else {
-		uuid = getUUID();
-		element.setAttribute("rotate-id", uuid);
-	}
-
-	if (rotatingElements[uuid]) {
-		clearInterval(rotatingElements[uuid].interval);
-		element.style.transform = `rotate(${rotatingElements[uuid].totalDegrees}deg)`;
-	}
-
-	const startDegrees = (element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0) % 360;
-	element.style.transform = `rotate(${startDegrees}deg)`;
-
-	const totalDegrees = startDegrees + degrees;
-	const step = 1000 / degrees;
-
-	rotatingElements[uuid] = {
-		interval: setInterval(() => {
-			const currentRotation = element.style.transform ? parseInt(element.style.transform.replace("rotate(", "").replace("deg)", "")) : 0;
-			let newRotation = currentRotation + step;
-
-			if (currentRotation < totalDegrees && newRotation > totalDegrees) {
-				newRotation = totalDegrees;
-				clearInterval(rotatingElements[uuid].interval);
-			}
-
-			element.style.transform = `rotate(${newRotation}deg)`;
-		}, 1),
-		totalDegrees,
-	};
-}
-
 type TableSortOrder = "asc" | "desc" | "none";
 
 export function sortTable(table: HTMLElement, columnPlace: number, order?: TableSortOrder) {
@@ -302,11 +265,11 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 			elementB = findElement(`:scope > *:nth-child(${columnPlace})`, elementB);
 
 			let valueA: string, valueB: string;
-			if (elementA.hasAttribute("sort-type")) {
-				switch (elementA.getAttribute("sort-type")) {
+			if (elementA.dataset.sortType) {
+				switch (elementA.dataset.sortType) {
 					case "date":
-						valueA = elementA.getAttribute("value")!;
-						valueB = elementB.getAttribute("value")!;
+						valueA = elementA.dataset.value!;
+						valueB = elementB.dataset.value!;
 
 						if (Date.parse(valueA)) valueA = Date.parse(valueA).toString();
 						if (Date.parse(valueB)) valueB = Date.parse(valueB).toString();
@@ -326,12 +289,12 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 							]!;
 						break;
 					default:
-						console.warn("Attempting to sort by a non-existing type.", elementA.getAttribute("sort-type"));
+						console.warn("Attempting to sort by a non-existing type.", elementA.dataset.sortType);
 						return { a: 0, b: 0 }; // Keep original sorting order this way.
 				}
-			} else if (elementA.hasAttribute("value")) {
-				valueA = elementA.getAttribute("value")!;
-				valueB = elementB.getAttribute("value")!;
+			} else if (elementA.dataset.value !== undefined) {
+				valueA = elementA.dataset.value;
+				valueB = elementB.dataset.value!;
 			} else {
 				valueA = elementA.textContent;
 				valueB = elementB.textContent;

@@ -109,10 +109,10 @@ export class ExtensionFeatureManager implements FeatureManager {
 		if (!this.container) {
 			this.earlyErrors.push(error);
 		} else if (this.errorCount <= 25) {
-			this.container.setAttribute("error-count", this.errorCount.toString());
+			this.container.dataset.errorCount = this.errorCount.toString();
 			this.addErrorToPopup(error).catch((err) => console.error(err));
 		} else {
-			this.container.setAttribute("error-count", "25+");
+			this.container.dataset.errorCount = "25+";
 		}
 	}
 
@@ -142,7 +142,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 	private async addErrorToPopup(error: any) {
 		if (!this.container) return;
 
-		this.container.setAttribute("error-count", this.errorCount.toString());
+		this.container.dataset.errorCount = this.errorCount.toString();
 
 		let errorElement: HTMLElement;
 		if (error != null && typeof error === "object") {
@@ -343,9 +343,9 @@ export class ExtensionFeatureManager implements FeatureManager {
 			const container = this.container;
 			if (!container) return;
 
-			let row = findElement(`[feature-name="${feature.name}"]`, container, true);
+			let row = findElement(`[data-feature-name="${feature.name}"]`, container, true);
 			if (row) {
-				row.setAttribute("status", status);
+				row.dataset.status = status;
 
 				const statusIcon = findElement("svg", row);
 				const newIcon = getIconElement(status);
@@ -357,15 +357,15 @@ export class ExtensionFeatureManager implements FeatureManager {
 				row = elementBuilder({
 					type: "div",
 					class: "tt-feature",
-					attributes: { "feature-name": feature.name, status: status },
+					dataset: { featureName: feature.name, status: status },
 					children: [getIconElement(status), elementBuilder({ type: "span", text: feature.name })],
 				});
 
-				let scopeEl = findElement(`[scope*="${feature.scope}"]`, container, true);
+				let scopeEl = findElement(`[data-scope*="${feature.scope}"]`, container, true);
 				if (!scopeEl) {
 					scopeEl = elementBuilder({
 						type: "div",
-						attributes: { scope: feature.scope },
+						dataset: { scope: feature.scope },
 						children: [elementBuilder({ type: "div", text: `— ${feature.scope} —` })],
 					});
 					findElement(".tt-features-list", container).appendChild(scopeEl);
@@ -415,7 +415,9 @@ export class ExtensionFeatureManager implements FeatureManager {
 			id: this.containerID,
 			attributes: {
 				tabindex: "0", // To make :focus-within working on div elements
-				"error-count": "0",
+			},
+			dataset: {
+				errorCount: "0",
 			},
 			children: [
 				elementBuilder({
@@ -486,14 +488,14 @@ export class ExtensionFeatureManager implements FeatureManager {
 	hideEmptyScopes() {
 		if (!settings.featureDisplay) return;
 
-		findAllElements(".tt-features-list > div[scope]", this.container!).forEach((scopeDiv) => {
+		findAllElements(".tt-features-list > div[data-scope]", this.container!).forEach((scopeDiv) => {
 			let hideScope = false;
-			if (settings.featureDisplayOnlyFailed && findAllElements(":scope > .tt-feature[status*='failed']", scopeDiv).length === 0) hideScope = true;
-			if (settings.featureDisplayHideDisabled && findAllElements(":scope > .tt-feature:not([status*='disabled'])", scopeDiv).length === 0)
+			if (settings.featureDisplayOnlyFailed && findAllElements(":scope > .tt-feature[data-status*='failed']", scopeDiv).length === 0) hideScope = true;
+			if (settings.featureDisplayHideDisabled && findAllElements(":scope > .tt-feature:not([data-status*='disabled'])", scopeDiv).length === 0)
 				hideScope = true;
 			scopeDiv.classList[hideScope ? "add" : "remove"]("no-content");
 		});
-		if (!findElement(".tt-features-list > div[scope]:not(.no-content)", this.container!, true)) this.container!.classList.add("no-content");
+		if (!findElement(".tt-features-list > div[data-scope]:not(.no-content)", this.container!, true)) this.container!.classList.add("no-content");
 		else this.container!.classList.remove("no-content");
 	}
 

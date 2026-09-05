@@ -86,7 +86,7 @@ async function showUpgrades() {
 		if (findElement(`.pm-items .bought[data-part="${part}"]`, true)) return;
 
 		const color = `#${(Math.random() * 0xfffff * 1000000).toString(16).slice(0, 6)}`;
-		needed.push(`<span class="tt-race-upgrade-needed" part="${part}" style="color: ${color};">${part}</span>`);
+		needed.push(`<span class="tt-race-upgrade-needed" data-part="${part}" style="color: ${color};">${part}</span>`);
 
 		let category: string | undefined;
 		for (const item of findAllElements(`.pm-items .unlock[data-part="${part}"]`)) {
@@ -186,7 +186,7 @@ function cleanUpgrade(unlockElement: HTMLElement, part: string | null) {
 		findElement(".tt-race-upgrades").remove();
 	}
 
-	const neededUpgrade = findElement(`.tt-race-upgrade-needed[part="${part}"]`, true);
+	const neededUpgrade = findElement(`.tt-race-upgrade-needed[data-part="${part}"]`, true);
 	if (neededUpgrade) {
 		if (neededUpgrade.nextElementSibling?.classList.contains("separator")) neededUpgrade.nextElementSibling.remove();
 		neededUpgrade.remove();
