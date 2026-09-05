@@ -12,7 +12,7 @@
 				{ "message": "Filter based on username in the 'Ranked War Filter'.", "contributor": "DeKleineKobini" },
 				{ "message": "Allow presets to be used for 'Ranked War Filter'.", "contributor": "DeKleineKobini" }
 			],
-			"fixes": [],
+			"fixes": [{ "message": "Disable 'Stacking Mode' on your own profile.", "contributor": "DeKleineKobini" }],
 			"changes": [],
 			"removed": [],
 			"technical": [

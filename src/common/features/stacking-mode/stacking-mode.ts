@@ -6,7 +6,7 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
-import { getPage } from "@common/utils/functions/torn";
+import { getPage, isOwnProfile } from "@common/utils/functions/torn";
 import { crossSvg } from "@common/utils/icons/cross";
 import { Feature } from "@features/feature";
 
@@ -113,6 +113,10 @@ function stackBlockSvg(customClass?: string) {
 export default class StackingModeFeature extends Feature {
 	constructor() {
 		super("Stacking Mode", "global");
+	}
+
+	override precondition() {
+		return getPage() !== "profiles" || !isOwnProfile();
 	}
 
 	override isEnabled(): boolean {
