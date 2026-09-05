@@ -122,7 +122,7 @@ export async function setupFactionsPage() {
 
 		async function loadArmory() {
 			const tab = await requireElement("#faction-armoury-tabs > ul.torn-tabs > li[aria-selected='true']");
-			await requireElement(":scope > .ajax-preloader", { invert: true, parent: findElement(`#${tab.getAttribute("aria-controls")}`) });
+			await requireElement(":scope > .ajax-preloader", { invert: true, parent: findElement(`[id='${tab.getAttribute("aria-controls")}']`) });
 
 			const section = getCurrentSection();
 			if (!section) return;
