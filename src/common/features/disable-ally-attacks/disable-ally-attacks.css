@@ -1,7 +1,8 @@
 .tt-disable-ally {
-	width: 35px;
-	height: 35px;
+	width: 48px;
+	height: 48px;
 	position: absolute;
+	color: var(--tt-color-item-text);
 }
 
 .tt-disable-ally-attack {

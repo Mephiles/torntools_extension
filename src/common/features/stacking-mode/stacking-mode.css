@@ -8,22 +8,35 @@
 
 .tt-mouse-block {
 	pointer-events: none;
+
+	&.profile-button-attack,
+	&.profile-button-revive {
+		position: relative;
+	}
 }
 
-.tt-stacking.tt-cross {
-	transform: translate(5px, -43px);
-}
+.tt-stacking {
+	color: var(--tt-color-item-text);
 
-#profile-mini-root .tt-stacking.tt-cross {
-	margin-top: 1px;
-}
+	&.tt-revive-block {
+		font-size: 32px;
+		position: absolute;
+		left: -5px;
+		top: -5px;
+	}
 
-.tt-stacking.tt-revive-block {
-	transform: translateY(-24px);
-}
+	&.tt-attack-block {
+		position: absolute;
+		margin-left: -2.3%;
+		transform: none;
+	}
 
-.tt-stacking.tt-attack-block {
-	position: absolute;
-	margin-left: -2.3%;
-	transform: none;
+	&.stack-profile-block {
+		width: 48px;
+		height: 48px;
+		position: absolute;
+		color: var(--tt-color-item-text);
+		left: 0;
+		top: 0;
+	}
 }

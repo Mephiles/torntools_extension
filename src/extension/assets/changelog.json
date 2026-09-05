@@ -18,9 +18,10 @@
 				{
 					"message": "Don't overlap the disabling of the revive button with 'Stacking Mode', if it's already disabled.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Resolve the 'Stacking Mode' icons not showing up properly.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [],
+			"changes": [{ "message": "Switch to a different cross icon.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": [
 				{ "message": "Use a custom helper function for finding single elements, as part of the TypeScript journey.", "contributor": "DeKleineKobini" },

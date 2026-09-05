@@ -7,7 +7,7 @@ import { findAllElements, findElement } from "@common/utils/functions/find-eleme
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPage, isOwnProfile } from "@common/utils/functions/torn";
-import { crossSvg } from "@common/utils/icons/cross";
+import { PHX } from "@common/utils/icons/phosphor-icons.ts";
 import { Feature } from "@features/feature";
 
 let currentPage: string;
@@ -21,20 +21,20 @@ function registerListeners() {
 		if (!FEATURE_MANAGER.isEnabled(StackingModeFeature)) return;
 
 		const { page, fetch } = event.detail;
-		if (page !== "profiles") return;
+		if (page !== "page") return;
 
-		const step = new URL(fetch.url).searchParams.get("step");
-		if (step !== "getUserNameContextMenu") return;
+		const sid = new URL(fetch.url).searchParams.get("sid");
+		if (sid !== "UserMiniProfile") return;
 
 		const miniProfile = await requireElement("#profile-mini-root .mini-profile-wrapper");
 		const attackButton = await requireElement(".profile-button-attack", { parent: miniProfile });
 		attackButton.classList.add("tt-mouse-block");
-		attackButton.appendChild(stackBlockSvg());
+		attackButton.appendChild(stackBlockSvg("stack-profile-block"));
 
 		if (findElement(".profile-container", miniProfile).classList.contains("hospital")) {
 			const reviveButton = await requireElement(".profile-button-revive", { parent: miniProfile });
 			reviveButton.classList.add("tt-mouse-block");
-			reviveButton.appendChild(stackBlockSvg());
+			reviveButton.appendChild(stackBlockSvg("stack-profile-block"));
 		}
 	});
 }
@@ -63,7 +63,7 @@ async function disableUsage() {
 			.filter((button) => !button.classList.contains("cross"))
 			.forEach((button) => {
 				button.classList.add("tt-mouse-block");
-				button.appendChild(stackBlockSvg());
+				button.appendChild(stackBlockSvg("stack-profile-block"));
 			});
 	} else if (currentPage === "hospital") {
 		await disableReviving();
@@ -97,14 +97,14 @@ async function disableUsage() {
 
 async function disableReviving() {
 	await requireElement(".user-info-list-wrap > li .user.name");
-	findAllElements("a.revive:not(.reviveNotAvailable)").forEach((btn) => {
-		btn.classList.add("tt-mouse-block");
-		btn.appendChild(stackBlockSvg("tt-revive-block"));
+	findAllElements("a.revive:not(.reviveNotAvailable)").forEach((button) => {
+		button.classList.add("tt-mouse-block");
+		findElement(".revive-icon", button).appendChild(stackBlockSvg("tt-revive-block"));
 	});
 }
 
 function stackBlockSvg(customClass?: string) {
-	const svg = crossSvg();
+	const svg = PHX();
 	svg.classList.add("tt-stacking");
 	if (customClass) svg.classList.add(customClass);
 	return svg;

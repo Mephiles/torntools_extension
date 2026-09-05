@@ -7,7 +7,7 @@ import { convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isOwnProfile } from "@common/utils/functions/torn";
 import { isIntNumber } from "@common/utils/functions/utilities";
-import { crossSvg } from "@common/utils/icons/cross";
+import { PHX } from "@common/utils/icons/phosphor-icons.ts";
 import { Feature } from "@features/feature";
 
 async function startObserver() {
@@ -44,7 +44,7 @@ async function disableAttackButton() {
 		const attackButton = findElement(".profile-buttons .profile-button-attack", true);
 		if (!attackButton || attackButton.classList.contains("cross")) return;
 
-		const crossSvgNode = crossSvg();
+		const crossSvgNode = PHX();
 		crossSvgNode.classList.add("tt-disable-ally");
 		attackButton.insertAdjacentElement("beforeend", crossSvgNode);
 		crossSvgNode.addEventListener("click", listenerFunction, { capture: true });
