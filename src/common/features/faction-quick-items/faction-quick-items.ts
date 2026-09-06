@@ -54,7 +54,7 @@ function addListener() {
 	addCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, async ({ section }) => {
 		if (!FEATURE_MANAGER.isEnabled(FactionQuickItemsFeature)) return;
 
-		if (["medical", "drugs", "boosters", "points", "donate", "consumables", "loot", "utilities"].includes(section)) {
+		if (["medical", "drugs", "boosters", "points", "donate", "consumables", "loot"].includes(section)) {
 			await showQuickItems(section);
 			setupQuickDragListeners();
 			controller?.refreshEditListeners();
@@ -78,9 +78,7 @@ async function showQuickItems(section: string) {
 		savedItems: () => quick.factionItems,
 		getOverlayItems: () => [
 			...findAllElements("#faction-armoury-tabs .torn-tabs > li").filter((category) =>
-				["Medical", "Drugs", "Boosters", "Points", "Consumables", "Loot", "Utilities"].includes(
-					findElement("a.ui-tabs-anchor", category).textContent.trim(),
-				),
+				["Medical", "Drugs", "Boosters", "Points", "Consumables", "Loot"].includes(findElement("a.ui-tabs-anchor", category).textContent.trim()),
 			),
 			...findAllElements(
 				".armoury-medical-wrap, .armoury-drugs-wrap, .armoury-boosters-wrap, .armoury-points-wrap, .armoury-consumables-wrap, .armoury-temporary-wrap",
