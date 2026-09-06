@@ -803,6 +803,7 @@ export const DEFAULT_STORAGE = {
 			name: new DefaultSetting<string>("string", ""),
 			levelStart: new DefaultSetting("number", 1),
 			levelEnd: new DefaultSetting("number", 100),
+			side: new DefaultSetting("string", "both"),
 			estimates: new DefaultSetting<string[]>("array", []),
 			ffScoreMax: new DefaultSetting<number>("number", null),
 			ffScoreMin: new DefaultSetting<number>("number", null),

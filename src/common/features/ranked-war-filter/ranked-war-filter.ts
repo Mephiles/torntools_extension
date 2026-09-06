@@ -3,7 +3,7 @@ import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
-import { checkboxesSection, createFilter, presetSection, sliderSection, textSection } from "@common/utils/functions/filters";
+import { checkboxesSection, createFilter, presetSection, radioSection, sliderSection, textSection } from "@common/utils/functions/filters";
 import type { FilterController, SliderRange } from "@common/utils/functions/filters";
 import { findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener } from "@common/utils/functions/listeners";
@@ -52,6 +52,7 @@ type RankedWarFilterState = {
 	status: string[];
 	name: string;
 	level: SliderRange;
+	side: string;
 	statsEstimates: string[] | undefined;
 	ffScore: { min: number; max: number } | undefined;
 };
@@ -128,6 +129,20 @@ async function addFilterContainer(rankedWarList?: Element) {
 			},
 		}),
 
+		radioSection({
+			key: "side",
+			title: "Side",
+			items: [
+				{ description: "Attackers", value: "attackers" },
+				{ description: "Defenders", value: "defenders" },
+				{ description: "Both", value: "both" },
+			],
+			defaultValue: filters.factionRankedWar.side,
+			test: (row, side) => {
+				return side === "both" || (side === "attackers" && row.classList.contains("enemy")) || (side === "defenders" && row.classList.contains("your"));
+			},
+		}),
+
 		presetSection({
 			preset: "stats-estimates",
 			enabled: () => settings.scripts.statsEstimate.global && settings.scripts.statsEstimate.rankedWars && hasAPIData(),
@@ -162,6 +177,7 @@ async function addFilterContainer(rankedWarList?: Element) {
 						name: state.name,
 						levelStart: state.level.start,
 						levelEnd: state.level.end,
+						side: state.side,
 						estimates: state.statsEstimates ?? filters.factionRankedWar.estimates,
 						ffScoreMax: state.ffScore?.max ?? filters.factionRankedWar.ffScoreMax,
 						ffScoreMin: state.ffScore?.min ?? filters.factionRankedWar.ffScoreMin,
