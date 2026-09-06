@@ -795,6 +795,9 @@ export const DEFAULT_STORAGE = {
 			temporary: {
 				name: new DefaultSetting("string", ""),
 			},
+			utilities: {
+				name: new DefaultSetting("string", ""),
+			},
 		},
 		factionRankedWar: {
 			enabled: new DefaultSetting("boolean", true),

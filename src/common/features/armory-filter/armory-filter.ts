@@ -19,12 +19,12 @@ function addListener() {
 	addCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, async ({ section }) => {
 		if (!FEATURE_MANAGER.isEnabled(ArmoryFilterFeature)) return;
 
-		if (["weapons", "armour", "temporary"].includes(section)) await rebuildForTab(section);
+		if (["weapons", "armour", "temporary", "utilities"].includes(section)) await rebuildForTab(section);
 		else hideFilter();
 	});
 }
 
-function buildSections(itemType: "weapons" | "armor" | "temporary"): FilterSectionDef<unknown>[] {
+function buildSections(itemType: "weapons" | "armor" | "temporary" | "utilities"): FilterSectionDef<unknown>[] {
 	const base = [
 		{
 			...checkboxSection({
@@ -50,8 +50,6 @@ function buildSections(itemType: "weapons" | "armor" | "temporary"): FilterSecti
 			},
 		}),
 	];
-
-	if (itemType === "temporary") return base;
 
 	if (itemType === "weapons") {
 		return [
@@ -144,59 +142,60 @@ function buildSections(itemType: "weapons" | "armor" | "temporary"): FilterSecti
 				},
 			},
 		];
+	} else if (itemType === "armor") {
+		return [
+			...base,
+			textSection({
+				key: "defence",
+				title: "Defence",
+				type: "number",
+				defaultValue: filters.factionArmory.armor.defence,
+				test: (row, defence) => {
+					const d = parseFloat(defence);
+					if (Number.isNaN(d)) return true;
+
+					return parseFloat(findElement(".bonus-attachment-item-defence-bonus + span", row)!.textContent) >= d;
+				},
+			}),
+			selectSection({
+				key: "set",
+				title: "Set",
+				getOptions: () => [
+					{ value: "", description: "All" },
+					{ value: "any", description: "Any (ranked)" },
+					...ARMOR_SETS.map((s) => ({ value: s.toLowerCase(), description: s })),
+				],
+				defaultValue: filters.factionArmory.armor.set,
+				test: (row, set) => {
+					if (!set) return true;
+
+					const rowSet = findElement(".name", row).textContent.split(" ")[0].toLowerCase();
+					if (set === "any") return ARMOR_SETS.map((x) => x.toLowerCase()).includes(rowSet);
+
+					return rowSet === set;
+				},
+			}),
+			textSection({
+				key: "armorBonus",
+				title: "Bonus %",
+				type: "number",
+				defaultValue: filters.factionArmory.armor.armorBonus,
+				test: (row, armorBonus) => {
+					const b = parseFloat(armorBonus);
+					if (Number.isNaN(b)) return true;
+
+					return convertToNumber(findElement(".bonus > i[class*='bonus-attachment-']", row, true)?.getAttribute("title")) >= b;
+				},
+			}),
+		];
+	} else {
+		return base;
 	}
-
-	// armor
-	return [
-		...base,
-		textSection({
-			key: "defence",
-			title: "Defence",
-			type: "number",
-			defaultValue: filters.factionArmory.armor.defence,
-			test: (row, defence) => {
-				const d = parseFloat(defence);
-				if (Number.isNaN(d)) return true;
-
-				return parseFloat(findElement(".bonus-attachment-item-defence-bonus + span", row)!.textContent) >= d;
-			},
-		}),
-		selectSection({
-			key: "set",
-			title: "Set",
-			getOptions: () => [
-				{ value: "", description: "All" },
-				{ value: "any", description: "Any (ranked)" },
-				...ARMOR_SETS.map((s) => ({ value: s.toLowerCase(), description: s })),
-			],
-			defaultValue: filters.factionArmory.armor.set,
-			test: (row, set) => {
-				if (!set) return true;
-
-				const rowSet = findElement(".name", row).textContent.split(" ")[0].toLowerCase();
-				if (set === "any") return ARMOR_SETS.map((x) => x.toLowerCase()).includes(rowSet);
-
-				return rowSet === set;
-			},
-		}),
-		textSection({
-			key: "armorBonus",
-			title: "Bonus %",
-			type: "number",
-			defaultValue: filters.factionArmory.armor.armorBonus,
-			test: (row, armorBonus) => {
-				const b = parseFloat(armorBonus);
-				if (Number.isNaN(b)) return true;
-
-				return convertToNumber(findElement(".bonus > i[class*='bonus-attachment-']", row, true)?.getAttribute("title")) >= b;
-			},
-		}),
-	];
 }
 
 async function rebuildForTab(section: string) {
 	if (section === "armour") section = "armor";
-	if (section !== "weapons" && section !== "armor" && section !== "temporary") return;
+	if (section !== "weapons" && section !== "armor" && section !== "temporary" && section !== "utilities") return;
 
 	filterItemType = section;
 	filter?.dispose();
