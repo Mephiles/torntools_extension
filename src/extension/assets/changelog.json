@@ -19,7 +19,11 @@
 					"message": "Don't overlap the disabling of the revive button with 'Stacking Mode', if it's already disabled.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Resolve the 'Stacking Mode' icons not showing up properly.", "contributor": "DeKleineKobini" }
+				{ "message": "Resolve the 'Stacking Mode' icons not showing up properly.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Fix the 'Hospital Filter' activity filter using the incorrect storage key, resulting in weird values on load.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [{ "message": "Switch to a different cross icon.", "contributor": "DeKleineKobini" }],
 			"removed": [],

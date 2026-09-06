@@ -34,7 +34,7 @@ async function addFilterContainer() {
 	const sections = [
 		presetSection({
 			preset: "activity",
-			defaults: filters.abroadPeople.activity,
+			defaults: filters.hospital.activity,
 		}),
 
 		checkboxSection({
