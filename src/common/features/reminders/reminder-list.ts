@@ -99,7 +99,9 @@ export const REMINDERS: Reminder[] = [
 		name: "Race",
 		url: LINKS.raceway,
 		enabled: () => settings.apiUsage.user.icons && settings.scripts.reminders.types.race,
-		ignored: () => settings.apiUsage.user.travel && (userdata.travel.arrival_at === null || userdata.travel.arrival_at * 1000 > Date.now()),
+		ignored: () =>
+			settings.apiUsage.user.travel &&
+			(userdata.travel.arrival_at === null || userdata.travel.destination !== "Torn" || userdata.travel.arrival_at * 1000 > Date.now()),
 		finished: () => userdata.icons.find((icon) => icon.title === "Racing")?.id === 17,
 	},
 	{
