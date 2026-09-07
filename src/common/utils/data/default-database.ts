@@ -512,8 +512,9 @@ export const DEFAULT_STORAGE = {
 				completed: new DefaultSetting("boolean", false),
 			},
 			reminders: {
-				finished: new DefaultSetting("boolean", false),
 				show: new DefaultSetting("boolean", true),
+				finished: new DefaultSetting("boolean", false),
+				ignored: new DefaultSetting("boolean", false),
 				types: {
 					energyRefill: new DefaultSetting("boolean", true),
 					nerveRefill: new DefaultSetting("boolean", true),

@@ -26,6 +26,10 @@
 		color: var(--tt-color-green);
 	}
 
+	&.ignored {
+		color: var(--tt-color-orange);
+	}
+
 	a& {
 		cursor: pointer;
 		text-decoration: none;

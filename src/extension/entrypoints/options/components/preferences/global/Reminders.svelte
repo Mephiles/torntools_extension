@@ -8,6 +8,7 @@
 	<div class="grid gap-1">
 		<StorageSwitch path="settings.scripts.reminders.show" label="Display reminders">
 			<StorageSwitch path="settings.scripts.reminders.finished" label="Include finished tasks" />
+			<StorageSwitch path="settings.scripts.reminders.ignored" label="Include ignored tasks" />
 		</StorageSwitch>
 
 		<PreferenceSettingGroup description="What reminders should be included in the list?">

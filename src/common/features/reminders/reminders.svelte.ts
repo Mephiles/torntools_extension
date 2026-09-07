@@ -14,6 +14,7 @@ export interface ResolvedReminder {
 	group?: string;
 	url?: string;
 	finished: boolean;
+	ignored?: boolean;
 }
 
 function resolveReminders(): ResolvedReminder[] {
@@ -23,11 +24,15 @@ function resolveReminders(): ResolvedReminder[] {
 		const finished = reminder.finished();
 		if (!settings.scripts.reminders.finished && finished) return null;
 
+		const ignored = reminder.ignored?.();
+		if (!settings.scripts.reminders.ignored && ignored) return null;
+
 		return {
 			name: reminder.name,
 			group: reminder.group,
 			url: reminder.url,
 			finished,
+			ignored,
 		};
 	})
 		.filter((r) => r !== null)

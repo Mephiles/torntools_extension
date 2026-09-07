@@ -29,7 +29,8 @@
 			],
 			"changes": [
 				{ "message": "Switch to a different cross icon.", "contributor": "DeKleineKobini" },
-				{ "message": "No longer show 'Faction Quick Items' on the utilities tab.", "contributor": "DeKleineKobini" }
+				{ "message": "No longer show 'Faction Quick Items' on the utilities tab.", "contributor": "DeKleineKobini" },
+				{ "message": "Don't show the racing reminder when traveling.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [

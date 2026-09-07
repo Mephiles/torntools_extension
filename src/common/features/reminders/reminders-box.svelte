@@ -17,10 +17,10 @@
 				<svelte:element
 					this={reminder.url ? "a" : "div"}
 					href={reminder.url}
-					class={[styles.reminder, reminder.finished ? styles.finished : null]}
+					class={[styles.reminder, reminder.finished ? styles.finished : null, reminder.ignored ? styles.ignored : null]}
 					tabindex="-1"
 				>
-					{reminder.name}{#if reminder.finished}: Finished!{/if}
+					{reminder.name}{#if reminder.finished}: Finished!{/if}{#if reminder.ignored}: Ignored!{/if}
 				</svelte:element>
 			{/each}
 		</Container>
