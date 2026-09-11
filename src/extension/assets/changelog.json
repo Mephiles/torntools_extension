@@ -25,7 +25,8 @@
 				{
 					"message": "Fix the 'Hospital Filter' activity filter using the incorrect storage key, resulting in weird values on load.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "'Trade Timer' no longer updated live.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Switch to a different cross icon.", "contributor": "DeKleineKobini" },

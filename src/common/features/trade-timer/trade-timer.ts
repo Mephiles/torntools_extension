@@ -121,6 +121,10 @@ export default class TradeTimerFeature extends Feature {
 		await showTimer();
 	}
 
+	override async reload() {
+		await showTimer();
+	}
+
 	override storageKeys() {
 		return ["settings.pages.chat.tradeTimer", "localdata.tradeMessage"];
 	}
