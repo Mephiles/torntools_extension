@@ -821,6 +821,9 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 		}
 	}
 
+	let lastCompensateHiddenCount = -1;
+	let lastCompensateMinHeight: string | null = null;
+
 	/**
 	 * Prevents infinite-scroll from triggering when rows are hidden and the list shrinks.
 	 * Pads just enough so the visible content extends 200px past the viewport bottom,
@@ -836,8 +839,12 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 		const hiddenCount = rows.filter((r) => r.classList.contains("tt-hidden")).length;
 		if (hiddenCount === 0) {
 			list.style.minHeight = "";
+			lastCompensateHiddenCount = 0;
+			lastCompensateMinHeight = "";
 			return;
 		}
+
+		if (hiddenCount === lastCompensateHiddenCount && list.style.minHeight === lastCompensateMinHeight) return;
 
 		const listTop = list.getBoundingClientRect().top;
 		const visibleHeight = (rows.length - hiddenCount) * rowHeight;
@@ -849,6 +856,8 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 
 		if (contentBottom >= target) {
 			list.style.minHeight = "";
+			lastCompensateHiddenCount = hiddenCount;
+			lastCompensateMinHeight = "";
 			return;
 		}
 
@@ -857,6 +866,8 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 		const naturalHeight = rows.length * rowHeight;
 
 		list.style.minHeight = `${Math.min(compensated, naturalHeight)}px`;
+		lastCompensateHiddenCount = hiddenCount;
+		lastCompensateMinHeight = list.style.minHeight;
 	}
 
 	function applyFilter(rows: HTMLElement[], activeSections: FilterSectionInstance[], values: Map<string, unknown>): void {
@@ -909,12 +920,12 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 		}
 
 		if (!enabled) {
-			findAllElements(`${rowSelector}.tt-hidden`).forEach((row) => {
+			const allRows = findAllElements(rowSelector);
+			for (const row of allRows) {
 				row.classList.remove("tt-hidden");
 				delete row.dataset.hideReason;
-			});
-			_compensateHeight(findAllElements(rowSelector));
-			const allRows = findAllElements(rowSelector);
+			}
+			_compensateHeight(allRows);
 			statistics.updateStatistics(allRows.length, allRows.length, content);
 			await onAfterRun?.();
 			return;
