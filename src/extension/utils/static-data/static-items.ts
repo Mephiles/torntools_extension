@@ -114,8 +114,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 750,
 			sell_price: 500,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -243,8 +243,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 4200,
 			sell_price: 3000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -341,8 +341,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 75000,
 			sell_price: 53000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -572,7 +572,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 3500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -691,8 +694,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 45000,
 			sell_price: 37000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -731,7 +734,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 900000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -930,8 +936,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 15000,
 			sell_price: 10000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -1132,8 +1138,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 950000,
 			sell_price: 670000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -1337,7 +1343,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -1356,7 +1365,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -1375,7 +1387,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 16,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -1394,7 +1409,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -1413,7 +1431,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 22,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -1432,7 +1453,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -1451,7 +1475,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 25,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -1470,7 +1497,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 25,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -1490,7 +1520,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -1510,7 +1543,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: 35,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -1529,7 +1565,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 65,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -1548,7 +1587,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 32,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -1567,7 +1609,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -1586,7 +1631,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 40,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -1673,8 +1721,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 1000000,
 			sell_price: 750000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -1818,7 +1866,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Jewelry Store",
+			},
 		},
 		details: null,
 	},
@@ -1837,7 +1888,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 95,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Jewelry Store",
+			},
 		},
 		details: null,
 	},
@@ -1856,7 +1910,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 185,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Jewelry Store",
+			},
 		},
 		details: null,
 	},
@@ -1875,7 +1932,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Jewelry Store",
+			},
 		},
 		details: null,
 	},
@@ -1894,7 +1954,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 70,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Jewelry Store",
+			},
 		},
 		details: null,
 	},
@@ -1913,7 +1976,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 225,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Jewelry Store",
+			},
 		},
 		details: null,
 	},
@@ -1954,7 +2020,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 150,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -1974,8 +2043,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 3000000,
 			sell_price: 1250000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -2035,7 +2104,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 250,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -2123,7 +2195,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -2143,7 +2218,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 4500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -2162,7 +2240,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 10000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -2181,7 +2262,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 75000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -2201,7 +2285,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 200000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -2296,7 +2383,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 29000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2316,7 +2406,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 40000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2359,7 +2452,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 43000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2379,7 +2475,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 80000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2422,7 +2521,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 69000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2442,7 +2544,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 59000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2462,7 +2567,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 150000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2482,7 +2590,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 21000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2502,7 +2613,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 13000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2522,7 +2636,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 15000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2542,7 +2659,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 23000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2562,7 +2682,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 9000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2582,7 +2705,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 7600,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2602,7 +2728,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5600,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2645,7 +2774,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 7000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2665,7 +2797,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 25000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -2763,8 +2898,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 430,
 			sell_price: 300,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -2878,7 +3013,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 100,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -2898,7 +3036,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -2959,8 +3100,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 500000,
 			sell_price: 325000,
 			vendor: {
-				country: "Mexico",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -2981,8 +3122,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 1100000,
 			sell_price: 600000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -3058,8 +3199,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 1500,
 			sell_price: 750,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -3090,8 +3231,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 8000,
 			sell_price: 5000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -3818,7 +3959,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 40,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -3907,7 +4051,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 50,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -3966,7 +4113,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 400,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -4229,25 +4379,6 @@ export const STATIC_ITEMS: StaticItems = [
 		details: null,
 	},
 	{
-		id: 168,
-		name: "Unknown",
-		description: "This item does not exist.",
-		effect: null,
-		requirement: null,
-		image: "https://www.torn.com/images/items/168/large.png",
-		type: "Unused",
-		sub_type: null,
-		is_masked: false,
-		is_tradable: true,
-		is_found_in_city: false,
-		value: {
-			buy_price: null,
-			sell_price: null,
-			vendor: null,
-		},
-		details: null,
-	},
-	{
 		id: 169,
 		name: "Barbie Doll",
 		description: "Equipped with Kung Fu Grip, and hot pink nail polish, this doll resembles the Admin Clansdancer.",
@@ -4426,8 +4557,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 5500,
 			sell_price: 4250,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -4525,8 +4656,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 70000,
 			sell_price: 55000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -4565,8 +4696,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 7500,
 			sell_price: 4750,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -4837,7 +4968,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 900,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -5243,25 +5377,6 @@ export const STATIC_ITEMS: StaticItems = [
 		details: null,
 	},
 	{
-		id: 208,
-		name: "Unknown",
-		description: "This item does not exist.",
-		effect: null,
-		requirement: null,
-		image: "https://www.torn.com/images/items/208/large.png",
-		type: "Unused",
-		sub_type: null,
-		is_masked: false,
-		is_tradable: true,
-		is_found_in_city: false,
-		value: {
-			buy_price: null,
-			sell_price: null,
-			vendor: null,
-		},
-		details: null,
-	},
-	{
 		id: 209,
 		name: "Box of Sweet Hearts",
 		description: "Fun filled heart shaped candies with messages for your loved ones. Provides a small happiness increase when consumed.",
@@ -5440,8 +5555,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 100000,
 			sell_price: 75000,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5472,8 +5587,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 900,
 			sell_price: 750,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5513,8 +5628,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 250000,
 			sell_price: 200000,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5553,8 +5668,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 10000,
 			sell_price: 7000,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5585,8 +5700,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 8000,
 			sell_price: 6500,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5617,8 +5732,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 12000,
 			sell_price: 10000,
 			vendor: {
-				country: "Switzerland",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5649,8 +5764,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 5000000,
 			sell_price: 4000000,
 			vendor: {
-				country: "Switzerland",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5689,8 +5804,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 2500,
 			sell_price: 2000,
 			vendor: {
-				country: "Switzerland",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5721,8 +5836,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 60000,
 			sell_price: 50000,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5762,8 +5877,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 20000,
 			sell_price: 15000,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5794,8 +5909,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 600,
 			sell_price: 400,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5827,8 +5942,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 7500,
 			sell_price: 6500,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5868,8 +5983,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 15000,
 			sell_price: 11000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5900,8 +6015,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 300,
 			sell_price: 200,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5940,8 +6055,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 45000,
 			sell_price: 35000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -5980,7 +6095,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 55000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Primary",
@@ -6019,8 +6137,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 55000,
 			sell_price: 40000,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6059,8 +6177,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 2500,
 			sell_price: 2000,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6091,8 +6209,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 5000,
 			sell_price: 4000,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6123,8 +6241,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 50000,
 			sell_price: 40000,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6156,8 +6274,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 95000,
 			sell_price: 80000,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6189,8 +6307,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 1000,
 			sell_price: 700,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6222,8 +6340,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 500,
 			sell_price: 400,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6255,8 +6373,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 25000000,
 			sell_price: 17000000,
 			vendor: {
-				country: "Hawaii",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6295,8 +6413,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 15000,
 			sell_price: 10000,
 			vendor: {
-				country: "Hawaii",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6335,8 +6453,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 20000,
 			sell_price: 15000,
 			vendor: {
-				country: "Hawaii",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6353,7 +6471,7 @@ export const STATIC_ITEMS: StaticItems = [
 	},
 	{
 		id: 243,
-		name: "Taurus",
+		name: "Taurus PT92",
 		description: "This firearm has been engineered for reliability, accuracy and durability. One of the best low priced weapons you can buy.",
 		effect: null,
 		requirement: null,
@@ -6367,8 +6485,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 650,
 			sell_price: 400,
 			vendor: {
-				country: "Hawaii",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6408,8 +6526,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 2500,
 			sell_price: 2000,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6449,8 +6567,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 500,
 			sell_price: 300,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6482,8 +6600,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 500,
 			sell_price: 300,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6514,8 +6632,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 16000,
 			sell_price: 13000,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6547,8 +6665,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 90000,
 			sell_price: 70000,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6587,8 +6705,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 6500,
 			sell_price: 5000,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6627,8 +6745,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 50000,
 			sell_price: 40000,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6660,8 +6778,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 75000,
 			sell_price: 60000,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6692,8 +6810,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 10000,
 			sell_price: 7000,
 			vendor: {
-				country: "Canada",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6733,8 +6851,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 300,
 			sell_price: 200,
 			vendor: {
-				country: "Canada",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6772,7 +6890,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 25000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -6811,8 +6932,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 3000000,
 			sell_price: 2500000,
 			vendor: {
-				country: "Argentina",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6852,8 +6973,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 15000,
 			sell_price: 10000,
 			vendor: {
-				country: "Argentina",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6884,8 +7005,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 35000,
 			sell_price: 30000,
 			vendor: {
-				country: "Argentina",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -6916,8 +7037,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 10000,
 			sell_price: 8000,
 			vendor: {
-				country: "Mexico",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -6939,8 +7060,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 500,
 			sell_price: 350,
 			vendor: {
-				country: "Mexico",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -6961,8 +7082,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 300,
 			sell_price: 250,
 			vendor: {
-				country: "Mexico",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -6983,8 +7104,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 30,
 			sell_price: 25,
 			vendor: {
-				country: "Canada",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7006,8 +7127,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 400,
 			sell_price: 300,
 			vendor: {
-				country: "Canada",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7028,8 +7149,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 600,
 			sell_price: 400,
 			vendor: {
-				country: "Canada",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7050,8 +7171,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 700,
 			sell_price: 500,
 			vendor: {
-				country: "Hawaii",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7073,8 +7194,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 2000,
 			sell_price: 1800,
 			vendor: {
-				country: "Hawaii",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7095,8 +7216,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 200,
 			sell_price: 150,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7117,8 +7238,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 5000,
 			sell_price: 4000,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7139,8 +7260,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 1000,
 			sell_price: 750,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7161,8 +7282,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 400,
 			sell_price: 300,
 			vendor: {
-				country: "Argentina",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7184,8 +7305,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 50,
 			sell_price: 30,
 			vendor: {
-				country: "Argentina",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7206,8 +7327,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 500,
 			sell_price: 350,
 			vendor: {
-				country: "Argentina",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7228,8 +7349,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 900,
 			sell_price: 700,
 			vendor: {
-				country: "Switzerland",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7250,8 +7371,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 400,
 			sell_price: 300,
 			vendor: {
-				country: "Switzerland",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7273,8 +7394,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 400,
 			sell_price: 300,
 			vendor: {
-				country: "China",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7296,8 +7417,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 12000,
 			sell_price: 10000,
 			vendor: {
-				country: "China",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -7319,8 +7440,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 5000,
 			sell_price: 4000,
 			vendor: {
-				country: "China",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7341,8 +7462,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 500,
 			sell_price: 300,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7363,8 +7484,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 10000,
 			sell_price: 7000,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -7385,8 +7506,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 50000,
 			sell_price: 35000,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -7408,8 +7529,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 500,
 			sell_price: 300,
 			vendor: {
-				country: "South Africa",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7430,8 +7551,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 400,
 			sell_price: 300,
 			vendor: {
-				country: "South Africa",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7453,8 +7574,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 2000,
 			sell_price: 1500,
 			vendor: {
-				country: "South Africa",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7474,7 +7595,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 23500000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Pawn Shop",
+			},
 		},
 		details: null,
 	},
@@ -7728,8 +7852,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 39,
 			sell_price: 30,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -7942,7 +8066,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -7961,7 +8088,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -7980,7 +8110,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -7999,7 +8132,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -8018,7 +8154,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -8483,8 +8622,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 3500000,
 			sell_price: 2700000,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -8542,8 +8681,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 7500000,
 			sell_price: 4500000,
 			vendor: {
-				country: "Argentina",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -8592,8 +8731,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 15000000,
 			sell_price: 9000000,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -9162,8 +9301,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 70000,
 			vendor: {
-				country: "South Africa",
-				name: "Black Market",
+				country: "Torn",
+				name: "Pawn Shop",
 			},
 		},
 		details: null,
@@ -9183,7 +9322,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -9244,8 +9386,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 900000,
 			sell_price: 700000,
 			vendor: {
-				country: "Switzerland",
-				name: "General Store",
+				country: "Torn",
+				name: "Pharmacy",
 			},
 		},
 		details: null,
@@ -9702,7 +9844,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: 12000000000,
 			sell_price: 400,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -9722,8 +9867,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 14000,
 			sell_price: 11000,
 			vendor: {
-				country: "UAE",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -9745,8 +9890,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 6000,
 			sell_price: 4000,
 			vendor: {
-				country: "UAE",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -9902,8 +10047,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 100000,
 			sell_price: 80000,
 			vendor: {
-				country: "Argentina",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -9967,7 +10112,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -10005,7 +10153,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: 5,
 			sell_price: 3,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Temporary",
@@ -10036,8 +10187,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 400000,
 			sell_price: 300000,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -10089,8 +10240,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 8000000,
 			sell_price: 6000000,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -10121,8 +10272,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 7500000,
 			sell_price: 3750000,
 			vendor: {
-				country: "Switzerland",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -10161,8 +10312,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 20000000,
 			sell_price: 15000000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -10202,8 +10353,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 200000,
 			sell_price: 150000,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -10233,7 +10384,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: 150,
 			sell_price: 100,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -10264,8 +10418,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 20000,
 			sell_price: 15000,
 			vendor: {
-				country: "Canada",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -10339,7 +10493,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 1,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -10359,8 +10516,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 50000,
 			sell_price: 30000,
 			vendor: {
-				country: "South Africa",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -10381,8 +10538,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 2500,
 			sell_price: 1750,
 			vendor: {
-				country: "Argentina",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -10403,8 +10560,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 25000,
 			sell_price: 15000,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -10426,8 +10583,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 20000,
 			sell_price: 7500,
 			vendor: {
-				country: "Mexico",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -10449,8 +10606,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 20000,
 			sell_price: 15000,
 			vendor: {
-				country: "Canada",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -10471,8 +10628,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 17500,
 			sell_price: 13000,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -10494,8 +10651,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 10000,
 			sell_price: 3000,
 			vendor: {
-				country: "UAE",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -10516,8 +10673,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 30000,
 			sell_price: 22500,
 			vendor: {
-				country: "Canada",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -10538,8 +10695,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 100000,
 			sell_price: 2000,
 			vendor: {
-				country: "UAE",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -10561,8 +10718,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 40000,
 			sell_price: 25000,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -10583,8 +10740,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 1500,
 			sell_price: 1,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -10628,8 +10785,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 10000,
 			sell_price: 7500,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -10651,8 +10808,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 2000000,
 			sell_price: 1000000,
 			vendor: {
-				country: "Hawaii",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -10674,8 +10831,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 4000000,
 			sell_price: 2000000,
 			vendor: {
-				country: "Hawaii",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -10685,7 +10842,7 @@ export const STATIC_ITEMS: StaticItems = [
 		name: "Large Suitcase",
 		description:
 			"The suitcase is something the frequent traveller cannot be without, and this one has a special lead lined hidden compartment should you need to carry contraband. This particular model will allow you to carry 3 more items back with you.",
-		effect: "Increases travel capacity by +3. Does not stack with other suitcases.",
+		effect: "Increases travel capacity by +3. Does not stack with other suitcases.\nRequired by the Imitator role during the Cleared for Takeoff scenario.",
 		requirement: null,
 		image: "https://www.torn.com/images/items/421/large.png",
 		type: "Enhancer",
@@ -10697,8 +10854,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 10000000,
 			sell_price: 5000000,
 			vendor: {
-				country: "Hawaii",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -10796,8 +10953,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 85,
 			sell_price: 60,
 			vendor: {
-				country: "Mexico",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -10818,8 +10975,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 300,
 			sell_price: 175,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -10860,8 +11017,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 25,
 			sell_price: 10,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -10882,8 +11039,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 750000,
 			sell_price: 300000,
 			vendor: {
-				country: "Hawaii",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -10904,8 +11061,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 750,
 			sell_price: 500,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -10926,8 +11083,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 25,
 			sell_price: 10,
 			vendor: {
-				country: "Mexico",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -10948,8 +11105,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 500,
 			sell_price: 300,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -10970,8 +11127,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 4500,
 			sell_price: 3000,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -11015,8 +11172,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 6000,
 			sell_price: 4000,
 			vendor: {
-				country: "Switzerland",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -11059,8 +11216,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 15000,
 			sell_price: 10000,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -11092,8 +11249,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 400,
 			sell_price: 300,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -11124,7 +11281,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 150,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -11340,7 +11500,7 @@ export const STATIC_ITEMS: StaticItems = [
 		id: 451,
 		name: "Florin Coin",
 		description:
-			"An English coin based on a French coin, and issued in Florence, Italy in 1252. The Florin was made from gold and was intended as an international coin, however the gold it was made from was overvalued and the coin was not accepted by international merchants. The coin was then withdrawn from circulation and melted down to form the Noble. Because of this, the Florin is very rare.",
+			"An English gold coin based on the Florentine florin, minted at the Tower of London in 1344. Intended for international trade, it was overvalued and quickly rejected by merchants. The Florin was withdrawn from circulation and melted down to form the Noble, making surviving examples very rare.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/451/large.png",
@@ -11360,7 +11520,7 @@ export const STATIC_ITEMS: StaticItems = [
 		id: 452,
 		name: "Gold Noble Coin",
 		description:
-			"The first mass-produced English coin, preceded by the Florin, the gold Noble was valued at six shillings and eight pence. The coin was introduced in 1344, and weighed 138.5 grains, later reduced to 128.5 grains. Mentioned in Shakespeare's plays, this coin is sought after by museums and private collectors.",
+			"The first successful mass-produced English gold coin, the gold Noble succeeded the short-lived Florin. Valued at six shillings and eight pence, it was introduced in 1344 and weighed 138.5 grains, later reduced to 128.5 grains. Mentioned in Shakespeare’s plays, the coin is sought after by museums and private collectors.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/452/large.png",
@@ -11420,7 +11580,7 @@ export const STATIC_ITEMS: StaticItems = [
 		id: 455,
 		name: "Companion Script : Abdullah",
 		description:
-			"The Companion Script : Abdullah is an early handwritten portion of Qur'an text, claimed to be tied to Abdullah ibn Masud, an early follower with a reputation for knowing the recitations inside out. He can be considered the biggest poindexter out of all of Muhammad's Companions. \"Companion\" in this context means early follower, someone who would have totally contributed to the Islam Kickstarter. This script is said to be ibn Masud's personal copy of the early Qur'an, compiled for use, not for show, and often riddled with private notes from its owner. A historically insightful document, this script is worth far more when it's sitting alongside the other two scripts.",
+			"The Companion Script: Abdullah is an early handwritten portion of Qur'an text, claimed to be tied to Abdullah ibn Masud, a Companion of Muhammad with a reputation for knowing the recitations inside out. He can be considered the biggest poindexter out of all Muhammad's Companions. \"Companion\" in this context means someone who met Muhammad, believed in him, and died a Muslim. Someone who would have totally contributed to the Islam Kickstarter. This script is said to be ibn Masud's personal copy of the early Qur'an, compiled for use, not for show, and often riddled with private notes from its owner. A historically insightful document, this script is worth far more when it's sitting alongside the other two scripts.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/455/large.png",
@@ -11440,7 +11600,7 @@ export const STATIC_ITEMS: StaticItems = [
 		id: 456,
 		name: "Companion Script : Ubay",
 		description:
-			"The Companion Script : Ubay is an early handwritten slice of Qur'an text, supposedly linked to Ubay ibn Ka'b, a prominent early follower known for his recitation and status in the first Muslim community. Muhammad's \"Companions\" were those with him from the beginning, his ride or die bitches, who were there when the Qur'an was first being recited, memorized, and written down. A Companion Script is that person's own working copy of these early writings, kept for reference and often adorned with personal notes. These Companion Scripts are hugely important historically, and collectors will pay a fine price for them, moreso if you've got all three.",
+			"The Companion Script: Ubay is an early handwritten slice of Qur'an text, supposedly linked to Ubay ibn Ka'b, a prominent early follower known for his recitation and status in the first Muslim community. Muhammad's \"Companions\" were people who met him, believed in him, and died as Muslims. They were basically his ride or die bitches who were there when the Qur'an was first being written down. A Companion Script is said to be that person's own working copy of these early writings, kept for reference and often adorned with personal notes. These Companion Scripts are hugely important historically, and collectors will pay a fine price for them, moreso if you've got all three.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/456/large.png",
@@ -11460,7 +11620,7 @@ export const STATIC_ITEMS: StaticItems = [
 		id: 457,
 		name: "Companion Script : Ali",
 		description:
-			"The Companion Script : Ali is an early handwritten copy of part of the Qur'an text, claimed to have belonged to Ali ibn Abi Talib, Muhammad's cousin, son-in-law, and one of his earliest followers. Whereas your mother might describe some guy she's dating secretly in her golden years as her \"companion\", a Companion in this context is someone from Muhammad's early inner circle. Ali's Companion Script is their personal compilation of the Qur'an text, complete with its own ordering and notes. Think of it as a rough first draft, except rare, collectible, and worth far more as part of the full set of three.",
+			"The Companion Script: Ali is an early handwritten copy of part of the Qur'an text, claimed to have belonged to Ali ibn Abi Talib, Muhammad's cousin, son-in-law, and one of his earliest followers. Whereas your mother might describe some guy she's secretly rawdogging as her \"Companion\", a Companion in this context is someone who met Muhammad, believed in him, and died a Muslim. Ali's Companion Script is said to be his personal compilation of the Qur'an text, complete with its own ordering and notes. Think of it as a rare, collectible personal copy, worth far more as part of the full set of three.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/457/large.png",
@@ -11500,7 +11660,7 @@ export const STATIC_ITEMS: StaticItems = [
 		id: 459,
 		name: "Egyptian Amulet",
 		description:
-			"These amulets, often in the form of a scarab beetle, were left in tombs as grave goods or given to people and the gods as presents. The Scarab, or 'Kheper' (which means \"to transform\"), was used in many of the pharaonic names. Pharaoh Amenhotep III was famous for his group of '5 scarabs'. This particular amulet is made from fired clay.",
+			"These amulets, often in the form of a scarab beetle, were left in tombs as grave goods or given to people and the gods as presents. The Scarab, or 'Kheper' (which means \"to transform\"), was used in many of the pharaonic names. Pharaoh Amenhotep III was famous for issuing five distinct series of scarabs comprising over 200 individual amulets. This particular amulet is made from fired clay.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/459/large.png",
@@ -12024,7 +12184,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -12062,7 +12225,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Primary",
@@ -12100,7 +12266,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -12137,7 +12306,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -12174,7 +12346,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Primary",
@@ -12212,7 +12387,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Primary",
@@ -12250,7 +12428,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -12288,7 +12469,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -12383,7 +12567,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 8000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -12426,7 +12613,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 8000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -12446,7 +12636,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 7500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -12535,7 +12728,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -12624,7 +12820,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 8500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -12675,7 +12874,7 @@ export const STATIC_ITEMS: StaticItems = [
 		id: 508,
 		name: "Volt RS",
 		description:
-			"The Volt RS's top speed of 163mph makes it only the third-fastest in Class C, but where it stands alone is the rapid acceleration provided by its 300bhp, 2.5 liter turbocharged engine. This model is also the highest rated tarmac car in its class, but Torn's dirt racers are known to favor the FRS on occasion too. ",
+			"The Volt RS's top speed of 163mph makes it only the third-fastest in Class C, but where it stands alone is the rapid acceleration provided by its 300bhp, 2.5 liter turbocharged engine. This model is also the highest rated tarmac car in its class, but Torn's dirt racers are known to favor this car on occasion too.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/508/large.png",
@@ -12733,7 +12932,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 27000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -12799,7 +13001,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 27000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -12865,7 +13070,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 32000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -12885,7 +13093,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 2100000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -12905,7 +13116,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 810000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -12945,7 +13159,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 1075000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -12965,7 +13182,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 3600000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -12985,7 +13205,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 4700000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -13005,7 +13228,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 1900000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -13025,7 +13251,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 170000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -13082,7 +13311,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -13101,7 +13333,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 25,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -13120,7 +13355,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 75,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -13218,7 +13456,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -13237,7 +13478,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -13256,7 +13500,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -13276,7 +13523,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -13295,7 +13545,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 9000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			coverage: [
@@ -13364,7 +13617,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -13791,7 +14047,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -13829,7 +14088,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 100,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -13890,7 +14152,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 25,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -14079,7 +14344,7 @@ export const STATIC_ITEMS: StaticItems = [
 		name: "Tracking Device",
 		description:
 			"The Tracking Device is a kit that comprises a discreet, magnetic tracker and handheld GPS mapping system. It can track anyone or anything anywhere in the world to within 1 meter.",
-		effect: "Improves success rate for the Assassination crime in Crimes 1.0.",
+		effect: "Improves success rate for the Assassination crime in Crimes 1.0.\nRequired by the Pickpocket role during the Cleared for Takeoff scenario.",
 		requirement: null,
 		image: "https://www.torn.com/images/items/572/large.png",
 		type: "Enhancer",
@@ -14267,7 +14532,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Temporary",
@@ -14375,7 +14643,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 55,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -14395,7 +14666,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 45,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -14528,7 +14802,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 75,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -14605,7 +14882,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 60,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -14643,7 +14923,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 300,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -14720,7 +15003,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 80,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -14739,7 +15025,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 30,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -14758,7 +15047,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 60,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -14777,7 +15069,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 120,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -14796,7 +15091,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 70,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -14845,8 +15143,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 495000,
 			sell_price: 350000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -14885,8 +15183,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 300000,
 			sell_price: 200000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -14926,8 +15224,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 950000,
 			sell_price: 800000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -14958,8 +15256,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 50000000,
 			sell_price: 40000000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -14991,8 +15289,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 3,
 			sell_price: 2,
 			vendor: {
-				country: "Cayman Islands",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -15024,8 +15322,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 4000,
 			sell_price: 3000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -15046,8 +15344,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 400,
 			sell_price: 300,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -15068,8 +15366,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 1500,
 			sell_price: 1000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -15090,8 +15388,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 750,
 			sell_price: 500,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -15112,8 +15410,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 20000,
 			sell_price: 15000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -15134,8 +15432,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 10000,
 			sell_price: 7500,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -15156,8 +15454,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 6000,
 			sell_price: 4000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -15178,8 +15476,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 8000,
 			sell_price: 6000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -15200,8 +15498,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 30000,
 			sell_price: 20000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -15222,8 +15520,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 5000,
 			sell_price: 3000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -15389,7 +15687,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -15408,7 +15709,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -15427,7 +15731,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -15446,7 +15753,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -15484,7 +15794,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 35000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -15504,8 +15817,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 400000,
 			sell_price: 320000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -15547,8 +15860,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 89500,
 			sell_price: 71000,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -15626,8 +15939,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 14000,
 			sell_price: 11500,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -15705,8 +16018,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 77000,
 			sell_price: 58000,
 			vendor: {
-				country: "Canada",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -15965,8 +16278,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 3100000,
 			sell_price: 2600000,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -16004,8 +16317,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 2950000,
 			sell_price: 2450000,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -16055,8 +16368,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 2400000,
 			sell_price: 1920000,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -16097,8 +16410,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: 2100000,
 			sell_price: 1870000,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -17722,7 +18035,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 1,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -17741,7 +18057,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -17780,7 +18099,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 27,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -17800,7 +18122,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 4,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -17819,7 +18144,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -17838,7 +18166,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 17,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -18610,7 +18941,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 150,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Temporary",
@@ -18640,7 +18974,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: null,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -19579,7 +19916,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 4,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -19609,7 +19949,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 7,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -21301,7 +21644,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -21381,7 +21727,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 1,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -21743,7 +22092,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 50,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -21782,7 +22134,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -21801,7 +22156,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 75,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -21820,7 +22178,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 30,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -21839,7 +22200,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 250,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -21858,7 +22222,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -21896,7 +22263,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -21915,7 +22285,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 30,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -21934,7 +22307,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 2000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -21953,7 +22329,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 1,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -21972,7 +22351,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 10000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -21991,7 +22373,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 25000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -22010,7 +22395,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -22029,7 +22417,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -22049,7 +22440,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -22068,7 +22462,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -22087,7 +22484,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 75,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -22106,7 +22506,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 100,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -22183,7 +22586,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 1,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -22403,7 +22809,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: 35,
 			sell_price: null,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -23121,7 +23530,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: 20,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -24709,7 +25121,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 40,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -25659,7 +26074,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 75,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -25679,7 +26097,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -25699,7 +26120,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -25719,7 +26143,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -25759,7 +26186,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 1,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -25799,7 +26229,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 45,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -25819,7 +26252,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -25879,7 +26315,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 3,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -25899,7 +26338,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 125,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -27028,7 +27470,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 10000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -27066,7 +27511,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 8000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -27104,7 +27552,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 12000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -27142,7 +27593,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 10000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Primary",
@@ -27180,7 +27634,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 10000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Primary",
@@ -27218,7 +27675,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 8000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Primary",
@@ -28022,7 +28482,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 125,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -28202,7 +28665,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -28222,7 +28688,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 8500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -28242,7 +28711,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 350,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -28322,7 +28794,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 80000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -28342,7 +28817,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 60,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Temporary",
@@ -28372,7 +28850,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -28412,7 +28893,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -28432,7 +28916,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 3750,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -28452,7 +28939,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 65,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -28472,7 +28962,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 8000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -28532,7 +29025,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -28572,7 +29068,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 220,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -28632,7 +29131,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 75,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -28652,7 +29154,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 30,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -28672,7 +29177,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -28712,7 +29220,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 75,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -28732,7 +29243,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 3750,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -28752,7 +29266,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -28772,7 +29289,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -28832,7 +29352,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 2150,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -28862,7 +29385,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 400,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -28882,7 +29408,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: 995,
 			sell_price: null,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -28942,7 +29471,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 600,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -28962,7 +29494,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 25,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -28982,7 +29517,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 2700,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -29022,7 +29560,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 2000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -29042,7 +29583,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29062,7 +29606,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 100,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29082,7 +29629,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 22000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -29122,7 +29672,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 45000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29165,7 +29718,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 25000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29185,7 +29741,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 25,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29248,7 +29807,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 75500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -29288,7 +29850,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 6500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -29308,7 +29873,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 90,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -29317,7 +29885,7 @@ export const STATIC_ITEMS: StaticItems = [
 		name: "Bone Saw",
 		description:
 			"Bone saws are a common feature of both butcher's shops and hospital surgeries. This particular saw has a universal tooth design, giving it the power to hack through dense bone while maintaining the precision needed for finer, more delicate cuts. There are, however, several types of bone which are incompatible with this saw, including knucklebones, trombones, Ken Bones, and lazybones.",
-		effect: "Required for the disposal of a dead body in Disposal.",
+		effect: "Required for the disposal of a dead body in Disposal.\nRequired by the Interrogator role during the Cleared for Takeoff scenario.",
 		requirement: null,
 		image: "https://www.torn.com/images/items/1255/large.png",
 		type: "Weapon",
@@ -29328,7 +29896,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 800,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -29358,7 +29929,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 4000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29378,7 +29952,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 1250,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -29448,7 +30025,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 30000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -29488,7 +30068,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29508,7 +30091,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 300,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29551,7 +30137,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 150,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29571,7 +30160,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -29591,7 +30183,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29634,7 +30229,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 30,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29654,7 +30252,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -29674,7 +30275,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 95,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -29694,7 +30298,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29714,7 +30321,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29734,7 +30344,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -29754,7 +30367,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29774,7 +30390,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29814,7 +30433,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 4000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -29834,7 +30456,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 1900,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -29854,7 +30479,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 700,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -29874,7 +30502,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 2200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -29894,7 +30525,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 400,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29914,7 +30548,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29954,7 +30591,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29974,7 +30614,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -29994,7 +30637,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 30,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -30014,7 +30660,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -30077,7 +30726,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -30277,7 +30929,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 255,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -30297,7 +30952,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 180,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -30337,7 +30995,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -30397,7 +31058,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 175,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -30717,7 +31381,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -30780,7 +31447,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: 45,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -30985,7 +31655,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 45,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -31005,7 +31678,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 60,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -31014,7 +31690,7 @@ export const STATIC_ITEMS: StaticItems = [
 		name: "Hand Drill",
 		description:
 			"The 20v cordless Lochmacher 42 was voted Drill of the Month in April 2021, and it's easy to see why. With 8 variable speeds, and a week-long battery life from a one hour charge, this product bores through the competition with ease. On the 1st of December 1990, a drill like this except much larger and completely different was used to punch the final hole in the tunnel between Britain and France which we now know as the Channel Tunnel.",
-		effect: "Required for the production of forgery projects.\nRequired by the Muscle, Robber, and Thief roles during the Break the Bank scenario.\nRequired by the Engineer role during the Guardian Ángels scenario.",
+		effect: "Required for the production of forgery projects.\nRequired by the Muscle, Robber, and Thief roles during the Break the Bank scenario.\nRequired by the Engineer role during the Guardian Ángels scenario.\nRequired by the Techie role during the Cleared for Takeoff scenario.",
 		requirement: null,
 		image: "https://www.torn.com/images/items/1331/large.png",
 		type: "Tool",
@@ -31108,7 +31784,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 6500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -31128,7 +31807,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 62500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -31148,7 +31830,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 50000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -31188,7 +31873,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 180000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -31228,7 +31916,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 3250,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -31248,7 +31939,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 122500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -31268,7 +31962,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 580000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -31308,7 +32005,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 75000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -31391,7 +32091,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 95000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -31411,7 +32114,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 230000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -32116,7 +32822,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 195000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -32156,7 +32865,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 105000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -33535,7 +34247,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 2250000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Jewelry Store",
+			},
 		},
 		details: null,
 	},
@@ -33879,8 +34594,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 90000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "Black Market",
+				country: "Torn",
+				name: "Pawn Shop",
 			},
 		},
 		details: null,
@@ -33902,8 +34617,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 9000,
 			vendor: {
-				country: "Canada",
-				name: "Black Market",
+				country: "Torn",
+				name: "Pharmacy",
 			},
 		},
 		details: null,
@@ -33925,8 +34640,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 35000,
 			vendor: {
-				country: "Canada",
-				name: "Black Market",
+				country: "Torn",
+				name: "Nikeh Sports",
 			},
 		},
 		details: null,
@@ -33948,8 +34663,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 66000,
 			vendor: {
-				country: "Hawaii",
-				name: "Black Market",
+				country: "Torn",
+				name: "Nikeh Sports",
 			},
 		},
 		details: null,
@@ -33971,8 +34686,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 98000,
 			vendor: {
-				country: "Hawaii",
-				name: "Black Market",
+				country: "Torn",
+				name: "Jewelry Store",
 			},
 		},
 		details: null,
@@ -33981,7 +34696,7 @@ export const STATIC_ITEMS: StaticItems = [
 		id: 1487,
 		name: "Patagonian Fossil",
 		description:
-			"The first dinosaur fossil on record was the Scrotum humanum, a chunk of Megalosaurus femur dug up in 1676 so named because it looked like a giant pair of boney bollocks. Palaeontology has never quite matured since then, coining names like Rhomaleosaurus megadeirus (great backside), Mastodonsaurus (nipple-tooth lizard), and Masiakasaurus knopfleri, a tribute to that guy from Dire Straits. Perhaps you’ll get the honour of christening this Patagonian fossil yourself, a dinosaur incisor pried from the Argentinian earth that's just begging for a stupid name.",
+			"The first dinosaur fossil on record was the Scrotum humanum, a chunk of Megalosaurus femur dug up in 1676 so named because it looked like a giant pair of boney bollocks. Palaeontology has never quite matured since then, coining names like Colymbosathon ecplecticos (swimmer with a large penis), Mastodonsaurus (nipple-tooth lizard), and Masiakasaurus knopfleri, a tribute to that guy from Dire Straits. Perhaps you’ll get the honour of christening this Patagonian fossil yourself, a dinosaur incisor pried from the Argentinian earth that's just begging for a stupid name.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/1487/large.png",
@@ -34040,8 +34755,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 27000,
 			vendor: {
-				country: "Switzerland",
-				name: "Black Market",
+				country: "Torn",
+				name: "Pharmacy",
 			},
 		},
 		details: null,
@@ -34063,8 +34778,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 16000,
 			vendor: {
-				country: "Switzerland",
-				name: "Black Market",
+				country: "Torn",
+				name: "Pharmacy",
 			},
 		},
 		details: null,
@@ -34086,8 +34801,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 20000,
 			vendor: {
-				country: "Switzerland",
-				name: "Black Market",
+				country: "Torn",
+				name: "Pharmacy",
 			},
 		},
 		details: null,
@@ -34109,8 +34824,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 70000,
 			vendor: {
-				country: "Japan",
-				name: "Black Market",
+				country: "Torn",
+				name: "Pawn Shop",
 			},
 		},
 		details: null,
@@ -34132,8 +34847,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 40000,
 			vendor: {
-				country: "Japan",
-				name: "Black Market",
+				country: "Torn",
+				name: "Nikeh Sports",
 			},
 		},
 		details: null,
@@ -34155,8 +34870,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 205000,
 			vendor: {
-				country: "China",
-				name: "Black Market",
+				country: "Torn",
+				name: "Nikeh Sports",
 			},
 		},
 		details: null,
@@ -34178,8 +34893,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 430000,
 			vendor: {
-				country: "UAE",
-				name: "Black Market",
+				country: "Torn",
+				name: "Jewelry Store",
 			},
 		},
 		details: null,
@@ -34201,8 +34916,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 150000,
 			vendor: {
-				country: "UAE",
-				name: "Black Market",
+				country: "Torn",
+				name: "Jewelry Store",
 			},
 		},
 		details: null,
@@ -34224,8 +34939,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 240000,
 			vendor: {
-				country: "South Africa",
-				name: "Black Market",
+				country: "Torn",
+				name: "Jewelry Store",
 			},
 		},
 		details: null,
@@ -34247,8 +34962,8 @@ export const STATIC_ITEMS: StaticItems = [
 			buy_price: null,
 			sell_price: 70000,
 			vendor: {
-				country: "China",
-				name: "Black Market",
+				country: "Torn",
+				name: "Nikeh Sports",
 			},
 		},
 		details: null,
@@ -34467,7 +35182,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: 70000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Pawn Shop",
+			},
 		},
 		details: null,
 	},
@@ -34507,7 +35225,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: null,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -34527,7 +35248,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: null,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -34547,7 +35271,10 @@ export const STATIC_ITEMS: StaticItems = [
 		value: {
 			buy_price: null,
 			sell_price: null,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -34705,8 +35432,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 750,
 			sell_price: 500,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -34834,8 +35561,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 4200,
 			sell_price: 3000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -34932,8 +35659,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 75000,
 			sell_price: 53000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -35163,7 +35890,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 3500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -35282,8 +36012,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 45000,
 			sell_price: 37000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -35322,7 +36052,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 900000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -35521,8 +36254,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 15000,
 			sell_price: 10000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -35723,8 +36456,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 950000,
 			sell_price: 670000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -35928,7 +36661,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -35947,7 +36683,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -35966,7 +36705,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 16,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -35985,7 +36727,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -36004,7 +36749,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 22,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -36023,7 +36771,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -36042,7 +36793,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 25,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -36061,7 +36815,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 25,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -36081,7 +36838,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -36101,7 +36861,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: 35,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -36120,7 +36883,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 65,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -36139,7 +36905,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 32,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -36158,7 +36927,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -36177,7 +36949,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 40,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -36264,8 +37039,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 1000000,
 			sell_price: 750000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -36409,7 +37184,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Jewelry Store",
+			},
 		},
 		details: null,
 	},
@@ -36428,7 +37206,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 95,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Jewelry Store",
+			},
 		},
 		details: null,
 	},
@@ -36447,7 +37228,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 185,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Jewelry Store",
+			},
 		},
 		details: null,
 	},
@@ -36466,7 +37250,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Jewelry Store",
+			},
 		},
 		details: null,
 	},
@@ -36485,7 +37272,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 70,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Jewelry Store",
+			},
 		},
 		details: null,
 	},
@@ -36504,7 +37294,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 225,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Jewelry Store",
+			},
 		},
 		details: null,
 	},
@@ -36545,7 +37338,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 150,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -36565,8 +37361,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 3000000,
 			sell_price: 1250000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -36626,7 +37422,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 250,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -36714,7 +37513,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -36734,7 +37536,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 4500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -36753,7 +37558,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 10000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -36772,7 +37580,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 75000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -36792,7 +37603,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 200000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -36887,7 +37701,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 29000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -36907,7 +37724,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 40000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -36950,7 +37770,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 43000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -36970,7 +37793,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 80000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -37013,7 +37839,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 69000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -37033,7 +37862,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 59000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -37053,7 +37885,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 150000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -37073,7 +37908,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 21000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -37093,7 +37931,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 13000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -37113,7 +37954,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 15000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -37133,7 +37977,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 23000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -37153,7 +38000,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 9000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -37173,7 +38023,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 7600,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -37193,7 +38046,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5600,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -37236,7 +38092,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 7000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -37256,7 +38115,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 25000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -37354,8 +38216,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 430,
 			sell_price: 300,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -37469,7 +38331,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 100,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -37489,7 +38354,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -37550,8 +38418,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 500000,
 			sell_price: 325000,
 			vendor: {
-				country: "Mexico",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -37572,8 +38440,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 1100000,
 			sell_price: 600000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -37649,8 +38517,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 1500,
 			sell_price: 750,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -37681,8 +38549,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 8000,
 			sell_price: 5000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -38409,7 +39277,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 40,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -38498,7 +39369,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 50,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -38557,7 +39431,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 400,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -38819,25 +39696,6 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		},
 		details: null,
 	},
-	"168": {
-		id: 168,
-		name: "Unknown",
-		description: "This item does not exist.",
-		effect: null,
-		requirement: null,
-		image: "https://www.torn.com/images/items/168/large.png",
-		type: "Unused",
-		sub_type: null,
-		is_masked: false,
-		is_tradable: true,
-		is_found_in_city: false,
-		value: {
-			buy_price: null,
-			sell_price: null,
-			vendor: null,
-		},
-		details: null,
-	},
 	"169": {
 		id: 169,
 		name: "Barbie Doll",
@@ -39017,8 +39875,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 5500,
 			sell_price: 4250,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -39116,8 +39974,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 70000,
 			sell_price: 55000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -39156,8 +40014,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 7500,
 			sell_price: 4750,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -39428,7 +40286,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 900,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -39833,25 +40694,6 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		},
 		details: null,
 	},
-	"208": {
-		id: 208,
-		name: "Unknown",
-		description: "This item does not exist.",
-		effect: null,
-		requirement: null,
-		image: "https://www.torn.com/images/items/208/large.png",
-		type: "Unused",
-		sub_type: null,
-		is_masked: false,
-		is_tradable: true,
-		is_found_in_city: false,
-		value: {
-			buy_price: null,
-			sell_price: null,
-			vendor: null,
-		},
-		details: null,
-	},
 	"209": {
 		id: 209,
 		name: "Box of Sweet Hearts",
@@ -40031,8 +40873,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 100000,
 			sell_price: 75000,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40063,8 +40905,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 900,
 			sell_price: 750,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40104,8 +40946,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 250000,
 			sell_price: 200000,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40144,8 +40986,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 10000,
 			sell_price: 7000,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40176,8 +41018,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 8000,
 			sell_price: 6500,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40208,8 +41050,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 12000,
 			sell_price: 10000,
 			vendor: {
-				country: "Switzerland",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40240,8 +41082,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 5000000,
 			sell_price: 4000000,
 			vendor: {
-				country: "Switzerland",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40280,8 +41122,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 2500,
 			sell_price: 2000,
 			vendor: {
-				country: "Switzerland",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40312,8 +41154,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 60000,
 			sell_price: 50000,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40353,8 +41195,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 20000,
 			sell_price: 15000,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40385,8 +41227,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 600,
 			sell_price: 400,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40418,8 +41260,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 7500,
 			sell_price: 6500,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40459,8 +41301,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 15000,
 			sell_price: 11000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40491,8 +41333,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 300,
 			sell_price: 200,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40531,8 +41373,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 45000,
 			sell_price: 35000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40571,7 +41413,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 55000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Primary",
@@ -40610,8 +41455,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 55000,
 			sell_price: 40000,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40650,8 +41495,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 2500,
 			sell_price: 2000,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40682,8 +41527,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 5000,
 			sell_price: 4000,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40714,8 +41559,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 50000,
 			sell_price: 40000,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40747,8 +41592,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 95000,
 			sell_price: 80000,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40780,8 +41625,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 1000,
 			sell_price: 700,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40813,8 +41658,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 500,
 			sell_price: 400,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40846,8 +41691,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 25000000,
 			sell_price: 17000000,
 			vendor: {
-				country: "Hawaii",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40886,8 +41731,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 15000,
 			sell_price: 10000,
 			vendor: {
-				country: "Hawaii",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40926,8 +41771,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 20000,
 			sell_price: 15000,
 			vendor: {
-				country: "Hawaii",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40944,7 +41789,7 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 	},
 	"243": {
 		id: 243,
-		name: "Taurus",
+		name: "Taurus PT92",
 		description: "This firearm has been engineered for reliability, accuracy and durability. One of the best low priced weapons you can buy.",
 		effect: null,
 		requirement: null,
@@ -40958,8 +41803,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 650,
 			sell_price: 400,
 			vendor: {
-				country: "Hawaii",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -40999,8 +41844,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 2500,
 			sell_price: 2000,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -41040,8 +41885,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 500,
 			sell_price: 300,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -41073,8 +41918,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 500,
 			sell_price: 300,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -41105,8 +41950,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 16000,
 			sell_price: 13000,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -41138,8 +41983,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 90000,
 			sell_price: 70000,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -41178,8 +42023,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 6500,
 			sell_price: 5000,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -41218,8 +42063,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 50000,
 			sell_price: 40000,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -41251,8 +42096,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 75000,
 			sell_price: 60000,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -41283,8 +42128,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 10000,
 			sell_price: 7000,
 			vendor: {
-				country: "Canada",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -41324,8 +42169,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 300,
 			sell_price: 200,
 			vendor: {
-				country: "Canada",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -41363,7 +42208,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 25000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -41402,8 +42250,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 3000000,
 			sell_price: 2500000,
 			vendor: {
-				country: "Argentina",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -41443,8 +42291,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 15000,
 			sell_price: 10000,
 			vendor: {
-				country: "Argentina",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -41475,8 +42323,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 35000,
 			sell_price: 30000,
 			vendor: {
-				country: "Argentina",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -41507,8 +42355,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 10000,
 			sell_price: 8000,
 			vendor: {
-				country: "Mexico",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41530,8 +42378,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 500,
 			sell_price: 350,
 			vendor: {
-				country: "Mexico",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41552,8 +42400,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 300,
 			sell_price: 250,
 			vendor: {
-				country: "Mexico",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41574,8 +42422,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 30,
 			sell_price: 25,
 			vendor: {
-				country: "Canada",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41597,8 +42445,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 400,
 			sell_price: 300,
 			vendor: {
-				country: "Canada",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41619,8 +42467,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 600,
 			sell_price: 400,
 			vendor: {
-				country: "Canada",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41641,8 +42489,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 700,
 			sell_price: 500,
 			vendor: {
-				country: "Hawaii",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41664,8 +42512,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 2000,
 			sell_price: 1800,
 			vendor: {
-				country: "Hawaii",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41686,8 +42534,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 200,
 			sell_price: 150,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41708,8 +42556,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 5000,
 			sell_price: 4000,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41730,8 +42578,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 1000,
 			sell_price: 750,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41752,8 +42600,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 400,
 			sell_price: 300,
 			vendor: {
-				country: "Argentina",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41775,8 +42623,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 50,
 			sell_price: 30,
 			vendor: {
-				country: "Argentina",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41797,8 +42645,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 500,
 			sell_price: 350,
 			vendor: {
-				country: "Argentina",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41819,8 +42667,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 900,
 			sell_price: 700,
 			vendor: {
-				country: "Switzerland",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41841,8 +42689,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 400,
 			sell_price: 300,
 			vendor: {
-				country: "Switzerland",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41864,8 +42712,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 400,
 			sell_price: 300,
 			vendor: {
-				country: "China",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41887,8 +42735,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 12000,
 			sell_price: 10000,
 			vendor: {
-				country: "China",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -41910,8 +42758,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 5000,
 			sell_price: 4000,
 			vendor: {
-				country: "China",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41932,8 +42780,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 500,
 			sell_price: 300,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -41954,8 +42802,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 10000,
 			sell_price: 7000,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -41976,8 +42824,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 50000,
 			sell_price: 35000,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -41999,8 +42847,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 500,
 			sell_price: 300,
 			vendor: {
-				country: "South Africa",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -42021,8 +42869,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 400,
 			sell_price: 300,
 			vendor: {
-				country: "South Africa",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -42044,8 +42892,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 2000,
 			sell_price: 1500,
 			vendor: {
-				country: "South Africa",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -42065,7 +42913,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 23500000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Pawn Shop",
+			},
 		},
 		details: null,
 	},
@@ -42319,8 +43170,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 39,
 			sell_price: 30,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -42533,7 +43384,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -42552,7 +43406,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -42571,7 +43428,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -42590,7 +43450,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -42609,7 +43472,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -43074,8 +43940,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 3500000,
 			sell_price: 2700000,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -43133,8 +43999,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 7500000,
 			sell_price: 4500000,
 			vendor: {
-				country: "Argentina",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -43183,8 +44049,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 15000000,
 			sell_price: 9000000,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -43753,8 +44619,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 70000,
 			vendor: {
-				country: "South Africa",
-				name: "Black Market",
+				country: "Torn",
+				name: "Pawn Shop",
 			},
 		},
 		details: null,
@@ -43774,7 +44640,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -43835,8 +44704,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 900000,
 			sell_price: 700000,
 			vendor: {
-				country: "Switzerland",
-				name: "General Store",
+				country: "Torn",
+				name: "Pharmacy",
 			},
 		},
 		details: null,
@@ -44293,7 +45162,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: 12000000000,
 			sell_price: 400,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -44313,8 +45185,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 14000,
 			sell_price: 11000,
 			vendor: {
-				country: "UAE",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -44336,8 +45208,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 6000,
 			sell_price: 4000,
 			vendor: {
-				country: "UAE",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -44493,8 +45365,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 100000,
 			sell_price: 80000,
 			vendor: {
-				country: "Argentina",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -44558,7 +45430,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -44596,7 +45471,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: 5,
 			sell_price: 3,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Temporary",
@@ -44627,8 +45505,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 400000,
 			sell_price: 300000,
 			vendor: {
-				country: "Japan",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -44680,8 +45558,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 8000000,
 			sell_price: 6000000,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -44712,8 +45590,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 7500000,
 			sell_price: 3750000,
 			vendor: {
-				country: "Switzerland",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -44752,8 +45630,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 20000000,
 			sell_price: 15000000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -44793,8 +45671,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 200000,
 			sell_price: 150000,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -44824,7 +45702,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: 150,
 			sell_price: 100,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -44855,8 +45736,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 20000,
 			sell_price: 15000,
 			vendor: {
-				country: "Canada",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -44930,7 +45811,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 1,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -44950,8 +45834,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 50000,
 			sell_price: 30000,
 			vendor: {
-				country: "South Africa",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -44972,8 +45856,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 2500,
 			sell_price: 1750,
 			vendor: {
-				country: "Argentina",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -44994,8 +45878,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 25000,
 			sell_price: 15000,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -45017,8 +45901,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 20000,
 			sell_price: 7500,
 			vendor: {
-				country: "Mexico",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -45040,8 +45924,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 20000,
 			sell_price: 15000,
 			vendor: {
-				country: "Canada",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -45062,8 +45946,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 17500,
 			sell_price: 13000,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -45085,8 +45969,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 10000,
 			sell_price: 3000,
 			vendor: {
-				country: "UAE",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -45107,8 +45991,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 30000,
 			sell_price: 22500,
 			vendor: {
-				country: "Canada",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -45129,8 +46013,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 100000,
 			sell_price: 2000,
 			vendor: {
-				country: "UAE",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -45152,8 +46036,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 40000,
 			sell_price: 25000,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -45174,8 +46058,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 1500,
 			sell_price: 1,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -45219,8 +46103,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 10000,
 			sell_price: 7500,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -45242,8 +46126,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 2000000,
 			sell_price: 1000000,
 			vendor: {
-				country: "Hawaii",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -45265,8 +46149,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 4000000,
 			sell_price: 2000000,
 			vendor: {
-				country: "Hawaii",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -45276,7 +46160,7 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		name: "Large Suitcase",
 		description:
 			"The suitcase is something the frequent traveller cannot be without, and this one has a special lead lined hidden compartment should you need to carry contraband. This particular model will allow you to carry 3 more items back with you.",
-		effect: "Increases travel capacity by +3. Does not stack with other suitcases.",
+		effect: "Increases travel capacity by +3. Does not stack with other suitcases.\nRequired by the Imitator role during the Cleared for Takeoff scenario.",
 		requirement: null,
 		image: "https://www.torn.com/images/items/421/large.png",
 		type: "Enhancer",
@@ -45288,8 +46172,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 10000000,
 			sell_price: 5000000,
 			vendor: {
-				country: "Hawaii",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -45387,8 +46271,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 85,
 			sell_price: 60,
 			vendor: {
-				country: "Mexico",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -45409,8 +46293,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 300,
 			sell_price: 175,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -45451,8 +46335,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 25,
 			sell_price: 10,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -45473,8 +46357,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 750000,
 			sell_price: 300000,
 			vendor: {
-				country: "Hawaii",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -45495,8 +46379,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 750,
 			sell_price: 500,
 			vendor: {
-				country: "United Kingdom",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -45517,8 +46401,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 25,
 			sell_price: 10,
 			vendor: {
-				country: "Mexico",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -45539,8 +46423,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 500,
 			sell_price: 300,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -45561,8 +46445,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 4500,
 			sell_price: 3000,
 			vendor: {
-				country: "Japan",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -45606,8 +46490,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 6000,
 			sell_price: 4000,
 			vendor: {
-				country: "Switzerland",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -45650,8 +46534,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 15000,
 			sell_price: 10000,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -45683,8 +46567,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 400,
 			sell_price: 300,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -45715,7 +46599,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 150,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -45931,7 +46818,7 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		id: 451,
 		name: "Florin Coin",
 		description:
-			"An English coin based on a French coin, and issued in Florence, Italy in 1252. The Florin was made from gold and was intended as an international coin, however the gold it was made from was overvalued and the coin was not accepted by international merchants. The coin was then withdrawn from circulation and melted down to form the Noble. Because of this, the Florin is very rare.",
+			"An English gold coin based on the Florentine florin, minted at the Tower of London in 1344. Intended for international trade, it was overvalued and quickly rejected by merchants. The Florin was withdrawn from circulation and melted down to form the Noble, making surviving examples very rare.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/451/large.png",
@@ -45951,7 +46838,7 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		id: 452,
 		name: "Gold Noble Coin",
 		description:
-			"The first mass-produced English coin, preceded by the Florin, the gold Noble was valued at six shillings and eight pence. The coin was introduced in 1344, and weighed 138.5 grains, later reduced to 128.5 grains. Mentioned in Shakespeare's plays, this coin is sought after by museums and private collectors.",
+			"The first successful mass-produced English gold coin, the gold Noble succeeded the short-lived Florin. Valued at six shillings and eight pence, it was introduced in 1344 and weighed 138.5 grains, later reduced to 128.5 grains. Mentioned in Shakespeare’s plays, the coin is sought after by museums and private collectors.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/452/large.png",
@@ -46011,7 +46898,7 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		id: 455,
 		name: "Companion Script : Abdullah",
 		description:
-			"The Companion Script : Abdullah is an early handwritten portion of Qur'an text, claimed to be tied to Abdullah ibn Masud, an early follower with a reputation for knowing the recitations inside out. He can be considered the biggest poindexter out of all of Muhammad's Companions. \"Companion\" in this context means early follower, someone who would have totally contributed to the Islam Kickstarter. This script is said to be ibn Masud's personal copy of the early Qur'an, compiled for use, not for show, and often riddled with private notes from its owner. A historically insightful document, this script is worth far more when it's sitting alongside the other two scripts.",
+			"The Companion Script: Abdullah is an early handwritten portion of Qur'an text, claimed to be tied to Abdullah ibn Masud, a Companion of Muhammad with a reputation for knowing the recitations inside out. He can be considered the biggest poindexter out of all Muhammad's Companions. \"Companion\" in this context means someone who met Muhammad, believed in him, and died a Muslim. Someone who would have totally contributed to the Islam Kickstarter. This script is said to be ibn Masud's personal copy of the early Qur'an, compiled for use, not for show, and often riddled with private notes from its owner. A historically insightful document, this script is worth far more when it's sitting alongside the other two scripts.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/455/large.png",
@@ -46031,7 +46918,7 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		id: 456,
 		name: "Companion Script : Ubay",
 		description:
-			"The Companion Script : Ubay is an early handwritten slice of Qur'an text, supposedly linked to Ubay ibn Ka'b, a prominent early follower known for his recitation and status in the first Muslim community. Muhammad's \"Companions\" were those with him from the beginning, his ride or die bitches, who were there when the Qur'an was first being recited, memorized, and written down. A Companion Script is that person's own working copy of these early writings, kept for reference and often adorned with personal notes. These Companion Scripts are hugely important historically, and collectors will pay a fine price for them, moreso if you've got all three.",
+			"The Companion Script: Ubay is an early handwritten slice of Qur'an text, supposedly linked to Ubay ibn Ka'b, a prominent early follower known for his recitation and status in the first Muslim community. Muhammad's \"Companions\" were people who met him, believed in him, and died as Muslims. They were basically his ride or die bitches who were there when the Qur'an was first being written down. A Companion Script is said to be that person's own working copy of these early writings, kept for reference and often adorned with personal notes. These Companion Scripts are hugely important historically, and collectors will pay a fine price for them, moreso if you've got all three.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/456/large.png",
@@ -46051,7 +46938,7 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		id: 457,
 		name: "Companion Script : Ali",
 		description:
-			"The Companion Script : Ali is an early handwritten copy of part of the Qur'an text, claimed to have belonged to Ali ibn Abi Talib, Muhammad's cousin, son-in-law, and one of his earliest followers. Whereas your mother might describe some guy she's dating secretly in her golden years as her \"companion\", a Companion in this context is someone from Muhammad's early inner circle. Ali's Companion Script is their personal compilation of the Qur'an text, complete with its own ordering and notes. Think of it as a rough first draft, except rare, collectible, and worth far more as part of the full set of three.",
+			"The Companion Script: Ali is an early handwritten copy of part of the Qur'an text, claimed to have belonged to Ali ibn Abi Talib, Muhammad's cousin, son-in-law, and one of his earliest followers. Whereas your mother might describe some guy she's secretly rawdogging as her \"Companion\", a Companion in this context is someone who met Muhammad, believed in him, and died a Muslim. Ali's Companion Script is said to be his personal compilation of the Qur'an text, complete with its own ordering and notes. Think of it as a rare, collectible personal copy, worth far more as part of the full set of three.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/457/large.png",
@@ -46091,7 +46978,7 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		id: 459,
 		name: "Egyptian Amulet",
 		description:
-			"These amulets, often in the form of a scarab beetle, were left in tombs as grave goods or given to people and the gods as presents. The Scarab, or 'Kheper' (which means \"to transform\"), was used in many of the pharaonic names. Pharaoh Amenhotep III was famous for his group of '5 scarabs'. This particular amulet is made from fired clay.",
+			"These amulets, often in the form of a scarab beetle, were left in tombs as grave goods or given to people and the gods as presents. The Scarab, or 'Kheper' (which means \"to transform\"), was used in many of the pharaonic names. Pharaoh Amenhotep III was famous for issuing five distinct series of scarabs comprising over 200 individual amulets. This particular amulet is made from fired clay.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/459/large.png",
@@ -46615,7 +47502,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -46653,7 +47543,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Primary",
@@ -46691,7 +47584,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -46728,7 +47624,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -46765,7 +47664,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Primary",
@@ -46803,7 +47705,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Primary",
@@ -46841,7 +47746,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -46879,7 +47787,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -46974,7 +47885,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 8000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47017,7 +47931,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 8000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47037,7 +47954,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 7500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47126,7 +48046,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47215,7 +48138,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 8500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47266,7 +48192,7 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		id: 508,
 		name: "Volt RS",
 		description:
-			"The Volt RS's top speed of 163mph makes it only the third-fastest in Class C, but where it stands alone is the rapid acceleration provided by its 300bhp, 2.5 liter turbocharged engine. This model is also the highest rated tarmac car in its class, but Torn's dirt racers are known to favor the FRS on occasion too. ",
+			"The Volt RS's top speed of 163mph makes it only the third-fastest in Class C, but where it stands alone is the rapid acceleration provided by its 300bhp, 2.5 liter turbocharged engine. This model is also the highest rated tarmac car in its class, but Torn's dirt racers are known to favor this car on occasion too.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/508/large.png",
@@ -47324,7 +48250,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 27000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47390,7 +48319,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 27000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47456,7 +48388,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 32000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47476,7 +48411,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 2100000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47496,7 +48434,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 810000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47536,7 +48477,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 1075000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47556,7 +48500,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 3600000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47576,7 +48523,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 4700000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47596,7 +48546,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 1900000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47616,7 +48569,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 170000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Docks",
+			},
 		},
 		details: null,
 	},
@@ -47673,7 +48629,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -47692,7 +48651,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 25,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -47711,7 +48673,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 75,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -47809,7 +48774,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -47828,7 +48796,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -47847,7 +48818,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -47867,7 +48841,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -47886,7 +48863,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 9000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			coverage: [
@@ -47955,7 +48935,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -48382,7 +49365,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -48420,7 +49406,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 100,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -48481,7 +49470,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 25,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -48670,7 +49662,7 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		name: "Tracking Device",
 		description:
 			"The Tracking Device is a kit that comprises a discreet, magnetic tracker and handheld GPS mapping system. It can track anyone or anything anywhere in the world to within 1 meter.",
-		effect: "Improves success rate for the Assassination crime in Crimes 1.0.",
+		effect: "Improves success rate for the Assassination crime in Crimes 1.0.\nRequired by the Pickpocket role during the Cleared for Takeoff scenario.",
 		requirement: null,
 		image: "https://www.torn.com/images/items/572/large.png",
 		type: "Enhancer",
@@ -48858,7 +49850,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Temporary",
@@ -48966,7 +49961,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 55,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -48986,7 +49984,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 45,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -49119,7 +50120,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 75,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -49196,7 +50200,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 60,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -49234,7 +50241,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 300,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -49311,7 +50321,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 80,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -49330,7 +50343,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 30,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -49349,7 +50365,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 60,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -49368,7 +50387,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 120,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -49387,7 +50409,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 70,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -49436,8 +50461,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 495000,
 			sell_price: 350000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -49476,8 +50501,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 300000,
 			sell_price: 200000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -49517,8 +50542,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 950000,
 			sell_price: 800000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -49549,8 +50574,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 50000000,
 			sell_price: 40000000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -49582,8 +50607,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 3,
 			sell_price: 2,
 			vendor: {
-				country: "Cayman Islands",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -49615,8 +50640,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 4000,
 			sell_price: 3000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -49637,8 +50662,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 400,
 			sell_price: 300,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "Bits 'n' Bobs",
 			},
 		},
 		details: null,
@@ -49659,8 +50684,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 1500,
 			sell_price: 1000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -49681,8 +50706,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 750,
 			sell_price: 500,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "Recycling Center",
 			},
 		},
 		details: null,
@@ -49703,8 +50728,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 20000,
 			sell_price: 15000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -49725,8 +50750,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 10000,
 			sell_price: 7500,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -49747,8 +50772,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 6000,
 			sell_price: 4000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -49769,8 +50794,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 8000,
 			sell_price: 6000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -49791,8 +50816,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 30000,
 			sell_price: 20000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -49813,8 +50838,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 5000,
 			sell_price: 3000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "General Store",
+				country: "Torn",
+				name: "TC Clothing",
 			},
 		},
 		details: null,
@@ -49980,7 +51005,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -49999,7 +51027,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -50018,7 +51049,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -50037,7 +51071,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -50075,7 +51112,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 35000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -50095,8 +51135,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 400000,
 			sell_price: 320000,
 			vendor: {
-				country: "Mexico",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -50138,8 +51178,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 89500,
 			sell_price: 71000,
 			vendor: {
-				country: "United Kingdom",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -50217,8 +51257,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 14000,
 			sell_price: 11500,
 			vendor: {
-				country: "China",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -50296,8 +51336,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 77000,
 			sell_price: 58000,
 			vendor: {
-				country: "Canada",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -50556,8 +51596,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 3100000,
 			sell_price: 2600000,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -50595,8 +51635,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 2950000,
 			sell_price: 2450000,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -50646,8 +51686,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 2400000,
 			sell_price: 1920000,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -50688,8 +51728,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: 2100000,
 			sell_price: 1870000,
 			vendor: {
-				country: "South Africa",
-				name: "Arms Dealer",
+				country: "Torn",
+				name: "Big Al's Gun Shop",
 			},
 		},
 		details: {
@@ -52313,7 +53353,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 1,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -52332,7 +53375,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -52371,7 +53417,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 27,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -52391,7 +53440,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 4,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -52410,7 +53462,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -52429,7 +53484,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 17,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -53201,7 +54259,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 150,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Temporary",
@@ -53231,7 +54292,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: null,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -54170,7 +55234,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 4,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -54200,7 +55267,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 7,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -55892,7 +56962,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -55972,7 +57045,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 1,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -56334,7 +57410,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 50,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -56373,7 +57452,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -56392,7 +57474,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 75,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -56411,7 +57496,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 30,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -56430,7 +57518,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 250,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -56449,7 +57540,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -56487,7 +57581,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -56506,7 +57603,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 30,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -56525,7 +57625,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 2000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -56544,7 +57647,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 1,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -56563,7 +57669,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 10000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -56582,7 +57691,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 25000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -56601,7 +57713,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -56620,7 +57735,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -56640,7 +57758,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -56659,7 +57780,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -56678,7 +57802,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 75,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -56697,7 +57824,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 100,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -56774,7 +57904,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 1,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -56994,7 +58127,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: 35,
 			sell_price: null,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -57712,7 +58848,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: 20,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -59300,7 +60439,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 40,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Sally's Sweet Shop",
+			},
 		},
 		details: null,
 	},
@@ -60250,7 +61392,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 75,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -60270,7 +61415,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -60290,7 +61438,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -60310,7 +61461,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -60350,7 +61504,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 1,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -60390,7 +61547,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 45,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -60410,7 +61570,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -60470,7 +61633,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 3,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -60490,7 +61656,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 125,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -61619,7 +62788,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 10000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -61657,7 +62829,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 8000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -61695,7 +62870,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 12000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Secondary",
@@ -61733,7 +62911,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 10000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Primary",
@@ -61771,7 +62952,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 10000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Primary",
@@ -61809,7 +62993,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 8000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Primary",
@@ -62613,7 +63800,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 125,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -62793,7 +63983,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -62813,7 +64006,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 8500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -62833,7 +64029,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 350,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -62913,7 +64112,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 80000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -62933,7 +64135,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 60,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Temporary",
@@ -62963,7 +64168,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63003,7 +64211,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -63023,7 +64234,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 3750,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63043,7 +64257,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 65,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63063,7 +64280,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 8000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -63123,7 +64343,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -63163,7 +64386,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 220,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -63223,7 +64449,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 75,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63243,7 +64472,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 30,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63263,7 +64495,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63303,7 +64538,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 75,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -63323,7 +64561,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 3750,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63343,7 +64584,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63363,7 +64607,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63423,7 +64670,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 2150,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -63453,7 +64703,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 400,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63473,7 +64726,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: 995,
 			sell_price: null,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -63533,7 +64789,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 600,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -63553,7 +64812,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 25,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63573,7 +64835,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 2700,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -63613,7 +64878,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 2000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -63633,7 +64901,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63653,7 +64924,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 100,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63673,7 +64947,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 22000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -63713,7 +64990,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 45000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63756,7 +65036,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 25000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63776,7 +65059,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 25,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63839,7 +65125,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 75500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -63879,7 +65168,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 6500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -63899,7 +65191,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 90,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -63908,7 +65203,7 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		name: "Bone Saw",
 		description:
 			"Bone saws are a common feature of both butcher's shops and hospital surgeries. This particular saw has a universal tooth design, giving it the power to hack through dense bone while maintaining the precision needed for finer, more delicate cuts. There are, however, several types of bone which are incompatible with this saw, including knucklebones, trombones, Ken Bones, and lazybones.",
-		effect: "Required for the disposal of a dead body in Disposal.",
+		effect: "Required for the disposal of a dead body in Disposal.\nRequired by the Interrogator role during the Cleared for Takeoff scenario.",
 		requirement: null,
 		image: "https://www.torn.com/images/items/1255/large.png",
 		type: "Weapon",
@@ -63919,7 +65214,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 800,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -63949,7 +65247,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 4000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -63969,7 +65270,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 1250,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Big Al's Gun Shop",
+			},
 		},
 		details: {
 			category: "Melee",
@@ -64039,7 +65343,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 30000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -64079,7 +65386,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -64099,7 +65409,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 300,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -64142,7 +65455,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 150,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -64162,7 +65478,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -64182,7 +65501,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -64225,7 +65547,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 30,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -64245,7 +65570,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -64265,7 +65593,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 95,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -64285,7 +65616,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -64305,7 +65639,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -64325,7 +65662,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -64345,7 +65685,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -64365,7 +65708,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -64405,7 +65751,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 4000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -64425,7 +65774,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 1900,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -64445,7 +65797,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 700,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Super Store",
+			},
 		},
 		details: null,
 	},
@@ -64465,7 +65820,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 2200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -64485,7 +65843,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 400,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -64505,7 +65866,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 200,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -64545,7 +65909,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 15,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -64565,7 +65932,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -64585,7 +65955,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 30,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Bits 'n' Bobs",
+			},
 		},
 		details: null,
 	},
@@ -64605,7 +65978,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 10,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Recycling Center",
+			},
 		},
 		details: null,
 	},
@@ -64668,7 +66044,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 5,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "TC Clothing",
+			},
 		},
 		details: null,
 	},
@@ -64868,7 +66247,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 255,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -64888,7 +66270,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 180,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -64928,7 +66313,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -64988,7 +66376,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 175,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Cyber Force",
+			},
 		},
 		details: null,
 	},
@@ -65308,7 +66699,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 20,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -65371,7 +66765,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: 45,
 			sell_price: 35,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -65576,7 +66973,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 45,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -65596,7 +66996,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 60,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -65605,7 +67008,7 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		name: "Hand Drill",
 		description:
 			"The 20v cordless Lochmacher 42 was voted Drill of the Month in April 2021, and it's easy to see why. With 8 variable speeds, and a week-long battery life from a one hour charge, this product bores through the competition with ease. On the 1st of December 1990, a drill like this except much larger and completely different was used to punch the final hole in the tunnel between Britain and France which we now know as the Channel Tunnel.",
-		effect: "Required for the production of forgery projects.\nRequired by the Muscle, Robber, and Thief roles during the Break the Bank scenario.\nRequired by the Engineer role during the Guardian Ángels scenario.",
+		effect: "Required for the production of forgery projects.\nRequired by the Muscle, Robber, and Thief roles during the Break the Bank scenario.\nRequired by the Engineer role during the Guardian Ángels scenario.\nRequired by the Techie role during the Cleared for Takeoff scenario.",
 		requirement: null,
 		image: "https://www.torn.com/images/items/1331/large.png",
 		type: "Tool",
@@ -65699,7 +67102,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 6500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -65719,7 +67125,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 62500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -65739,7 +67148,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 50000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -65779,7 +67191,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 180000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -65819,7 +67234,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 3250,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -65839,7 +67257,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 122500,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -65859,7 +67280,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 580000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -65899,7 +67323,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 75000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -65982,7 +67409,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 95000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -66002,7 +67432,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 230000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -66707,7 +68140,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 195000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -66747,7 +68183,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 105000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -68126,7 +69565,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 2250000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Jewelry Store",
+			},
 		},
 		details: null,
 	},
@@ -68470,8 +69912,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 90000,
 			vendor: {
-				country: "Cayman Islands",
-				name: "Black Market",
+				country: "Torn",
+				name: "Pawn Shop",
 			},
 		},
 		details: null,
@@ -68493,8 +69935,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 9000,
 			vendor: {
-				country: "Canada",
-				name: "Black Market",
+				country: "Torn",
+				name: "Pharmacy",
 			},
 		},
 		details: null,
@@ -68516,8 +69958,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 35000,
 			vendor: {
-				country: "Canada",
-				name: "Black Market",
+				country: "Torn",
+				name: "Nikeh Sports",
 			},
 		},
 		details: null,
@@ -68539,8 +69981,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 66000,
 			vendor: {
-				country: "Hawaii",
-				name: "Black Market",
+				country: "Torn",
+				name: "Nikeh Sports",
 			},
 		},
 		details: null,
@@ -68562,8 +70004,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 98000,
 			vendor: {
-				country: "Hawaii",
-				name: "Black Market",
+				country: "Torn",
+				name: "Jewelry Store",
 			},
 		},
 		details: null,
@@ -68572,7 +70014,7 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		id: 1487,
 		name: "Patagonian Fossil",
 		description:
-			"The first dinosaur fossil on record was the Scrotum humanum, a chunk of Megalosaurus femur dug up in 1676 so named because it looked like a giant pair of boney bollocks. Palaeontology has never quite matured since then, coining names like Rhomaleosaurus megadeirus (great backside), Mastodonsaurus (nipple-tooth lizard), and Masiakasaurus knopfleri, a tribute to that guy from Dire Straits. Perhaps you’ll get the honour of christening this Patagonian fossil yourself, a dinosaur incisor pried from the Argentinian earth that's just begging for a stupid name.",
+			"The first dinosaur fossil on record was the Scrotum humanum, a chunk of Megalosaurus femur dug up in 1676 so named because it looked like a giant pair of boney bollocks. Palaeontology has never quite matured since then, coining names like Colymbosathon ecplecticos (swimmer with a large penis), Mastodonsaurus (nipple-tooth lizard), and Masiakasaurus knopfleri, a tribute to that guy from Dire Straits. Perhaps you’ll get the honour of christening this Patagonian fossil yourself, a dinosaur incisor pried from the Argentinian earth that's just begging for a stupid name.",
 		effect: null,
 		requirement: null,
 		image: "https://www.torn.com/images/items/1487/large.png",
@@ -68631,8 +70073,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 27000,
 			vendor: {
-				country: "Switzerland",
-				name: "Black Market",
+				country: "Torn",
+				name: "Pharmacy",
 			},
 		},
 		details: null,
@@ -68654,8 +70096,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 16000,
 			vendor: {
-				country: "Switzerland",
-				name: "Black Market",
+				country: "Torn",
+				name: "Pharmacy",
 			},
 		},
 		details: null,
@@ -68677,8 +70119,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 20000,
 			vendor: {
-				country: "Switzerland",
-				name: "Black Market",
+				country: "Torn",
+				name: "Pharmacy",
 			},
 		},
 		details: null,
@@ -68700,8 +70142,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 70000,
 			vendor: {
-				country: "Japan",
-				name: "Black Market",
+				country: "Torn",
+				name: "Pawn Shop",
 			},
 		},
 		details: null,
@@ -68723,8 +70165,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 40000,
 			vendor: {
-				country: "Japan",
-				name: "Black Market",
+				country: "Torn",
+				name: "Nikeh Sports",
 			},
 		},
 		details: null,
@@ -68746,8 +70188,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 205000,
 			vendor: {
-				country: "China",
-				name: "Black Market",
+				country: "Torn",
+				name: "Nikeh Sports",
 			},
 		},
 		details: null,
@@ -68769,8 +70211,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 430000,
 			vendor: {
-				country: "UAE",
-				name: "Black Market",
+				country: "Torn",
+				name: "Jewelry Store",
 			},
 		},
 		details: null,
@@ -68792,8 +70234,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 150000,
 			vendor: {
-				country: "UAE",
-				name: "Black Market",
+				country: "Torn",
+				name: "Jewelry Store",
 			},
 		},
 		details: null,
@@ -68815,8 +70257,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 240000,
 			vendor: {
-				country: "South Africa",
-				name: "Black Market",
+				country: "Torn",
+				name: "Jewelry Store",
 			},
 		},
 		details: null,
@@ -68838,8 +70280,8 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 			buy_price: null,
 			sell_price: 70000,
 			vendor: {
-				country: "China",
-				name: "Black Market",
+				country: "Torn",
+				name: "Nikeh Sports",
 			},
 		},
 		details: null,
@@ -69058,7 +70500,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: 70000000,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Pawn Shop",
+			},
 		},
 		details: null,
 	},
@@ -69098,7 +70543,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: null,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -69118,7 +70566,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: null,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
@@ -69138,7 +70589,10 @@ export const STATIC_ITEM_MAP: StaticItemMap = {
 		value: {
 			buy_price: null,
 			sell_price: null,
-			vendor: null,
+			vendor: {
+				country: "Torn",
+				name: "Print Shop",
+			},
 		},
 		details: null,
 	},
