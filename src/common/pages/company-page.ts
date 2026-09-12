@@ -12,7 +12,7 @@ export const isOwnCompany = location.pathname === "/companies.php";
 
 export function setupCompanyPage() {
 	if (!isOwnCompany) {
-		requireElement(".content #mainContainer .employees-wrap").then(() => {
+		requireElement(".content #mainContainer .content-wrapper").then(() => {
 			new MutationObserver(async (mutations) => {
 				if (
 					!(mutations.length > 1) ||

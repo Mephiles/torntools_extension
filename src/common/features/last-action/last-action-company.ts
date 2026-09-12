@@ -132,6 +132,9 @@ export default class LastActionCompanyFeature extends Feature {
 	}
 
 	override async execute() {
+		const params = getHashParameters();
+		if (params.get("p") !== "corpinfo") return;
+
 		await addLastAction(false);
 	}
 

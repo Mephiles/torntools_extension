@@ -1,7 +1,7 @@
 import "./job-specials.css";
 import { settings } from "@common/utils/data/database";
 import { createContainer, findContainer } from "@common/utils/functions/containers";
-import { elementBuilder, mobile } from "@common/utils/functions/dom";
+import { elementBuilder, getHashParameters, mobile } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findElement } from "@common/utils/functions/find-elements";
 import { applyPlural } from "@common/utils/functions/formatting";
@@ -98,6 +98,9 @@ export default class JobSpecialsFeature extends Feature {
 	}
 
 	override async execute() {
+		const params = getHashParameters();
+		if (params.get("p") !== "corpinfo") return;
+
 		await showSpecials();
 	}
 

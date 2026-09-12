@@ -1,6 +1,6 @@
 import { isOwnCompany, readCompanyDetails } from "@common/pages/company-page";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder } from "@common/utils/functions/dom";
+import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findElement } from "@common/utils/functions/find-elements.ts";
 import { requireElement } from "@common/utils/functions/requires";
@@ -48,6 +48,9 @@ export default class CompanyIDFeature extends Feature {
 	}
 
 	override async execute() {
+		const params = getHashParameters();
+		if (params.get("p") !== "corpinfo") return;
+
 		await addID();
 	}
 
