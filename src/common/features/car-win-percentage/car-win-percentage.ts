@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -10,11 +9,7 @@ import { Feature } from "@features/feature";
 
 function initialiseListener() {
 	addXHRListener(async ({ detail: { page, xhr } }) => {
-		if (
-			FEATURE_MANAGER.isEnabled(CarWinPercentageFeature) &&
-			page === "page" &&
-			(xhr.responseURL.includes("tab=parts") || xhr.responseURL.includes("tab=cars") || xhr.responseURL.includes("race_carlist.js"))
-		)
+		if (page === "page" && (xhr.responseURL.includes("tab=parts") || xhr.responseURL.includes("tab=cars") || xhr.responseURL.includes("race_carlist.js")))
 			await addPercentage();
 	});
 }

@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -16,16 +16,8 @@ export interface StoredResizableChats {
 }
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, async ({ chat }) => {
-		if (!FEATURE_MANAGER.isEnabled(ResizableChatFeature)) return;
-
-		await resizeInput(chat);
-	});
-	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, async () => {
-		if (!FEATURE_MANAGER.isEnabled(ResizableChatFeature)) return;
-
-		await startFeature();
-	});
+	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, ({ chat }) => resizeInput(chat));
+	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, startFeature);
 }
 
 let resizeObserver: ResizeObserver | undefined;

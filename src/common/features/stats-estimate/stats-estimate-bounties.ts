@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { getHashParameters } from "@common/utils/functions/dom";
@@ -13,15 +12,11 @@ const statsEstimate = new StatsEstimate("Bounties", true);
 
 function registerListeners() {
 	addCustomListener(EVENT_CHANNELS.SWITCH_PAGE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(StatsEstimateBountiesFeature) || settings.pages.bounties.filter) return;
+		if (settings.pages.bounties.filter) return;
 
 		await showEstimates();
 	});
-	addCustomListener(EVENT_CHANNELS.FILTER_APPLIED, async () => {
-		if (!FEATURE_MANAGER.isEnabled(StatsEstimateBountiesFeature)) return;
-
-		await showEstimates();
-	});
+	addCustomListener(EVENT_CHANNELS.FILTER_APPLIED, showEstimates);
 }
 
 async function startFeature() {

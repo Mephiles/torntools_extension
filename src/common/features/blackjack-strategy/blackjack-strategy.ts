@@ -1,5 +1,4 @@
 import "./blackjack-strategy.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
@@ -17,7 +16,7 @@ const ACTIONS: Record<string, string> = {
 
 function initialiseStrategy() {
 	addXHRListener(({ detail: { page, xhr, ...detail } }) => {
-		if (!FEATURE_MANAGER.isEnabled(BlackjackStrategyFeature) || !("json" in detail)) return;
+		if (!("json" in detail)) return;
 		const { json } = detail;
 
 		if (page === "page") {

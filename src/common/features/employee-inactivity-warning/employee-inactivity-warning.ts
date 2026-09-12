@@ -1,6 +1,5 @@
 import "./employee-inactivity-warning.css";
 import { isOwnCompany } from "@common/pages/company-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements } from "@common/utils/functions/find-elements";
@@ -10,19 +9,15 @@ import { Feature } from "@features/feature";
 let lastActionState: boolean;
 
 function addListener() {
-	addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(EmployeeInactivityWarningFeature)) return;
-
-		await addWarning(true);
-	});
+	addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, () => addWarning(true));
 	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(EmployeeInactivityWarningFeature) || name !== "Last Action") return;
+		if (name !== "Last Action") return;
 
 		lastActionState = true;
 		await addWarning(true);
 	});
 	addCustomListener(EVENT_CHANNELS.FEATURE_RELOADED, async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(EmployeeInactivityWarningFeature) || name !== "Last Action") return;
+		if (name !== "Last Action") return;
 
 		lastActionState = true;
 		await addWarning(true);

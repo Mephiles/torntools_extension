@@ -1,6 +1,5 @@
 import "./last-action.css";
 import { isOwnCompany } from "@common/pages/company-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -16,11 +15,7 @@ import { Feature } from "@features/feature";
 import type { CompanyEmployeesResponse, CompanyProfileResponse, UserJobResponse } from "tornapi-typescript";
 
 function addListener() {
-	addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(LastActionCompanyFeature)) return;
-
-		await addLastAction(isOwnCompany);
-	});
+	addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, () => addLastAction(isOwnCompany));
 }
 
 type FetchedCompany = CompanyEmployeesResponse & CompanyProfileResponse;

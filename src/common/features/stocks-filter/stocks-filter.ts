@@ -1,5 +1,5 @@
 import "./stocks-filter.css";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings, stockdata, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { createFilter, duoCheckboxesSection, textSection } from "@common/utils/functions/filters";
@@ -13,8 +13,6 @@ let filter: FilterController | undefined;
 
 async function initialiseListeners() {
 	new MutationObserver((mutations) => {
-		if (!FEATURE_MANAGER.isEnabled(StocksFilterFeature)) return;
-
 		// Stock ticks always update several attributes at once.
 		if (mutations.length < 3) return;
 		filter?.run();

@@ -19,20 +19,16 @@ let filter: FilterController;
 
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, (feature) => {
-		if (!FEATURE_MANAGER.isEnabled(AbroadItemsFilterFeature) || feature.name !== "Travel Item Profits") return;
+		if (feature.name !== "Travel Item Profits") return;
 
 		filter.rerenderSections();
 	});
 	addCustomListener(EVENT_CHANNELS.FEATURE_RELOADED, (feature) => {
-		if (!FEATURE_MANAGER.isEnabled(AbroadItemsFilterFeature) || feature.name !== "Travel Item Profits") return;
+		if (feature.name !== "Travel Item Profits") return;
 
 		filter.rerenderSections();
 	});
-	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH, async () => {
-		if (!FEATURE_MANAGER.isEnabled(AbroadItemsFilterFeature)) return;
-
-		await filter.run();
-	});
+	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH, () => filter.run());
 }
 
 type AbroadItemsFilterState = {

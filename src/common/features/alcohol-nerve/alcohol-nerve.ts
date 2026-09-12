@@ -1,5 +1,5 @@
 import "./alcohol-nerve.css";
-import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
@@ -9,13 +9,8 @@ import { getPageStatus, isEventActive, TORN_EVENTS } from "@common/utils/functio
 import { Feature } from "@features/feature";
 
 function initialiseAddGains() {
-	const listener = () => {
-		if (!FEATURE_MANAGER.isEnabled(AlcoholNerveFeature)) return;
-
-		addNerveGains();
-	};
-	addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, listener);
-	addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, listener);
+	addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, addNerveGains);
+	addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, addNerveGains);
 }
 
 function addNerveGains() {

@@ -1,5 +1,4 @@
 import { isOwnCompany, readCompanyDetails } from "@common/pages/company-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -11,7 +10,7 @@ import { Feature } from "@features/feature";
 function initialise() {
 	if (!isOwnCompany) {
 		addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, async () => {
-			if (!FEATURE_MANAGER.isEnabled(CompanyIDFeature) || !settings.pages.companies.idBesideCompanyName) return;
+			if (!settings.pages.companies.idBesideCompanyName) return;
 
 			await addID();
 		});

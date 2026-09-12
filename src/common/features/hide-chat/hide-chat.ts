@@ -1,5 +1,5 @@
 import "./hide-chat.css";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -8,11 +8,7 @@ import { requireChatsLoaded } from "@common/utils/functions/requires";
 import { ExecutionTiming, Feature } from "@features/feature";
 
 function initializeListeners() {
-	addCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, async ({ settingsPanel }) => {
-		if (!FEATURE_MANAGER.isEnabled(HideChatFeature)) return;
-
-		await showButton(settingsPanel);
-	});
+	addCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, async ({ settingsPanel }) => await showButton(settingsPanel));
 }
 
 function hideChats() {

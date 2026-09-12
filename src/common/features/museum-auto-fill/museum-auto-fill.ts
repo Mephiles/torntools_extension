@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { isElement } from "@common/utils/functions/dom";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -9,11 +8,7 @@ import { Feature } from "@features/feature";
 
 function addListener() {
 	document.addEventListener("click", async (event) => {
-		if (
-			FEATURE_MANAGER.isEnabled(MuseumAutoFillFeature) &&
-			isElement(event.target) &&
-			event.target.closest(".museum-map > .pinpoint, .museum #tabs .boxes > .box")
-		) {
+		if (isElement(event.target) && event.target.closest(".museum-map > .pinpoint, .museum #tabs .boxes > .box")) {
 			await autoFill();
 		}
 	});

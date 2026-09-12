@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -32,15 +31,12 @@ interface HighlightColor {
 
 function initialiseHighlights() {
 	addCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, ({ message }) => {
-		if (!FEATURE_MANAGER.isEnabled(ChatHighlightFeature)) return;
-
 		const messageBox = findElement(SELECTOR_CHAT_V2__MESSAGE_BOX, message, true);
+
 		if (messageBox) applyV2Highlights(messageBox);
 		else applyV3Highlights(message);
 	});
 	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, ({ chat }) => {
-		if (!FEATURE_MANAGER.isEnabled(ChatHighlightFeature)) return;
-
 		for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`, chat)) {
 			applyV2Highlights(message);
 		}
@@ -49,8 +45,6 @@ function initialiseHighlights() {
 		}
 	});
 	addCustomListener(EVENT_CHANNELS.CHAT_REFRESHED, (information) => {
-		if (!FEATURE_MANAGER.isEnabled(ChatHighlightFeature)) return;
-
 		if (information) {
 			const { chat } = information;
 			for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`, chat)) {
@@ -63,17 +57,11 @@ function initialiseHighlights() {
 		}
 	});
 	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, () => {
-		if (!FEATURE_MANAGER.isEnabled(ChatHighlightFeature)) return;
-
 		for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
 			applyV3Highlights(message);
 		}
 	});
-	addCustomListener(EVENT_CHANNELS.WINDOW__FOCUS, () => {
-		if (!FEATURE_MANAGER.isEnabled(ChatHighlightFeature)) return;
-
-		applyAllHighlights();
-	});
+	addCustomListener(EVENT_CHANNELS.WINDOW__FOCUS, applyAllHighlights);
 }
 
 function readSettings() {

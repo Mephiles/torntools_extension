@@ -38,7 +38,8 @@
 				{ "message": "Use a custom helper function for finding single elements, as part of the TypeScript journey.", "contributor": "DeKleineKobini" },
 				{ "message": "Enable stricter null-checks, as final step in the TypeScript journey.", "contributor": "DeKleineKobini" },
 				{ "message": "Move away from using disallowed HTML attributes by moving to datasets.", "contributor": "DeKleineKobini" },
-				{ "message": "Performance improvements along all filters.", "contributor": "DeKleineKobini" }
+				{ "message": "Performance improvements along all filters.", "contributor": "DeKleineKobini" },
+				{ "message": "Cleanup some remains from the now-removed live disable functionality.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
@@ -21,16 +21,8 @@ import { Feature } from "@features/feature";
 let filter: FilterController;
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, async ({ row }) => {
-		if (!FEATURE_MANAGER.isEnabled(AbroadPeopleFilterFeature)) return;
-
-		await filter?.runScoped({ rows: [row], sections: ["statsEstimates"] });
-	});
-	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(AbroadPeopleFilterFeature)) return;
-
-		await filter?.runScoped({ sections: ["ffScore"] });
-	});
+	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, ({ row }) => filter?.runScoped({ rows: [row], sections: ["statsEstimates"] }));
+	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, () => filter?.runScoped({ sections: ["ffScore"] }));
 }
 
 type AbroadPeopleFilterState = {

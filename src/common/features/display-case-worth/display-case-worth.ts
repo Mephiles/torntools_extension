@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
@@ -14,12 +13,7 @@ import styles from "./display-case-worth.module.css";
 
 function xhrListener() {
 	addXHRListener(async ({ detail: { page, xhr } }) => {
-		if (
-			FEATURE_MANAGER.isEnabled(DisplayCaseWorthFeature) &&
-			page === "displaycase" &&
-			(xhr.requestBody === "step=display" || xhr.requestBody.startsWith("userID="))
-		)
-			await addWorth();
+		if (page === "displaycase" && (xhr.requestBody === "step=display" || xhr.requestBody.startsWith("userID="))) await addWorth();
 	});
 }
 

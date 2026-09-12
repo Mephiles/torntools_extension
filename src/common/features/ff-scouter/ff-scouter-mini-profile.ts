@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
@@ -12,8 +11,6 @@ let SCOUTER_SERVICE: ScouterService;
 
 function initialiseMiniProfile() {
 	addFetchListener(async (event) => {
-		if (!FEATURE_MANAGER.isEnabled(FFScouterMiniProfileFeature)) return;
-
 		const {
 			page,
 			json,

@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { isElement } from "@common/utils/functions/dom";
@@ -21,8 +20,7 @@ async function registerListeners() {
 				Array.from(mutation.addedNodes)
 					.filter(isElement)
 					.some((node) => node.matches("li[class*='tableRow__']")),
-			) &&
-			FEATURE_MANAGER.isEnabled(StatsEstimateTargetsFeature)
+			)
 		) {
 			showEstimates();
 		}
@@ -34,8 +32,7 @@ async function registerListeners() {
 				Array.from(mutation.addedNodes)
 					.filter(isElement)
 					.some((node) => node.tagName === "UL"),
-			) &&
-			FEATURE_MANAGER.isEnabled(StatsEstimateTargetsFeature)
+			)
 		) {
 			showEstimates();
 			listObserver!.observe(findElement(".tableWrapper > ul"), { childList: true });

@@ -1,5 +1,4 @@
 import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -14,26 +13,22 @@ const statsEstimate = new StatsEstimate("Faction Members", true);
 function registerListeners() {
 	if (isInternalFaction) {
 		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
-			if (!FEATURE_MANAGER.isEnabled(StatsEstimateFactionMembersFeature) || settings.pages.faction.memberFilter) return;
+			if (settings.pages.faction.memberFilter) return;
 
 			await showEstimates();
 		});
 	}
 
 	addCustomListener(EVENT_CHANNELS.FILTER_APPLIED, async ({ filter }) => {
-		if (!FEATURE_MANAGER.isEnabled(StatsEstimateFactionMembersFeature) || filter !== "Faction Member Filter") return;
+		if (filter !== "Faction Member Filter") return;
 
 		await showEstimates();
 	});
 	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, async () => {
-		if (!FEATURE_MANAGER.isEnabled(StatsEstimateFactionMembersFeature)) return;
-
 		removeEstimates();
 		await showEstimates();
 	});
 	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_SORT, async () => {
-		if (!FEATURE_MANAGER.isEnabled(StatsEstimateFactionMembersFeature)) return;
-
 		removeEstimates();
 		await showEstimates();
 	});

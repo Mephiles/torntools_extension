@@ -1,5 +1,4 @@
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { factiondata, settings } from "@common/utils/data/database";
 import { hasAPIData, hasOC1Data } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
@@ -11,11 +10,7 @@ import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, () => {
-		if (!FEATURE_MANAGER.isEnabled(OCLastActionFeature)) return;
-
-		showLastAction();
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, showLastAction);
 }
 
 function startFeature() {

@@ -1,5 +1,5 @@
 import "./missing-sets.css";
-import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, mobile } from "@common/utils/functions/dom";
@@ -12,7 +12,7 @@ import { Feature } from "@features/feature";
 
 function initialiseFlowers() {
 	addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, async ({ tab }) => {
-		if (!FEATURE_MANAGER.isEnabled(MissingFlowersFeature) || tab !== "Flower") {
+		if (tab !== "Flower") {
 			removeFlowers();
 			return;
 		}
@@ -20,8 +20,6 @@ function initialiseFlowers() {
 		await showFlowers();
 	});
 	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(MissingFlowersFeature)) return;
-
 		if (name === "Item Values") showMarketValues();
 		else if (name === "Market Icons") showMarketIcons();
 	});
@@ -29,7 +27,7 @@ function initialiseFlowers() {
 
 function initialisePlushies() {
 	addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, async ({ tab }) => {
-		if (!FEATURE_MANAGER.isEnabled(MissingPlushiesFeature) || tab !== "Plushie") {
+		if (tab !== "Plushie") {
 			removePlushies();
 			return;
 		}
@@ -37,8 +35,6 @@ function initialisePlushies() {
 		await showPlushies();
 	});
 	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(MissingPlushiesFeature)) return;
-
 		if (name === "Item Values") showMarketValues();
 		else if (name === "Market Icons") showMarketIcons();
 	});

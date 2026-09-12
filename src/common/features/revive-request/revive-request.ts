@@ -1,5 +1,4 @@
 import "./revive-request.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { calculateRevivePrice, doRequestRevive } from "@common/utils/functions/api-external-revives";
 import { checkDevice, elementBuilder, isElement } from "@common/utils/functions/dom";
@@ -16,8 +15,6 @@ let page: string;
 
 async function initialiseListeners() {
 	observer = new MutationObserver(() => {
-		if (!FEATURE_MANAGER.isEnabled(ReviveRequestFeature)) return;
-
 		if (isHospitalised()) showButton();
 		else removeButton();
 	});

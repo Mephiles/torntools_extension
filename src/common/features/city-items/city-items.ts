@@ -1,7 +1,7 @@
 import "./city-items.css";
 import { isMapData } from "@common/pages/city-page";
 import type { DecodedCityItem, InternalCityItem } from "@common/pages/city-page";
-import { EVENT_HANDLER, FEATURE_MANAGER, ITEM_RESOLVER, RUNTIME_INFORMATION, SCRIPT_INJECTOR, ttStorage } from "@common/utils/context";
+import { EVENT_HANDLER, ITEM_RESOLVER, RUNTIME_INFORMATION, SCRIPT_INJECTOR, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createSelect } from "@common/utils/elements/select/select";
@@ -45,8 +45,6 @@ function initialise() {
 	SCRIPT_INJECTOR.injectCityItemsMap();
 
 	addXHRListener(({ detail: { page, xhr, json } }) => {
-		if (!FEATURE_MANAGER.isEnabled(CityItemsFeature)) return;
-
 		if (isMapData(page, xhr, json)) {
 			const items = resolveUserItems(decodeTerritoryUserItems(json.territoryUserItems));
 
@@ -60,7 +58,7 @@ function initialise() {
 
 	document.addEventListener("click", handleMapOverlayClick, true);
 	EVENT_HANDLER.registerListenerCrossWorld(window, EVENT_CHANNELS.CITY_ITEMS_MAP__MODEL_ITEMS, ({ items: userItems }) => {
-		if (!FEATURE_MANAGER.isEnabled(CityItemsFeature) || findContainer("City Items")) return;
+		if (findContainer("City Items")) return;
 
 		if (!Array.isArray(userItems)) return;
 

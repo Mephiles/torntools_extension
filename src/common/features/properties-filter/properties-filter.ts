@@ -1,5 +1,5 @@
 import { COMMON_PROPERTY_TYPES } from "@common/constants/torn/properties.ts";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -13,16 +13,8 @@ import { Feature } from "@features/feature";
 let filter: FilterController;
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(PropertiesFilterFeature)) return;
-
-		await reattachFilter();
-	});
-	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(PropertiesFilterFeature)) return;
-
-		await reattachFilter();
-	});
+	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, reattachFilter);
+	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE, reattachFilter);
 }
 
 type PropertiesFilterState = {

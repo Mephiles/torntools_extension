@@ -1,6 +1,5 @@
 import "./highlight-oc.css";
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -9,21 +8,9 @@ import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, () => {
-		if (!FEATURE_MANAGER.isEnabled(HighlightOCFeature)) return;
-
-		highlightCrime1();
-	});
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2, () => {
-		if (!FEATURE_MANAGER.isEnabled(HighlightOCFeature)) return;
-
-		highlightCrime2();
-	});
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_REFRESH, () => {
-		if (!FEATURE_MANAGER.isEnabled(HighlightOCFeature)) return;
-
-		highlightCrime2();
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, highlightCrime1);
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2, highlightCrime2);
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_REFRESH, highlightCrime2);
 }
 
 function startFeature() {

@@ -1,5 +1,4 @@
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { getHashParameters } from "@common/utils/functions/dom.ts";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -13,11 +12,7 @@ const acceptedWarnings = new Set<string>();
 let formObserver: MutationObserver | undefined;
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER_PAGE, () => {
-		if (!FEATURE_MANAGER.isEnabled(BalanceWarningFeature)) return;
-
-		pageLoad();
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER_PAGE, pageLoad);
 }
 
 function pageLoad() {

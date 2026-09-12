@@ -1,6 +1,6 @@
 import "./highlight-blood-bags.css";
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -14,17 +14,11 @@ const page = getPage();
 
 function initialiseBloodBags() {
 	if (page === "item") {
-		const listener = async () => {
-			if (!FEATURE_MANAGER.isEnabled(HighlightBloodBagsFeature)) return;
-
-			await highlightBloodBags();
-		};
-
-		addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, listener);
-		addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, listener);
+		addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, highlightBloodBags);
+		addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, highlightBloodBags);
 	} else if (page === "factions") {
 		addCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, async ({ section }) => {
-			if (!FEATURE_MANAGER.isEnabled(HighlightBloodBagsFeature) || section !== "medical") return;
+			if (section !== "medical") return;
 
 			await highlightBloodBags();
 		});

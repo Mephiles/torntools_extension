@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { checkDevice } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -16,16 +15,8 @@ import {
 import { Feature } from "@features/feature";
 
 function initialiseAutocomplete() {
-	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, async ({ chat }) => {
-		if (!FEATURE_MANAGER.isEnabled(ChatAutocompleteFeature)) return;
-
-		await addAutocomplete(chat);
-	});
-	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, async () => {
-		if (!FEATURE_MANAGER.isEnabled(ChatAutocompleteFeature)) return;
-
-		await readSettings();
-	});
+	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, async ({ chat }) => await addAutocomplete(chat));
+	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, readSettings);
 }
 
 async function readSettings() {

@@ -1,5 +1,4 @@
 import "./total-item-cost.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, isElement } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
@@ -11,7 +10,6 @@ import { Feature } from "@features/feature";
 function initialiseListeners() {
 	document.addEventListener("click", (event) => {
 		if (
-			FEATURE_MANAGER.isEnabled(TotalItemCostFeature) &&
 			isElement(event.target) &&
 			Array.from(event.target.classList).some((c) => c.startsWith("controlPanelButton__")) &&
 			event.target.ariaLabel?.includes("Buy")

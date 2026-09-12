@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { getSearchParameters, isTextNode } from "@common/utils/functions/dom";
 import { checkboxesSection, createFilter, multiSelectSection, sliderSection, textSection } from "@common/utils/functions/filters";
@@ -13,7 +13,7 @@ let filter: FilterController | undefined;
 
 function initialiseListeners() {
 	addXHRListener(async ({ detail: { page, ...detail } }) => {
-		if (!FEATURE_MANAGER.isEnabled(RacingFilterFeature) || !("uri" in detail)) return;
+		if (!("uri" in detail)) return;
 
 		const { uri } = detail;
 		if (page === "page" && uri) {

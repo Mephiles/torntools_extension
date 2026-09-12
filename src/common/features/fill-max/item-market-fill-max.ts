@@ -1,5 +1,4 @@
 import "./item-market-fill-max.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { mobile, tablet } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
@@ -12,8 +11,6 @@ function addListener() {
 	document.addEventListener("click", (event) => {
 		const target = event.target as Element;
 		if (!target?.matches("[class*='rowWrapper__'] [class*='available__']")) return;
-
-		if (!FEATURE_MANAGER.isEnabled(ItemMarketFillMaxFeature)) return;
 
 		const listing = target.closest("li")!;
 

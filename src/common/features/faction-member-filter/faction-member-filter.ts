@@ -1,6 +1,6 @@
 import "./faction-member-filter.css";
 import { getFactionSubpage, isDestroyed, isInternalFaction, readFactionDetails } from "@common/pages/factions-page";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { filters, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -31,8 +31,6 @@ let lastActionMax: number | undefined;
 function initialiseListeners() {
 	if (isInternalFaction) {
 		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
-			if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
-
 			await addFilterContainer();
 			if (settings.scripts.lastAction.factionMember) {
 				await enableLastAction();
@@ -41,35 +39,19 @@ function initialiseListeners() {
 	}
 
 	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature) || name !== "Last Action") return;
+		if (name !== "Last Action") return;
 
 		await enableLastAction();
 	});
 	addCustomListener(EVENT_CHANNELS.FEATURE_RELOADED, async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature) || name !== "Last Action") return;
+		if (name !== "Last Action") return;
 
 		await enableLastAction();
 	});
-	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, () => {
-		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
-
-		void filter?.run();
-	});
-	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE, () => {
-		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
-
-		void filter?.run();
-	});
-	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
-
-		await filter?.runScoped({ sections: ["ffScore"] });
-	});
-	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_FACTION_LIST, async () => {
-		if (!FEATURE_MANAGER.isEnabled(FactionMemberFilterFeature)) return;
-
-		await filter?.runScoped({ sections: ["ffScore"] });
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, () => filter?.run());
+	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE, () => filter?.run());
+	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, () => filter?.runScoped({ sections: ["ffScore"] }));
+	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_FACTION_LIST, () => filter?.runScoped({ sections: ["ffScore"] }));
 }
 
 type FactionMemberFilterState = {

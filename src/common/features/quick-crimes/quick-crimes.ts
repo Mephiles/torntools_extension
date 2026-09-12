@@ -1,5 +1,5 @@
 import "./quick-crimes.css";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { quick, settings } from "@common/utils/data/database";
 import { usingFirefox } from "@common/utils/functions/browser";
 import { createContainer, findContainer } from "@common/utils/functions/containers";
@@ -23,16 +23,8 @@ let movingElement: Element | undefined;
 let showCrimesAgainOnFirefoxObserver: MutationObserver | undefined;
 
 function initialise() {
-	addCustomListener(EVENT_CHANNELS.CRIMES_LOADED, async () => {
-		if (!FEATURE_MANAGER.isEnabled(QuickCrimesFeature)) return;
-
-		await loadCrimes();
-	});
-	addCustomListener(EVENT_CHANNELS.CRIMES_CRIME, async () => {
-		if (!FEATURE_MANAGER.isEnabled(QuickCrimesFeature)) return;
-
-		await loadCrimes();
-	});
+	addCustomListener(EVENT_CHANNELS.CRIMES_LOADED, loadCrimes);
+	addCustomListener(EVENT_CHANNELS.CRIMES_CRIME, loadCrimes);
 }
 
 async function loadCrimes() {

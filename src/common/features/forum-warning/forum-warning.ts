@@ -1,5 +1,4 @@
 import "./forum-warning.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
@@ -9,11 +8,7 @@ import { Feature } from "@features/feature";
 let observer: MutationObserver | null = null;
 
 async function initialise() {
-	observer = new MutationObserver(() => {
-		if (!FEATURE_MANAGER.isEnabled(ForumWarningFeature)) return;
-
-		showWarning();
-	});
+	observer = new MutationObserver(showWarning);
 	observer.observe(await requireElement("#forums-page-wrap"), { childList: true });
 }
 

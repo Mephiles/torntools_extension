@@ -1,5 +1,4 @@
 import { isDestroyed, isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
@@ -15,11 +14,7 @@ let SCOUTER_SERVICE: ScouterService;
 
 function initialise() {
 	if (isInternalFaction) {
-		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
-			if (!FEATURE_MANAGER.isEnabled(FFScouterFactionFeature)) return;
-
-			await showFF(true);
-		});
+		addCustomListener(EVENT_CHANNELS.FACTION_INFO, () => showFF(true));
 	}
 }
 

@@ -1,6 +1,5 @@
 import "./drug-details.css";
 import { extractArmorySubcategory, isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, isElement, isHTMLElement } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -40,8 +39,6 @@ function initialiseDrugDetails() {
 			break;
 		case "itemmarket":
 			addCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEM_DETAILS, ({ item, element }) => {
-				if (!FEATURE_MANAGER.isEnabled(DrugDetailsFeature)) return;
-
 				display(item, findElement("[class*='description___']", element));
 			});
 			break;
@@ -106,8 +103,6 @@ async function showDetails(id: number, partialOptions: Partial<DrugDetailsOption
 		changeListener: false,
 		...partialOptions,
 	};
-
-	if (!FEATURE_MANAGER.isEnabled(DrugDetailsFeature)) return;
 
 	let element: Element;
 

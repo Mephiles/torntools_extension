@@ -1,6 +1,5 @@
 import "./last-action.css";
 import { isDestroyed, isInternalFaction, readFactionDetails } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -19,27 +18,17 @@ let _members: FactionMember[] | undefined;
 
 function addListener() {
 	if (isInternalFaction) {
-		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
-			if (!FEATURE_MANAGER.isEnabled(LastActionFactionFeature)) return;
-
-			await addLastAction(true);
-		});
+		addCustomListener(EVENT_CHANNELS.FACTION_INFO, () => addLastAction(true));
 	}
 	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, async ({ hasResults }) => {
-		if (!FEATURE_MANAGER.isEnabled(LastActionFactionFeature)) return;
-
 		removeLastAction();
 		if (hasResults) await addLastAction(true);
 	});
 	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_SORT, async () => {
-		if (!FEATURE_MANAGER.isEnabled(LastActionFactionFeature)) return;
-
 		removeLastAction();
 		await addLastAction(true);
 	});
 	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_ICON_UPDATE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(LastActionFactionFeature)) return;
-
 		removeLastAction();
 		await addLastAction(true);
 	});

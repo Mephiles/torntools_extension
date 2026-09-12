@@ -1,6 +1,6 @@
 import "./full-faction-infobox.css";
 import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom";
@@ -11,16 +11,8 @@ import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
-		if (!FEATURE_MANAGER.isEnabled(FullFactionInfoboxFeature)) return;
-
-		await showFull();
-	});
-	addCustomListener(EVENT_CHANNELS.FACTION_MAIN, async () => {
-		if (!FEATURE_MANAGER.isEnabled(FullFactionInfoboxFeature)) return;
-
-		await showFull();
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_INFO, () => showFull());
+	addCustomListener(EVENT_CHANNELS.FACTION_MAIN, () => showFull());
 }
 
 async function startFeature() {

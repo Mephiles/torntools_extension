@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { checkboxSection, createFilter, defaultFactionsItems, presetSection, sliderSection } from "@common/utils/functions/filters";
@@ -12,11 +12,7 @@ import { Feature } from "@features/feature";
 let filter: FilterController;
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(HospitalFilterFeature)) return;
-
-		await filter.run();
-	});
+	addCustomListener(EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE, () => filter.run());
 }
 
 type HospitalFilterState = {

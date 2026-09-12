@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -8,16 +8,8 @@ import { mount, unmount } from "svelte";
 import BazaarMarketBox from "./bazaar-market-box.svelte";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS, async ({ item }) => {
-		if (!FEATURE_MANAGER.isEnabled(BazaarMarketFeature)) return;
-
-		await displayBazaars(item);
-	});
-	addCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS, () => {
-		if (!FEATURE_MANAGER.isEnabled(BazaarMarketFeature)) return;
-
-		removeExistingBox();
-	});
+	addCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS, async ({ item }) => await displayBazaars(item));
+	addCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS, removeExistingBox);
 }
 
 async function startFeature() {

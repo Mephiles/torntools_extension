@@ -1,6 +1,5 @@
 import "./disable-ally-attacks.css";
 import { isAttackData } from "@common/pages/attack-loader-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, mobile, tablet } from "@common/utils/functions/dom";
@@ -14,7 +13,7 @@ let closedOption = false;
 
 async function startListener() {
 	addFetchListener(({ detail: { page, json, fetch } }) => {
-		if (closedOption || !FEATURE_MANAGER.isEnabled(DisableAllyAttacksLoaderFeature) || page !== "page") return;
+		if (closedOption || page !== "page") return;
 
 		const params = new URL(fetch.url).searchParams;
 		const sid = params.get("sid")!;

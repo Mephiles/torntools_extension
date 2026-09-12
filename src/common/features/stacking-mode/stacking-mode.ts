@@ -1,5 +1,4 @@
 import "./stacking-mode.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -18,8 +17,6 @@ function registerListeners() {
 	}
 
 	addFetchListener(async (event) => {
-		if (!FEATURE_MANAGER.isEnabled(StackingModeFeature)) return;
-
 		const { page, fetch } = event.detail;
 		if (page !== "page") return;
 

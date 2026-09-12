@@ -1,5 +1,5 @@
 import "./forum-menu.css";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
 import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -13,8 +13,6 @@ import { Feature } from "@features/feature";
 
 function initialiseListeners() {
 	addXHRListener(async ({ detail: { page, xhr } }) => {
-		if (!FEATURE_MANAGER.isEnabled(ForumMenuFeature)) return;
-
 		if (page !== "forums") return;
 
 		const params = new URLSearchParams(xhr.requestBody);

@@ -1,5 +1,5 @@
 import "./ranked-war-filter.css";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
@@ -25,8 +25,6 @@ function initialiseListeners() {
 	});
 
 	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, ({ row }) => {
-		if (!FEATURE_MANAGER.isEnabled(RankedWarFilterFeature)) return;
-
 		if (!row.closest(".faction-war")) {
 			// Estimate didn't happen in a ranked war list.
 			return;
@@ -36,7 +34,6 @@ function initialiseListeners() {
 	});
 
 	addFetchListener(async ({ detail: { page, fetch } }) => {
-		if (!FEATURE_MANAGER.isEnabled(RankedWarFilterFeature)) return;
 		if (!location.hash.includes("#/war/rank")) return;
 
 		const params = new URL(fetch.url).searchParams;

@@ -1,5 +1,4 @@
 import "./racing-upgrades.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, findParent } from "@common/utils/functions/dom";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -11,7 +10,6 @@ import { Feature } from "@features/feature";
 
 function initialise() {
 	addXHRListener(async ({ detail: { page, xhr, uri } }) => {
-		if (!FEATURE_MANAGER.isEnabled(RacingUpgradesFeature)) return;
 		if (page !== "page") return;
 
 		if (uri) {

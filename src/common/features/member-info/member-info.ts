@@ -1,6 +1,5 @@
 import "./member-info.css";
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasFactionAPIAccess } from "@common/utils/functions/api";
@@ -18,32 +17,24 @@ import type { FactionBalance, FactionBalanceResponse } from "tornapi-typescript"
 let lastActionState: boolean;
 
 function addListener() {
-	addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
-		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
-
-		await addInfo(true);
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_INFO, () => addInfo(true));
 	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature) || name !== "Last Action") return;
+		if (name !== "Last Action") return;
 
 		lastActionState = true;
 		await addInfo(true);
 	});
 	addCustomListener(EVENT_CHANNELS.FEATURE_RELOADED, async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature) || name !== "Last Action") return;
+		if (name !== "Last Action") return;
 
 		lastActionState = true;
 		await addInfo(true);
 	});
 	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, async ({ hasResults }) => {
-		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
-
 		removeInfo();
 		if (hasResults) await addInfo(true);
 	});
 	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_SORT, async () => {
-		if (!FEATURE_MANAGER.isEnabled(MemberInfoFeature)) return;
-
 		removeInfo();
 		await addInfo(true);
 	});

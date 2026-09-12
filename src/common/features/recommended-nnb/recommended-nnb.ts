@@ -1,6 +1,5 @@
 import "./recommended-nnb.css";
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, mobile } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -20,11 +19,7 @@ const ORGANIZED_CRIMES: Record<string, string> = {
 };
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, async () => {
-		if (!FEATURE_MANAGER.isEnabled(RecommendedNNBFeature)) return;
-
-		await showRecommendedNNB();
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, showRecommendedNNB);
 }
 
 async function startFeature() {

@@ -21,8 +21,6 @@ function addListener() {
 	let itemID: number | undefined;
 
 	addXHRListener(async ({ detail: { xhr, json } }) => {
-		if (!FEATURE_MANAGER.isEnabled(OpenedSupplyPackValueFeature)) return;
-
 		const params = new URLSearchParams(xhr.requestBody);
 		if (!isUseItem(params.get("step")!, json) || !json.success) return;
 

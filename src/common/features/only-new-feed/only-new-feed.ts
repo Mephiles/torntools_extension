@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { localdata, settings } from "@common/utils/data/database";
 import { elementBuilder, getHashParameters, getSearchParameters } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
@@ -14,8 +14,6 @@ export interface StoredHiddenFeeds {
 
 function initialise() {
 	addXHRListener(async ({ detail: { page, xhr } }) => {
-		if (!FEATURE_MANAGER.isEnabled(OnlyNewFeedFeature)) return;
-
 		if (page !== "forums") return;
 
 		const params = new URLSearchParams(xhr.requestBody);

@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
@@ -16,8 +15,6 @@ async function addWorth() {
 	eventsListWrapper.addEventListener(
 		"mouseover",
 		(event: MouseEvent) => {
-			if (!FEATURE_MANAGER.isEnabled(EventWorthFeature)) return;
-
 			const target = event.target as Element;
 			if (!target.matches("[class*='message__']") || target.className.includes("tt-modified")) return;
 

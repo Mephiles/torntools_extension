@@ -1,5 +1,5 @@
 import "./mission-rewards.css";
-import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
@@ -11,11 +11,7 @@ import { getPageStatus, isFlying } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialise() {
-	addCustomListener(EVENT_CHANNELS.MISSION_REWARDS, async () => {
-		if (!FEATURE_MANAGER.isEnabled(MissionRewardsFeature)) return;
-
-		await showRewards();
-	});
+	addCustomListener(EVENT_CHANNELS.MISSION_REWARDS, showRewards);
 }
 
 async function showRewards() {

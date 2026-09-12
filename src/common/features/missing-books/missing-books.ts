@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -10,7 +10,7 @@ import styles from "./missing-books.module.css";
 
 function initialiseBooks() {
 	addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, async ({ tab }) => {
-		if (!FEATURE_MANAGER.isEnabled(MissingBooksFeature) || tab !== "Book") {
+		if (tab !== "Book") {
 			removeBooks();
 			return;
 		}

@@ -1,6 +1,5 @@
 import "./medical-life.css";
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { elementBuilder, isElement } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
@@ -29,8 +28,6 @@ const MEDICAL_ITEMS: Record<number, number> = {
 function addListener() {
 	if (page === "item") {
 		addXHRListener(async ({ detail: { page, xhr } }) => {
-			if (!FEATURE_MANAGER.isEnabled(MedicalLifeFeature)) return;
-
 			if (page !== "item") return;
 
 			const params = new URLSearchParams(xhr.requestBody);
@@ -43,8 +40,6 @@ function addListener() {
 		});
 	} else if (page === "factions") {
 		findElement("#faction-armoury").addEventListener("click", async (event) => {
-			if (!FEATURE_MANAGER.isEnabled(MedicalLifeFeature)) return;
-
 			if (!isElement(event.target) || !event.target.classList.contains("use")) return;
 
 			const useElement = event.target.closest(".item-use-act");

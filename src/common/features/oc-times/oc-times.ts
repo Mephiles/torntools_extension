@@ -1,6 +1,5 @@
 import "./oc-times.css";
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { factiondata, settings } from "@common/utils/data/database";
 import { hasAPIData, hasOC1Data } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
@@ -11,11 +10,7 @@ import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, () => {
-		if (!FEATURE_MANAGER.isEnabled(OCTimesFeature)) return;
-
-		showTimes();
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, showTimes);
 }
 
 function startFeature() {

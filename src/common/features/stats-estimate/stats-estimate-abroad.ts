@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -13,8 +12,6 @@ let triggerFilter: number | undefined;
 
 function registerListeners() {
 	addCustomListener(EVENT_CHANNELS.FILTER_APPLIED, () => {
-		if (!FEATURE_MANAGER.isEnabled(StatsEstimateAbroadFeature)) return;
-
 		if (triggerFilter) clearTimeout(triggerFilter);
 		triggerFilter = setTimeout(showEstimates, 500);
 	});

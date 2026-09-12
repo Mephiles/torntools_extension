@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findElement } from "@common/utils/functions/find-elements";
@@ -7,7 +6,6 @@ import { Feature } from "@features/feature";
 
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.TRADE, async ({ active }) => {
-		if (!FEATURE_MANAGER.isEnabled(NoConfirmTradeFeature)) return;
 		if (!active) return;
 
 		await removeConfirmation();

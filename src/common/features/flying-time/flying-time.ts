@@ -1,5 +1,4 @@
 import "./flying-time.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, mobile, tabletVertical } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -11,22 +10,10 @@ import { Feature } from "@features/feature";
 
 async function initialise() {
 	if (mobile || tabletVertical) {
-		addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, () => {
-			if (!FEATURE_MANAGER.isEnabled(FlyingTimeFeature)) return;
-
-			showTime();
-		});
-		addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, () => {
-			if (!FEATURE_MANAGER.isEnabled(FlyingTimeFeature)) return;
-
-			showTime();
-		});
+		addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, showTime);
+		addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, showTime);
 	} else {
-		addCustomListener(EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE, () => {
-			if (!FEATURE_MANAGER.isEnabled(FlyingTimeFeature)) return;
-
-			showTime();
-		});
+		addCustomListener(EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE, showTime);
 	}
 }
 

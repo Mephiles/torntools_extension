@@ -1,5 +1,4 @@
 import "./trade-open-chat.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, executeScript } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -11,7 +10,6 @@ import { browser } from "wxt/browser";
 
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.TRADE, async ({ step }) => {
-		if (!FEATURE_MANAGER.isEnabled(TradeOpenChatFeature)) return;
 		if (!["view", "initiateTrade", "accept", "start"].includes(step)) return;
 
 		await addButton();

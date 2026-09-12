@@ -1,6 +1,5 @@
 import "./oc-nnb.css";
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData, hasOC1Data } from "@common/utils/functions/api";
@@ -26,11 +25,7 @@ interface NNBInformation {
 }
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, async () => {
-		if (!FEATURE_MANAGER.isEnabled(OCNNBFeature)) return;
-
-		await showNNB();
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, showNNB);
 }
 
 async function startFeature() {

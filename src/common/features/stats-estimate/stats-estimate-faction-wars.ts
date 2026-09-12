@@ -1,5 +1,4 @@
 import { isDestroyed, isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { getHashParameters, isElement } from "@common/utils/functions/dom";
@@ -16,11 +15,7 @@ let observer: MutationObserver | undefined;
 
 function registerListeners() {
 	if (isInternalFaction) {
-		addCustomListener(EVENT_CHANNELS.FACTION_MAIN, () => {
-			if (!FEATURE_MANAGER.isEnabled(StatsEstimateFactionWarsFeature)) return;
-
-			observeWars();
-		});
+		addCustomListener(EVENT_CHANNELS.FACTION_MAIN, observeWars);
 	}
 }
 

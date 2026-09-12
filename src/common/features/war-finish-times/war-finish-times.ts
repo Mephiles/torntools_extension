@@ -1,6 +1,5 @@
 import "./war-finish-times.css";
 import { isDestroyed, isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -11,9 +10,7 @@ import { Feature } from "@features/feature";
 
 function startListeners() {
 	if (isInternalFaction) {
-		addCustomListener(EVENT_CHANNELS.FACTION_MAIN, async () => {
-			if (FEATURE_MANAGER.isEnabled(WarFinishTimesFeature)) await addFinishTimes();
-		});
+		addCustomListener(EVENT_CHANNELS.FACTION_MAIN, addFinishTimes);
 	}
 }
 

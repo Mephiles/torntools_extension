@@ -1,5 +1,4 @@
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -8,11 +7,7 @@ import { createMessageBox, getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, () => {
-		if (!FEATURE_MANAGER.isEnabled(OCAvailablePlayersFeature)) return;
-
-		showAvailable();
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, () => showAvailable());
 }
 
 function startFeature() {

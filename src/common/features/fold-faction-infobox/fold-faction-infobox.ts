@@ -1,6 +1,6 @@
 import "./fold-faction-infobox.css";
 import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { getSearchParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -11,16 +11,8 @@ import { PHFillCaretDown, PHFillCaretRight } from "@common/utils/icons/phosphor-
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
-		if (!FEATURE_MANAGER.isEnabled(FoldFactionInfoboxFeature)) return;
-
-		await foldInfobox();
-	});
-	addCustomListener(EVENT_CHANNELS.FACTION_MAIN, async () => {
-		if (!FEATURE_MANAGER.isEnabled(FoldFactionInfoboxFeature)) return;
-
-		await foldInfobox();
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_INFO, () => foldInfobox());
+	addCustomListener(EVENT_CHANNELS.FACTION_MAIN, () => foldInfobox());
 }
 
 async function startFeature() {
@@ -68,7 +60,7 @@ async function foldInfobox() {
 	}
 
 	function fold(state: boolean | null) {
-		if (!FEATURE_MANAGER.isEnabled(FoldFactionInfoboxFeature) || !description) return;
+		if (!description) return;
 
 		if (state === null) {
 			state = description.classList.toggle("folded");

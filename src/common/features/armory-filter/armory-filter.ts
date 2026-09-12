@@ -1,5 +1,5 @@
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER, ITEM_RESOLVER, ttStorage } from "@common/utils/context";
+import { ITEM_RESOLVER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import type { WeaponBonusFilter } from "@common/utils/data/default-database";
 import { findContainer } from "@common/utils/functions/containers";
@@ -17,8 +17,6 @@ let filterItemType = "";
 
 function addListener() {
 	addCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, async ({ section }) => {
-		if (!FEATURE_MANAGER.isEnabled(ArmoryFilterFeature)) return;
-
 		if (["weapons", "armour", "temporary", "utilities"].includes(section)) await rebuildForTab(section);
 		else hideFilter();
 	});

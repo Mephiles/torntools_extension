@@ -1,5 +1,4 @@
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { createContainer } from "@common/utils/functions/containers";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -50,11 +49,7 @@ export default class TotalChallengeContributionsFeature extends Feature {
 	}
 
 	override initialise() {
-		addCustomListener(EVENT_CHANNELS.FACTION_UPGRADE_INFO, async () => {
-			if (!FEATURE_MANAGER.isEnabled(TotalChallengeContributionsFeature)) return;
-
-			await addCSVContainer();
-		});
+		addCustomListener(EVENT_CHANNELS.FACTION_UPGRADE_INFO, addCSVContainer);
 	}
 
 	override storageKeys() {

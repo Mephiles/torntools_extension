@@ -68,7 +68,7 @@ import CreatorMessagesFeature from "@features/creator-messages/creator-messages"
 import CreatorsFeature from "@features/creators/creators";
 import CrimeValueFeature from "@features/crime-value/crime-value";
 import CSVChainReportFeature from "@features/csv-chain-report/csv-chain-report";
-import CSVChallengeContributionsFeature from "@features/csv-challenge-contributions/csv-challenge-contributions";
+import { CSVChallengeContributionsFeature } from "@features/csv-challenge-contributions/csv-challenge-contributions";
 import CSVRaidReportFeature from "@features/csv-raid-report/csv-raid-report";
 import CSVRankedWarReportFeature from "@features/csv-ranked-war-report/csv-ranked-war-report";
 import CSVWarReportFeature from "@features/csv-war-report/csv-war-report";

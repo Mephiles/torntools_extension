@@ -1,5 +1,4 @@
 import "./disable-ally-attacks.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -11,9 +10,7 @@ import { PHX } from "@common/utils/icons/phosphor-icons.ts";
 import { Feature } from "@features/feature";
 
 async function startObserver() {
-	new MutationObserver(() => {
-		if (FEATURE_MANAGER.isEnabled(DisableAllyAttacksFeature)) disableAttackButton();
-	}).observe(await requireElement(".profile-container"), { childList: true });
+	new MutationObserver(() => disableAttackButton()).observe(await requireElement(".profile-container"), { childList: true });
 }
 
 function listenerFunction(event: MouseEvent) {

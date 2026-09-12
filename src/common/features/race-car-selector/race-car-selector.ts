@@ -1,6 +1,5 @@
 import { TRACKS } from "@common/pages/racing-page.ts";
 import type { TrackData } from "@common/pages/racing-page.ts";
-import { FEATURE_MANAGER } from "@common/utils/context.ts";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api.ts";
 import { elementBuilder } from "@common/utils/functions/dom.ts";
@@ -43,20 +42,12 @@ function initialiseListeners() {
 		}).observe(list, { subtree: true, attributes: true, attributeFilter: ["class"] });
 	});
 	addCustomListener(EVENT_CHANNELS.RACING__SELECT_CAR_CUSTOM, async ({ id }) => {
-		if (!FEATURE_MANAGER.isEnabled(RaceCarSelectorFeature)) return;
-
 		const trackName = CUSTOM_RACES[id];
 
 		await selectCar(TRACKS.find(({ name }) => name.toLowerCase() === trackName?.toLowerCase()));
 	});
-	addCustomListener(EVENT_CHANNELS.RACING__SELECT_CAR_CUSTOM_CREATED, async ({ trackId }) => {
-		if (!FEATURE_MANAGER.isEnabled(RaceCarSelectorFeature)) return;
-
-		await selectCar(TRACKS.find(({ id }) => id === trackId));
-	});
+	addCustomListener(EVENT_CHANNELS.RACING__SELECT_CAR_CUSTOM_CREATED, ({ trackId }) => selectCar(TRACKS.find(({ id }) => id === trackId)));
 	addCustomListener(EVENT_CHANNELS.RACING__CHANGE_CAR, async () => {
-		if (!FEATURE_MANAGER.isEnabled(RaceCarSelectorFeature)) return;
-
 		const trackElement = findElement(".enlisted-btn-wrap", true);
 		const trackName = trackElement?.textContent.split("-")?.[0].trim();
 

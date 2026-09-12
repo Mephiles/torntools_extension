@@ -1,6 +1,5 @@
 import "./member-rank.css";
 import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -10,16 +9,10 @@ import { Feature } from "@features/feature";
 
 function addListener() {
 	if (isInternalFaction) {
-		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
-			if (!FEATURE_MANAGER.isEnabled(MemberRankFeature)) return;
-
-			await addNumbers(true);
-		});
+		addCustomListener(EVENT_CHANNELS.FACTION_INFO, () => addNumbers(true));
 	}
 
 	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, async () => {
-		if (!FEATURE_MANAGER.isEnabled(MemberRankFeature)) return;
-
 		removeNumbers();
 		await addNumbers(true);
 	});

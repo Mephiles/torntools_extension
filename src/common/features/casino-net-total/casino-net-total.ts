@@ -1,5 +1,4 @@
 import "./casino-net-total.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, isElement } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
@@ -13,7 +12,7 @@ const page = getPage();
 function initialiseListener() {
 	if (isBookie()) {
 		window.addEventListener("hashchange", async () => {
-			if (FEATURE_MANAGER.isEnabled(CasinoNetTotalFeature) && location.hash.includes("stats/")) {
+			if (location.hash.includes("stats/")) {
 				await addTotal();
 			}
 		});

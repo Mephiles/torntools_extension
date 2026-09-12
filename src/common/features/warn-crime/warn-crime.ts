@@ -1,6 +1,5 @@
 import "./warn-crime.css";
 import { getFactionSubpage, isInternalFaction, isOrganizedCrimeList } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasOC1Data } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -13,16 +12,8 @@ import { Feature } from "@features/feature";
 const scenarioInformation: { [scenario: string]: { [slot: string]: { hasItem: boolean | null; successChance: number } } } = {};
 
 function addListener() {
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2, async () => {
-		if (!FEATURE_MANAGER.isEnabled(WarnCrimeFeature)) return;
-
-		await disableButtons();
-	});
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_REFRESH, async () => {
-		if (!FEATURE_MANAGER.isEnabled(WarnCrimeFeature)) return;
-
-		await disableButtons();
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2, disableButtons);
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_REFRESH, disableButtons);
 	addFetchListener(({ detail: { page, json, fetch } }) => {
 		if (page !== "page" || !json) return;
 

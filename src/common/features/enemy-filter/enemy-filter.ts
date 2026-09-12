@@ -1,5 +1,5 @@
 import "./enemy-filter.css";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { isElement } from "@common/utils/functions/dom";
@@ -26,32 +26,16 @@ type EnemyFilterState = {
 };
 
 async function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, async ({ row }) => {
-		if (!FEATURE_MANAGER.isEnabled(EnemyFilterFeature)) return;
-
-		await filter?.runScoped({ rows: [row], sections: ["statsEstimates"] });
-	});
-	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(EnemyFilterFeature)) return;
-
-		await filter?.runScoped({ sections: ["ffScore"] });
-	});
+	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, ({ row }) => filter?.runScoped({ rows: [row], sections: ["statsEstimates"] }));
+	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, () => filter?.runScoped({ sections: ["ffScore"] }));
 
 	listObserver = new MutationObserver((mutations) => {
-		if (
-			mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.matches("li[class*='tableRow__']"))) &&
-			filterSetupComplete &&
-			FEATURE_MANAGER.isEnabled(EnemyFilterFeature)
-		) {
+		if (mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.matches("li[class*='tableRow__']"))) && filterSetupComplete) {
 			void filter?.run();
 		}
 	});
 	tableObserver = new MutationObserver((mutations) => {
-		if (
-			mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.tagName === "UL")) &&
-			filterSetupComplete &&
-			FEATURE_MANAGER.isEnabled(EnemyFilterFeature)
-		) {
+		if (mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.tagName === "UL")) && filterSetupComplete) {
 			void filter?.run();
 			listObserver.observe(findElement(".tableWrapper > ul"), { childList: true });
 		}

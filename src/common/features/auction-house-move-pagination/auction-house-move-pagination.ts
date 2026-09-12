@@ -1,15 +1,10 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.AUCTION_SWITCH_TYPE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(AuctionHouseMovePaginationFeature)) return;
-
-		await movePagination();
-	});
+	addCustomListener(EVENT_CHANNELS.AUCTION_SWITCH_TYPE, movePagination);
 }
 
 async function movePagination() {

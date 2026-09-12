@@ -1,5 +1,4 @@
 import "./mission-hints.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -8,11 +7,7 @@ import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialise() {
-	addCustomListener(EVENT_CHANNELS.MISSION_LOAD, async () => {
-		if (!FEATURE_MANAGER.isEnabled(MissionHintsFeature)) return;
-
-		await showHints();
-	});
+	addCustomListener(EVENT_CHANNELS.MISSION_LOAD, showHints);
 }
 
 interface MissionHint {

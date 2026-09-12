@@ -1,5 +1,4 @@
 import "./high-low-helper.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
@@ -12,8 +11,6 @@ shuffleDeck();
 
 function initialiseHelper() {
 	addXHRListener(({ detail: { page, xhr, json } }) => {
-		if (!FEATURE_MANAGER.isEnabled(HighLowHelperFeature)) return;
-
 		if (page === "page") {
 			const params = new URL(xhr.responseURL).searchParams;
 			const sid = params.get("sid");

@@ -1,5 +1,4 @@
 import "./total-portfolio-value.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, mobile } from "@common/utils/functions/dom";
@@ -15,8 +14,6 @@ async function addProfitAndValue() {
 	calculateAndShowProfits();
 
 	const observer = new MutationObserver(async () => {
-		if (!FEATURE_MANAGER.isEnabled(TotalPortfolioValueFeature)) return;
-
 		await sleep(0.5);
 		calculateAndShowProfits();
 	});

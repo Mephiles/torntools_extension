@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { isElement } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
@@ -19,20 +19,12 @@ type FriendFilterState = { enabled: boolean; activity: string[]; level: SliderRa
 
 async function initialiseListeners() {
 	listObserver = new MutationObserver((mutations) => {
-		if (
-			mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.matches("li[class*='tableRow__']"))) &&
-			filterSetupComplete &&
-			FEATURE_MANAGER.isEnabled(FriendFilterFeature)
-		) {
+		if (mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.matches("li[class*='tableRow__']"))) && filterSetupComplete) {
 			void filter?.run();
 		}
 	});
 	tableObserver = new MutationObserver((mutations) => {
-		if (
-			mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.tagName === "UL")) &&
-			filterSetupComplete &&
-			FEATURE_MANAGER.isEnabled(FriendFilterFeature)
-		) {
+		if (mutations.some((m) => Array.from(m.addedNodes).some((n) => isElement(n) && n.tagName === "UL")) && filterSetupComplete) {
 			void filter?.run();
 			listObserver.observe(findElement(".tableWrapper > ul"), { childList: true });
 		}

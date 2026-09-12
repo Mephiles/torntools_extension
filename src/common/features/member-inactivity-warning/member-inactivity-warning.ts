@@ -1,6 +1,5 @@
 import "./member-inactivity-warning.css";
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { isHTMLElement } from "@common/utils/functions/dom.ts";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -13,30 +12,21 @@ let lastActionState: boolean;
 
 function addListener() {
 	if (isInternalFaction) {
-		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
-			if (!FEATURE_MANAGER.isEnabled(FactionInactivityWarningFeature)) return;
-
-			await addWarning(true);
-		});
+		addCustomListener(EVENT_CHANNELS.FACTION_INFO, () => addWarning(true));
 	}
 	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(FactionInactivityWarningFeature) || name !== "Last Action") return;
+		if (name !== "Last Action") return;
 
 		lastActionState = true;
 		await addWarning(true);
 	});
 	addCustomListener(EVENT_CHANNELS.FEATURE_RELOADED, async ({ name }) => {
-		if (!FEATURE_MANAGER.isEnabled(FactionInactivityWarningFeature) || name !== "Last Action") return;
+		if (name !== "Last Action") return;
 
 		lastActionState = true;
 		await addWarning(true);
 	});
-
-	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, async () => {
-		if (!FEATURE_MANAGER.isEnabled(FactionInactivityWarningFeature)) return;
-
-		await addWarning(true);
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, () => addWarning(true));
 }
 
 async function addWarning(force: boolean) {

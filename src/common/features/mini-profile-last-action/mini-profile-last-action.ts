@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { findElement } from "@common/utils/functions/find-elements";
 import { formatTime } from "@common/utils/functions/formatting";
@@ -8,8 +7,6 @@ import { Feature } from "@features/feature";
 
 function initialiseMiniProfile() {
 	addFetchListener(async (event) => {
-		if (!FEATURE_MANAGER.isEnabled(MiniProfileLastActionFeature)) return;
-
 		const {
 			page,
 			json,

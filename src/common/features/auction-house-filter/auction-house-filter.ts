@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER, ITEM_RESOLVER, ttStorage } from "@common/utils/context";
+import { ITEM_RESOLVER, ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import type { WeaponBonusFilter } from "@common/utils/data/default-database";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
@@ -14,16 +14,8 @@ let filter: FilterController | undefined;
 let filterItemType = "";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.AUCTION_SWITCH_TYPE, async ({ type }) => {
-		if (!FEATURE_MANAGER.isEnabled(AuctionHouseFilterFeature)) return;
-
-		await rebuildForTab(type);
-	});
-	addCustomListener(EVENT_CHANNELS.SWITCH_PAGE, () => {
-		if (!FEATURE_MANAGER.isEnabled(AuctionHouseFilterFeature)) return;
-
-		void filter?.run();
-	});
+	addCustomListener(EVENT_CHANNELS.AUCTION_SWITCH_TYPE, ({ type }) => rebuildForTab(type));
+	addCustomListener(EVENT_CHANNELS.SWITCH_PAGE, () => filter?.run());
 }
 
 function buildSections(itemType: "weapons" | "armor" | "items" | "temporary"): FilterSectionDef<unknown>[] {

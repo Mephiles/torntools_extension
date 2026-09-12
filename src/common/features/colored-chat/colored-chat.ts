@@ -1,5 +1,4 @@
 import "./colored-chat.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -15,8 +14,6 @@ async function initialiseColoredChats() {
 	addCustomListener(EVENT_CHANNELS.WINDOW__FOCUS, reColorChats);
 
 	async function reColorChats() {
-		if (!FEATURE_MANAGER.isEnabled(ColoredChatFeature)) return;
-
 		await showColoredChats(true);
 	}
 }

@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -14,13 +13,11 @@ let triggerFilter: number | undefined;
 
 function registerListeners() {
 	addCustomListener(EVENT_CHANNELS.USERLIST_SWITCH_PAGE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(StatsEstimateUserlistFeature) || settings.pages.userlist.filter) return;
+		if (settings.pages.userlist.filter) return;
 
 		await showEstimates();
 	});
 	addCustomListener(EVENT_CHANNELS.FILTER_APPLIED, () => {
-		if (!FEATURE_MANAGER.isEnabled(StatsEstimateUserlistFeature)) return;
-
 		if (triggerFilter) clearTimeout(triggerFilter);
 		triggerFilter = setTimeout(showEstimates, 500);
 	});

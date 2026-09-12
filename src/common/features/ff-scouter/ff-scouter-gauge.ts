@@ -4,7 +4,6 @@
  * Applicable to almost everything beyond this point.
  */
 
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { displayAlert } from "@common/utils/functions/alerts";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -27,8 +26,6 @@ let lockFailure = false;
 
 function initialise() {
 	new MutationObserver((mutations) => {
-		if (!FEATURE_MANAGER.isEnabled(FFScouterGaugeFeature)) return;
-
 		const hasRelevantNodes = mutations.some(
 			(mutation) =>
 				mutation.addedNodes.length > 0 &&
@@ -40,11 +37,7 @@ function initialise() {
 
 		safeTriggerGauge();
 	}).observe(document.body, { childList: true, subtree: true });
-	addCustomListener(EVENT_CHANNELS.WINDOW__FOCUS, () => {
-		if (!FEATURE_MANAGER.isEnabled(FFScouterGaugeFeature)) return;
-
-		safeTriggerGauge();
-	});
+	addCustomListener(EVENT_CHANNELS.WINDOW__FOCUS, () => safeTriggerGauge());
 }
 
 let rafId: number | null = null;

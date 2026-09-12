@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER, ITEM_RESOLVER, ttStorage } from "@common/utils/context";
+import { ITEM_RESOLVER, ttStorage } from "@common/utils/context";
 import "./travel-table.css";
 import { filters, settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -45,13 +45,11 @@ const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
 
 function initialise() {
 	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, ({ type }) => {
-		if (!FEATURE_MANAGER.isEnabled(TravelTableFeature)) return;
-
 		findElement<HTMLInputElement>("#travel-items").value = getTravelCount(type as TravelType).toString();
 		updateValues();
 	});
 	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, ({ country }) => {
-		if (!FEATURE_MANAGER.isEnabled(TravelTableFeature) || !settings.pages.travel.autoTravelTableCountry) return;
+		if (!settings.pages.travel.autoTravelTableCountry) return;
 
 		const content = findContainer("Travel Destinations", { selector: ":scope > main" })!;
 

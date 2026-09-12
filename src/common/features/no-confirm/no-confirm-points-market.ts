@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
@@ -6,8 +5,6 @@ import { Feature } from "@features/feature";
 
 function initialise() {
 	new MutationObserver(async (mutations) => {
-		if (!FEATURE_MANAGER.isEnabled(NoConfirmPointsMarketFeature)) return;
-
 		if (mutations[0].removedNodes.length > 1) return;
 
 		await startFeature();

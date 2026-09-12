@@ -1,5 +1,4 @@
 import "./settings-link.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { checkDevice, elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -12,8 +11,6 @@ import { Feature } from "@features/feature";
 
 function initialiseLink() {
 	addCustomListener(EVENT_CHANNELS.STATE_CHANGED, () => {
-		if (!FEATURE_MANAGER.isEnabled(SettingsLinkFeature)) return;
-
 		const setting = findElement(".tt-settings", true);
 		if (!setting) return;
 

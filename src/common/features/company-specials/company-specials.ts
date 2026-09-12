@@ -1,5 +1,4 @@
 import "./company-specials.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -18,7 +17,7 @@ const data: Record<number, any> = {};
 
 function initialiseCompanySpecials() {
 	addXHRListener(async ({ detail }) => {
-		if (!FEATURE_MANAGER.isEnabled(CompanySpecialsFeature) || !("json" in detail)) return;
+		if (!("json" in detail)) return;
 
 		const { page, json } = detail;
 

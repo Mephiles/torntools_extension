@@ -1,6 +1,5 @@
 import "./energy-warning.css";
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, isElement } from "@common/utils/functions/dom";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -10,7 +9,7 @@ import { Feature } from "@features/feature";
 
 function initialiseListener() {
 	document.addEventListener("click", async (event) => {
-		if (!FEATURE_MANAGER.isEnabled(EnergyWarningFeature) || !isElement(event.target)) return;
+		if (!isElement(event.target)) return;
 
 		const factionPage = getPage() === "factions";
 		let item: HTMLElement | null;

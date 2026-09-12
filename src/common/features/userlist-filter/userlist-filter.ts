@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
@@ -16,21 +16,9 @@ function isHospitalizationReason(key: string): key is keyof typeof HOSPITALIZATI
 }
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.USERLIST_SWITCH_PAGE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(UserlistFilterFeature)) return;
-
-		await filter?.run();
-	});
-	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, ({ row }) => {
-		if (!FEATURE_MANAGER.isEnabled(UserlistFilterFeature)) return;
-
-		void filter?.runScoped({ rows: [row], sections: ["statsEstimates"] });
-	});
-	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(UserlistFilterFeature)) return;
-
-		await filter?.runScoped({ sections: ["ffScore"] });
-	});
+	addCustomListener(EVENT_CHANNELS.USERLIST_SWITCH_PAGE, () => filter?.run());
+	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, ({ row }) => filter?.runScoped({ rows: [row], sections: ["statsEstimates"] }));
+	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, () => filter?.runScoped({ sections: ["ffScore"] }));
 }
 
 type UserlistFilterState = {

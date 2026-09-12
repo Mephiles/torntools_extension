@@ -1,5 +1,5 @@
 import "./shop-values.css";
-import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -11,8 +11,6 @@ import { Feature } from "@features/feature";
 
 function initialiseListeners() {
 	addXHRListener(({ detail: { page, xhr } }) => {
-		if (!FEATURE_MANAGER.isEnabled(ShopValuesFeature)) return;
-
 		if (page !== "shops") return;
 
 		const params = new URLSearchParams(xhr.requestBody);

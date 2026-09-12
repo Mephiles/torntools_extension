@@ -1,6 +1,5 @@
 import { isInternalFaction, readFactionDetails } from "@common/pages/factions-page";
 import "./show-faction-spy.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -135,8 +134,6 @@ function formatSpyStats(spyData: FactionSpyData) {
 
 function registerListeners() {
 	window.addEventListener("hashchange", async (e) => {
-		if (!FEATURE_MANAGER.isEnabled(ShowFactionSpyFeature)) return;
-
 		if (e.newURL.includes("#/war/rank")) await fetchAndAddSpies();
 		else removeSpies(true);
 	});

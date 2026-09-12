@@ -1,5 +1,5 @@
 import "./bounty-filter.css";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import { createContainer, findContainer } from "@common/utils/functions/containers";
@@ -12,11 +12,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 
 function initialiseListener() {
-	new MutationObserver(async () => {
-		if (!FEATURE_MANAGER.isEnabled(BountyFilterFeature)) return;
-
-		await addFilter();
-	}).observe(findElement(".content-wrapper"), { childList: true });
+	new MutationObserver(addFilter).observe(findElement(".content-wrapper"), { childList: true });
 }
 
 async function addFilter() {

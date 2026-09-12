@@ -1,6 +1,5 @@
 import "./user-alias.css";
 import { getFactionSubpage, isDestroyed, isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, isElement } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -27,13 +26,12 @@ const SELECTORS: Record<keyof typeof SCOPES_LIST, { items: string }> = {
 
 function addListeners() {
 	document.addEventListener("click", async (event) => {
-		if (FEATURE_MANAGER.isEnabled(UserAliasUserlistFeature) && isElement(event.target) && event.target.closest(".pagination-wrap a[href]"))
-			await addAlias();
+		if (!isElement(event.target) || !event.target.closest(".pagination-wrap a[href]")) return;
+
+		await addAlias();
 	});
 	if (isInternalFaction) {
-		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
-			if (FEATURE_MANAGER.isEnabled(UserAliasUserlistFeature)) await addAlias();
-		});
+		addCustomListener(EVENT_CHANNELS.FACTION_INFO, addAlias);
 	}
 }
 

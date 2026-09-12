@@ -1,5 +1,4 @@
 import "./travel-cooldowns.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, mobile, tabletVertical } from "@common/utils/functions/dom";
@@ -11,17 +10,11 @@ import { getPageStatus, hasFinishedEducation, isAbroad, isFlying } from "@common
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	const handler = async () => {
-		if (!FEATURE_MANAGER.isEnabled(TravelCooldownsFeature)) return;
-
-		await showWarnings();
-	};
-
 	if (mobile || tabletVertical) {
-		addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, handler);
-		addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, handler);
+		addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, showWarnings);
+		addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, showWarnings);
 	} else {
-		addCustomListener(EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE, handler);
+		addCustomListener(EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE, showWarnings);
 	}
 }
 

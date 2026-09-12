@@ -2,7 +2,6 @@ import "./faction-quick-items.css";
 import { isInternalFaction } from "@common/pages/factions-page";
 import type { TornInternalArmouryTabContent } from "@common/pages/factions-page";
 import type { TornInternalUseItem } from "@common/pages/item-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { quick, settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { findContainer } from "@common/utils/functions/containers";
@@ -52,8 +51,6 @@ function addListener() {
 	initialiseQuickItems();
 
 	addCustomListener(EVENT_CHANNELS.FACTION_ARMORY_TAB, async ({ section }) => {
-		if (!FEATURE_MANAGER.isEnabled(FactionQuickItemsFeature)) return;
-
 		if (["medical", "drugs", "boosters", "points", "donate", "consumables", "loot"].includes(section)) {
 			await showQuickItems(section);
 			setupQuickDragListeners();

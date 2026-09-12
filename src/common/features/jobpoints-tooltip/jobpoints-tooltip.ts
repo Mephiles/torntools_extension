@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { findElement } from "@common/utils/functions/find-elements.ts";
@@ -16,8 +15,6 @@ async function addJobPointsTooltip() {
 }
 
 async function tooltipListener() {
-	if (!FEATURE_MANAGER.isEnabled(JobPointsTooltipFeature)) return;
-
 	const jobId = userdata.job?.type === "job" ? userdata.job.name.toLowerCase() : userdata.job!.type_id;
 	const allJobPoints = getAllJobPoints();
 

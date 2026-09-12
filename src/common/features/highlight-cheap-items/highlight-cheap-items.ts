@@ -1,5 +1,5 @@
 import "./highlight-cheap-items.css";
-import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -17,28 +17,12 @@ interface ItemEntry {
 
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS, ({ list }) => {
-		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
-
 		highlightItems(findAllElements("[class*='itemList___'] > li:not(.tt-highlight-modified)", list));
 	});
-	addCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS_UPDATE, ({ item }) => {
-		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
-
-		highlightItems([item]);
-	});
-	addCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS, ({ item, list }) => {
-		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
-
-		highlightSellers(item, list, false);
-	});
-	addCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS_UPDATE, ({ item, list }) => {
-		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
-
-		highlightSellers(item, list, true);
-	});
+	addCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS_UPDATE, ({ item }) => highlightItems([item]));
+	addCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS, ({ item, list }) => highlightSellers(item, list, false));
+	addCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS_UPDATE, ({ item, list }) => highlightSellers(item, list, true));
 	addCustomListener(EVENT_CHANNELS.WINDOW__FOCUS, () => {
-		if (!FEATURE_MANAGER.isEnabled(HighlightCheapItemsFeature)) return;
-
 		removeHighlights();
 		highlightEverything();
 	});

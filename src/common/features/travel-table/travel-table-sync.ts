@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER, RUNTIME_INFORMATION } from "@common/utils/context";
+import { RUNTIME_INFORMATION } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -15,11 +15,7 @@ export interface SyncItem {
 let nextUpdate = 0;
 
 function initialise() {
-	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD, ({ items, country }) => {
-		if (!FEATURE_MANAGER.isEnabled(TravelSyncFeature)) return;
-
-		syncData(items, country);
-	});
+	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD, ({ items, country }) => syncData(items, country));
 }
 
 function syncData(items: SyncItem[], country: string) {

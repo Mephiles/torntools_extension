@@ -1,5 +1,4 @@
 import type { TornInternalSellProperty } from "@common/pages/properties-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { displayAlert } from "@common/utils/functions/alerts";
 import { fetchData } from "@common/utils/functions/api-fetcher";
@@ -10,12 +9,12 @@ import { Feature } from "@features/feature";
 
 function initialise() {
 	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, async ({ route: { page, paramTab } }) => {
-		if (!FEATURE_MANAGER.isEnabled(NoConfirmPropertiesFeature) || page !== "options" || paramTab !== "sell") return;
+		if (page !== "options" || paramTab !== "sell") return;
 
 		await startFeature();
 	});
 	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE, async ({ route: { page, paramTab } }) => {
-		if (!FEATURE_MANAGER.isEnabled(NoConfirmPropertiesFeature) || page !== "options" || paramTab !== "sell") return;
+		if (page !== "options" || paramTab !== "sell") return;
 
 		await startFeature();
 	});
@@ -26,7 +25,6 @@ async function startFeature() {
 	if (!sellButton) return;
 
 	sellButton.addEventListener("click", async (event) => {
-		if (!FEATURE_MANAGER.isEnabled(NoConfirmPropertiesFeature)) return;
 		event.preventDefault();
 		event.stopPropagation();
 

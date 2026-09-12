@@ -1,5 +1,4 @@
 import type { PropertiesPage } from "@common/pages/properties-page.ts";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -13,12 +12,12 @@ const SUPPORTED_ROUTES: PropertiesPage[] = ["all-properties", "spouse-properties
 
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, async ({ route }) => {
-		if (!FEATURE_MANAGER.isEnabled(PropertyValuesFeature) || !SUPPORTED_ROUTES.includes(route.page)) return;
+		if (!SUPPORTED_ROUTES.includes(route.page)) return;
 
 		await addPropertyValues();
 	});
 	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE, async ({ route }) => {
-		if (!FEATURE_MANAGER.isEnabled(PropertyValuesFeature) || !SUPPORTED_ROUTES.includes(route.page)) return;
+		if (!SUPPORTED_ROUTES.includes(route.page)) return;
 
 		await addPropertyValues();
 	});

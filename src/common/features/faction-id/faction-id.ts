@@ -1,5 +1,4 @@
 import { getFactionSubpage, isInternalFaction, readFactionDetails } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -10,11 +9,7 @@ import { Feature } from "@features/feature";
 
 function initialise() {
 	if (isInternalFaction) {
-		addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
-			if (!FEATURE_MANAGER.isEnabled(FactionIDFeature)) return;
-
-			await addID();
-		});
+		addCustomListener(EVENT_CHANNELS.FACTION_INFO, addID);
 	}
 }
 

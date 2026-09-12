@@ -1,6 +1,6 @@
 import "./item-values.css";
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, getSearchParameters, isElement, mobile, tablet } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -32,14 +32,8 @@ function initialiseItemValues() {
 			setupXHR({ ignoreUntradable: true, addRelative: true });
 			break;
 		case "item":
-			addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, ({ tab }) => {
-				if (!FEATURE_MANAGER.isEnabled(ItemValuesFeature)) return;
-
-				showItemValues(tab);
-			});
-			addCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, ({ item, amount, loaned }) => {
-				updateItemAmount(item, amount, loaned);
-			});
+			addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, ({ tab }) => showItemValues(tab));
+			addCustomListener(EVENT_CHANNELS.ITEM_AMOUNT, ({ item, amount, loaned }) => updateItemAmount(item, amount, loaned));
 			break;
 	}
 

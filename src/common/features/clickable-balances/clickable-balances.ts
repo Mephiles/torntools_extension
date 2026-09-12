@@ -1,5 +1,4 @@
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { getHashParameters, isHTMLElement } from "@common/utils/functions/dom.ts";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -10,11 +9,7 @@ import { Feature } from "@features/feature";
 import styles from "./clickable-balances.module.css";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER_PAGE, () => {
-		if (!FEATURE_MANAGER.isEnabled(ClickableBalancesFeature)) return;
-
-		makeBalancesClickable();
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER_PAGE, makeBalancesClickable);
 }
 
 function makeBalancesClickable() {

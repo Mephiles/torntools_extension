@@ -1,5 +1,5 @@
 import "./jail-filter.css";
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { ttStorage } from "@common/utils/context";
 import { filters, quick, settings, userdata } from "@common/utils/data/database";
 import type { QuickJail } from "@common/utils/data/default-database";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
@@ -24,11 +24,7 @@ let cbQuickBail: CheckboxObject | undefined;
 const JAIL_FILTER_TIME_REGEX = /(\d+)(?=h)|(\d+)(?=m)/g;
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.JAIL_SWITCH_PAGE, async () => {
-		if (!FEATURE_MANAGER.isEnabled(JailFilterFeature)) return;
-
-		await Promise.all([filter?.run(), applyQuickBustAndBail()]);
-	});
+	addCustomListener(EVENT_CHANNELS.JAIL_SWITCH_PAGE, () => Promise.all([filter?.run(), applyQuickBustAndBail()]));
 }
 
 type JailFilterState = {

@@ -1,5 +1,5 @@
 import { isInternalFaction } from "@common/pages/factions-page";
-import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import "./armory-worth.css";
 import { ttCache } from "@common/utils/data/cache";
 import { settings, torndata, userdata } from "@common/utils/data/database";
@@ -34,11 +34,7 @@ type ArmoryWorthFetchResponse = FactionV1WeaponsResponse &
 	FactionBasicResponse;
 
 function addListener() {
-	addCustomListener(EVENT_CHANNELS.FACTION_INFO, async () => {
-		if (!FEATURE_MANAGER.isEnabled(ArmoryWorthFeature)) return;
-
-		await addWorth();
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_INFO, addWorth);
 }
 
 async function addWorth() {

@@ -1,4 +1,3 @@
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
@@ -13,7 +12,6 @@ const statsEstimate = new StatsEstimate("HOF", true);
 
 function registerListeners() {
 	addXHRListener(async ({ detail: { page, xhr } }) => {
-		if (!FEATURE_MANAGER.isEnabled(StatsEstimateHOFFeature)) return;
 		if (page !== "halloffame") return;
 
 		const params = new URLSearchParams(xhr.requestBody);

@@ -1,5 +1,5 @@
 import "./can-energy.css";
-import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
@@ -9,11 +9,8 @@ import { getPageStatus, isEventActive, TORN_EVENTS } from "@common/utils/functio
 import { Feature } from "@features/feature";
 
 function initialiseAddEGains() {
-	const listener = () => {
-		if (FEATURE_MANAGER.isEnabled(CanEnergyFeature)) addEnergyGains();
-	};
-	addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, listener);
-	addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, listener);
+	addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, addEnergyGains);
+	addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, addEnergyGains);
 }
 
 function addEnergyGains() {

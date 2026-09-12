@@ -1,6 +1,5 @@
 import "./property-happiness.css";
 import type { PropertiesPage } from "@common/pages/properties-page.ts";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings, userdata } from "@common/utils/data/database";
 import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -14,12 +13,12 @@ const SUPPORTED_ROUTES: PropertiesPage[] = ["all-properties", "spouse-properties
 
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, async ({ route }) => {
-		if (!FEATURE_MANAGER.isEnabled(PropertyHappinessFeature) || !SUPPORTED_ROUTES.includes(route.page)) return;
+		if (!SUPPORTED_ROUTES.includes(route.page)) return;
 
 		await addPropertyHappiness();
 	});
 	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE, async ({ route }) => {
-		if (!FEATURE_MANAGER.isEnabled(PropertyHappinessFeature) || !SUPPORTED_ROUTES.includes(route.page)) return;
+		if (!SUPPORTED_ROUTES.includes(route.page)) return;
 
 		await addPropertyHappiness();
 	});

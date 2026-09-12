@@ -1,5 +1,4 @@
 import "./search-chat.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, isElementOfTag } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -19,14 +18,8 @@ import {
 import { Feature } from "@features/feature";
 
 function initialiseSearchChat() {
-	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, ({ chat }) => {
-		if (!FEATURE_MANAGER.isEnabled(SearchChatFeature)) return;
-
-		addChatSearch(chat);
-	});
+	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, ({ chat }) => addChatSearch(chat));
 	addCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, ({ message }) => {
-		if (!FEATURE_MANAGER.isEnabled(SearchChatFeature)) return;
-
 		const parent = message.closest(`[class*='chat-box__'], ${SELECTOR_CHAT_V3__BOX}`);
 		if (!parent) return;
 
@@ -37,8 +30,6 @@ function initialiseSearchChat() {
 		if (inputValue) searchChat(findElement(`${SELECTOR_CHAT_V2__MESSAGE_BOX}, ${SELECTOR_CHAT_V3__MESSAGE}`, message, true), inputValue);
 	});
 	addCustomListener(EVENT_CHANNELS.CHAT_REFRESHED, () => {
-		if (!FEATURE_MANAGER.isEnabled(SearchChatFeature)) return;
-
 		// Re-filter all chats after they refresh.
 		findAllElements(`[class*='group-chat-box__chat-box-wrapper__'], ${SELECTOR_CHAT_ROOT} ${SELECTOR_CHAT_V3__BOX}[style*='z-index']`).forEach((chat) => {
 			const input = findElement<HTMLInputElement>(".tt-chat-filter input", chat, true);
@@ -48,9 +39,7 @@ function initialiseSearchChat() {
 			if (inputValue) onChatSearch({ target: input }, chat);
 		});
 	});
-	addCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, ({ peopleMenu }) => {
-		addPeopleSearch(peopleMenu);
-	});
+	addCustomListener(EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED, ({ peopleMenu }) => addPeopleSearch(peopleMenu));
 }
 
 async function showSearch() {

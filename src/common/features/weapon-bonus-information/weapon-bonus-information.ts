@@ -1,5 +1,4 @@
 import "./weapon-bonus-information.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, isElement } from "@common/utils/functions/dom";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -110,7 +109,6 @@ const BONUSES: Record<string, Bonus> = {
 
 function initialiseListeners() {
 	addXHRListener(async ({ detail: { page, uri } }) => {
-		if (!FEATURE_MANAGER.isEnabled(WeaponBonusInformationFeature)) return;
 		if (page !== "page" || uri?.sid !== "attackLog") return;
 
 		await showInformation();

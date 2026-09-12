@@ -1,5 +1,4 @@
 import "./user-alias.css";
-import { FEATURE_MANAGER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -27,33 +26,21 @@ async function addListeners() {
 	addAliasMessage();
 
 	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, () => {
-		if (FEATURE_MANAGER.isEnabled(UserAliasChatFeature)) {
-			addAliasTitle();
-			addAliasMessage();
-		}
+		addAliasTitle();
+		addAliasMessage();
 	});
-	addCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, ({ message }) => {
-		if (FEATURE_MANAGER.isEnabled(UserAliasChatFeature)) addAliasMessage(message);
-	});
+	addCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, ({ message }) => addAliasMessage(message));
 	addCustomListener(EVENT_CHANNELS.CHAT_REFRESHED, () => {
-		if (!FEATURE_MANAGER.isEnabled(UserAliasChatFeature)) return;
-
 		removeAlias();
 		addAliasTitle();
 		addAliasMessage();
 	});
 	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, async () => {
-		if (!FEATURE_MANAGER.isEnabled(UserAliasChatFeature)) return;
-
 		removeAlias();
 		addAliasTitle();
 		addAliasMessage();
 	});
-	addCustomListener(EVENT_CHANNELS.CHAT_CLOSED, () => {
-		if (!FEATURE_MANAGER.isEnabled(UserAliasChatFeature)) return;
-
-		addAliasTitle();
-	});
+	addCustomListener(EVENT_CHANNELS.CHAT_CLOSED, addAliasTitle);
 }
 
 function addAliasTitle() {

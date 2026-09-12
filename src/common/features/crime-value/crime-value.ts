@@ -1,7 +1,7 @@
 import "./crime-value.css";
 import { isAttemptCrime } from "@common/pages/crimes2-page";
 import type { TornInternalAttemptCrime } from "@common/pages/crimes2-page";
-import { FEATURE_MANAGER, ITEM_RESOLVER } from "@common/utils/context";
+import { ITEM_RESOLVER } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { findAllElements } from "@common/utils/functions/find-elements";
@@ -12,7 +12,6 @@ import { Feature } from "@features/feature";
 
 function addListener() {
 	addFetchListener(async ({ detail: { page, json, fetch } }) => {
-		if (!FEATURE_MANAGER.isEnabled(CrimeValueFeature)) return;
 		if (page !== "page" || !json) return;
 
 		const params = new URL(fetch.url).searchParams;
