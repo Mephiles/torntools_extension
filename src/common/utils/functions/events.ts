@@ -82,6 +82,7 @@ export enum EVENT_CHANNELS {
 	ELIMINATION__MAIN = "ELIMINATION__MAIN",
 	ELIMINATION__TEAM = "ELIMINATION__TEAM",
 	ELIMINATION__TEAM_DATA = "ELIMINATION__TEAM_DATA",
+	ELIMINATION__TEAM_TABLE_CHANGE = "ELIMINATION__TEAM_TABLE_CHANGE",
 }
 
 export interface EventPayloads {
@@ -167,6 +168,7 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.ELIMINATION__MAIN]: never;
 	[EVENT_CHANNELS.ELIMINATION__TEAM]: never;
 	[EVENT_CHANNELS.ELIMINATION__TEAM_DATA]: { page: number };
+	[EVENT_CHANNELS.ELIMINATION__TEAM_TABLE_CHANGE]: never;
 }
 
 export type CustomEventListener<T extends keyof EventPayloads> = (payload: EventPayloads[T]) => void;

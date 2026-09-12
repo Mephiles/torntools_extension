@@ -38,7 +38,7 @@ function initialise() {
 		safeTriggerGauge();
 	}).observe(document.body, { childList: true, subtree: true });
 	addCustomListener(EVENT_CHANNELS.WINDOW__FOCUS, safeTriggerGauge);
-	addCustomListener(EVENT_CHANNELS.ELIMINATION__TEAM_DATA, safeTriggerGauge);
+	addCustomListener(EVENT_CHANNELS.ELIMINATION__TEAM_TABLE_CHANGE, safeTriggerGauge);
 }
 
 let rafId: number | null = null;

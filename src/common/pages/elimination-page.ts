@@ -1,5 +1,6 @@
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events.ts";
 import { addFetchListener } from "@common/utils/functions/listeners.ts";
+import { requireElement } from "@common/utils/functions/requires.ts";
 
 export function setupEliminationPage() {
 	addFetchListener(async ({ detail: { page, json, fetch } }) => {
@@ -12,17 +13,50 @@ export function setupEliminationPage() {
 		const step = params.get("step");
 
 		if (isEliminationViewTeam(step, json)) {
+			void initialiseVirtualTableListeners();
 			triggerCustomListener(EVENT_CHANNELS.ELIMINATION__TEAM_DATA, { page: parseInt(params.get("p")!) });
 		} else if (step === "headerTimers") {
 			triggerCustomListener(EVENT_CHANNELS.ELIMINATION__MAIN);
 		}
 	});
-	window.addEventListener("hashchange", () => {
-		if (location.hash.includes("team/")) triggerCustomListener(EVENT_CHANNELS.ELIMINATION__TEAM);
+
+	window.addEventListener("hashchange", detectCurrentPage);
+	detectCurrentPage();
+}
+
+function detectCurrentPage() {
+	if (location.hash === "#/") triggerCustomListener(EVENT_CHANNELS.ELIMINATION__MAIN);
+	else if (location.hash.includes("team/")) {
+		void initialiseVirtualTableListeners();
+		triggerCustomListener(EVENT_CHANNELS.ELIMINATION__TEAM);
+	}
+}
+
+let virtualWrapperObserver: MutationObserver | undefined;
+let virtualElementObserver: MutationObserver | undefined;
+
+async function initialiseVirtualTableListeners() {
+	virtualElementObserver?.disconnect();
+	virtualWrapperObserver?.disconnect();
+
+	const container = await requireElement("[class *='virtualContainer']");
+	const wrapper = container.parentElement!;
+
+	virtualWrapperObserver = new MutationObserver((_, observer) => {
+		requireElement(".react-loading-skeleton", { invert: true, parent: wrapper }).then(async () => {
+			await initialiseVirtualTableListeners();
+			triggerCustomListener(EVENT_CHANNELS.ELIMINATION__TEAM_TABLE_CHANGE);
+		});
+		virtualWrapperObserver = undefined;
+		observer.disconnect();
+	});
+	virtualElementObserver = new MutationObserver(() => {
+		triggerCustomListener(EVENT_CHANNELS.ELIMINATION__TEAM_TABLE_CHANGE);
 	});
 
-	if (location.hash === "#/") triggerCustomListener(EVENT_CHANNELS.ELIMINATION__MAIN);
-	else if (location.hash.includes("team/")) triggerCustomListener(EVENT_CHANNELS.ELIMINATION__TEAM);
+	virtualWrapperObserver.observe(wrapper, { childList: true });
+	virtualElementObserver.observe(container, { attributes: true, attributeFilter: ["style"], subtree: true });
+	virtualElementObserver.observe(container, { childList: true });
 }
 
 interface TornInternalEliminationViewTeam {
