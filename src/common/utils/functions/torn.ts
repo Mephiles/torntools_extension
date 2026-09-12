@@ -210,6 +210,7 @@ export const NON_ATTACKABLE_ACCOUNTS: { id: number; reason: "Admin" | "NPC" }[] 
 export const NON_ATTACKABLE_ACCOUNT_IDS = NON_ATTACKABLE_ACCOUNTS.map(({ id }) => id);
 
 export interface DrugDetail {
+	addiction: number;
 	pros: string[];
 	cons?: string[];
 	cooldown: string;
@@ -224,6 +225,7 @@ export interface DrugDetail {
 export const DRUG_INFORMATION: { [id: number]: DrugDetail } = {
 	// Cannabis
 	196: {
+		addiction: 1,
 		pros: ["+8-12 Nerve"],
 		cons: ["-20% Strength", "-25% Defense", "-35% Speed"],
 		cooldown: "60-90 minutes",
@@ -235,6 +237,7 @@ export const DRUG_INFORMATION: { [id: number]: DrugDetail } = {
 	},
 	// Ecstasy
 	197: {
+		addiction: 20,
 		pros: ["Doubles Happy"],
 		cooldown: "3-4 hours",
 		overdose: {
@@ -243,6 +246,7 @@ export const DRUG_INFORMATION: { [id: number]: DrugDetail } = {
 	},
 	// Ketamine
 	198: {
+		addiction: 8,
 		pros: ["+50% Defense"],
 		cons: ["-20% Strength & Speed"],
 		cooldown: "45-60 minutes",
@@ -255,6 +259,7 @@ export const DRUG_INFORMATION: { [id: number]: DrugDetail } = {
 	},
 	// LSD
 	199: {
+		addiction: 20,
 		pros: ["+30% Strength", "+50% Defense", "+50 Energy", "+200-500 Happy", "+5 Nerve"],
 		cons: ["-30% Speed & Dexterity"],
 		cooldown: "6-8 hours",
@@ -265,11 +270,13 @@ export const DRUG_INFORMATION: { [id: number]: DrugDetail } = {
 	},
 	// Opium
 	200: {
+		addiction: 10,
 		pros: ["Removes all hospital time (except Radiation Sickness) and replenishes life to 50%", "+30% Defense"],
 		cooldown: "2-3 hours",
 	},
 	// PCP
 	201: {
+		addiction: 26,
 		pros: ["+20% Strength & Dexterity", "+250 Happy"],
 		cooldown: "4-7 hours",
 		overdose: {
@@ -280,6 +287,7 @@ export const DRUG_INFORMATION: { [id: number]: DrugDetail } = {
 	},
 	// Shrooms
 	203: {
+		addiction: 6,
 		pros: ["+500 Happy"],
 		cons: ["-20% All Battle Stats", "-25 Energy (caps at 0)"],
 		cooldown: "3-4 hours",
@@ -290,6 +298,7 @@ export const DRUG_INFORMATION: { [id: number]: DrugDetail } = {
 	},
 	// Speed
 	204: {
+		addiction: 14,
 		pros: ["+20% Speed", "+50 Happy"],
 		cons: ["-20% Dexterity"],
 		cooldown: "4-6 hours",
@@ -301,6 +310,7 @@ export const DRUG_INFORMATION: { [id: number]: DrugDetail } = {
 	},
 	// Vicodin
 	205: {
+		addiction: 13,
 		pros: ["+25% All Battle Stats", "+75 Happy"],
 		cooldown: "4-6 hours",
 		overdose: {
@@ -309,6 +319,7 @@ export const DRUG_INFORMATION: { [id: number]: DrugDetail } = {
 	},
 	// Xanax
 	206: {
+		addiction: 35,
 		pros: ["+250 Energy", "+75 Happy"],
 		cons: ["-35% All Battle Stats"],
 		cooldown: "6-8 hours",
@@ -320,6 +331,7 @@ export const DRUG_INFORMATION: { [id: number]: DrugDetail } = {
 	},
 	// Love Juice
 	870: {
+		addiction: 50,
 		pros: ["Cost of attacking and reviving reduced by 15 energy.", "+50% Speed", "+25% Dexterity"],
 		cons: ["Only works on Valentine's Day"],
 		cooldown: "5-8 hours",

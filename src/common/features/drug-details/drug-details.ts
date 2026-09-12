@@ -221,16 +221,20 @@ function show(parent: Element, details: DrugDetail) {
 	}
 
 	// Cooldown
-	if (details.cooldown) {
-		parent.appendChild(
-			elementBuilder({
-				type: "div",
-				class: "item-effect con",
-				text: `Cooldown: ${details.cooldown}`,
-				dataset: { addedBy: "TornTools" },
-			}),
-		);
-	}
+	parent.append(
+		elementBuilder({
+			type: "div",
+			class: "item-effect con",
+			text: `Cooldown: ${details.cooldown}`,
+			dataset: { addedBy: "TornTools" },
+		}),
+		elementBuilder({
+			type: "div",
+			class: "item-effect con",
+			text: `Addiction Points: ${details.addiction}`,
+			dataset: { addedBy: "TornTools" },
+		}),
+	);
 
 	// Overdose
 	if (details.overdose) {
