@@ -497,6 +497,9 @@ export const DEFAULT_STORAGE = {
 			crimes2: {
 				value: new DefaultSetting("boolean", true),
 			},
+			elimination: {
+				filter: new DefaultSetting("boolean", true),
+			},
 		},
 		scripts: {
 			noConfirm: {
@@ -871,6 +874,14 @@ export const DEFAULT_STORAGE = {
 			levelStart: new DefaultSetting("number", 0),
 			levelEnd: new DefaultSetting("number", 100),
 			estimates: new DefaultSetting<string[]>("array", []),
+			ffScoreMax: new DefaultSetting<number>("number", null),
+			ffScoreMin: new DefaultSetting<number>("number", null),
+		},
+		elimination: {
+			enabled: new DefaultSetting("boolean", true),
+			activity: new DefaultSetting<string[]>("array", []),
+			levelStart: new DefaultSetting("number", 0),
+			levelEnd: new DefaultSetting("number", 100),
 			ffScoreMax: new DefaultSetting<number>("number", null),
 			ffScoreMin: new DefaultSetting<number>("number", null),
 		},
