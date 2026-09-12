@@ -29,7 +29,8 @@
 				},
 				{ "message": "'Trade Timer' no longer updated live.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve issues with company features not working properly when visiting from the newspaper.", "contributor": "DeKleineKobini" },
-				{ "message": "Improved reliability for 'FF Scouter Gauge' on the elimination page (but not yet great).", "contributor": "DeKleineKobini" }
+				{ "message": "Improved reliability for 'FF Scouter Gauge' on the elimination page (but not yet great).", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors with 'Resizable Chat'.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Switch to a different cross icon.", "contributor": "DeKleineKobini" },
