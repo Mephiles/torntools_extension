@@ -46,15 +46,12 @@ let lastTriggerTime = 0;
 const TRIGGER_THROTTLE = 200;
 
 function safeTriggerGauge() {
-	console.log("DKK safeTriggerGauge 1");
 	if (!isTabFocused()) return;
 
 	const now = Date.now();
-	console.log("DKK safeTriggerGauge 2", now, lastTriggerTime, rafId);
 	if (now - lastTriggerTime < TRIGGER_THROTTLE || rafId) return;
 
 	rafId = requestAnimationFrame(() => {
-		console.log("DKK requestAnimationFrame");
 		rafId = null;
 		triggerGauge();
 	});
@@ -79,7 +76,6 @@ const SELECTORS = new Map<string, string>([
 ]);
 
 function triggerGauge() {
-	console.log("DKK triggerGauge", scoutLock);
 	if (scoutLock) return;
 	scoutLock = true;
 

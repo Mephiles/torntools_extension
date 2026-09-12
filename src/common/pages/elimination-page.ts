@@ -12,12 +12,9 @@ export function setupEliminationPage() {
 		const step = params.get("step");
 
 		if (isEliminationViewTeam(step, json)) {
-			console.log("DKK  ELIMINATION__TEAM_DATA");
 			triggerCustomListener(EVENT_CHANNELS.ELIMINATION__TEAM_DATA, { page: parseInt(params.get("p")!) });
 		} else if (step === "headerTimers") {
 			triggerCustomListener(EVENT_CHANNELS.ELIMINATION__MAIN);
-		} else {
-			console.log("DKK  unknown", sid, step);
 		}
 	});
 	window.addEventListener("hashchange", () => {
