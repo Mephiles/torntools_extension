@@ -3,6 +3,7 @@ import { setupBountiesPage } from "@common/pages/bounties-page";
 import { setupCompanyPage } from "@common/pages/company-page";
 import { setupCrimesV1Page } from "@common/pages/crimes1-page";
 import { setupCrimesV2Page } from "@common/pages/crimes2-page";
+import { setupEliminationPage } from "@common/pages/elimination-page.ts";
 import { setupFactionsPage } from "@common/pages/factions-page";
 import { runGlobalPageScripts } from "@common/pages/global-page";
 import { setupGymPage } from "@common/pages/gym-page";
@@ -31,9 +32,9 @@ import AlignLeftFeature from "@features/align-left/align-left";
 import ArmoryFilterFeature from "@features/armory-filter/armory-filter";
 import ArmoryWorthFeature from "@features/armory-worth/armory-worth";
 import AttackTimeoutWarningFeature from "@features/attack-timeout-warning/attack-timeout-warning";
-import AuctionHouseFilterFeature from "@features/auction-house-filter/auction-house-filter";
 import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
+import AuctionHouseFilterFeature from "@features/auction-house-filter/auction-house-filter";
 import AuctionHouseMovePaginationFeature from "@features/auction-house-move-pagination/auction-house-move-pagination";
 import AveragePersonalStatFeature from "@features/average-personal-stat/average-personal-stat";
 import BalanceWarningFeature from "@features/balance-warning/balance-warning.ts";
@@ -557,6 +558,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new CreatorMessagesFeature());
 	} else if (page === "hunting") {
 		FEATURE_MANAGER.registerFeature(new FastHuntingFeature());
+	} else if (page === "elimination") {
+		setupEliminationPage();
 	}
 
 	if (isPageWithDrugItems(page)) {
