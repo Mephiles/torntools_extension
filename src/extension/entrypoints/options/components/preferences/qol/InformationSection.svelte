@@ -114,6 +114,11 @@
 			<StorageSwitch path="settings.pages.travel.peopleFilter" label="Travel People" />
 			<StorageSwitch path="settings.pages.userlist.filter" label="Userlist" />
 			<StorageSwitch path="settings.pages.property.filter" label="Properties" />
+			<StorageSwitch
+				path="settings.pages.elimination.filter"
+				label="Elimination"
+				description="Warning: due to the way the elimination page works, this might have significant performance impact."
+			/>
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 </div>

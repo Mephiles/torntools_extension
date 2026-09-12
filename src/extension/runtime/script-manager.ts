@@ -82,6 +82,7 @@ import EasterEggsFeature from "@features/easter-eggs/easter-eggs";
 import EducationFinishTimeFeature from "@features/education-finish-time/education-finish-time";
 import EffectiveBattleStatsFeature from "@features/effective-battle-stats/effective-battle-stats";
 import EfficientRehabFeature from "@features/efficient-rehab/efficient-rehab";
+import EliminationFilterFeature from "@features/elimination-filter/elimination-filter.ts";
 import EmployeeEffectivenessFeature from "@features/employee-effectiveness/employee-effectiveness";
 import EmployeeInactivityWarningFeature from "@features/employee-inactivity-warning/employee-inactivity-warning";
 import EnemyFilterFeature from "@features/enemy-filter/enemy-filter";
@@ -560,6 +561,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FastHuntingFeature());
 	} else if (page === "elimination") {
 		setupEliminationPage();
+		FEATURE_MANAGER.registerFeature(new EliminationFilterFeature());
 	}
 
 	if (isPageWithDrugItems(page)) {

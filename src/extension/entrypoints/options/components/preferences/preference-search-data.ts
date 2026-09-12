@@ -334,6 +334,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.travel.peopleFilter", label: "Filter: Abroad People", group: "qol", section: "information" },
 	{ path: "settings.pages.userlist.filter", label: "Filter: Userlist", group: "qol", section: "information" },
 	{ path: "settings.pages.property.filter", label: "Filter: Properties", group: "qol", section: "information" },
+	{ path: "settings.pages.elimination.filter", label: "Filter: Elimination", group: "qol", section: "information" },
 
 	// Section: combat
 	{
