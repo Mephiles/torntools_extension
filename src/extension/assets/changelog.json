@@ -1,8 +1,13 @@
 [
 	{
-		"version": { "major": 9, "minor": 3, "build": 0 },
+		"version": { "major": 9, "minor": 3, "build": 1 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 3, "build": 0 },
+		"date": "2026/09/13",
 		"logs": {
 			"features": [
 				{
@@ -41,7 +46,6 @@
 				{ "message": "No longer show 'Faction Quick Items' on the utilities tab.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't show the racing reminder when traveling.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
 			"technical": [
 				{ "message": "Use a custom helper function for finding single elements, as part of the TypeScript journey.", "contributor": "DeKleineKobini" },
 				{ "message": "Enable stricter null-checks, as final step in the TypeScript journey.", "contributor": "DeKleineKobini" },
