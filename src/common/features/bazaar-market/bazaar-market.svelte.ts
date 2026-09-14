@@ -8,7 +8,7 @@ import { mount, unmount } from "svelte";
 import BazaarMarketBox from "./bazaar-market-box.svelte";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS, async ({ item }) => await displayBazaars(item));
+	addCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEMS, ({ item }) => displayBazaars(item));
 	addCustomListener(EVENT_CHANNELS.ITEMMARKET_CATEGORY_ITEMS, removeExistingBox);
 }
 

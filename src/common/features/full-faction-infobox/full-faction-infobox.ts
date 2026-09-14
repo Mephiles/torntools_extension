@@ -11,8 +11,8 @@ import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_INFO, () => showFull());
-	addCustomListener(EVENT_CHANNELS.FACTION_MAIN, () => showFull());
+	addCustomListener(EVENT_CHANNELS.FACTION_INFO, showFull);
+	addCustomListener(EVENT_CHANNELS.FACTION_MAIN, showFull);
 }
 
 async function startFeature() {

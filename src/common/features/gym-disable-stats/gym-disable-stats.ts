@@ -12,11 +12,7 @@ import { Feature } from "@features/feature";
 const GYM_STATS = ["strength", "speed", "dexterity", "defense"] as const;
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.GYM_LOAD, async () => {
-		if (!settings.pages.gym.disableStats) return;
-
-		await showCheckboxes();
-	});
+	addCustomListener(EVENT_CHANNELS.GYM_LOAD, showCheckboxes);
 
 	const gymTrainObserver = new MutationObserver((mutations) => {
 		if (!settings.pages.gym.disableStats) return;

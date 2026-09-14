@@ -35,7 +35,7 @@ async function addListeners() {
 		addAliasTitle();
 		addAliasMessage();
 	});
-	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, async () => {
+	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, () => {
 		removeAlias();
 		addAliasTitle();
 		addAliasMessage();

@@ -47,19 +47,13 @@ function initialiseHighlights() {
 	addCustomListener(EVENT_CHANNELS.CHAT_REFRESHED, (information) => {
 		if (information) {
 			const { chat } = information;
-			for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`, chat)) {
-				applyV3Highlights(message);
-			}
+			findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`, chat).forEach(applyV3Highlights);
 		} else {
-			for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`)) {
-				applyV2Highlights(message);
-			}
+			findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`).forEach(applyV2Highlights);
 		}
 	});
 	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, () => {
-		for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
-			applyV3Highlights(message);
-		}
+		findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`).forEach(applyV3Highlights);
 	});
 	addCustomListener(EVENT_CHANNELS.WINDOW__FOCUS, applyAllHighlights);
 }

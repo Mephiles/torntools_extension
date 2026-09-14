@@ -15,11 +15,7 @@ interface SteadfastBonus {
 }
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.GYM_LOAD, async () => {
-		if (!settings.pages.gym.steadfast) return;
-
-		await showSteadfast();
-	});
+	addCustomListener(EVENT_CHANNELS.GYM_LOAD, showSteadfast);
 }
 
 async function showSteadfast() {

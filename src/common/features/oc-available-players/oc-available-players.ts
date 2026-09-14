@@ -7,7 +7,7 @@ import { createMessageBox, getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, () => showAvailable());
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, showAvailable);
 }
 
 function startFeature() {

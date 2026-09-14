@@ -10,11 +10,7 @@ import { COMPANY_INFORMATION, getPageStatus } from "@common/utils/functions/torn
 import { Feature } from "@features/feature";
 
 async function addListener() {
-	addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, async () => {
-		if (!settings.pages.joblist.specials) return;
-
-		await showSpecials();
-	});
+	addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, showSpecials);
 }
 
 async function showSpecials() {

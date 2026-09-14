@@ -6,7 +6,7 @@ import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, () => openCrimes());
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES, openCrimes);
 }
 
 async function startFeature() {

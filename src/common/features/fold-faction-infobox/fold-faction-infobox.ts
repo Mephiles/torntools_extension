@@ -11,8 +11,8 @@ import { PHFillCaretDown, PHFillCaretRight } from "@common/utils/icons/phosphor-
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_INFO, () => foldInfobox());
-	addCustomListener(EVENT_CHANNELS.FACTION_MAIN, () => foldInfobox());
+	addCustomListener(EVENT_CHANNELS.FACTION_INFO, foldInfobox);
+	addCustomListener(EVENT_CHANNELS.FACTION_MAIN, foldInfobox);
 }
 
 async function startFeature() {

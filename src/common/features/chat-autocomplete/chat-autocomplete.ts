@@ -15,7 +15,7 @@ import {
 import { Feature } from "@features/feature";
 
 function initialiseAutocomplete() {
-	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, async ({ chat }) => await addAutocomplete(chat));
+	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, ({ chat }) => addAutocomplete(chat));
 	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, readSettings);
 }
 

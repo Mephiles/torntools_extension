@@ -22,13 +22,11 @@ type EliminationFilterState = {
 };
 
 async function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.ELIMINATION__TEAM, async () => {
-		await addFilterContainer();
-	});
+	addCustomListener(EVENT_CHANNELS.ELIMINATION__TEAM, addFilterContainer);
 	addCustomListener(EVENT_CHANNELS.ELIMINATION__TEAM_TABLE_CHANGE, async () => {
 		if (!filterSetupComplete) return;
 
-		void filter?.run();
+		await filter?.run();
 	});
 	addCustomListener(EVENT_CHANNELS.FF_SCOUTER_GAUGE, async () => {
 		if (!filterSetupComplete) return;

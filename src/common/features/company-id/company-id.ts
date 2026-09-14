@@ -9,11 +9,7 @@ import { Feature } from "@features/feature";
 
 function initialise() {
 	if (!isOwnCompany) {
-		addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, async () => {
-			if (!settings.pages.companies.idBesideCompanyName) return;
-
-			await addID();
-		});
+		addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, addID);
 	}
 }
 

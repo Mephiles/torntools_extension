@@ -8,7 +8,7 @@ import { requireChatsLoaded } from "@common/utils/functions/requires";
 import { ExecutionTiming, Feature } from "@features/feature";
 
 function initializeListeners() {
-	addCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, async ({ settingsPanel }) => await showButton(settingsPanel));
+	addCustomListener(EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED, ({ settingsPanel }) => showButton(settingsPanel));
 }
 
 function hideChats() {

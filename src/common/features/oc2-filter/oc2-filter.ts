@@ -15,15 +15,9 @@ let filter: FilterController | undefined;
 type OC2FilterState = { enabled: boolean; difficulty: string[]; status: string[] };
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2, () => {
-		void addFilterContainer();
-	});
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_TAB, () => {
-		void addFilterContainer();
-	});
-	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_REFRESH, () => {
-		void filter?.run();
-	});
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2, addFilterContainer);
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_TAB, addFilterContainer);
+	addCustomListener(EVENT_CHANNELS.FACTION_CRIMES2_REFRESH, () => filter?.run());
 }
 
 async function addFilterContainer() {

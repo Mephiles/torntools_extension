@@ -60,16 +60,12 @@ const medicalSource: MedicalItemsSource = {
 function initialiseListeners() {
 	initialiseQuickItems();
 
-	addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, () => {
-		setupQuickDragListeners();
-	});
+	addCustomListener(EVENT_CHANNELS.ITEM_SWITCH_TAB, setupQuickDragListeners);
 	addCustomListener(EVENT_CHANNELS.ITEM_ITEMS_LOADED, ({ tab }) => {
 		setupOverlayItems(tab);
 		controller?.refreshEditListeners();
 	});
-	addCustomListener(EVENT_CHANNELS.ITEM_EQUIPPED, ({ item, equip }) => {
-		updateEquippedItem(item, equip);
-	});
+	addCustomListener(EVENT_CHANNELS.ITEM_EQUIPPED, ({ item, equip }) => updateEquippedItem(item, equip));
 
 	cacheXID(extractXIDFromDOM(document));
 	new MutationObserver((mutations) => {
