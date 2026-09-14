@@ -1,3 +1,4 @@
+import { ttStorage } from "@common/utils/context.ts";
 import { ttCache } from "@common/utils/data/cache";
 import type { CacheEntry, DatabaseCache } from "@common/utils/data/cache";
 import { bumpCacheVersion, getCache, removeCacheEntries, setCacheEntries } from "@common/utils/data/idb-cache";
@@ -66,6 +67,11 @@ export class BackgroundService {
 		}
 
 		await updateFunction(true);
+		return { success: true };
+	}
+
+	async removeDatabaseSection(section: string): Promise<ActionResponse> {
+		await ttStorage.remove(section);
 		return { success: true };
 	}
 

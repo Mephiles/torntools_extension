@@ -6,7 +6,7 @@
 		"logs": {
 			"features": [],
 			"fixes": [{ "message": "Clearing the cache now also always takes the fallback storage with it.", "contributor": "DeKleineKobini" }],
-			"changes": [],
+			"changes": [{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []
 		}
