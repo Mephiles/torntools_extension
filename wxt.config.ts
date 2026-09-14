@@ -106,7 +106,8 @@ export default defineConfig({
 				"https://ffscouter.com/",
 				"https://moonvault.tail3a72e2.ts.net/revive",
 				"https://torn-intel.com/",
-				"https://torntools.tornplayground.eu//",
+				"https://torntools.tornplayground.eu/",
+				"https://tornprobability.com/",
 			],
 			permissions: ["storage", "notifications", "alarms", ...(browser === "chrome" ? ["background", "offscreen"] : [])],
 			web_accessible_resources: [

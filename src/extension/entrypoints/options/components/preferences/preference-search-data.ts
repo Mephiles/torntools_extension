@@ -485,6 +485,8 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	},
 	{ path: "settings.pages.faction.rankedWarValue", label: "Show the total rewards for ranked wars", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.warReportHighlight", label: "Highlight yourself in war reports", group: "qol", section: "faction" },
+	{ path: "settings.pages.faction.ocWeights", label: "Display role weights for OC2 scenarios", group: "qol", section: "faction" },
+	{ path: "settings.pages.faction.submitScenarios", label: "Submit OC2 scenario data", group: "qol", section: "faction" },
 
 	// Section: profile
 	{ path: "settings.pages.profile.avgpersonalstats", label: "Calculate average personal stats", group: "qol", section: "profile" },

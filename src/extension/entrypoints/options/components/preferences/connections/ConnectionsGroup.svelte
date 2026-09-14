@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ENABLE_PLAYGROUND_TORNTOOLS } from "@common/utils/feature-toggles";
-	import { FETCH_PLATFORMS } from "@common/utils/functions/api-fetcher";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
+	import StorageSwitch from "../StorageSwitch.svelte";
 	import ExternalServiceCard from "./ExternalServiceCard.svelte";
 </script>
 
@@ -13,7 +13,7 @@
 		description="Your API key is used to authenticate."
 		path="settings.external.tornstats"
 		enableLabel="Enable TornStats"
-		origin={FETCH_PLATFORMS.tornstats}
+		origin={"tornstats"}
 		links={[
 			{ label: "Website", href: "https://tornstats.com/" },
 			{ label: "Terms of Service", href: "https://tornstats.com/tos" },
@@ -27,7 +27,7 @@
 		description="Your API key is used to authenticate."
 		path="settings.external.yata"
 		enableLabel="Enable YATA"
-		origin={FETCH_PLATFORMS.yata}
+		origin={"yata"}
 		links={[
 			{ label: "Website", href: "https://yata.yt/" },
 			{ label: "Terms of Service", href: "https://yata.yt/tos" },
@@ -41,7 +41,7 @@
 		description="Your API key is not shared with this service."
 		path="settings.external.prometheus"
 		enableLabel="Enable Prometheus"
-		origin={FETCH_PLATFORMS.prometheus}
+		origin={"prometheus"}
 	/>
 
 	<ExternalServiceCard
@@ -49,7 +49,7 @@
 		description="Your API key is not shared with this service."
 		path="settings.external.lzpt"
 		enableLabel="Enable LZPT"
-		origin={FETCH_PLATFORMS.lzpt}
+		origin={"lzpt"}
 	/>
 
 	<ExternalServiceCard
@@ -57,7 +57,7 @@
 		description="Your API key is not used to authenticate at this time, but it will be in the future as additional functionality is added."
 		path="settings.external.tornw3b"
 		enableLabel="Enable TornW3B"
-		origin={FETCH_PLATFORMS.tornw3b}
+		origin={"tornw3b"}
 		links={[
 			{ label: "Website", href: "https://weav3r.dev" },
 			{ label: "Terms of Service", href: "https://weav3r.dev/terms-of-service" },
@@ -69,7 +69,7 @@
 		description="Your API key is used to authenticate."
 		path="settings.external.ffScouter"
 		enableLabel="Enable FFScouter"
-		origin={FETCH_PLATFORMS.ffscouter}
+		origin={"ffscouter"}
 		links={[
 			{ label: "Website", href: "https://ffscouter.com" },
 			{ label: "Terms of Service", href: "https://ffscouter.com" },
@@ -83,12 +83,30 @@
 		description="Your API key is not shared with this service."
 		path="settings.external.tornintel"
 		enableLabel="Enable Torn Intel"
-		origin={FETCH_PLATFORMS.tornintel}
+		origin={"tornintel"}
 		links={[
 			{ label: "Website", href: "https://torn-intel.com" },
 			{ label: "Terms of Service", href: "https://torn-intel.com/terms" },
 		]}
 	/>
+
+	<ExternalServiceCard
+		title="Torn Probability"
+		description="Your API key is not shared with this service."
+		path="settings.external.tornprobability"
+		enableLabel="Enable Torn Probability"
+		origin={"tornprobability"}
+		links={[{ label: "Forum Thread", href: "https://www.torn.com/forums.php#p=threads&f=67&t=16449041" }]}
+		popupDescription="Torn Probability works best with scenario submission enabled. You can change this any time."
+	>
+		{#snippet popupContent()}
+			<StorageSwitch
+				path="settings.pages.faction.submitScenarios"
+				label="Anonymously submit OC2 scenario data"
+				description="Shares your organized crime scenario outcomes to improve recommendations."
+			/>
+		{/snippet}
+	</ExternalServiceCard>
 
 	{#if ENABLE_PLAYGROUND_TORNTOOLS}
 		<ExternalServiceCard
@@ -96,7 +114,7 @@
 			description="Semi-official service for TornTools."
 			path="settings.external.playgroundTorntools"
 			enableLabel="Enable Playground TornTools"
-			origin={FETCH_PLATFORMS.playground_torntools}
+			origin={"playground_torntools"}
 			links={[
 				{ label: "Website", href: "https://torntools.tornplayground.eu" },
 				{ label: "Terms of Service", href: "https://torntools.tornplayground.eu/tos" },

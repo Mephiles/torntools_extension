@@ -124,6 +124,12 @@
 
 			<PreferenceSettingGroup title="OCs v2">
 				<StorageSwitch path="settings.pages.faction.warnCrime" label="Warn when joining a crime without passing the conditions" />
+				<StorageSwitch path="settings.pages.faction.ocWeights" label="Display role weights for OC2 scenarios" externalServices={["tornprobability"]} />
+				<StorageSwitch
+					path="settings.pages.faction.submitScenarios"
+					label="Anonymously submit OC2 scenario data"
+					externalServices={["tornprobability"]}
+				/>
 			</PreferenceSettingGroup>
 		</div>
 	</PreferenceSectionCard>

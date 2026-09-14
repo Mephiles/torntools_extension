@@ -28,9 +28,20 @@ export const FETCH_PLATFORMS = {
 	laekna: "https://moonvault.tail3a72e2.ts.net/",
 	tornintel: "https://torn-intel.com/",
 	playground_torntools: "https://torntools.tornplayground.eu/",
+	tornprobability: "https://tornprobability.com:3000/",
 } as const;
 
 export type FetchLocation = keyof typeof FETCH_PLATFORMS;
+
+export function getPermissionOrigin(location: FetchLocation): string {
+	if (location === "prometheus") {
+		// Because of backwards-compatibility reasons, we keep the port on the prombot domain.
+		// Due to CORS being disabled there, it works even on Firefox.
+		return FETCH_PLATFORMS[location];
+	}
+
+	return FETCH_PLATFORMS[location].replace(/:\d+\//, "/");
+}
 
 type FetchMethod = "GET" | "POST";
 
@@ -180,6 +191,9 @@ function buildUrl(location: FetchLocation, options: FetchOptions): string {
 		case "playground_torntools":
 			path = ["api", options.section].join("/");
 			break;
+		case "tornprobability":
+			path = ["api", options.section].join("/");
+			break;
 		default:
 			path = options.section;
 			break;
@@ -283,7 +297,7 @@ async function handleNetworkError(location: FetchLocation, options: FetchOptions
 
 	if (error === "Failed to fetch") {
 		isLocal = true;
-		if (!RUNTIME_INFORMATION.isUserscript() && SCRIPT_TYPE === "BACKGROUND" && !(await hasOrigins(FETCH_PLATFORMS[location]))) {
+		if (!RUNTIME_INFORMATION.isUserscript() && SCRIPT_TYPE === "BACKGROUND" && !(await hasOrigins(location))) {
 			error = "Permission issues";
 			code = CUSTOM_API_ERROR.NO_PERMISSION;
 		} else {
@@ -297,8 +311,8 @@ async function handleNetworkError(location: FetchLocation, options: FetchOptions
 	throw { error, isLocal, code };
 }
 
-async function hasOrigins(...origins: string[]): Promise<boolean> {
-	return browser.permissions.contains({ origins });
+async function hasOrigins(...locations: FetchLocation[]): Promise<boolean> {
+	return browser.permissions.contains({ origins: locations.map(getPermissionOrigin) });
 }
 
 async function handleApiError(location: FetchLocation, options: FetchOptions, result: any): Promise<never> {

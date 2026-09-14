@@ -432,6 +432,8 @@ export const DEFAULT_STORAGE = {
 				totalChallengeContributions: new DefaultSetting("boolean", true),
 				memberRevives: new DefaultSetting("boolean", true),
 				warReportHighlight: new DefaultSetting("boolean", true),
+				ocWeights: new DefaultSetting("boolean", true),
+				submitScenarios: new DefaultSetting("boolean", false),
 			},
 			property: {
 				filter: new DefaultSetting("boolean", true),
@@ -574,6 +576,7 @@ export const DEFAULT_STORAGE = {
 			tornw3b: new DefaultSetting("boolean", false),
 			ffScouter: new DefaultSetting("boolean", false),
 			tornintel: new DefaultSetting("boolean", false),
+			tornprobability: new DefaultSetting("boolean", false),
 			playgroundTorntools: new DefaultSetting("boolean", false),
 		},
 		servicePreferences: {

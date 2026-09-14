@@ -4,7 +4,13 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [
+				{ "message": "Show the OC2 role weight (requires the 'Torn Probability' connection).", "contributor": "DeKleineKobini" },
+				{
+					"message": "Submit the OC2 scenarios for analysis anonymously, (requires the 'Torn Probability' connection). Disabled by default.",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"fixes": [{ "message": "Clearing the cache now also always takes the fallback storage with it.", "contributor": "DeKleineKobini" }],
 			"changes": [{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" }],
 			"removed": [],

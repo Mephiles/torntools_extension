@@ -25,6 +25,9 @@ export const SERVICE_DETAILS = {
 	playgroundTorntools: {
 		name: "Playground TornTools",
 	},
+	tornprobability: {
+		name: "Torn Probability",
+	},
 } as const;
 
 export type ExternalService = keyof typeof SERVICE_DETAILS;

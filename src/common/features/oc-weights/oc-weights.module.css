@@ -1,0 +1,11 @@
+.oc-weight {
+	display: flex;
+	align-items: center;
+	border-radius: 0;
+	height: unset;
+	padding: 4px;
+
+	strong {
+		margin-right: 2px;
+	}
+}

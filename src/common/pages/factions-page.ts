@@ -400,51 +400,83 @@ export function isOrganizedCrimeList(sid: string, step: string, _json: any): _js
 
 export interface TornInternalOrganizedCrimeList {
 	success: true;
-	data: {
-		ID: number;
-		status: string;
-		expiresAt: number;
-		playerSlots: {
-			key: string;
-			name: string;
-			successChance: number;
-			title: string;
-			type: string;
-			requirement: {
-				id: number;
-				name: string;
-				doesExist: boolean;
-				use: boolean;
-			} | null;
-			player: {
-				ID: number;
-				name: string;
-				honorID: number;
-				honorStyle: string;
-				spentPercent: number;
-				isBlocking: boolean;
-				slotPosition: number;
-			} | null;
-		}[];
-		participantsTotal: number;
-		scenario: {
-			ID: number;
-			name: string;
-			scene: string;
-			slug: string;
-			level: number;
-			description: string;
-			result: string;
-			scenes: unknown[];
-			difficultyTier: number;
-		};
-		endTime: unknown;
-		phaseStatus: string;
-		rewards: unknown;
-		notSeen: boolean;
-		isPayoutUsed: boolean;
-		preRequisiteCrimeID: unknown;
-	}[];
+	data: TornInternalCrimeData[];
 	startFrom: number;
 	nextStartFrom: number;
+}
+
+export interface TornInternalCrimeData {
+	ID: number;
+	status: string;
+	expiresAt: number;
+	playerSlots: TornInternalCrimePlayerSlot[];
+	participantsTotal: number;
+	scenario: {
+		ID: number;
+		name: string;
+		scene: string;
+		slug: string;
+		level: number;
+		description: string;
+		result: string;
+		scenes: {
+			ID: number;
+			slug: string;
+			type: string;
+			dialogues: {
+				id: string;
+				type: string;
+				description: string;
+			}[];
+		}[];
+		difficultyTier: number;
+	};
+	endTime: unknown;
+	phaseStatus: string;
+	rewards: {
+		faction: {
+			cash: number;
+			items: {
+				itemID: number;
+				quantity: number;
+				name: string;
+				glowClass: string;
+				price: number;
+			}[];
+			scope: number;
+			crimeId: number;
+			respect: number;
+			nextScenario: unknown[] | string;
+			nextScenarioName?: string;
+			moneyEquivalent: number;
+			marketEquivalent: number;
+			sellEquivalent: number;
+		};
+	} | null;
+	notSeen: boolean;
+	isPayoutUsed: boolean;
+	preRequisiteCrimeID: unknown;
+}
+
+export interface TornInternalCrimePlayerSlot {
+	key: string;
+	name: string;
+	successChance: number;
+	title: string;
+	type: string;
+	requirement: {
+		id: number;
+		name: string;
+		doesExist: boolean;
+		use: boolean;
+	} | null;
+	player: {
+		ID: number;
+		name: string;
+		honorID: number;
+		honorStyle: string;
+		spentPercent: number;
+		isBlocking: boolean;
+		slotPosition: number;
+	} | null;
 }

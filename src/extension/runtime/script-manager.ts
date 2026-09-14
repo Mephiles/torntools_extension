@@ -169,8 +169,10 @@ import NPCLootTimesFeature from "@features/npc-loot-times/npc-loot-times";
 import OCAvailablePlayersFeature from "@features/oc-available-players/oc-available-players";
 import OCLastActionFeature from "@features/oc-last-action/oc-last-action";
 import OCNNBFeature from "@features/oc-nnb/oc-nnb";
+import OCSubmitScenariosFeature from "@features/oc-submit-scenarios/oc-submit-scenarios.ts";
 import OCTimeFeature from "@features/oc-time/oc-time";
 import OCTimesFeature from "@features/oc-times/oc-times";
+import OCWeightsFeature from "@features/oc-weights/oc-weights.ts";
 import OC2FilterFeature from "@features/oc2-filter/oc2-filter";
 import OC2TimeFeature from "@features/oc2-time/oc2-time";
 import OnlyNewFeedFeature from "@features/only-new-feed/only-new-feed";
@@ -437,6 +439,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new WarFinishTimesFeature());
 		FEATURE_MANAGER.registerFeature(new WarnCrimeFeature());
 		FEATURE_MANAGER.registerFeature(new TotalChallengeContributionsFeature());
+		FEATURE_MANAGER.registerFeature(new OCWeightsFeature());
+		FEATURE_MANAGER.registerFeature(new OCSubmitScenariosFeature());
 	} else if (page === "forums") {
 		FEATURE_MANAGER.registerFeature(new AddDebugInfoFeature());
 		FEATURE_MANAGER.registerFeature(new ForumMenuFeature());

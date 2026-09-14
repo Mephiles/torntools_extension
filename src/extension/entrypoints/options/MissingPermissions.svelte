@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { loadDatabase } from "@common/utils/data/database";
 	import { REVIVE_PROVIDERS } from "@common/utils/functions/api-external-revives";
-	import { FETCH_PLATFORMS } from "@common/utils/functions/api-fetcher";
+	import { FETCH_PLATFORMS, getPermissionOrigin } from "@common/utils/functions/api-fetcher";
+	import type { FetchLocation } from "@common/utils/functions/api-fetcher";
 	import { Button } from "@svelte/components/ui/button";
 	import * as Dialog from "@svelte/components/ui/dialog";
 	import { onMount } from "svelte";
@@ -28,17 +29,20 @@
 
 		const { settings } = await loadDatabase();
 
-		const origins: { label: string; origin: string }[] = [
-			{ enabled: settings.external.tornstats, label: "TornStats", origin: FETCH_PLATFORMS.tornstats },
-			{ enabled: settings.external.yata, label: "YATA", origin: FETCH_PLATFORMS.yata },
-			{ enabled: settings.external.prometheus, label: "Prometheus", origin: FETCH_PLATFORMS.prometheus },
-			{ enabled: settings.external.lzpt, label: "LZPT", origin: FETCH_PLATFORMS.lzpt },
-			{ enabled: settings.external.tornw3b, label: "Torn W3B", origin: FETCH_PLATFORMS.tornw3b },
-			{ enabled: settings.external.ffScouter, label: "FF Scouter", origin: FETCH_PLATFORMS.ffscouter },
-			{ enabled: settings.external.tornintel, label: "Torn Intel", origin: FETCH_PLATFORMS.tornintel },
-		]
+		const origins: { label: string; origin: string }[] = (
+			[
+				{ enabled: settings.external.tornstats, label: "TornStats", origin: "tornstats" },
+				{ enabled: settings.external.yata, label: "YATA", origin: "yata" },
+				{ enabled: settings.external.prometheus, label: "Prometheus", origin: "prometheus" },
+				{ enabled: settings.external.lzpt, label: "LZPT", origin: "lzpt" },
+				{ enabled: settings.external.tornw3b, label: "Torn W3B", origin: "tornw3b" },
+				{ enabled: settings.external.ffScouter, label: "FF Scouter", origin: "ffscouter" },
+				{ enabled: settings.external.tornintel, label: "Torn Intel", origin: "tornintel" },
+				{ enabled: settings.external.tornprobability, label: "Torn Probability", origin: "tornprobability" },
+			] satisfies { enabled: boolean; label: string; origin: FetchLocation }[]
+		)
 			.filter(({ enabled }) => enabled)
-			.map(({ label, origin }) => ({ label, origin }));
+			.map(({ label, origin }) => ({ label, origin: getPermissionOrigin(origin) }));
 
 		const reviveProvider = settings.pages.global.reviveProvider;
 		if (reviveProvider) {
