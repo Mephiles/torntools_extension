@@ -180,6 +180,7 @@ export async function removeCacheEntries(section?: string): Promise<void> {
 		} else {
 			await withStore("readwrite", (store) => store.delete(IDBKeyRange.bound([section], [section, []])));
 		}
+		await fallbackClear(section);
 	} catch (error) {
 		if (idbAvailable) throw error;
 		await fallbackClear(section);
