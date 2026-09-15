@@ -1,51 +1,54 @@
 import { settings } from "@common/utils/data/database";
+import { mobile } from "@common/utils/functions/dom.ts";
 import { findAllElements } from "@common/utils/functions/find-elements";
+import { formatNumber } from "@common/utils/functions/formatting.ts";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { ExecutionTiming, Feature } from "@features/feature";
+import styles from "./average-personal-stat.module.css";
 
-function init() {
-	addFetchListener((event) => {
-		const {
-			page,
-			json,
-			fetch: { body },
-		} = event.detail;
+interface TornInternalGraphDataResponse {
+	definitions: Record<string, string>;
+	data: Record<
+		string,
+		{
+			uid: number;
+			data: { time: number; value: number }[];
+		}[]
+	>;
+}
+
+function initializeListeners() {
+	addFetchListener(async ({ detail: { page, json, fetch } }) => {
 		if (page !== "personalstats") return;
 
-		if (body?.step === "getGraphData") {
-			calculateStatsAverage(json);
+		if (fetch.body?.step === "getGraphData") {
+			calculateStatsAverage(json as TornInternalGraphDataResponse);
 		}
 	});
 }
 
-function calculateStatsAverage(graphData: any) {
-	for (const stat in graphData.data) {
-		const statData = graphData.data[stat];
-		let userIndex = 2;
-		for (const user of statData) {
-			// Get Relevant Data
-			const uid = user.uid;
-			const userName = graphData.definitions[uid];
-			const lowerTime = user.data[0].time;
-			const lowerVal = user.data[0].value;
-			const userDatalen = user.data.length;
-			const upperTime = user.data[userDatalen - 1].time;
-			const upperVal = user.data[userDatalen - 1].value;
+function calculateStatsAverage(graphData: TornInternalGraphDataResponse) {
+	Object.values(graphData.data).forEach((statData) => {
+		statData.forEach((user, index) => {
+			const element = findAllElements("div[class^='titleItem']")[index + 2];
+			if (!element) return;
 
-			// Calculate Average
-			const timeLength = (upperTime - lowerTime) / (60 * 60 * 24);
-			const difference = upperVal - lowerVal;
-			const avg = difference / timeLength;
-			const roundedAvg = avg.toFixed(2); // Rounds to 2 decimal places
-			const formattedAvg = roundedAvg.replaceAll(/\B(?=(\d{3})+(?!\d))/g, ",");
+			const lowerPoint = user.data[0];
+			const upperPoint = user.data.at(-1)!;
 
-			// Insert data
-			const element = findAllElements("div[class^='titleItem']")[userIndex];
-			if (element) element.textContent = `${userName} (${formattedAvg} per day)`;
-			userIndex++;
-		}
-	}
+			const days = (upperPoint.time - lowerPoint.time) / (60 * 60 * 24);
+			const average = (upperPoint.value - lowerPoint.value) / days;
+
+			const userName = graphData.definitions[user.uid];
+
+			element.classList.add(styles.averageStat);
+			element.textContent = mobile
+				? `${userName} (${formatNumber(average, { decimals: average > 1000 ? 0 : 1 })}/d)`
+				: `${userName} (${formatNumber(average, { decimals: 2 })} per day)`;
+			element.setAttribute("title", `${formatNumber(average, { decimals: 2 })} per day`);
+		});
+	});
 }
 
 export default class AveragePersonalStatFeature extends Feature {
@@ -62,18 +65,14 @@ export default class AveragePersonalStatFeature extends Feature {
 	}
 
 	override initialise() {
-		init();
+		initializeListeners();
 	}
 
 	override execute() {
-		init();
+		initializeListeners();
 	}
 
 	override storageKeys() {
 		return ["settings.pages.profile.avgpersonalstats"];
-	}
-
-	override requiresScreenInformation(): boolean {
-		return false;
 	}
 }

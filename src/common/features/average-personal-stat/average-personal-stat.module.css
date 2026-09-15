@@ -1,0 +1,5 @@
+.average-stat {
+	:global(.tt-mobile) & {
+		font-size: 10px;
+	}
+}

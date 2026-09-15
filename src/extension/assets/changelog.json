@@ -12,7 +12,10 @@
 				}
 			],
 			"fixes": [{ "message": "Clearing the cache now also always takes the fallback storage with it.", "contributor": "DeKleineKobini" }],
-			"changes": [{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" }],
+			"changes": [
+				{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" },
+				{ "message": "Better design for 'Average Personal Stat' on mobile.", "contributor": "DeKleineKobini" }
+			],
 			"removed": [],
 			"technical": []
 		}
