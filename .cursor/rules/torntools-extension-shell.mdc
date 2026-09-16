@@ -1,0 +1,106 @@
+---
+description: WXT entrypoints, the --inject main-world script pattern, background service worker structure and the proxy services
+globs: src/extension/entrypoints/**,src/extension/services/**,src/extension/runtime/**,wxt.config.ts
+alwaysApply: false
+---
+
+# Extension shell
+
+WXT drives the build with `srcDir: "src/extension"`, so entrypoint **file names are meaningful** — see
+[wxt.config.ts](mdc:wxt.config.ts). The manifest is generated there; don't add a static `manifest.json`.
+
+## Entrypoint kinds
+
+| Pattern | WXT API | Notes |
+| --- | --- | --- |
+| `*.content.ts` | `defineContentScript` | Runs in the isolated world on matched Torn pages. `extension.content.ts` is the main one — `document_start`, all of torn.com minus logout/api/wiki. |
+| `*--inject.ts` | `defineUnlistedScript` | Main-world script, injected on demand. |
+| `background/index.ts` | `defineBackground` | The service worker. |
+| `<page>/index.html` + `<page>.ts` | — | Extension pages: options, popup, targets, tos, offscreen. The `.ts` just mounts a root Svelte component. |
+| `service-worker.ts` | `defineUnlistedScript` | Notification-click fallback for Android. |
+
+Extension pages follow one shape:
+
+```ts
+import { findElement } from "@common/utils/functions/find-elements.ts";
+import "@svelte/app.css";
+import { mount } from "svelte";
+import Popup from "./Popup.svelte";
+
+mount(Popup, { target: findElement("#app") });
+```
+
+## The `--inject` convention
+
+Content scripts run in an isolated world and cannot see page globals — `window.fetch` as the page sees it, jQuery,
+`torn.model`. Reaching those requires a script running in the page's own world, and the `--inject` suffix is what makes
+that work: it matches the `*--inject.js` glob already listed under `web_accessible_resources`, so **a new inject script
+needs no manifest change**.
+
+```ts
+// src/extension/entrypoints/my-thing--inject.ts
+import { setRuntimeInformation } from "@common/utils/context";
+import { DEFAULT_RUNTIME_INFORMATION } from "@common/utils/functions/context-interfaces";
+
+export default defineUnlistedScript(() => {
+	setRuntimeInformation(DEFAULT_RUNTIME_INFORMATION);
+	// page-world work
+});
+```
+
+Inject it from the content script side:
+
+```ts
+import { executeScript } from "@common/utils/functions/dom";
+import { browser } from "wxt/browser";
+
+executeScript(browser.runtime.getURL("/my-thing--inject.js"), false, true);   // (url, remove, unique)
+```
+
+Rules of thumb:
+
+- The two worlds share no variables. Communicate with `CustomEvent` — see `information-retriever--inject.ts` paired with
+  `extension-information-retriever.ts`, and the `EVENT_CHANNELS` helpers in `@common/utils/functions/events`.
+- Inject scripts get no extension APIs and no storage. Keep them minimal: observe or expose something, post it back, let
+  the content script do the rest.
+- Broadly reusable injections belong on `ExtensionScriptInjector` in `src/extension/runtime/extension-context.ts`
+  (`injectFetch`, `injectXHR`, ...), which guards against double injection. Only inject directly from a feature for
+  one-off cases.
+- Pass `unique: true` when the script must not run twice on one page.
+
+## Background
+
+`background/index.ts` registers listeners and services; the work itself lives in siblings:
+
+- `updates/` — the periodic data fetchers, orchestrated by `timedUpdates()`.
+- `notifications.ts` — dispatch, sound and TTS via the offscreen document, plus history cleanup.
+- `updates-helper.ts` — shared helpers (and one of the few unit-tested spots).
+
+Alarms are the scheduling mechanism (`data-update-alarm` every 30s, cache clearing and notification cleanup hourly),
+created in `resetAlarms()`. A service worker can be torn down at any time, so keep no meaningful in-memory state: read
+from storage, write back through `ttStorage`.
+
+## Proxy services
+
+UI and content scripts reach the background through `@webext-core/proxy-service`, never with hand-rolled
+`runtime.sendMessage`:
+
+```ts
+import { BACKGROUND_SERVICE } from "@extension/services/proxy-services";
+
+await BACKGROUND_SERVICE.forceUpdateUserdata();
+```
+
+`BackgroundService` covers notifications, sound tests, `fetchRelay`, forced data updates, cache operations and alarm
+resets; `SourceService` resolves stack traces through source maps. To add a capability, put the method on the service
+class — it is instantly available through the proxy on the other side.
+
+## Cross-browser notes
+
+- Builds target Chrome/Edge (MV3) and Firefox (MV3, `strict_min_version` 128). `background` and `offscreen` permissions
+  are Chrome-only and already branched on `browser` in the manifest function.
+- Firefox needs `wrappedJSObject` in places and parses stack traces differently; there is existing handling for both —
+  match it rather than special-casing inline.
+- Cross-origin requests from content scripts must relay through the background (`relay: true` in `fetchData`).
+- After changing entrypoints, the manifest or `wxt.config.ts`, run `bun run build` — those breakages don't show up in
+  `bun run types`.

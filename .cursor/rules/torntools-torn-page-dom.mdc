@@ -1,0 +1,107 @@
+---
+description: Working with the DOM on torn.com — the required element helpers, waiting for content, containers and filters, and rules about Torn's own markup
+globs: src/common/features/**,src/common/pages/**,src/common/utils/**,src/userscripts/**,src/extension/entrypoints/*--inject.ts
+alwaysApply: false
+---
+
+# Torn page DOM
+
+Torn is a jQuery-and-React hybrid that re-renders constantly, so almost everything here exists to avoid racing it.
+Reuse these helpers instead of touching the DOM directly — an equivalent almost certainly already exists.
+
+## Finding elements
+
+`document.querySelector`, `querySelectorAll`, `getElementById` and `getElementsByTagName` are **banned by Oxlint**. Use
+`@common/utils/functions/find-elements`:
+
+```ts
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
+
+const wrapper = findElement(".content-wrapper");                 // throws ElementNotFoundError if missing
+const maybe = findElement(".optional-thing", true);              // returns null instead
+const scoped = findElement("[class*='title_']", parent, true);   // scoped + optional
+const rows = findAllElements("ul.item-list > li");               // real array, not a NodeList
+```
+
+The throwing default is intentional: a feature that can't find its anchor should fail loudly and get reported, not
+silently do nothing. Pass `true` only where absence is genuinely expected. `findElementWithText(tag, text, optional?)`
+covers the XPath text-match case.
+
+## Waiting for content
+
+Never poll with `setInterval` or guess with `setTimeout`. `@common/utils/functions/requires` wraps a shared
+MutationObserver per parent node:
+
+| Helper | Use for |
+| --- | --- |
+| `requireElement(selector, { parent?, timeout?, invert? })` | Wait for one element (5s default timeout). |
+| `requireCondition(fn, { delay?, maxCycles? })` | Wait for arbitrary state that isn't a selector. |
+| `observeChain(root, [sel1, sel2], onReached)` | Multi-stage React rendering, where children appear after parents. |
+| `requireContent()` / `requireSidebar()` | The two most common page anchors. |
+| `requireItemsLoaded()` / `requireChatsLoaded()` | Lazily-rendered lists. |
+| `requireDOMContentLoaded()` / `requireDOMInteractive()` | Document lifecycle. |
+
+Prefer reacting to Torn's own traffic over observing the DOM when you can:
+`addFetchListener` / `addXHRListener` from `@common/utils/functions/listeners`, and the `EVENT_CHANNELS` custom events
+that `src/common/pages/*-page.ts` modules publish. A raw `MutationObserver` is a last resort for genuinely continuous
+churn — scope it as tightly as possible.
+
+## Building markup
+
+`elementBuilder` from `@common/utils/functions/dom` instead of manual `createElement` chains:
+
+```ts
+import { elementBuilder } from "@common/utils/functions/dom";
+
+const row = elementBuilder({
+	type: "div",
+	class: "tt-row",
+	children: [elementBuilder({ type: "span", text: formatNumber(value) })],
+	events: { click: () => open() },
+});
+```
+
+HTML written as a template string inside a `.ts` file is not auto-formatted — indent it by hand if you must use one.
+
+## Containers
+
+A container is the standard TornTools panel on a Torn page: titled header, optional collapse whose state persists to
+`filters.containers[id]`, and themed chrome. Use it for anything panel-shaped rather than inventing a wrapper.
+
+```ts
+import { createContainer } from "@common/utils/functions/containers";
+
+const { content } = createContainer("My Feature", { nextElement: findElement(".content-title") });
+```
+
+Position with exactly one of `parentElement`, `nextElement`, `previousElement` or `defaultPosition: true`. The `id`
+defaults to the camelCased title, which is also the persistence key — changing a title silently resets users' collapse
+state.
+
+For filter panels use `createFilter()` from `@common/utils/functions/filters` with its section builders
+(`checkboxSection`, `sliderSection`, ...); it creates the container for you and handles persistence and presets.
+
+## Reusable widgets
+
+`src/common/utils/elements/` holds the input widgets, all returning `{ element, ..., dispose() }`. Check here before
+writing a control: `checkbox`, `checkbox-duo` (yes/no/both), `checkbox-list`, `radio`, `radio-list`, `select` and
+`createMultiSelect`, `textbox`, `slider` (`DualRangeSlider`), `table`. Call `dispose()` when tearing down.
+
+## Torn's own markup
+
+- Torn's CSS classes are fine as **selectors** but must never be reused as styling hooks — they change without notice.
+- Hashed class names are rebuilt on every Torn deploy. Match the stable prefix with an attribute selector:
+  `[class*='SOMENAME_']`, never `.SOMENAME_xyz`.
+- Prefix your own classes and IDs with `tt-` so they're identifiable and can't collide.
+- Colours come from the `--tt-*` variables in `src/common/utils/global/globalVariables.css` (`--tt-color-green`,
+  `--tt-color-red`, `--tt-background-popup`, ...). They already handle Torn's light/dark modes via `body.dark-mode`.
+  Add a variable there rather than hard-coding a hex value in a feature stylesheet.
+- Torn's React inputs ignore direct `.value` assignment. Use `updateReactInput()` / `updateReactCheckbox()` from
+  `@common/utils/functions/torn`.
+- Tailwind is **not** available in content scripts. Write plain CSS in the feature's stylesheet.
+
+## Page scripts vs. content scripts
+
+Content scripts run in an isolated world and cannot see page globals like `torn.model` or jQuery. Reading those requires
+an injected script — see the extension shell rule for the `--inject` pattern. In userscripts, use
+`RUNTIME_INFORMATION.getWindow()` rather than `window`.

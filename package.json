@@ -19,6 +19,7 @@
 		"postinstall": "wxt prepare",
 		"test": "bun test",
 		"test:watch": "bun test --watch",
+		"verify": "bun run lint && bun run types && bun run types:svelte && bun test",
 		"format": "oxfmt --check",
 		"format:fix": "oxfmt",
 		"lint": "oxlint",

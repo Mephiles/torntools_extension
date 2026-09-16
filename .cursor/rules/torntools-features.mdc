@@ -1,0 +1,133 @@
+---
+description: How to write and register a TornTools feature — the Feature base class, its lifecycle, and the files a new feature must touch
+globs: src/common/features/**,src/common/pages/**,src/extension/runtime/script-manager.ts
+alwaysApply: false
+---
+
+# Features
+
+Every piece of behaviour TornTools adds to a Torn page is a `Feature` subclass in its own folder under
+`src/common/features/`. These classes are shared with the userscript builds, so keep them free of extension-only APIs
+and reach for the injected singletons in `@common/utils/context` instead.
+
+## Folder and naming
+
+```
+src/common/features/my-feature/
+├── my-feature.ts          # default-exported class MyFeatureFeature
+├── my-feature.css         # optional; omit the file rather than committing an empty one
+└── shared/                # only when several entry points share logic
+```
+
+- Folder is kebab-case; the main file repeats the folder name.
+- The class is `PascalCase` + `Feature` suffix and is the **default** export.
+- CSS is loaded by side-effect importing it at the top of the `.ts` file. Use `{name}.module.css` when you need scoped
+  class names.
+
+## The class
+
+```ts
+import "./my-feature.css";
+import { settings } from "@common/utils/data/database";
+import { Feature } from "@features/feature";
+
+export default class MyFeature extends Feature {
+	constructor() {
+		super("My Feature", "items");
+	}
+
+	override isEnabled() {
+		return settings.pages.items.myFeature;
+	}
+
+	override async execute() {
+		// DOM work
+	}
+
+	override storageKeys() {
+		return ["settings.pages.items.myFeature"];
+	}
+}
+```
+
+`super(name, scope, executionTiming?)`:
+
+- `name` — unique, human-readable; shown in the feature status popup.
+- `scope` — grouping label in that popup only. It is **not** page routing and has no effect on when the feature runs.
+- `executionTiming` — `ExecutionTiming.CONTENT_LOADED` (default), `DOM_INTERACTIVE`, or `IMMEDIATELY` for features that
+  must beat Torn's own rendering.
+
+## Hooks
+
+`isEnabled()` is the only abstract member. Override the rest only when you need them.
+
+| Hook | Purpose |
+| --- | --- |
+| `isEnabled(): boolean` | **Required.** Read the setting(s) that gate this feature. |
+| `precondition(): boolean \| Promise<boolean>` | Skip registration entirely — page access, wrong sub-page, own profile. |
+| `requirements(): boolean \| string \| Promise<...>` | Return a **string** to show that message as the feature's status instead of running, e.g. `"No API access."`. |
+| `initialise(): void` | One-time setup. Runs once per feature name even if `execute` runs repeatedly. Put long-lived listeners and observers here. |
+| `execute(): void \| Promise<void>` | The actual DOM work. |
+| `reload(): void \| Promise<void>` | Runs when a `storageKeys()` path changes while the feature is already loaded. |
+| `storageKeys(): string[]` | Dot-paths to watch so the feature reacts to settings changes without a page reload. |
+| `shouldTriggerEvents(): boolean` | Fire `FEATURE_ENABLED` / `FEATURE_RELOADED` custom events. |
+| `requiresScreenInformation(): boolean` | Return `false` to skip waiting on `checkDevice()`. |
+
+Lifecycle order: `precondition` → `isEnabled` → `requirements` → `initialise` (once) → `execute`.
+
+There is **no `cleanup()` / teardown hook.** If a feature needs to undo its DOM changes when its setting is switched
+off, do that at the top of `reload()`. Extend `DisabledUntilNoticeFeature` to park a feature that is temporarily broken.
+
+## Registration
+
+Features do not self-register. Add an import and a `registerFeature` call in
+`src/extension/runtime/script-manager.ts`:
+
+```ts
+} else if (page === "gym") {
+	setupGymPage().catch((err) => console.debug(err));
+	FEATURE_MANAGER.registerFeature(new GymDisableStatsFeature());
+	FEATURE_MANAGER.registerFeature(new GymProgressFeature());
+```
+
+Placement matters:
+
+- Global features go near the top, inside the `if (!isRecaptcha(page))` guard unless they genuinely must run on the
+  captcha page.
+- Page-specific features go in the matching `else if (page === "...")` branch. Page identity comes from `getPage()` in
+  `@common/utils/functions/torn`.
+- Register after the page's `setup*Page()` call, since features rely on the events it installs.
+
+## Page modules
+
+`src/common/pages/<page>-page.ts` holds shared per-page infrastructure — fetch/XHR interception and the custom events
+features subscribe to. They never register features. Add one only when several features on the same page need the same
+plumbing, and export `setup<Page>Page()` for `script-manager.ts` to call.
+
+Features subscribe with `addCustomListener(EVENT_CHANNELS.GYM_LOAD, ...)` from `@common/utils/functions/events`,
+normally inside `initialise()`.
+
+## Splitting a large feature
+
+When one behaviour appears on several pages, put the engine in a plain class or module and give each page a thin
+`Feature` subclass. `src/common/features/stats-estimate/` is the reference: `stats-estimate.ts` holds the queue and
+estimation logic, and `stats-estimate-profile.ts`, `stats-estimate-attacks.ts` and friends are per-page wrappers, each
+registered separately in `script-manager.ts`.
+
+## Checklist for a new feature
+
+1. Create `src/common/features/<kebab-name>/<kebab-name>.ts` with the class above (plus `.css` if it needs styles).
+2. Declare the setting in `DEFAULT_STORAGE` in `src/common/utils/data/default-database.ts` — `settings.pages.<page>.*`
+   for a single page, `settings.scripts.<name>.*` for something cross-page. Use
+   `new DefaultSetting("boolean", false)`; default new features to **off** unless you have a reason.
+3. Return those same paths from `storageKeys()`.
+4. Import and register the feature in `src/extension/runtime/script-manager.ts`, in the right page branch.
+5. Add the toggle to the matching `*Section.svelte` under
+   `src/extension/entrypoints/options/components/preferences/`.
+6. Add a `PREFERENCE_SEARCH_DATA` entry in `preference-search-data.ts`. Only add `keywords` that are **not** already in
+   the label or the last segment of the path — synonyms users would actually search for. Verify with
+   `bun run tools/validate-preference-keywords.ts`.
+7. Add a changelog line and, for a new page-level behaviour, consider whether a `src/common/pages/` module is warranted.
+8. Write the docs page under `docs/src/content/docs/features/<kebab-name>.mdx`.
+9. If the feature should also ship standalone, add a `src/userscripts/entries/<name>/` bootstrap.
+10. `bun run verify`.

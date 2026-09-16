@@ -1,0 +1,121 @@
+---
+description: Userscript entries — metadata, the runtime context tiers a bootstrap must register, and the mandatory version bump when shared feature code changes
+globs: src/userscripts/**,tools/build-userscripts.ts,tools/bump-userscript-versions.ts
+alwaysApply: false
+---
+
+# Userscripts
+
+A subset of features is also published as standalone Tampermonkey userscripts. An entry under
+`src/userscripts/entries/` is a **thin bootstrap**: it wires up userscript implementations of the runtime singletons and
+then registers the very same `Feature` class the extension uses. Feature logic belongs in `src/common/features/`, never
+duplicated into the entry.
+
+## Bump the version when you change shared code
+
+If you change anything under `src/common/features/X/` and `src/userscripts/entries/X/` exists, bump `version` in that
+entry's `metadata.ts`.
+
+`.github/workflows/userscripts.yml` triggers **only** on changes to `src/userscripts/entries/**/metadata.ts`. Without
+the bump your fix builds fine locally and is never published. Bump patch for fixes and behaviour changes, minor for new
+capability. Versions are per-script and independent of the extension version.
+
+Entry folder names usually match the feature folder but not always — check the import in the `.user.ts` file rather than
+assuming (`travel-cooldown` → `@features/travel-cooldowns/travel-cooldowns`). Only bump the scripts you actually
+affected; `bun tools/bump-userscript-versions.ts` bumps all of them and is for release chores.
+
+## Entry layout
+
+```
+src/userscripts/entries/my-script/
+├── metadata.ts        # default-exported UserscriptMetadata
+└── my-script.user.ts  # bootstrap
+```
+
+```ts
+// metadata.ts
+import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadata";
+
+const metadata: UserscriptMetadata = {
+	name: "Shop Profits",
+	description: "Display the amount of profit per city shop item.",
+	version: "1.0.9",
+	matches: ["https://*.torn.com/shops.php*"],
+	runAt: "document-end",
+	connect: ["torntools.tornplayground.eu"],
+};
+
+export default metadata;
+```
+
+`name`, `description`, `version`, `matches` and `runAt` are required. `connect` is required for **every** external
+domain the script talks to via `GM.xmlHttpRequest` — a missing entry fails at runtime, not at build time. Author,
+licence, icon, namespace and support URLs are added by the build script; don't put them in `metadata.ts`.
+
+## Bootstrap and context tiers
+
+Register only the tiers the feature actually needs, in this order, then register the feature:
+
+```ts
+import { FEATURE_MANAGER } from "@common/utils/context";
+import ShopProfitsFeature from "@features/shop-profits/shop-profits";
+import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
+import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
+import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context";
+import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver";
+
+(async () => {
+	registerCoreUserscriptContext();
+	await registerDatabaseUserscriptContext("tt_sp");
+	registerNetworkUserscriptContext();
+	await ScriptItemResolver.loadItems();
+
+	FEATURE_MANAGER.registerFeature(new ShopProfitsFeature());
+})();
+```
+
+| Tier | Register when |
+| --- | --- |
+| `registerCoreUserscriptContext()` | Always. Global CSS, feature manager, events, `unsafeWindow`, theme. |
+| `await registerDatabaseUserscriptContext("tt_xx")` | The feature reads `settings`, `filters`, or any persisted state. |
+| `registerNetworkUserscriptContext()` | The feature makes HTTP requests or uses `ITEM_RESOLVER`. |
+| `await ScriptItemResolver.loadItems()` | The feature needs the item map. |
+| `registerInjectorUserscriptContext()` | The feature hooks page fetch/XHR or reads `torn.model`. |
+| `await requiresAPIKey()` | The feature calls the Torn API. Prompts the user and caches the key. |
+| `setup<Page>Page()` from `@common/pages/` | Mirror whatever `script-manager.ts` calls for that page. |
+
+The storage prefix passed to `registerDatabaseUserscriptContext` must be unique per script (`tt_sp`, `tt_jf`, `tt_ahf`).
+Storage is **not** shared between installed userscripts.
+
+## Behavioural differences from the extension
+
+Keep these in mind when editing shared feature code, because the userscript path is easy to break from
+`src/common/features/`:
+
+- `ScriptFeatureManager` calls `initialise()` and `execute()` unconditionally. It never consults `isEnabled()`,
+  `precondition()` or `requirements()`, and `reload()` is never called. Don't rely on those hooks for correctness that
+  the userscript also needs.
+- Cross-origin requests go through `GM.xmlHttpRequest`; `OFFLOAD_SERVICE` rejects. `fetchData` handles this, so use it
+  rather than `fetch` directly.
+- Database migrations are skipped under userscripts.
+- Use `RUNTIME_INFORMATION.getWindow()` instead of `window`, since page globals need `unsafeWindow`.
+
+When behaviour must genuinely differ, branch on `RUNTIME_INFORMATION.isUserscript()` inside the shared feature rather
+than forking the logic into the entry:
+
+```ts
+enabled: () => FEATURE_MANAGER.isEnabled(TravelItemProfitsFeature) && !RUNTIME_INFORMATION.isUserscript(),
+```
+
+`isPDA()` from `@userscripts/utils/script-utils` detects Torn PDA, which uses `PDA_storage` and its own reload path.
+
+## Building
+
+```bash
+bun run build:userscripts              # all entries → .output/userscripts/
+bun run build:userscripts my-script    # one entry
+bun run build:userscripts --beta       # beta namespace + version suffix
+```
+
+`@grant` lines are generated automatically from the bundle, so never write them by hand. Build the affected entry after
+touching shared feature code — a userscript can break on missing context even when the extension build is green.

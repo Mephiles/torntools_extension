@@ -1,0 +1,150 @@
+---
+description: Storage, settings, caching, the Torn API fetcher, background updates, migrations and external service integrations
+globs: src/common/utils/data/**,src/common/utils/functions/api*,src/extension/entrypoints/background/**,src/extension/runtime/extension-storage.ts,src/extension/services/**
+alwaysApply: false
+---
+
+# Data, storage and API
+
+## Reading and writing storage
+
+Read through the synchronous globals exported by `@common/utils/data/database`, which are populated by `loadDatabase()`
+and kept current by a change listener:
+
+```ts
+import { api, filters, settings, torndata, userdata } from "@common/utils/data/database";
+
+if (settings.pages.gym.progress) { /* ... */ }
+```
+
+Inside a `Feature`, these are already loaded by the time `execute()` runs — no `await` needed. Elsewhere (background,
+injected scripts, tools) call `await loadDatabase()` or `initializeDatabase()` first.
+
+Write only through `ttStorage` from `@common/utils/context`:
+
+```ts
+import { ttStorage } from "@common/utils/context";
+
+await ttStorage.change({ filters: { containers: { myPanel: true } } });   // deep partial merge
+await ttStorage.update("stakeouts", (stakeouts) => { /* mutate */ });     // read-modify-write
+await ttStorage.set({ notes: value });                                   // replace a whole key
+```
+
+Never call `browser.storage` directly, and never assign to the imported globals. `ttStorage` is the abstraction that lets
+the same feature code run under the extension (`browser.storage.local` + IndexedDB for the cache) and userscripts (`GM`
+or PDA storage).
+
+## Declaring settings
+
+Everything persisted is declared in `DEFAULT_STORAGE` in `src/common/utils/data/default-database.ts`. The `Database` and
+`PreferenceStoragePath` types are derived from it, so a setting that isn't declared there won't type-check anywhere else.
+
+```ts
+gym: {
+	progress: new DefaultSetting("boolean", true),
+	delay: new DefaultSetting("number", 1500),
+},
+```
+
+Placement: `settings.pages.<page>.*` for a single page, `settings.scripts.<name>.*` for cross-page behaviour,
+`settings.external.<service>` for third-party opt-ins, `filters.*` for filter state. Follow the neighbours.
+
+Adding a key is backwards-compatible on its own — `convertStorage` fills in new defaults on upgrade. **Changing or moving
+an existing key needs a migration**, appended to `MIGRATIONS` in `src/common/utils/data/migrations.ts` with a fresh UUID
+and the version it ships in:
+
+```ts
+{
+	id: "b194a6d5-4230-4b03-8a8b-bebd7c431cc9",
+	version: "9.4.0",
+	execute(database, flags, oldStorage) {
+		database.settings.pages.api.autoDemo = false;
+		flags.updateTorndata = true;   // force a background refetch when the shape demands it
+	},
+},
+```
+
+Migrations run once per install and are recorded by `id`; never edit or renumber an existing one.
+
+## Caching
+
+`ttCache` from `@common/utils/data/cache` for anything expensive and re-fetchable. Entries are grouped by section and
+persisted (debounced) to IndexedDB.
+
+```ts
+import { ttCache } from "@common/utils/data/cache";
+import { TO_MILLIS } from "@common/utils/functions/utilities";
+
+if (ttCache.hasValue("spy-report", userId)) return ttCache.get<SpyReport>("spy-report", userId);
+ttCache.set({ [userId]: report }, TO_MILLIS.MINUTES * 30, "spy-report");
+```
+
+Use `setIndefinite()` only for data that genuinely never goes stale. The cache is per install, not per API key.
+
+## Fetching
+
+All HTTP goes through `fetchData()` in `@common/utils/functions/api-fetcher` — it handles auth, the relay, error
+normalisation and Torn's API state badge. Platforms are keyed in `FETCH_PLATFORMS`; add new hosts there rather than
+inlining a URL.
+
+```ts
+import { fetchData } from "@common/utils/functions/api-fetcher";
+import type { UserJobResponse } from "tornapi-typescript";
+
+const data = await fetchData<UserJobResponse>("tornv2", {
+	section: "user",
+	selections: ["job"],
+	relay: true,
+});
+```
+
+- **`relay: true` is required for cross-origin calls from a content script**, which routes the request through the
+  background service worker. Without it the request fails on Firefox.
+- Type Torn responses with `tornapi-typescript`; external-service shapes belong in
+  `@common/utils/functions/api.types.ts`.
+- Check access before calling: `hasAPIData()`, `hasFactionAPIAccess()`, `hasOC2Data()` from
+  `@common/utils/functions/api`. A `Feature` should surface the lack of access through `requirements()` returning
+  `"No API access."` rather than failing mid-`execute()`.
+- Errors: network failures throw with a `CUSTOM_API_ERROR` code; Torn errors throw the API error object, testable with
+  `isTornApiError()`. Pass `silent: true` for calls that shouldn't badge the icon on failure.
+
+## Background updates
+
+Periodic fetching lives in `src/extension/entrypoints/background/updates/`, orchestrated by `timedUpdates()` on a 30
+second alarm and tiered by `settings.apiUsage.delayEssential` / `delayBasic` / `delayPassive`.
+
+Every Torn API selection added to a background updater must be gated behind a `settings.apiUsage.user.<selection>`
+toggle, because users control their own API usage:
+
+```ts
+for (const selection of ["bars", "cooldowns", "icons"] as const) {
+	if (!settings.apiUsage.user[selection]) continue;
+	selectionsV2.push(selection);
+}
+```
+
+Don't add polling from a content script — put it in an updater and read the result from `userdata` / `torndata`.
+
+## External services
+
+Third-party integrations (TornStats, YATA, FFScouter, Prometheus, Torn Intel, Torn Probability, revive providers, ...)
+follow a fixed pattern, and per `CONTRIBUTING.md` they must be **opt-in without exception** and free to use in a
+genuinely useful form:
+
+1. A `settings.external.<service>` flag defaulting to `false`.
+2. The host added to `optional_host_permissions` in [wxt.config.ts](mdc:wxt.config.ts) — permissions are requested at
+   runtime, and the options page surfaces missing grants.
+3. Feature gating: check the flag in `isEnabled()`, and return an explanatory string from `requirements()` when the
+   service is off or unreachable. Mark the options control with `externalServices={["service"]}`.
+4. `fetchData("<platform>", { relay: true, includeKey: true })`, with results cached via `ttCache`.
+5. When several providers supply the same data, implement `PriorityService` and call `executePriorityServices()` so the
+   user's `settings.servicePreferences` ordering is respected — see
+   `src/common/features/travel-table/travel-data-fetcher.ts`.
+
+A feature must degrade gracefully to nothing when its service is disabled.
+
+## Static Torn data
+
+`src/extension/utils/static-data/static-items.ts` is generated. Refresh it with `bun run static-items` and never edit it
+by hand. At runtime, item lookups go through `ITEM_RESOLVER` from `@common/utils/context`, so the same code works when a
+userscript loads items from the playground API.
