@@ -128,7 +128,10 @@ async function reattachFilter() {
 		return;
 	}
 
-	filter.reattach({ previousElement: findElement(".properties-tabs") });
+	const tabs = findElement(".properties-tabs", true);
+	if (!tabs) return;
+
+	filter.reattach({ previousElement: tabs });
 	await filter.run();
 }
 
