@@ -17,7 +17,10 @@
 				{ "message": "Better design for 'Average Personal Stat' on mobile.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
-			"technical": []
+			"technical": [
+				{ "message": "Added 'AGENTS.md' and Cursor rules documenting our conventions for AI coding agents.", "contributor": "Murfy" },
+				{ "message": "Added a 'verify' script that runs the linter, both type checks and the tests in one command.", "contributor": "Murfy" }
+			]
 		}
 	},
 	{
