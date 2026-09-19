@@ -146,6 +146,7 @@ import JobPointsTooltipFeature from "@features/jobpoints-tooltip/jobpoints-toolt
 import LandingTimeFeature from "@features/landing-time/landing-time";
 import LastActionCompanyFeature from "@features/last-action/last-action-company";
 import LastActionFactionFeature from "@features/last-action/last-action-faction";
+import LeasePriceRecommendationFeature from "@features/lease-price-recommendation/lease-price-recommendation";
 import LiveNetworthFeature from "@features/live-networth/live-networth";
 import MarketIconsFeature from "@features/market-icons/market-icons";
 import MedicalLifeFeature from "@features/medical-life/medical-life";
@@ -552,6 +553,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new PropertyHappinessFeature());
 		FEATURE_MANAGER.registerFeature(new NoConfirmPropertiesFeature());
 		FEATURE_MANAGER.registerFeature(new PropertiesFilterFeature());
+		FEATURE_MANAGER.registerFeature(new LeasePriceRecommendationFeature());
 	} else if (page === "preferences") {
 		FEATURE_MANAGER.registerFeature(new PreferenceSettingsFeature());
 	} else if (page === "targets") {

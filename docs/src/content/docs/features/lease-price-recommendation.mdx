@@ -1,0 +1,57 @@
+---
+title: Lease Price Recommendation
+description: Shows same-period and daily-rate lease price guidance when listing a property on the rental market.
+---
+
+When you put a property on the rental market, TornTools looks up comparable listings and suggests competitive prices —
+both for the exact number of days you entered, and from market-wide daily rates.
+
+## How It Works
+
+1. Open a property's options and choose **Lease this property**.
+2. Switch to the **Add Property to Rental Market** tab.
+3. Enter the **Amount of days** (defaults are used immediately).
+4. TornTools fetches current rental market listings for that property type from the Torn API.
+5. It shows two suggestion blocks (happiness-filtered when enough similar listings exist):
+
+### Same period
+
+Uses only listings with the same rental length as your days field:
+
+- **Min / Max total** among those listings
+- **Recommended total** — median of the 10 cheapest matches
+
+### Daily rate
+
+Uses all listings for that property type, regardless of duration:
+
+- **Min / Max / Recommended per day**
+- **For N days** — recommended daily rate × your days
+
+6. Click **Apply same-period price** or **Apply daily-rate total** to fill the cost field.
+
+## Where It Works
+
+| Page                                         | Behavior                                               |
+| -------------------------------------------- | ------------------------------------------------------ |
+| Properties → Options → Lease → Rental Market | Shows market price guidance next to the cost/days form |
+
+## Setup / Requirements
+
+1. A Torn API key configured in TornTools.
+2. The feature toggle enabled (on by default).
+
+## Settings
+
+| Setting                                            | Default | Description                                                        |
+| -------------------------------------------------- | ------- | ------------------------------------------------------------------ |
+| `settings.pages.property.leasePriceRecommendation` | On      | Show lease price recommendations on the rental market listing form |
+
+## Troubleshooting
+
+| Problem                               | Likely Cause                                                               |
+| ------------------------------------- | -------------------------------------------------------------------------- |
+| Panel asks for an API key             | No API key configured in TornTools                                         |
+| "No rental market listings found"     | Nothing listed for that property type                                      |
+| Same-period section empty             | No listings for exactly that day count (daily-rate section may still show) |
+| Panel missing on the person-lease tab | Guidance only appears on the rental market tab                             |

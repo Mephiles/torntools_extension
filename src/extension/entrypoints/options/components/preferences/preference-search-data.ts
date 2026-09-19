@@ -285,6 +285,13 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.scripts.lastAction.companyOther", label: "Last action: Other company employees", group: "qol", section: "information" },
 	{ path: "settings.pages.property.value", label: "Show value of all properties", group: "qol", section: "information", keywords: ["property"] },
 	{ path: "settings.pages.property.happy", label: "Show happiness of all properties", group: "qol", section: "information", keywords: ["property"] },
+	{
+		path: "settings.pages.property.leasePriceRecommendation",
+		label: "Recommend rental market lease prices",
+		group: "qol",
+		section: "information",
+		keywords: ["estate"],
+	},
 	{ path: "settings.pages.forums.menu", label: "Show forum action menu", group: "qol", section: "information" },
 	{ path: "settings.pages.forums.debugInfoBtn", label: "Display button to add debugging information to forum thread", group: "qol", section: "information" },
 	{
