@@ -1,5 +1,4 @@
 import { COMMON_PROPERTY_TYPES } from "@common/constants/torn/properties.ts";
-import type { PropertiesPage } from "@common/pages/properties-page.ts";
 import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { getHashParameters } from "@common/utils/functions/dom";
@@ -13,19 +12,9 @@ import { Feature } from "@features/feature";
 
 let filter: FilterController;
 
-const SUPPORTED_ROUTES: PropertiesPage[] = ["all-properties", "spouse-properties", "your-properties"];
-
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, async ({ route }) => {
-		if (!SUPPORTED_ROUTES.includes(route.page)) return;
-
-		await reattachFilter();
-	});
-	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE, async ({ route }) => {
-		if (!SUPPORTED_ROUTES.includes(route.page)) return;
-
-		await reattachFilter();
-	});
+	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, reattachFilter);
+	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE, reattachFilter);
 }
 
 type PropertiesFilterState = {
