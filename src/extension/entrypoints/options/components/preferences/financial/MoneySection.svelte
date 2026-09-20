@@ -57,6 +57,7 @@
 				<StorageSwitch path="settings.pages.stocks.acronyms" label="Display acronyms beside stock names" />
 				<StorageSwitch path="settings.pages.stocks.moneyInput" label="Display money input when buying and selling stock" />
 				<StorageSwitch path="settings.pages.stocks.valueAndProfit" label="Display total value of portfolio and profits" />
+				<StorageSwitch path="settings.pages.stocks.costToNext" label="Display cost to the next stock benefit block" />
 			</PreferenceSettingGroup>
 
 			<PreferenceSettingGroup title="Hidden Stocks" contentClass="grid gap-1 grid-cols-2 md:grid-cols-3">

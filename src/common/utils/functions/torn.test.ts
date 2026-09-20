@@ -1,6 +1,15 @@
 import { describe, expect, it } from "bun:test";
 import type { UserStock } from "tornapi-typescript";
-import { getNextChainBonus, getRequiredStocks, getStockBoughtPrice, getStockIncrement, getStockReward, isDividendStock } from "./torn";
+import {
+	getCostToNextHighlight,
+	getCostToNextStockBlock,
+	getNextChainBonus,
+	getRequiredStocks,
+	getStockBoughtPrice,
+	getStockIncrement,
+	getStockReward,
+	isDividendStock,
+} from "./torn";
 
 describe("torn", () => {
 	describe("getNextChainBonus", () => {
@@ -63,6 +72,65 @@ describe("torn", () => {
 		it("should return 0 below the first increment threshold", () => {
 			expect(getStockIncrement(100, 0)).toBe(0);
 			expect(getStockIncrement(100, 99)).toBe(0);
+		});
+	});
+
+	describe("getCostToNextStockBlock", () => {
+		const dividendStock = { id: 1, bonus: { requirement: 100 }, market: { price: 10 } };
+		const nonDividendStock = { id: 2, bonus: { requirement: 500 }, market: { price: 20 } };
+
+		it("should calculate cost for a partial first dividend block", () => {
+			expect(getCostToNextStockBlock(dividendStock, 40)).toEqual({
+				cost: 600,
+				sharesNeeded: 60,
+				nextLevel: 1,
+			});
+		});
+
+		it("should calculate cost for the next dividend block after an exact threshold", () => {
+			expect(getCostToNextStockBlock(dividendStock, 100)).toEqual({
+				cost: 2000,
+				sharesNeeded: 200,
+				nextLevel: 2,
+			});
+		});
+
+		it("should return null when a dividend stock is maxed", () => {
+			expect(getCostToNextStockBlock(dividendStock, 3100)).toBeNull();
+		});
+
+		it("should calculate cost for an incomplete non-dividend stock", () => {
+			expect(getCostToNextStockBlock(nonDividendStock, 100)).toEqual({
+				cost: 8000,
+				sharesNeeded: 400,
+				nextLevel: 1,
+			});
+		});
+
+		it("should return null when a non-dividend requirement is met", () => {
+			expect(getCostToNextStockBlock(nonDividendStock, 500)).toBeNull();
+		});
+	});
+
+	describe("getCostToNextHighlight", () => {
+		it("should mark the cheapest cost", () => {
+			expect(getCostToNextHighlight(10, [10, 20, 30])).toBe("cheapest");
+		});
+
+		it("should mark the second-cheapest cost", () => {
+			expect(getCostToNextHighlight(20, [10, 20, 30])).toBe("secondCheapest");
+		});
+
+		it("should mark the most expensive cost", () => {
+			expect(getCostToNextHighlight(30, [10, 20, 30])).toBe("mostExpensive");
+		});
+
+		it("should prefer most-expensive over second-cheapest when only two values exist", () => {
+			expect(getCostToNextHighlight(20, [10, 20])).toBe("mostExpensive");
+		});
+
+		it("should return null for middle values beyond second-cheapest", () => {
+			expect(getCostToNextHighlight(25, [10, 20, 25, 30])).toBeNull();
 		});
 	});
 

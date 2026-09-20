@@ -331,6 +331,7 @@ export const DEFAULT_STORAGE = {
 				acronyms: new DefaultSetting("boolean", true),
 				valueAndProfit: new DefaultSetting("boolean", true),
 				moneyInput: new DefaultSetting("boolean", true),
+				costToNext: new DefaultSetting("boolean", true),
 			},
 			competitions: {
 				easterEggs: new DefaultSetting("boolean", false),

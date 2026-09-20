@@ -2,7 +2,7 @@
 	import { ttStorage } from "@common/utils/context";
 	import type { DatabaseSettings, DatabaseStockdata, DatabaseUserdata } from "@common/utils/data/database";
 	import { applyPlural, dropDecimals, formatNumber } from "@common/utils/functions/formatting";
-	import { getStockBoughtPrice } from "@common/utils/functions/torn";
+	import { getCostToNextHighlight, getCostToNextStockBlock, getStockBoughtPrice } from "@common/utils/functions/torn";
 	import BenefitInformation from "@extension/entrypoints/popup/components/stocks/BenefitInformation.svelte";
 	import StockSection from "@extension/entrypoints/popup/components/stocks/StockSection.svelte";
 	import { Card, CardContent, CardHeader, CardTitle } from "@svelte/components/ui/card";
@@ -10,27 +10,59 @@
 	import type { TornStock, UserStock } from "tornapi-typescript";
 	import { settingsStore, stockdataStore, userdataStore } from "../../stores/database-store.svelte";
 
+	export type StocksSortMode = "default" | "costToNext";
+
 	interface StocksTableProps {
 		query: string;
+		sortMode?: StocksSortMode;
 	}
-	const { query }: StocksTableProps = $props();
+	const { query, sortMode = "default" }: StocksTableProps = $props();
 
-	const rows = $derived(getRows($stockdataStore, $userdataStore, $settingsStore, query));
+	const rows = $derived(getRows($stockdataStore, $userdataStore, $settingsStore, query, sortMode));
+	const costHighlights = $derived.by(() => {
+		const costs = rows.map((row) => row.costToNext?.cost).filter((cost): cost is number => cost !== undefined);
+		return new Map(costs.map((cost) => [cost, getCostToNextHighlight(cost, costs)]));
+	});
 
-	function getRows(stockdata: DatabaseStockdata, userdata: DatabaseUserdata, settings: DatabaseSettings, search: string) {
+	function nextBbClass(cost: number) {
+		const highlight = costHighlights.get(cost);
+		if (highlight === "cheapest") return "text-primary";
+		if (highlight === "secondCheapest") return "text-amber-600 dark:text-amber-400";
+		if (highlight === "mostExpensive") return "text-destructive";
+		return "text-muted-foreground";
+	}
+
+	function getRows(
+		stockdata: DatabaseStockdata,
+		userdata: DatabaseUserdata,
+		settings: DatabaseSettings,
+		search: string,
+		sort: StocksSortMode
+	) {
 		const keyword = search.trim().toLowerCase();
-		return stockdata.stocks
+		const mapped = stockdata.stocks
 			.map((stock) => {
 				const userStock = settings?.apiUsage?.user?.stocks
 					? ((userdata?.stocks ?? []).find((entry: UserStock) => entry.id === stock.id) ?? null)
 					: null;
-				return { id: stock.id, stock, userStock };
+				const shares = userStock?.shares ?? 0;
+				const costToNext = getCostToNextStockBlock(stock, shares);
+				return { id: stock.id, stock, userStock, costToNext };
 			})
 			.filter((row) => {
 				if (!keyword) return !!row.userStock;
 
 				return keyword === "*" || `${row.stock.name} (${row.stock.acronym})`.toLowerCase().includes(keyword);
 			});
+
+		if (sort !== "costToNext") return mapped;
+
+		return mapped.toSorted((a, b) => {
+			const aCost = a.costToNext?.cost ?? Number.POSITIVE_INFINITY;
+			const bCost = b.costToNext?.cost ?? Number.POSITIVE_INFINITY;
+			if (aCost !== bCost) return aCost - bCost;
+			return a.stock.name.localeCompare(b.stock.name);
+		});
 	}
 
 	async function setAlert(stockId: number, key: "priceReaches" | "priceFalls", value: string) {
@@ -75,8 +107,17 @@
 					{/if}
 				</CardTitle>
 				{#if row.userStock}
-					<div class="text-muted-foreground text-xs">
-						({formatNumber(row.userStock.shares, { shorten: 2 })} share{applyPlural(row.userStock.shares)})
+					<div class="text-muted-foreground flex flex-wrap gap-x-2 text-xs">
+						<span>({formatNumber(row.userStock.shares, { shorten: 2 })} share{applyPlural(row.userStock.shares)})</span>
+						{#if row.costToNext}
+							<span class={nextBbClass(row.costToNext.cost)}>
+								Next BB: {formatNumber(row.costToNext.cost, { currency: true, shorten: 2 })}
+							</span>
+						{/if}
+					</div>
+				{:else if row.costToNext}
+					<div class={`text-xs ${nextBbClass(row.costToNext.cost)}`}>
+						Next BB: {formatNumber(row.costToNext.cost, { currency: true, shorten: 2 })}
 					</div>
 				{/if}
 			</CardHeader>
