@@ -62,7 +62,7 @@
 				<CardTitle class="flex items-start justify-between gap-2 text-sm">
 					<a
 						class="text-foreground truncate hover:underline"
-						href={`https://www.torn.com/stockexchange.php?stock=${row.stock.acronym}`}
+						href={`https://www.torn.com/page.php?sid=stocks&stockID=${row.stock.id}&tab=dividend`}
 						target="_blank"
 						rel="noreferrer"
 					>
