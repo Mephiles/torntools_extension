@@ -1,4 +1,5 @@
 import { COMMON_PROPERTY_TYPES } from "@common/constants/torn/properties.ts";
+import type { PropertiesPage } from "@common/pages/properties-page.ts";
 import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
 import { getHashParameters } from "@common/utils/functions/dom";
@@ -10,11 +11,21 @@ import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
+const SUPPORTED_ROUTES: PropertiesPage[] = ["all-properties", "spouse-properties", "your-properties"];
+
 let filter: FilterController;
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, reattachFilter);
-	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE, reattachFilter);
+	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, async ({ route }) => {
+		if (!SUPPORTED_ROUTES.includes(route.page)) return;
+
+		await reattachFilter();
+	});
+	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE, async ({ route }) => {
+		if (!SUPPORTED_ROUTES.includes(route.page)) return;
+
+		await reattachFilter();
+	});
 }
 
 type PropertiesFilterState = {
@@ -128,10 +139,7 @@ async function reattachFilter() {
 		return;
 	}
 
-	const tabs = findElement(".properties-tabs", true);
-	if (!tabs) return;
-
-	filter.reattach({ previousElement: tabs });
+	filter.reattach({ previousElement: findElement(".properties-tabs") });
 	await filter.run();
 }
 
