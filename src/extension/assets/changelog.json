@@ -13,7 +13,8 @@
 			],
 			"fixes": [
 				{ "message": "Clearing the cache now also always takes the fallback storage with it.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid an error with 'Properties Filter' when not the actual properties overview.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid an error with 'Properties Filter' when not the actual properties overview.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid an error in the feature manager when an error occurs in a userscript on Firefox.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" },
