@@ -18,7 +18,8 @@
 			],
 			"changes": [
 				{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" },
-				{ "message": "Better design for 'Average Personal Stat' on mobile.", "contributor": "DeKleineKobini" }
+				{ "message": "Better design for 'Average Personal Stat' on mobile.", "contributor": "DeKleineKobini" },
+				{ "message": "Explicitly state if there are no recorded changes in 'Live Networth'.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": []

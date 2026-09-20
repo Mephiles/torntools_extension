@@ -161,7 +161,19 @@ async function showNetworth() {
 		],
 	});
 
+	let hasChanges = false;
+
 	NETWORTH_TYPES.forEach(addToTable);
+
+	if (!hasChanges) {
+		table.appendChild(
+			elementBuilder({
+				type: "tr",
+				class: "tt-networth-empty",
+				children: [elementBuilder({ type: "td", text: "No changes to show.", attributes: { colspan: "3" } })],
+			}),
+		);
+	}
 
 	content.appendChild(
 		elementBuilder({
@@ -193,7 +205,10 @@ async function showNetworth() {
 		const previous = type.snapshotGetter(userdata);
 		const current = type.liveGetter(userdata);
 
-		if (current === previous) return;
+		// oxlint-disable-next-line no-constant-condition -- debug: force the table to have no rows
+		if (current === previous || true) return;
+
+		hasChanges = true;
 
 		const isPositive = current > previous;
 
