@@ -72,8 +72,11 @@ async function addMoneyInputs(event: { target: EventTarget | null }) {
 	const stockOwnedElement = event.target.closest("li[class*='stockOwned__']");
 	if (!stockOwnedElement) return;
 
+	const stockElement = stockOwnedElement.closest("ul[class*='stock___']");
+	if (!stockElement) return;
+
 	for (const blockSelector of ["[class*='buyBlock__']", "[class*='sellBlock__']"]) {
-		if (findElement(`${blockSelector} .${styles.ttMoneyInput}`, true)) continue;
+		if (findElement(`${blockSelector} .${styles.ttMoneyInput}`, stockElement, true)) continue;
 
 		clearInputObserver(blockSelector);
 
@@ -91,7 +94,7 @@ async function addMoneyInputs(event: { target: EventTarget | null }) {
 			],
 		});
 
-		const blockElement = await requireElement(blockSelector);
+		const blockElement = await requireElement(blockSelector, { parent: stockElement });
 		if (findElement(`.${styles.ttMoneyInput}`, blockElement, true)) continue;
 
 		findElement("[class*='manageBlock__']", blockElement).appendChild(moneyInputElement);
