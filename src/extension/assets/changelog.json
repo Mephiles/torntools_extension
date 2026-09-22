@@ -27,7 +27,12 @@
 				{ "message": "Change the link from stocks in the popup to open the clicked stock.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
-			"technical": []
+			"technical": [
+				{
+					"message": "Update our internal pages to be in line with the current way of working for the used dependencies.",
+					"contributor": "DeKleineKobini"
+				}
+			]
 		}
 	},
 	{

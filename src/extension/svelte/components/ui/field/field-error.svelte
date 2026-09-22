@@ -23,7 +23,11 @@
 		if (!errors || errors.length === 0) return false;
 
 		// has an error but no message
-		return !(errors?.length === 1 && !errors[0]?.message);
+		if (errors.length === 1 && !errors[0]?.message) {
+			return false;
+		}
+
+		return true;
 	});
 
 	const isMultipleErrors = $derived(errors && errors.length > 1);

@@ -5,13 +5,13 @@ import { buttonGroupVariants } from "./helper";
 import type { ButtonGroupOrientation } from "./helper";
 
 export {
-	type ButtonGroupOrientation,
-	buttonGroupVariants,
 	Root,
+	Text,
+	Separator,
+	buttonGroupVariants,
+	type ButtonGroupOrientation,
 	//
 	Root as ButtonGroup,
-	Separator,
-	Separator as ButtonGroupSeparator,
-	Text,
 	Text as ButtonGroupText,
+	Separator as ButtonGroupSeparator,
 };

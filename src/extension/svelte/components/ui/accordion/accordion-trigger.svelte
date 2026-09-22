@@ -27,13 +27,7 @@
 		{...restProps}
 	>
 		{@render children?.()}
-		<CaretDownIcon
-			data-slot="accordion-trigger-icon"
-			class="cn-accordion-trigger-icon pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden"
-		/>
-		<CaretUpIcon
-			data-slot="accordion-trigger-icon"
-			class="cn-accordion-trigger-icon pointer-events-none hidden shrink-0 group-aria-expanded/accordion-trigger:inline"
-		/>
+		<CaretDownIcon data-slot="accordion-trigger-icon" class="pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden" />
+		<CaretUpIcon data-slot="accordion-trigger-icon" class="pointer-events-none hidden shrink-0 group-aria-expanded/accordion-trigger:inline" />
 	</AccordionPrimitive.Trigger>
 </AccordionPrimitive.Header>
