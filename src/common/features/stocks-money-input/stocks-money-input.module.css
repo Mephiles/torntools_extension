@@ -17,12 +17,3 @@
 		background-color: #000;
 	}
 }
-
-.tt-stock-money-input [class*="manageContainer__"] {
-	min-height: 140px;
-	height: unset !important;
-
-	& > div {
-		padding: 4px;
-	}
-}

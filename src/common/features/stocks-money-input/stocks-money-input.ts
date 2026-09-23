@@ -75,8 +75,10 @@ async function addMoneyInputs(event: { target: EventTarget | null }) {
 	const stockElement = stockOwnedElement.closest("ul[class*='stock___']");
 	if (!stockElement) return;
 
+	const panel = await requireElement(`[class*='stock___'][id='${stockElement.id}'] + [class*='stockDropdown___']`);
+
 	for (const blockSelector of ["[class*='buyBlock__']", "[class*='sellBlock__']"]) {
-		if (findElement(`${blockSelector} .${styles.ttMoneyInput}`, stockElement, true)) continue;
+		if (findElement(`${blockSelector} .${styles.ttMoneyInput}`, panel, true)) continue;
 
 		clearInputObserver(blockSelector);
 
@@ -94,7 +96,7 @@ async function addMoneyInputs(event: { target: EventTarget | null }) {
 			],
 		});
 
-		const blockElement = await requireElement(blockSelector, { parent: stockElement });
+		const blockElement = await requireElement(blockSelector, { parent: panel });
 		if (findElement(`.${styles.ttMoneyInput}`, blockElement, true)) continue;
 
 		findElement("[class*='manageBlock__']", blockElement).appendChild(moneyInputElement);
@@ -120,8 +122,6 @@ async function addMoneyInputListeners() {
 	if (location.href.includes("&tab=owned")) {
 		await addMoneyInputs({ target: findElement("li[class*='stockOwned__'][class*='active__']", true) });
 	}
-
-	document.body.classList.add(styles.ttStockMoneyInput);
 }
 
 export default class StocksMoneyInputFeature extends Feature {
