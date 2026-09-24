@@ -1986,6 +1986,54 @@ export function getStockIncrement(required: number, stocks: number) {
 	return Math.log2(Math.floor(stocks / required) + 1);
 }
 
+export type CostToNextStockBlock = {
+	cost: number;
+	sharesNeeded: number;
+	nextLevel: number;
+};
+
+/**
+ * Money and shares still needed to reach the next stock benefit block.
+ * Returns null when the stock is already maxed (dividend level 5) or the non-dividend requirement is met.
+ */
+export function getCostToNextStockBlock(
+	stock: { id: number; bonus: { requirement: number }; market: { price: number } },
+	shares: number
+): CostToNextStockBlock | null {
+	const { requirement } = stock.bonus;
+	const { price } = stock.market;
+
+	if (isDividendStock(stock.id)) {
+		const nextLevel = Math.floor(getStockIncrement(requirement, shares)) + 1;
+		if (nextLevel > 5) return null;
+
+		const sharesNeeded = getRequiredStocks(requirement, nextLevel) - shares;
+		return { cost: sharesNeeded * price, sharesNeeded, nextLevel };
+	}
+
+	if (shares >= requirement) return null;
+
+	const sharesNeeded = requirement - shares;
+	return { cost: sharesNeeded * price, sharesNeeded, nextLevel: 1 };
+}
+
+export type CostToNextHighlight = "cheapest" | "secondCheapest" | "mostExpensive" | null;
+
+/** Rank a Next BB cost among others: cheapest, second-cheapest, or most expensive. */
+export function getCostToNextHighlight(cost: number, allCosts: number[]): CostToNextHighlight {
+	const unique = [...new Set(allCosts)].toSorted((a, b) => a - b);
+	if (unique.length === 0) return null;
+
+	const cheapest = unique.at(0)!;
+	const mostExpensive = unique.at(-1)!;
+	const secondCheapest = unique.at(1);
+
+	if (cost === cheapest) return "cheapest";
+	if (unique.length > 1 && cost === mostExpensive) return "mostExpensive";
+	if (secondCheapest !== undefined && cost === secondCheapest) return "secondCheapest";
+	return null;
+}
+
 export function getStockReward(reward: string, increment: number) {
 	let value: string;
 	if (reward.startsWith("$")) {

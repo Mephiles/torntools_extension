@@ -9,6 +9,10 @@
 				{
 					"message": "Submit the OC2 scenarios for analysis anonymously, (requires the 'Torn Probability' connection). Disabled by default.",
 					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Show Next BB cost under Dividend on the stock exchange (with cheapest/second/most-expensive highlights), and in the popup stocks overview.",
+					"contributor": "Murfy"
 				}
 			],
 			"fixes": [
