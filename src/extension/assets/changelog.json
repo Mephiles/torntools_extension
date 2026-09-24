@@ -9,6 +9,10 @@
 				{
 					"message": "Submit the OC2 scenarios for analysis anonymously, (requires the 'Torn Probability' connection). Disabled by default.",
 					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Recommend lease prices on the property rental market listing form, with same-period totals and market-wide daily rates.",
+					"contributor": "Murfy"
 				}
 			],
 			"fixes": [

@@ -393,6 +393,13 @@ export const TEAM: TeamMember[] = [
 		torn: 2188704,
 		color: "#dd88a8",
 	},
+	{
+		name: "Murfy",
+		title: "Developer",
+		core: false,
+		torn: 420016,
+		color: "#2aa198",
+	},
 ];
 
 interface Contributor {

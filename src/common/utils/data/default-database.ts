@@ -439,6 +439,7 @@ export const DEFAULT_STORAGE = {
 				filter: new DefaultSetting("boolean", true),
 				value: new DefaultSetting("boolean", true),
 				happy: new DefaultSetting("boolean", true),
+				leasePriceRecommendation: new DefaultSetting("boolean", true),
 			},
 			gym: {
 				specialist: new DefaultSetting("boolean", true),
