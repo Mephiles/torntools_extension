@@ -11,46 +11,52 @@ shuffleDeck();
 
 function initialiseHelper() {
 	addXHRListener(({ detail: { page, xhr, json } }) => {
-		if (page === "page") {
-			const params = new URL(xhr.responseURL).searchParams;
-			const sid = params.get("sid");
+		if (page !== "page") return;
 
-			if (sid === "highlowData" && json) {
-				switch (json.status) {
-					case "gameStarted":
-						if (json.currentGame[0].result === "Incorrect") {
-							removeHelper();
-						} else {
-							executeStrategy(json);
-						}
-						break;
-					case "makeChoice":
-						if (json.currentGame[0].playerCardInfo) {
-							const { suit, value } = getCardWorth(json.currentGame[0].playerCardInfo);
+		const params = new URL(xhr.responseURL).searchParams;
+		const sid = params.get("sid");
+		if (!isInternalHighLowData(sid, json)) return;
 
-							removeCard(suit, value);
-						}
+		switch (json.status) {
+			case "gameStarted": {
+				const game = json.currentGame[0];
+				if ("result" in game && game.result === "Incorrect") {
+					const { suit, value } = getCardWorth(game.playerCardInfo);
 
-						removeHelper();
-						break;
-					case "startGame":
-						removeHelper();
-						moveStart();
-						break;
-					case "moneyTaken":
-						removeHelper();
-						break;
-					default:
-						break;
+					removeCard(suit, value);
+					removeHelper();
+				} else {
+					executeStrategy(json);
+				}
+				break;
+			}
+			case "makeChoice":
+				if (json.currentGame[0].playerCardInfo) {
+					const { suit, value } = getCardWorth(json.currentGame[0].playerCardInfo);
+
+					removeCard(suit, value);
 				}
 
-				if (json.DB.deckShuffled) shuffleDeck();
-			}
+				removeHelper();
+				break;
+			case "startGame":
+				removeHelper();
+				moveStart();
+				break;
+			case "moneyTaken":
+				removeHelper();
+				break;
+			default:
+				break;
 		}
+
+		if (json.DB.deckShuffled) shuffleDeck();
 	});
 }
 
-function executeStrategy(data: any) {
+function executeStrategy(data: TornInternalHighLowData) {
+	if (data.status === "startGame" || data.status === "moneyTaken") return;
+
 	const { value: dealerValue, suit: dealerSuit } = getCardWorth(data.currentGame[0].dealerCardInfo);
 	removeCard(dealerSuit, dealerValue);
 
@@ -136,6 +142,90 @@ function removeHelper() {
 		delete actions.dataset.outcome;
 		findElement(".tt-high-low", actions, true)?.remove();
 	}
+}
+
+type TornInternalHighLowData = {
+	currentLayoutType: string;
+	user: { money: number; slotturns: number };
+	DB: {
+		deckShuffled: boolean;
+		formulaStats: [{ ID: number; currentRatio: number; previousRatio: number; moneyWon: number; moneyLost: number; gamesAmount: number }];
+		availableStakes: number[];
+	};
+} & (
+	| { status: "startGame" }
+	| { status: "gameStarted"; currentGame: [CurrentGameStarted | CurrentGameStartedIncorrect] }
+	| { status: "makeChoice"; currentGame: [CurrentGameChoice] }
+	| { status: "moneyTaken"; currentGame: [CurrentGameMoneyTaken] }
+);
+
+interface CurrentGameStarted {
+	gameID: number;
+	dealerCard: string;
+	dealerCardInfo: { fullName: string; name: string; classCode: string; nameShort: string };
+}
+
+interface CurrentGameStartedIncorrect {
+	dealerCard: number;
+	playerCard: string;
+	lastDealerCard: number;
+	lastPlayerCard: string;
+	move: number;
+	result: string;
+	potToAdd: null;
+	step: string;
+	currentPot: number;
+	actualResult: string;
+	lastChoice: string;
+	potUpdatedTo: number;
+	winsInRow: number;
+	lastDealerCardInfo: { fullName: string; name: string; classCode: string; nameShort: string };
+	lastPlayerCardInfo: { fullName: string; name: string; classCode: string; nameShort: string };
+	dealerCardInfo: { fullName: string; name: string; classCode: string; nameShort: string };
+	playerCardInfo: { fullName: string; name: string; classCode: string; nameShort: string };
+}
+
+interface CurrentGameChoice {
+	dealerCard: number;
+	playerCard: string;
+	lastDealerCard: number;
+	lastPlayerCard: string;
+	move: number;
+	result: string;
+	potToAdd: number;
+	step: string;
+	currentPot: number;
+	actualResult: string;
+	lastChoice: string;
+	potUpdatedTo: number;
+	winsInRow: number;
+	lastDealerCardInfo: { fullName: string; name: string; classCode: string; nameShort: string };
+	lastPlayerCardInfo: { fullName: string; name: string; classCode: string; nameShort: string };
+	dealerCardInfo: { fullName: string; name: string; classCode: string; nameShort: string };
+	playerCardInfo: { fullName: string; name: string; classCode: string; nameShort: string };
+}
+
+interface CurrentGameMoneyTaken {
+	ID: number;
+	userID: number;
+	TimeCreated: string;
+	currentStep: number;
+	betAmount: number;
+	currentPot: number;
+	move: number;
+	winsInRow: number;
+	dealerCard: number;
+	lastDealerCard: number;
+	lastPlayerCard: number;
+	potUpdatedTo: number;
+	lastChoice: string;
+	currentLayoutType: string;
+	lastDealerCardInfo: { fullName: string; name: string; classCode: string; nameShort: string };
+	lastPlayerCardInfo: { fullName: string; name: string; classCode: string; nameShort: string };
+}
+
+function isInternalHighLowData(sid: string | null, json: unknown): json is TornInternalHighLowData {
+	return sid === "highlowData" && !!json;
 }
 
 export default class HighLowHelperFeature extends Feature {
