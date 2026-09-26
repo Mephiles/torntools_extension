@@ -223,7 +223,7 @@ export function doRequestRevive(id: string, name: string, country: string, facti
 export function calculateRevivePrice({ price }: ReviveProvider) {
 	const parts: string[] = [];
 
-	if (typeof price?.money === "number") parts.push(formatNumber(price.money, { currency: true, shorten: 3 }));
+	if (typeof price?.money === "number") parts.push(formatNumber(price.money, { currency: true, shorten: 3, decimals: 3 }));
 	if (typeof price?.xanax === "number") parts.push(`${price.xanax} xan`);
 
 	return parts.length > 0 ? parts.join(" or ") : "unknown";
