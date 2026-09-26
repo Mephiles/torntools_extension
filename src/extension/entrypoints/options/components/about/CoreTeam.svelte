@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { TEAM } from "@common/utils/team";
+	import { CORE_TEAM } from "@common/utils/team";
 	import TeamList from "./TeamList.svelte";
 </script>
 
@@ -10,7 +10,7 @@
 	</p>
 
 	<div class="my-2">
-		<TeamList members={TEAM.filter((member) => member.core)} />
+		<TeamList members={CORE_TEAM} />
 	</div>
 
 	<p class="text-muted-foreground text-sm">

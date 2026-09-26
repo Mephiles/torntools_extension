@@ -59,7 +59,19 @@ We have Oxfmt formatting and Oxlint linting to help you follow our coding conven
 - All code should work on as many browsers as possible.
     - Optional Chaining isn't supported by Kiwi Browser.
 - Any changes should be added in the `src/extension/assets/changelog.json` file under the first unreleased version.
-    - First contributions should also update `src/common/utils/team.ts` to add yourself as member.
+    - First contributions should also credit you in `src/common/utils/team.ts`, see [Adding yourself as a contributor](#adding-yourself-as-a-contributor).
+
+## Adding yourself as a contributor
+
+When you make your first contribution, credit yourself in `src/common/utils/team.ts` by adding a single line to the
+`CONTRIBUTORS` map:
+
+```ts
+"YourUsername": 1234567,
+```
+
+- `YourUsername` has to match the `contributor` value you use in `src/extension/assets/changelog.json` exactly.
+- `1234567` is your Torn player ID. Use `null` if you prefer not to link a profile.
 
 ## Development Tips
 

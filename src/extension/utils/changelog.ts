@@ -1,6 +1,6 @@
 import { daySuffix } from "@common/utils/functions/formatting";
 import { MONTHS } from "@common/utils/functions/utilities";
-import { CONTRIBUTOR_COLORS, CONTRIBUTORS } from "@common/utils/team";
+import { CONTRIBUTOR_COLORS, getContributor } from "@common/utils/team";
 import changelog from "@/assets/changelog.json";
 
 export type ChangelogEntry = {
@@ -59,7 +59,7 @@ export function buildContributors(names: string[]): Contributor[] {
 	const nonCoreNames = names.filter((name) => !isCoreContributor(name));
 
 	return names.map<Contributor>((name) => {
-		const info = CONTRIBUTORS[name];
+		const info = getContributor(name);
 
 		if (info?.core && info.color) {
 			return { key: name, id: info.id, name: info.name, color: info.color };
@@ -75,7 +75,7 @@ export function buildContributors(names: string[]): Contributor[] {
 }
 
 function isCoreContributor(name: string): boolean {
-	return CONTRIBUTORS[name]?.core === true;
+	return getContributor(name)?.core === true;
 }
 
 export function toDisplayableChangelogEntry(entry: ChangelogEntry): DisplayableChangelogEntry {

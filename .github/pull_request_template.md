@@ -1,7 +1,7 @@
 **Torn username and ID:**
 
 - [ ] Read `CONTRIBUTING.md`.
-- [ ] Added your name in `src/common/utils/team.ts` file.
+- [ ] Added your name + Torn ID to the `src/common/utils/team.ts` file.
 - [ ] Update the unreleased version of `src/extension/assets/changelog.json` file
 - [ ] Bump the versions of all related userscripts
 
