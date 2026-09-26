@@ -18,7 +18,8 @@
 				{
 					"message": "Have the 'Stocks Money Input' keep showing up when opening other stocks without closing the previous one.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Changed rounding error resulting in revive prices showing 2m rather than intended 1.8m", "contributor": "zachwozn" }
 			],
 			"changes": [
 				{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" },
