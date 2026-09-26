@@ -84,6 +84,7 @@ When you make your first contribution, credit yourself in `src/common/utils/team
 ## Guidelines for external services
 
 External services are welcome to be introduced, but need to follow our guidelines:
-* Without any exceptions, it's opt-in.
-* While services are allowed to benefit from our users, there has to be a mutual benefit, in favor of our users.
-* Requiring authentication is fine (although preferable not, how fewer keys we need to share the better), but requiring an active paid subscription is not. Active paid subscriptions may enhance the experience, but the free version still needs to be sufficiently beneficial.
+
+- Without any exceptions, it's opt-in.
+- While services are allowed to benefit from our users, there has to be a mutual benefit, in favor of our users.
+- Requiring authentication is fine (although preferable not, how fewer keys we need to share the better), but requiring an active paid subscription is not. Active paid subscriptions may enhance the experience, but the free version still needs to be sufficiently beneficial.

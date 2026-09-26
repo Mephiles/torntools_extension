@@ -2,17 +2,17 @@
 title: TornTools
 description: Documentation for the TornTools browser extension
 hero:
-  tagline: Several tools for Torn.com
-  image:
-    file: ../../assets/icon.svg
-  actions:
-    - text: Get Started
-      link: getting-started/installation/
-      icon: right-arrow
-    - text: View on GitHub
-      link: https://github.com/Mephiles/torntools_extension
-      icon: external
-      variant: minimal
+    tagline: Several tools for Torn.com
+    image:
+        file: ../../assets/icon.svg
+    actions:
+        - text: Get Started
+          link: getting-started/installation/
+          icon: right-arrow
+        - text: View on GitHub
+          link: https://github.com/Mephiles/torntools_extension
+          icon: external
+          variant: minimal
 ---
 
 TornTools enhances the Torn.com experience with a wide range of quality-of-life improvements, including API
