@@ -214,9 +214,9 @@ export const TEAM: TeamMember[] = [
 	{
 		name: "zachwozn",
 		title: "Developer",
-		core: false,
+		core: true,
 		torn: 2301700,
-		color: "#017BC7",
+		color: "#236e00",
 	},
 	{
 		name: "nao",
