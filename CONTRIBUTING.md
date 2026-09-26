@@ -13,6 +13,10 @@ Please send a [Pull Request to TornTools](https://github.com/Mephiles/torntools_
 list of what you've done. Please follow our coding conventions (below) and make sure all of your commits are atomic (one
 feature per commit).
 
+When opening a Pull Request, you must use our [pull request template](.github/pull_request_template.md).
+Pull Requests that don't use the template are **closed automatically without review** by our
+[PR template check](.github/workflows/pr-template-check.yml). You can fix the description and reopen the PR afterward.
+
 Always write a clear log message for your commits. One-line messages are fine for small changes, but bigger changes
 should contain more information about the changes.
 
