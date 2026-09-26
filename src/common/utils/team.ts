@@ -6,7 +6,7 @@ type TeamMember = {
 export const TEAM: TeamMember[] = [
 	{
 		name: "Mephiles",
-		title: ["Creator", "Developer"],
+		title: "Creator",
 		core: true,
 		torn: 2087524,
 		color: "green",
@@ -19,7 +19,7 @@ export const TEAM: TeamMember[] = [
 	},
 	{
 		name: "DeKleineKobini",
-		title: "Maintainer / Developer",
+		title: "Core Maintainer",
 		core: true,
 		torn: 2114440,
 		color: "orange",
@@ -142,7 +142,7 @@ export const TEAM: TeamMember[] = [
 	},
 	{
 		name: "zachwozn",
-		title: "Developer",
+		title: "Safari port Maintainer",
 		core: true,
 		torn: 2301700,
 		color: "#236e00",
