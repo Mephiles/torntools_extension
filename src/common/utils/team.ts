@@ -2,8 +2,7 @@ type TeamMember = {
 	name: string;
 	title: string | string[];
 	torn: number | null;
-	color: string;
-} & ({ core: false } | { core: true; donations?: { name: string; link: string }[] });
+} & ({ core: true; color: string; donations?: { name: string; link: string }[] } | { core: false });
 
 export const TEAM: TeamMember[] = [
 	{
@@ -55,161 +54,138 @@ export const TEAM: TeamMember[] = [
 		title: "Developer",
 		core: false,
 		torn: 1878147,
-		color: "#ff3333",
 	},
 	{
 		name: "wootty2000",
 		title: "Developer",
 		core: false,
 		torn: 2344687,
-		color: "red",
 	},
 	{
 		name: "luke__",
 		title: "Developer",
 		core: false,
 		torn: 3720006,
-		color: "#f141ddff",
 	},
 	{
 		name: "finally",
 		title: "Developer",
 		core: false,
 		torn: 2060206,
-		color: "purple",
 	},
 	{
 		name: "Fogest",
 		title: "Developer",
 		core: false,
 		torn: 2254826,
-		color: "chartreuse",
 	},
 	{
 		name: "smikula",
 		title: "Developer",
 		core: false,
 		torn: null,
-		color: "#fbff09",
 	},
 	{
 		name: "kontamusse",
 		title: "Developer",
 		core: false,
 		torn: 2408039,
-		color: "#58e4e4",
 	},
 	{
 		name: "Natty_Boh",
 		title: "Developer",
 		core: false,
 		torn: 1651049,
-		color: "blue",
 	},
 	{
 		name: "h4xnoodle",
 		title: "Developer",
 		core: false,
 		torn: 2315090,
-		color: "mediumblue",
 	},
 	{
 		name: "Tesa",
 		title: "Developer",
 		core: false,
 		torn: 2639608,
-		color: "brown",
 	},
 	{
 		name: "hvr-lust",
 		title: "Developer",
 		core: false,
 		torn: null,
-		color: "darkkhaki",
 	},
 	{
 		name: "ORAN",
 		title: "Developer",
 		core: false,
 		torn: 1778676,
-		color: "mediumpurple",
 	},
 	{
 		name: "dat-mule",
 		title: "Developer",
 		core: false,
 		torn: 2043166,
-		color: "cornflowerblue",
 	},
 	{
 		name: "josephting",
 		title: "Developer",
 		core: false,
 		torn: 2272298,
-		color: "maroon",
 	},
 	{
 		name: "Lazerpent",
 		title: "Developer",
 		core: false,
 		torn: 2112641,
-		color: "#7E46DA",
 	},
 	{
 		name: "No1IrishStig",
 		title: "Developer",
 		core: false,
 		torn: 2648238,
-		color: "#a6282c",
 	},
 	{
 		name: "Acarya",
 		title: "Developer",
 		core: false,
 		torn: 2243227,
-		color: "springgreen",
 	},
 	{
 		name: "Kwack",
 		title: "Developer",
 		core: false,
 		torn: 2190604,
-		color: "deeppink",
 	},
 	{
 		name: "Conrado",
 		title: "Developer",
 		core: false,
 		torn: 2631918,
-		color: "cyan",
 	},
 	{
 		name: "Vrasp",
 		title: "Developer",
 		core: false,
 		torn: 2627614,
-		color: "#01b0aa",
 	},
 	{
 		name: "Anti0815",
 		title: "Developer",
 		core: false,
 		torn: 2793691,
-		color: "#0081fe",
 	},
 	{
 		name: "LePluB",
 		title: "Developer",
 		core: false,
 		torn: 2890448,
-		color: "orange",
 	},
 	{
 		name: "ThtAstronautGuy",
 		title: "Developer",
 		core: false,
 		torn: 1977683,
-		color: "#841210",
 	},
 	{
 		name: "zachwozn",
@@ -223,197 +199,190 @@ export const TEAM: TeamMember[] = [
 		title: "Developer",
 		core: false,
 		torn: 2669774,
-		color: "#9B1C31",
 	},
 	{
 		name: "tiksan",
 		title: "Developer",
 		core: false,
 		torn: 2383326,
-		color: "white", // No explicit color chosen.
 	},
 	{
 		name: "TravisTheTechie",
 		title: "Developer",
 		core: false,
 		torn: 3549588,
-		color: "firebrick",
 	},
 	{
 		name: "MOBermejo",
 		title: "Developer",
 		core: false,
 		torn: 3385879,
-		color: "#DAA520",
 	},
 	{
 		name: "Hashibee",
 		title: "Developer",
 		core: false,
 		torn: 2303184,
-		color: "#6ACF65",
 	},
 	{
 		name: "Phoenix",
 		title: "Developer",
 		core: false,
 		torn: 85185,
-		color: "#085185",
 	},
 	{
 		name: "xentac",
 		title: "Developer",
 		core: false,
 		torn: 3354782,
-		color: "#a569bd",
 	},
 	{
 		name: "Weav3r",
 		title: "Developer",
 		core: false,
 		torn: 1853324,
-		color: "blue",
 	},
 	{
 		name: "XDeltaA77",
 		title: "Developer",
 		core: false,
 		torn: 1892226,
-		color: "#3dcc21",
 	},
 	{
 		name: "StaticFree",
 		title: "Developer",
 		core: false,
 		torn: 711045,
-		color: "steelblue",
 	},
 	{
 		name: "EazzyPeazzy",
 		title: "Developer",
 		core: false,
 		torn: 2708376,
-		color: "#65000b",
 	},
 	{
 		name: "vALT0r",
 		title: "Developer",
 		core: false,
 		torn: 767373,
-		color: "#ff6b35",
 	},
 	{
 		name: "Simpsons",
 		title: "Developer",
 		core: false,
 		torn: 247677,
-		color: "#008B8B",
 	},
 	{
 		name: "Taznister",
 		title: "Developer",
 		core: false,
 		torn: 3770016,
-		color: "#53629E",
 	},
 	{
 		name: "aHunterGatherer",
 		title: "Developer",
 		core: false,
 		torn: 2657909,
-		color: "#a0ec6d",
 	},
 	{
 		name: "Will",
 		title: "Developer",
 		core: false,
 		torn: 2057823,
-		color: "#a6279b",
 	},
 	{
 		name: "jensim",
 		title: "Developer",
 		core: false,
 		torn: null,
-		color: "darkkhaki",
 	},
 	{
 		name: "mystify-321",
 		title: "Developer",
 		core: false,
 		torn: 3737350,
-		color: "darkkhaki",
 	},
 	{
 		name: "RogerFar",
 		title: "Developer",
 		core: false,
 		torn: 4166912,
-		color: "#33873c",
 	},
 	{
 		name: "Manuel",
 		title: "Developer",
 		core: false,
 		torn: 3747263,
-		color: "#4f8cff",
 	},
 	{
 		name: "Ech01337",
 		title: "Developer",
 		core: false,
 		torn: 4270007,
-		color: "teal",
 	},
 	{
 		name: "Aida",
 		title: "Developer",
 		core: false,
 		torn: 4294353,
-		color: "#ff9ec6",
 	},
 	{
 		name: "SAY-5",
 		title: "Developer",
 		core: false,
 		torn: null,
-		color: "#0d9488",
 	},
 	{
 		name: "Jubaka",
 		title: "Developer",
 		core: false,
 		torn: 2933938,
-		color: "#7775cf",
 	},
 	{
 		name: "Callz",
 		title: "Developer",
 		core: false,
 		torn: 2188704,
-		color: "#dd88a8",
 	},
 	{
 		name: "xhang98",
 		title: "Developer",
 		core: false,
 		torn: 2153760,
-		color: "lime",
 	},
 ];
 
-interface Contributor {
+/**
+ * Fixed palette used to color non-core contributors in the changelog.
+ * A color is assigned to a contributor for a single version, in order of appearance.
+ */
+export const CONTRIBUTOR_COLORS: string[] = [
+	"#ff3333",
+	"cornflowerblue",
+	"mediumpurple",
+	"#58e4e4",
+	"deeppink",
+	"#ff6b35",
+	"steelblue",
+	"springgreen",
+	"#ff9ec6",
+	"#0d9488",
+	"mediumblue",
+	"#a6279b",
+	"#fbff09",
+	"firebrick",
+];
+
+interface ContributorInfo {
 	id: number | null;
 	name: string;
-	color: string;
+	core: boolean;
+	color?: string;
 }
 
-type ContributorMap = { [name: string]: Contributor };
+type ContributorMap = { [name: string]: ContributorInfo };
 
-export const CONTRIBUTORS: ContributorMap = TEAM.filter(({ title, color }) => title.includes("Developer") || !!color).reduce<ContributorMap>(
-	(object, { name, torn, color }) => {
-		object[name] = { id: torn, name, color };
-		return object;
-	},
-	{},
-);
+export const CONTRIBUTORS: ContributorMap = TEAM.reduce<ContributorMap>((object, member) => {
+	object[member.name] = { id: member.torn, name: member.name, core: member.core, ...(member.core ? { color: member.color } : {}) };
+	return object;
+}, {});

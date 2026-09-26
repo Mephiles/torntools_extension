@@ -26,7 +26,8 @@
 				{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" },
 				{ "message": "Better design for 'Average Personal Stat' on mobile.", "contributor": "DeKleineKobini" },
 				{ "message": "Explicitly state if there are no recorded changes in 'Live Networth'.", "contributor": "DeKleineKobini" },
-				{ "message": "Change the link from stocks in the popup to open the clicked stock.", "contributor": "DeKleineKobini" }
+				{ "message": "Change the link from stocks in the popup to open the clicked stock.", "contributor": "DeKleineKobini" },
+				{ "message": "No longer assign a fixed color to non-core contributors in the changelog.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [
