@@ -19,6 +19,12 @@ function initialiseHelper() {
 				switch (json.status) {
 					case "gameStarted":
 						if (json.currentGame[0].result === "Incorrect") {
+							if (json.currentGame[0].playerCardInfo) {
+								const { suit, value } = getCardWorth(json.currentGame[0].playerCardInfo);
+
+								removeCard(suit, value);
+							}
+
 							removeHelper();
 						} else {
 							executeStrategy(json);

@@ -18,7 +18,8 @@
 				{
 					"message": "Have the 'Stocks Money Input' keep showing up when opening other stocks without closing the previous one.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Fix the High-low Helper not removing the losing card, which skewed its card counting.", "contributor": "xhang98" }
 			],
 			"changes": [
 				{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" },
