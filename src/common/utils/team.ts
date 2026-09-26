@@ -3,6 +3,7 @@ type CoreTeamMember = {
 	title: string | string[];
 	torn: number | null;
 	color: string;
+	inactive?: boolean;
 	donations?: { name: string; link: string }[];
 };
 
@@ -12,6 +13,7 @@ export const CORE_TEAM: CoreTeamMember[] = [
 		title: "Creator",
 		torn: 2087524,
 		color: "green",
+		inactive: true,
 		donations: [
 			{
 				name: "PayPal",
