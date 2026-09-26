@@ -132,7 +132,10 @@ function shuffleDeck() {
 }
 
 function removeCard(suit: string, value: number) {
-	deck[suit].splice(deck[suit].indexOf(value), 1);
+	const index = deck[suit].indexOf(value);
+	if (index === -1) return;
+
+	deck[suit].splice(index, 1);
 }
 
 function removeHelper() {
