@@ -59,6 +59,7 @@ We have Oxfmt formatting and Oxlint linting to help you follow our coding conven
 - All code should work on as many browsers as possible.
     - Optional Chaining isn't supported by Kiwi Browser.
 - Any changes should be added in the `src/extension/assets/changelog.json` file under the first unreleased version.
+    - New entries should be added to the end of the correct section, so entries in each section are ordered from first implemented to last.
     - First contributions should also credit you in `src/common/utils/team.ts`, see [Adding yourself as a contributor](#adding-yourself-as-a-contributor).
 
 ## Adding yourself as a contributor
