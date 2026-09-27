@@ -29,6 +29,8 @@ function initialiseListeners() {
 		filter.rerenderSections();
 	});
 	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH, () => filter.run());
+	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD, () => filter.run());
+	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__ITEM_BOUGHT, () => filter.run());
 }
 
 type AbroadItemsFilterState = {

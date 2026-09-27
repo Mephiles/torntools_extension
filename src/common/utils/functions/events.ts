@@ -42,6 +42,7 @@ export enum EVENT_CHANNELS {
 	TRAVEL_DESTINATION_UPDATE = "travel-destination-update",
 	TRAVEL_ABROAD__SHOP_LOAD = "TRAVEL_ABROAD__SHOP_LOAD",
 	TRAVEL_ABROAD__SHOP_REFRESH = "TRAVEL_ABROAD__SHOP_REFRESH",
+	TRAVEL_ABROAD__ITEM_BOUGHT = "TRAVEL_ABROAD__ITEM_BOUGHT",
 	FEATURE_ENABLED = "feature-enabled",
 	FEATURE_RELOADED = "feature-reloaded",
 	STATE_CHANGED = "state-changed",
@@ -120,6 +121,7 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE]: never;
 	[EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD]: { country: string; items: AbroadItem[] };
 	[EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH]: never;
+	[EVENT_CHANNELS.TRAVEL_ABROAD__ITEM_BOUGHT]: { item: number; amount: number };
 	[EVENT_CHANNELS.TRADE]: { step: string; active: boolean };
 	[EVENT_CHANNELS.FEATURE_ENABLED]: { name: string };
 	[EVENT_CHANNELS.FEATURE_RELOADED]: { name: string };

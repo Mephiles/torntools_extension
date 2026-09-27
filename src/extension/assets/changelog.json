@@ -22,14 +22,19 @@
 				{ "message": "Changed rounding error resulting in revive prices showing 2m rather than intended 1.8m", "contributor": "zachwozn" },
 				{ "message": "Fix the 'High-low Helper' not removing the losing card.", "contributor": "xhang98" },
 				{ "message": "Don't toggle the collapsible area when clicking the settings icon within.", "contributor": "DeKleineKobini" },
-				{ "message": "Buying a mission reward no longer triggered the 'Mission Rewards' to reappear again.", "contributor": "DeKleineKobini" }
+				{ "message": "Buying a mission reward no longer triggered the 'Mission Rewards' to reappear again.", "contributor": "DeKleineKobini" },
+				{ "message": "Show the 'Travel Item Profits' for an item you just bought.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" },
 				{ "message": "Better design for 'Average Personal Stat' on mobile.", "contributor": "DeKleineKobini" },
 				{ "message": "Explicitly state if there are no recorded changes in 'Live Networth'.", "contributor": "DeKleineKobini" },
 				{ "message": "Change the link from stocks in the popup to open the clicked stock.", "contributor": "DeKleineKobini" },
-				{ "message": "No longer assign a fixed color to non-core contributors in the changelog.", "contributor": "DeKleineKobini" }
+				{ "message": "No longer assign a fixed color to non-core contributors in the changelog.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Automatically reapply the 'Abroad Items Filter' when it updates, including when buying an item.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"removed": [],
 			"technical": [

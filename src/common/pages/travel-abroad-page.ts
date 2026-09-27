@@ -44,29 +44,36 @@ export async function setupTravelAbroadPage() {
 		const step = params.get("step");
 		if (step !== "shop") return;
 
-		const data = json as InternalTornTravelDataShop;
+		if (step === "shop") {
+			const data = json as InternalTornTravelDataShop;
 
-		let items: SyncItem[];
-		if ("shops" in data && data.shops) {
-			items = data.shops
-				.flatMap((shop) => shop.stock)
-				.map((s) => ({
-					id: s.ID,
-					quantity: s.stock,
-					cost: s.price,
-				}));
-		} else if ("stock" in data && data.stock) {
-			items = data.stock.map<SyncItem>((s) => ({ id: s.ID, quantity: s.stock, cost: s.price }));
-		} else {
-			throw new Error("Unexpected abroad travel data response!");
+			let items: SyncItem[];
+			if ("shops" in data && data.shops) {
+				items = data.shops
+					.flatMap((shop) => shop.stock)
+					.map((s) => ({
+						id: s.ID,
+						quantity: s.stock,
+						cost: s.price,
+					}));
+			} else if ("stock" in data && data.stock) {
+				items = data.stock.map<SyncItem>((s) => ({ id: s.ID, quantity: s.stock, cost: s.price }));
+			} else {
+				throw new Error("Unexpected abroad travel data response!");
+			}
+
+			const country: string = json.country;
+
+			triggerCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD, {
+				country,
+				items,
+			});
+		} else if (step === "buy") {
+			const item = parseInt(params.get("itemID")!);
+			const amount = parseInt(params.get("amount")!);
+
+			triggerCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__ITEM_BOUGHT, { item, amount });
 		}
-
-		const country: string = json.country;
-
-		triggerCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD, {
-			country,
-			items,
-		});
 	});
 	document.addEventListener("click", (event) => {
 		if (isHTMLElement(event.target) && event.target.className?.includes("yesNoButton")) {
