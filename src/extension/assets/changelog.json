@@ -9,7 +9,8 @@
 				{
 					"message": "Submit the OC2 scenarios for analysis anonymously, (requires the 'Torn Probability' connection). Disabled by default.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Reintroduce the previously disabled 'Travel Fill Max', adapted for the travel 2.0.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Clearing the cache now also always takes the fallback storage with it.", "contributor": "DeKleineKobini" },

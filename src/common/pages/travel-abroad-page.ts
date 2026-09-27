@@ -42,8 +42,8 @@ export async function setupTravelAbroadPage() {
 		if (sid !== "travelData") return;
 
 		const step = params.get("step");
-		if (step !== "shop") return;
 
+		void markTravelTableColumns();
 		if (step === "shop") {
 			const data = json as InternalTornTravelDataShop;
 
@@ -77,6 +77,7 @@ export async function setupTravelAbroadPage() {
 	});
 	document.addEventListener("click", (event) => {
 		if (isHTMLElement(event.target) && event.target.className?.includes("yesNoButton")) {
+			void markTravelTableColumns();
 			triggerCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH);
 		}
 	});
