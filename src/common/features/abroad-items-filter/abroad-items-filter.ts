@@ -15,22 +15,22 @@ import travelItemProfitsStyles from "@features/travel-item-profits/travel-item-p
 const SALES_TAX = TAX_RATES.salesTaxPercentage;
 const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
 
-let filter: FilterController;
+let filter: FilterController | undefined;
 
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.FEATURE_ENABLED, (feature) => {
 		if (feature.name !== "Travel Item Profits") return;
 
-		filter.rerenderSections();
+		filter?.rerenderSections();
 	});
 	addCustomListener(EVENT_CHANNELS.FEATURE_RELOADED, (feature) => {
 		if (feature.name !== "Travel Item Profits") return;
 
-		filter.rerenderSections();
+		filter?.rerenderSections();
 	});
-	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH, () => filter.run());
-	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD, () => filter.run());
-	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__ITEM_BOUGHT, () => filter.run());
+	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH, () => filter?.run());
+	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD, () => filter?.run());
+	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__ITEM_BOUGHT, () => filter?.run());
 }
 
 type AbroadItemsFilterState = {

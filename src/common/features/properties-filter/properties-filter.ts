@@ -13,7 +13,7 @@ import { Feature } from "@features/feature";
 
 const SUPPORTED_ROUTES: PropertiesPage[] = ["all-properties", "spouse-properties", "your-properties"];
 
-let filter: FilterController;
+let filter: FilterController | undefined;
 
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, async ({ route }) => {
