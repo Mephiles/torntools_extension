@@ -21,7 +21,8 @@
 				},
 				{ "message": "Changed rounding error resulting in revive prices showing 2m rather than intended 1.8m", "contributor": "zachwozn" },
 				{ "message": "Fix the 'High-low Helper' not removing the losing card.", "contributor": "xhang98" },
-				{ "message": "Don't toggle the collapsible area when clicking the settings icon within.", "contributor": "DeKleineKobini" }
+				{ "message": "Don't toggle the collapsible area when clicking the settings icon within.", "contributor": "DeKleineKobini" },
+				{ "message": "Buying a mission reward no longer triggered the 'Mission Rewards' to reappear again.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" },

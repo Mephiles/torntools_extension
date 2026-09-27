@@ -4,15 +4,15 @@ import { addXHRListener } from "@common/utils/functions/listeners";
 
 export function setupMissionsPage() {
 	addXHRListener(async ({ detail: { page, xhr, ...detail } }) => {
-		if (page !== "page" || !("uri" in detail)) return;
+		if (page !== "page") return;
 
 		const { uri } = detail;
 
 		const params = new URLSearchParams(xhr.requestBody);
-		let sid = params.get("sid");
-		if (!sid && uri && (uri.sid || uri["?sid"])) sid = uri.sid || uri["?sid"];
+		const sid = extractParameter("sid", params, uri);
+		const step = extractParameter("step", params, uri);
 
-		if (sid === "missionsRewards") {
+		if (sid === "missionsRewards" || (sid === "missions" && step === "buy")) {
 			new MutationObserver((_mutations, observer) => {
 				triggerCustomListener(EVENT_CHANNELS.MISSION_REWARDS);
 				observer.disconnect();
@@ -24,4 +24,13 @@ export function setupMissionsPage() {
 			}).observe(findElement("#missionsMainContainer"), { childList: true });
 		}
 	});
+}
+
+function extractParameter(key: string, params: URLSearchParams, uri: Record<string, string> | undefined): string | null {
+	let value = params.get(key);
+	if (value !== null) return value;
+
+	if (!uri) return null;
+
+	return uri[key] ?? uri[`?${key}`];
 }
