@@ -26,7 +26,9 @@
 				{ "message": "Don't toggle the collapsible area when clicking the settings icon within.", "contributor": "DeKleineKobini" },
 				{ "message": "Buying a mission reward no longer triggered the 'Mission Rewards' to reappear again.", "contributor": "DeKleineKobini" },
 				{ "message": "Show the 'Travel Item Profits' for an item you just bought.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid errors in several filter features.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid errors in several filter features.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid an error in 'Total Item Cost'.", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve errors in 'Total Item Cost' being silenced.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" },
