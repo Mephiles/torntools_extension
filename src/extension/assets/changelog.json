@@ -29,7 +29,8 @@
 				{ "message": "Avoid errors in several filter features.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid an error in 'Total Item Cost'.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve errors in 'Total Item Cost' being silenced.", "contributor": "DeKleineKobini" },
-				{ "message": "'Chat Highlight' didn't trigger when it matched a user changed by an alias.", "contributor": "DeKleineKobini" }
+				{ "message": "'Chat Highlight' didn't trigger when it matched a user changed by an alias.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix the 'Faction Quick Items' not being able to add the energy and nerve refills.", "contributor": "xhang98" }
 			],
 			"changes": [
 				{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" },
