@@ -3,7 +3,7 @@ import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
-import { requireElement } from "@common/utils/functions/requires";
+import { requireElementOptionally } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
@@ -15,7 +15,7 @@ function initialiseListener() {
 }
 
 async function addPercentage() {
-	await requireElement(".enlisted-stat").catch(() => {});
+	await requireElementOptionally(".enlisted-stat");
 
 	if (findElement(".tt-win-percentage", true)) return;
 

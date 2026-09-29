@@ -4,7 +4,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber, dropDecimals, formatNumber } from "@common/utils/functions/formatting";
-import { requireElement } from "@common/utils/functions/requires";
+import { requireElement, requireElementOptionally } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 
 async function addProgress() {
@@ -13,7 +13,7 @@ async function addProgress() {
 		200, 500, 1000, 2000, 2750, 3000, 3500, 4000, 6000, 7000, 8000, 11000, 12420, 18000, 18100, 24140, 31260, 36610, 46640, 56520, 67775, 84535, 106305,
 	];
 
-	const currentGym = await requireElement("[class*='gymButton_'][class*='inProgress_']").catch((): undefined => undefined);
+	const currentGym = await requireElementOptionally("[class*='gymButton_'][class*='inProgress_']");
 	if (!currentGym) return;
 
 	const categoryElement = currentGym.parentElement!;
