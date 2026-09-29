@@ -479,6 +479,8 @@ export const DEFAULT_STORAGE = {
 				leftBar: new DefaultSetting("boolean", false),
 				fillMax: new DefaultSetting("boolean", true),
 				bazaars: new DefaultSetting("boolean", true),
+				bazaarItemHighlight: new DefaultSetting("boolean", true),
+				bazaarItemHighlightScroll: new DefaultSetting("boolean", true),
 			},
 			competition: {
 				filter: new DefaultSetting("boolean", true),

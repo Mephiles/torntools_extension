@@ -1,3 +1,4 @@
+import type { TornInternalBazaarItems } from "@common/pages/bazaar-page.ts";
 import type { CRIMES2 } from "@common/pages/crimes2-page";
 import type { PropertiesRoute } from "@common/pages/properties-page";
 import type { AbroadItem } from "@common/pages/travel-abroad-page";
@@ -84,6 +85,8 @@ export enum EVENT_CHANNELS {
 	ELIMINATION__TEAM = "ELIMINATION__TEAM",
 	ELIMINATION__TEAM_DATA = "ELIMINATION__TEAM_DATA",
 	ELIMINATION__TEAM_TABLE_CHANGE = "ELIMINATION__TEAM_TABLE_CHANGE",
+	BAZAAR__LOAD_ITEMS = "BAZAAR__LOAD_ITEMS",
+	BAZAAR__INFINITE_SCROLL = "BAZAAR__INFINITE_SCROLL",
 }
 
 export interface EventPayloads {
@@ -171,6 +174,8 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.ELIMINATION__TEAM]: never;
 	[EVENT_CHANNELS.ELIMINATION__TEAM_DATA]: { page: number };
 	[EVENT_CHANNELS.ELIMINATION__TEAM_TABLE_CHANGE]: never;
+	[EVENT_CHANNELS.BAZAAR__LOAD_ITEMS]: { data: TornInternalBazaarItems };
+	[EVENT_CHANNELS.BAZAAR__INFINITE_SCROLL]: never;
 }
 
 export type CustomEventListener<T extends keyof EventPayloads> = (payload: EventPayloads[T]) => void;
