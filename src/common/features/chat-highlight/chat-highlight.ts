@@ -74,7 +74,7 @@ function applyV3Highlights(message: HTMLElement) {
 	let sender: string;
 	const senderElement = findElement(SELECTOR_CHAT_V3__MESSAGE_SENDER, message, true);
 	if (senderElement) {
-		sender = senderElement.textContent.replace(":", "");
+		sender = senderElement.dataset.original ?? senderElement.textContent.replace(":", "");
 	} else {
 		const root = message.closest(SELECTOR_CHAT_V3__VARIOUS_ROOT);
 		if (root?.matches(SELECTOR_CHAT_V3__MESSAGE_SELF)) {

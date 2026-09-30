@@ -28,7 +28,8 @@
 				{ "message": "Show the 'Travel Item Profits' for an item you just bought.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid errors in several filter features.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid an error in 'Total Item Cost'.", "contributor": "DeKleineKobini" },
-				{ "message": "Resolve errors in 'Total Item Cost' being silenced.", "contributor": "DeKleineKobini" }
+				{ "message": "Resolve errors in 'Total Item Cost' being silenced.", "contributor": "DeKleineKobini" },
+				{ "message": "'Chat Highlight' didn't trigger when it matched a user changed by an alias.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" },
