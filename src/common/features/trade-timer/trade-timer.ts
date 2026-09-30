@@ -8,12 +8,7 @@ import { dropDecimals, formatTime } from "@common/utils/functions/formatting";
 import { requireChatsLoaded, requireElement } from "@common/utils/functions/requires";
 import { countdownTimers, removeCountdownTimer } from "@common/utils/functions/timers";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
-import {
-	SELECTOR_CHAT_V3__BOX,
-	SELECTOR_CHAT_V3__BOX_LIST,
-	SELECTOR_CHAT_V3__SEND_BUTTON,
-	SELECTOR_CHAT_V3__TRADE_CHAT,
-} from "@common/utils/global/selectors/chatSelectors";
+import { SELECTOR_CHAT_V3__BOX, SELECTOR_CHAT_V3__SEND_BUTTON, SELECTOR_CHAT_V3__TRADE_CHAT } from "@common/utils/global/selectors/chatSelectors";
 import { Feature } from "@features/feature";
 
 function initialise() {
@@ -83,21 +78,7 @@ async function onKeyUp(event: KeyboardEvent) {
 	const tradeChat = event.target.closest(`[class^='chat-box__'], ${SELECTOR_CHAT_V3__BOX}`);
 	if (!tradeChat) return;
 
-	const chatBody = findElement(SELECTOR_CHAT_V3__BOX_LIST, tradeChat);
-	const message = await new Promise<Element>((resolve) => {
-		new MutationObserver((mutations, observer) => {
-			const mutation = mutations.findLast((mutation) => mutation.addedNodes.length);
-			if (!mutation) return;
-
-			const node = mutation.addedNodes[0] as Element;
-
-			observer.disconnect();
-			resolve(node);
-		}).observe(chatBody, { childList: true });
-	});
 	if ((event.target as HTMLInputElement).value) return;
-
-	if (message.className.includes("chat-box-body__block-message-wrapper__") && message.textContent === "Trade rooms allows one message per 60 seconds") return;
 
 	await ttStorage.change({ localdata: { tradeMessage: Date.now() + TO_MILLIS.SECONDS * 61 } });
 }

@@ -4,7 +4,7 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
 import { CHAT_TITLE_COLORS, is2FACheckPage } from "@common/utils/functions/torn";
-import { SELECTOR_CHAT_V3__VARIOUS_ROOT } from "@common/utils/global/selectors/chatSelectors.ts";
+import { SELECTOR_CHAT_V3__VARIOUS_ROOT } from "@common/utils/global/selectors/chatSelectors";
 import { Feature } from "@features/feature";
 
 async function initialiseColoredChats() {
