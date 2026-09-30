@@ -44,7 +44,7 @@ function addAliasTitle() {
 		const alias = getUserAliasByName(chatPlayerTitle);
 		if (!alias) return;
 
-		originalValue(chatHeader);
+		originalValue(chatHeader, OriginalSource.SELF);
 		chatHeader.textContent = alias.alias;
 	});
 }
@@ -53,7 +53,7 @@ function addAliasMessage(message: Element | null = null) {
 	if (!message) {
 		settings.userAlias.forEach(({ userId, alias }) => {
 			findAllElements(`${SELECTOR_CHAT_ROOT} a${SELECTOR_CHAT_V3__MESSAGE_SENDER}[href*='/profiles.php?XID=${userId}']`).forEach((profileLink) => {
-				originalValue(profileLink);
+				originalValue(profileLink, OriginalSource.PARENT);
 				profileLink.firstChild!.textContent = `${alias}:`;
 			});
 		});
@@ -67,11 +67,11 @@ function addAliasMessage(message: Element | null = null) {
 	const alias = getUserAliasById(messageUserID);
 	if (!alias) return;
 
-	originalValue(profileLink);
+	originalValue(profileLink, OriginalSource.PARENT);
 	profileLink.firstChild!.textContent = `${alias.alias}:`;
 }
 
-function originalValue(element: HTMLElement) {
+function originalValue(element: HTMLElement, source: OriginalSource) {
 	const hasOriginal = "original" in element.dataset;
 	if (hasOriginal) return element.dataset.original!;
 
@@ -79,18 +79,26 @@ function originalValue(element: HTMLElement) {
 	if (original.endsWith(":")) original = original.slice(0, original.length - 1);
 
 	element.dataset.original = original;
+	element.dataset.originalSource = source;
 
 	return original;
 }
 
+enum OriginalSource {
+	SELF = "SELF",
+	PARENT = "PARENT",
+}
+
 function removeAlias() {
-	findAllElements(`${SELECTOR_CHAT_ROOT} [data-original]`).forEach((element) => {
-		if (element.dataset.original) element.firstChild!.textContent = element.dataset.original;
+	findAllElements(`${SELECTOR_CHAT_ROOT} [data-original][data-original-source]`).forEach((element) => {
+		const source = element.dataset.originalSource as OriginalSource;
+		const original = element.dataset.original!;
+
+		if (source === OriginalSource.SELF) element.textContent = original;
+		else if (source === OriginalSource.PARENT) element.firstChild!.textContent = original;
+
 		delete element.dataset.original;
-	});
-	findAllElements(`${SELECTOR_CHAT_ROOT} [data-original-self]`).forEach((element) => {
-		if (element.dataset.original) element.textContent = element.dataset.originalSelf!;
-		delete element.dataset.original;
+		delete element.dataset.originalSource;
 	});
 }
 
