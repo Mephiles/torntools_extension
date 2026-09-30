@@ -54,7 +54,7 @@ export default defineConfig({
 			target: ["chrome109", "firefox128", "edge109"],
 			rolldownOptions: {
 				checks: {
-					pluginTimings: false,
+					bundlerTimings: false,
 				},
 			},
 		},
