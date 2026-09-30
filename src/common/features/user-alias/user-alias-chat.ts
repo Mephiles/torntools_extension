@@ -45,7 +45,7 @@ function addAliasTitle() {
 		if (!alias) return;
 
 		originalValue(chatHeader);
-		chatHeader.textContent = `${alias.alias}-Y`;
+		chatHeader.textContent = alias.alias;
 	});
 }
 
