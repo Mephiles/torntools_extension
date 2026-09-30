@@ -12,6 +12,6 @@ declare global {
 export default defineUnlistedScript(async () => {
 	const traderID = String(await getTraderID());
 
-	// For Chat 3.0, copied from Torn's mini profiles code.
+	// For Chat v3, copied from Torn's mini profiles code.
 	window.dispatchEvent(new CustomEvent("chat.openChannel", { detail: { userId: traderID } }));
 });

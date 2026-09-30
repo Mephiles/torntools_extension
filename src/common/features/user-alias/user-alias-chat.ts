@@ -44,8 +44,8 @@ function addAliasTitle() {
 		const alias = getUserAliasByName(chatPlayerTitle);
 		if (!alias) return;
 
-		chatHeader.dataset.originalSelf = chatHeader.textContent;
-		chatHeader.textContent = alias.alias;
+		originalValue(chatHeader);
+		chatHeader.textContent = `${alias.alias}-Y`;
 	});
 }
 
@@ -53,8 +53,8 @@ function addAliasMessage(message: Element | null = null) {
 	if (!message) {
 		settings.userAlias.forEach(({ userId, alias }) => {
 			findAllElements(`${SELECTOR_CHAT_ROOT} a${SELECTOR_CHAT_V3__MESSAGE_SENDER}[href*='/profiles.php?XID=${userId}']`).forEach((profileLink) => {
-				profileLink.dataset.original = profileLink.textContent;
-				profileLink.firstChild!.textContent = alias;
+				originalValue(profileLink);
+				profileLink.firstChild!.textContent = `${alias}:`;
 			});
 		});
 		return;
@@ -67,8 +67,20 @@ function addAliasMessage(message: Element | null = null) {
 	const alias = getUserAliasById(messageUserID);
 	if (!alias) return;
 
-	profileLink.dataset.original = profileLink.textContent;
-	profileLink.firstChild!.textContent = alias.alias;
+	originalValue(profileLink);
+	profileLink.firstChild!.textContent = `${alias.alias}:`;
+}
+
+function originalValue(element: HTMLElement) {
+	const hasOriginal = "original" in element.dataset;
+	if (hasOriginal) return element.dataset.original!;
+
+	let original = element.textContent;
+	if (original.endsWith(":")) original = original.slice(0, original.length - 1);
+
+	element.dataset.original = original;
+
+	return original;
 }
 
 function removeAlias() {

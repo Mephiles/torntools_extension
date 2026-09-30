@@ -64,17 +64,17 @@ async function showTimer(tradeChat: Element | undefined | null = null) {
 }
 
 function getTradeChat() {
-	const openChats = findAllElements(`#chatRoot [class^='chat-box__'], ${SELECTOR_CHAT_V3__TRADE_CHAT}`);
+	const openChats = findAllElements(SELECTOR_CHAT_V3__TRADE_CHAT);
 	if (!openChats.length) return null;
 
-	return openChats.find((chat) => findElement("[class*='chat-box-header__info__'], [class*='title___']", chat).textContent === "Trade") ?? null;
+	return openChats.find((chat) => findElement("[class*='title___']", chat).textContent === "Trade") ?? null;
 }
 
 function listenTradeChatInput(tradeChat: Element | null) {
 	if (!tradeChat) tradeChat = getTradeChat();
 	if (!tradeChat) return;
 
-	findElement("[class*='chat-box-footer__textarea__'], textarea", tradeChat).addEventListener("keyup", onKeyUp);
+	findElement("textarea", tradeChat).addEventListener("keyup", onKeyUp);
 }
 
 async function onKeyUp(event: KeyboardEvent) {

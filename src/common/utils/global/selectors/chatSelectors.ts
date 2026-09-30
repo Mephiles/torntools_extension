@@ -3,6 +3,7 @@
  */
 export const SELECTOR_CHAT_ROOT = "#chatRoot";
 export const SELECTOR_CHAT_V3__BOX = "[class*='item___']";
+export const SELECTOR_CHAT_V3__BOX_CONTENT = "[class*='content___']";
 export const SELECTOR_CHAT_V3__BOX_SCROLLER = "[class*='scrollWrapper___']";
 export const SELECTOR_CHAT_V3__BOX_LIST = `${SELECTOR_CHAT_V3__BOX_SCROLLER} > div`;
 export const SELECTOR_CHAT_V3__MESSAGE = "[class*='virtualItem___'] [class*='box___']";
@@ -10,7 +11,7 @@ export const SELECTOR_CHAT_V3__MESSAGE_CONTENT = "[class*='box___'] [class*='mes
 export const SELECTOR_CHAT_V3__MESSAGE_SENDER = "[class*='sender___']";
 export const SELECTOR_CHAT_V3__MESSAGE_SELF = "[class*='self___']";
 export const SELECTOR_CHAT_V3__SEND_BUTTON = "button[class*='iconWrapper___']";
-export const SELECTOR_CHAT_V3__TRADE_CHAT = "div#public_trade";
+export const SELECTOR_CHAT_V3__TRADE_CHAT = "#trade";
 export const SELECTOR_CHAT_V3__MINIMIZED_NAME = "button [class*='name___']";
 export const SELECTOR_CHAT_V3__HEADER_NAME = "button [class*='title___']";
 

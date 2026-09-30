@@ -2,9 +2,14 @@ import { settings } from "@common/utils/data/database";
 import { checkDevice } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
-import { requireChatsLoaded, requireElement } from "@common/utils/functions/requires";
+import { requireChatsLoaded, requireElement, requireElementOptionally } from "@common/utils/functions/requires";
 import { REACT_UPDATE_VERSIONS, updateReactInput } from "@common/utils/functions/torn";
-import { SELECTOR_CHAT_V3__BOX_SCROLLER, SELECTOR_CHAT_V3__MESSAGE, SELECTOR_CHAT_V3__MESSAGE_SENDER } from "@common/utils/global/selectors/chatSelectors";
+import {
+	SELECTOR_CHAT_V3__BOX_CONTENT,
+	SELECTOR_CHAT_V3__BOX_SCROLLER,
+	SELECTOR_CHAT_V3__MESSAGE,
+	SELECTOR_CHAT_V3__MESSAGE_SENDER,
+} from "@common/utils/global/selectors/chatSelectors";
 import { Feature } from "@features/feature";
 
 function initialiseAutocomplete() {
@@ -15,18 +20,17 @@ function initialiseAutocomplete() {
 async function readSettings() {
 	await requireChatsLoaded();
 
-	await Promise.all(
-		findAllElements("[class*='group-chat-box__chat-box-wrapper__'] [class*='chat-box__'], #chatRoot [class*='item___'][style*='z-index']").map((chat) =>
-			addAutocomplete(chat),
-		),
-	);
+	await Promise.all(findAllElements("#chatRoot [class*='item___'][style*='z-index']").map((chat) => addAutocomplete(chat)));
 }
 
 async function addAutocomplete(chat: HTMLElement) {
 	await requireElement("[class*='loader___']", { parent: chat, invert: true });
+	await requireElement(SELECTOR_CHAT_V3__BOX_CONTENT, { parent: chat });
 
 	const messages = findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`, chat);
 	if (!messages.length) return;
+
+	await requireElementOptionally("textarea");
 
 	const textarea = findElement<HTMLTextAreaElement>("textarea:not(.tt-chat-autocomplete)", chat, true);
 	if (!textarea) return;
@@ -64,6 +68,10 @@ async function addAutocomplete(chat: HTMLElement) {
 		const selectionIndex = valueStart + currentUsername.length;
 		textarea.setSelectionRange(selectionIndex, selectionIndex);
 	});
+	new MutationObserver((_mutations, observer) => {
+		observer.disconnect();
+		setTimeout(() => addAutocomplete(chat));
+	}).observe(findElement(SELECTOR_CHAT_V3__BOX_CONTENT, chat), { childList: true, subtree: true });
 }
 
 export default class ChatAutocompleteFeature extends Feature {

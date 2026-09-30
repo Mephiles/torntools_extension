@@ -39,7 +39,13 @@
 				{
 					"message": "Automatically reapply the 'Abroad Items Filter' when it updates, including when buying an item.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Adapt 'Colored Chat' to chat v3.1.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'Hide Chat' to chat v3.1.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'Search Chat' to chat v3.1.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'Trade Timer' to chat v3.1.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'Chat Autocomplete' to chat v3.1.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'User Alias - Chat' to chat v3.1.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [{ "message": "Remove support for chat v2, as Torn removed it.", "contributor": "DeKleineKobini" }],
 			"technical": [

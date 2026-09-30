@@ -41,10 +41,11 @@ function initialiseSearchChat() {
 
 async function showSearch() {
 	await requireChatsLoaded();
+
 	for (const chat of findAllElements(
 		[
 			`${SELECTOR_CHAT_ROOT} [class*='group-chat-box__'] [class*='group-chat-box__chat-box-wrapper__']`,
-			`${SELECTOR_CHAT_ROOT} ${SELECTOR_CHAT_V3__BOX}[style*='z-index']:not(:has(#people_panel))`,
+			`#chatRoot [class*='item___'][style*='z-index']:not(:has(#people_panel)):not(:has(#settings_panel))`,
 		].join(", "),
 	)) {
 		addChatSearch(chat);
