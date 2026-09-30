@@ -9,7 +9,6 @@ import { requireChatsLoaded, requireElement } from "@common/utils/functions/requ
 import { countdownTimers, removeCountdownTimer } from "@common/utils/functions/timers";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import {
-	SELECTOR_CHAT_V2__CHAT_BOX_BODY,
 	SELECTOR_CHAT_V3__BOX,
 	SELECTOR_CHAT_V3__BOX_LIST,
 	SELECTOR_CHAT_V3__SEND_BUTTON,
@@ -84,8 +83,7 @@ async function onKeyUp(event: KeyboardEvent) {
 	const tradeChat = event.target.closest(`[class^='chat-box__'], ${SELECTOR_CHAT_V3__BOX}`);
 	if (!tradeChat) return;
 
-	const chatBody = findElement(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY}, ${SELECTOR_CHAT_V3__BOX_LIST}`, tradeChat);
-
+	const chatBody = findElement(SELECTOR_CHAT_V3__BOX_LIST, tradeChat);
 	const message = await new Promise<Element>((resolve) => {
 		new MutationObserver((mutations, observer) => {
 			const mutation = mutations.findLast((mutation) => mutation.addedNodes.length);

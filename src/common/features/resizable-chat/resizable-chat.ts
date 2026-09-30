@@ -3,7 +3,6 @@ import { localdata, settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireChatsLoaded, requireElement } from "@common/utils/functions/requires";
-import { isChatV3 } from "@common/utils/functions/torn";
 import { SELECTOR_CHAT_ROOT, SELECTOR_CHAT_V3__BOX, SELECTOR_CHAT_V3__VARIOUS_ROOT } from "@common/utils/global/selectors/chatSelectors";
 import { Feature } from "@features/feature";
 import styles from "./resizable-chat.module.css";
@@ -57,12 +56,6 @@ async function resizeInput(chat: HTMLElement) {
 export default class ResizableChatFeature extends Feature {
 	constructor() {
 		super("Resizable Chat", "chat");
-	}
-
-	override requirements() {
-		if (!isChatV3()) return "Only for chat v3.";
-
-		return true;
 	}
 
 	override isEnabled() {

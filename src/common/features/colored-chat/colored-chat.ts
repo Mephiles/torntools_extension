@@ -27,8 +27,6 @@ async function showColoredChats(loaded = false) {
 
 	findAllElements(
 		[
-			"[class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__']", // Chat 2.0 - minimized chats
-			"[class*='chat-box__'] > [class*='chat-box-header__']", // Chat 2.0 - chat headers
 			"[class*='root___']:has(> button[id*='channel_panel_button:private'])", // Chat 3.0 - minimized private chats
 			"[class*='root___'] > [class*='root___']:has(> button[class*='header___'])", // Chat 3.0 - chat headers
 		].join(", "),

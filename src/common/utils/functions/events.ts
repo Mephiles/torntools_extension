@@ -95,7 +95,7 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.CHAT_OPENED]: { chat: HTMLElement };
 	[EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED]: { peopleMenu: HTMLElement };
 	[EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED]: { settingsPanel: HTMLElement };
-	[EVENT_CHANNELS.CHAT_REFRESHED]: { chat?: Element } | undefined;
+	[EVENT_CHANNELS.CHAT_REFRESHED]: { chat: Element };
 	[EVENT_CHANNELS.CHAT_RECONNECTED]: never;
 	[EVENT_CHANNELS.CHAT_CLOSED]: never;
 	[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE]: never;

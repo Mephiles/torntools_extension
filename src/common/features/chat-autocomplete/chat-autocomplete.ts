@@ -4,14 +4,7 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireChatsLoaded, requireElement } from "@common/utils/functions/requires";
 import { REACT_UPDATE_VERSIONS, updateReactInput } from "@common/utils/functions/torn";
-import {
-	SELECTOR_CHAT_V2__CHAT_BOX_BODY,
-	SELECTOR_CHAT_V2__MESSAGE_BOX,
-	SELECTOR_CHAT_V2__MESSAGE_SENDER,
-	SELECTOR_CHAT_V3__BOX_SCROLLER,
-	SELECTOR_CHAT_V3__MESSAGE,
-	SELECTOR_CHAT_V3__MESSAGE_SENDER,
-} from "@common/utils/global/selectors/chatSelectors";
+import { SELECTOR_CHAT_V3__BOX_SCROLLER, SELECTOR_CHAT_V3__MESSAGE, SELECTOR_CHAT_V3__MESSAGE_SENDER } from "@common/utils/global/selectors/chatSelectors";
 import { Feature } from "@features/feature";
 
 function initialiseAutocomplete() {
@@ -32,10 +25,7 @@ async function readSettings() {
 async function addAutocomplete(chat: HTMLElement) {
 	await requireElement("[class*='loader___']", { parent: chat, invert: true });
 
-	const messages = findAllElements(
-		`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}, ${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`,
-		chat,
-	);
+	const messages = findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`, chat);
 	if (!messages.length) return;
 
 	const textarea = findElement<HTMLTextAreaElement>("textarea:not(.tt-chat-autocomplete)", chat, true);
@@ -55,7 +45,7 @@ async function addAutocomplete(chat: HTMLElement) {
 		const searchValueMatch = valueBeforeCursor.match(/([^A-Za-z\d\-_]?)([A-Za-z\d\-_]*)$/)!;
 		if (currentSearchValue === null) currentSearchValue = searchValueMatch[2].toLowerCase();
 
-		const matchedUsernames = findAllElements(`${SELECTOR_CHAT_V2__MESSAGE_SENDER}, ${SELECTOR_CHAT_V3__MESSAGE_SENDER}`, chat)
+		const matchedUsernames = findAllElements(SELECTOR_CHAT_V3__MESSAGE_SENDER, chat)
 			.map((message) => message.textContent.split(":")[0])
 			.filter((username, index, array) => array.indexOf(username) === index && username.toLowerCase().startsWith(currentSearchValue!))
 			.sort();

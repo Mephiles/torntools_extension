@@ -3,16 +3,6 @@
 }
 
 /*
- * Chat 2.0
- */
-
-.tt-chat-hidden #chatRoot [class*="group-chat-box__"],
-.tt-chat-hidden #chatRoot [class*="group-minimized-chat-box__"],
-.tt-chat-hidden #chatRoot [class*="minimized-menus__root__"] {
-	display: none;
-}
-
-/*
  * Chat 3.0
  */
 

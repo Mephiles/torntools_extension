@@ -3,15 +3,8 @@ import { settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
-import { isChatV3 } from "@common/utils/functions/torn";
 import {
 	SELECTOR_CHAT_ROOT,
-	SELECTOR_CHAT_V2__CHAT_BOX,
-	SELECTOR_CHAT_V2__CHAT_BOX_HEADER,
-	SELECTOR_CHAT_V2__HEADER_NAME,
-	SELECTOR_CHAT_V2__MESSAGE_SENDER,
-	SELECTOR_CHAT_V2__MINIMIZED_CHAT_BOX,
-	SELECTOR_CHAT_V2__MINIMIZED_CHAT_BOX_WRAPPER,
 	SELECTOR_CHAT_V3__HEADER_NAME,
 	SELECTOR_CHAT_V3__MESSAGE_SENDER,
 	SELECTOR_CHAT_V3__MINIMIZED_NAME,
@@ -44,52 +37,22 @@ async function addListeners() {
 }
 
 function addAliasTitle() {
-	if (isChatV3()) {
-		findAllElements([SELECTOR_CHAT_V3__MINIMIZED_NAME, SELECTOR_CHAT_V3__HEADER_NAME].join(", ")).forEach((chatHeader) => {
-			const chatPlayerTitle = chatHeader.textContent;
-			if (!chatPlayerTitle || ["Global", "Faction", "Company", "Trade", "People"].includes(chatPlayerTitle)) return;
+	findAllElements([SELECTOR_CHAT_V3__MINIMIZED_NAME, SELECTOR_CHAT_V3__HEADER_NAME].join(", ")).forEach((chatHeader) => {
+		const chatPlayerTitle = chatHeader.textContent;
+		if (!chatPlayerTitle || ["Global", "Faction", "Company", "Trade", "People"].includes(chatPlayerTitle)) return;
 
-			const alias = getUserAliasByName(chatPlayerTitle);
-			if (!alias) return;
+		const alias = getUserAliasByName(chatPlayerTitle);
+		if (!alias) return;
 
-			chatHeader.dataset.originalSelf = chatHeader.textContent;
-			chatHeader.textContent = alias.alias;
-		});
-	} else {
-		findAllElements(`${SELECTOR_CHAT_V2__MINIMIZED_CHAT_BOX_WRAPPER} > ${SELECTOR_CHAT_V2__MINIMIZED_CHAT_BOX}`).forEach((chatHeader) => {
-			const chatPlayerTitle = chatHeader.textContent;
-			if (!chatPlayerTitle || ["Global", "Faction", "Company", "Trade", "People"].includes(chatPlayerTitle)) return;
-
-			const alias = getUserAliasByName(chatPlayerTitle);
-			if (!alias) return;
-
-			const nameNode = findElement("[class*='minimized-chat-box__username-text__']", chatHeader);
-			nameNode.dataset.original = nameNode.textContent;
-			nameNode.firstChild!.textContent = alias.alias;
-		});
-		findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX} > ${SELECTOR_CHAT_V2__CHAT_BOX_HEADER}`).forEach((chatHeader) => {
-			const chatPlayerTitle = chatHeader.textContent;
-			if (!chatPlayerTitle || ["Global", "Faction", "Company", "Trade", "People"].includes(chatPlayerTitle)) return;
-
-			const alias = getUserAliasByName(chatPlayerTitle);
-			if (!alias) return;
-
-			const nameNode = findElement(SELECTOR_CHAT_V2__HEADER_NAME, chatHeader);
-			nameNode.dataset.original = nameNode.textContent;
-			nameNode.firstChild!.textContent = alias.alias;
-		});
-	}
+		chatHeader.dataset.originalSelf = chatHeader.textContent;
+		chatHeader.textContent = alias.alias;
+	});
 }
 
 function addAliasMessage(message: Element | null = null) {
 	if (!message) {
 		settings.userAlias.forEach(({ userId, alias }) => {
-			findAllElements(
-				[
-					`${SELECTOR_CHAT_ROOT} a${SELECTOR_CHAT_V2__MESSAGE_SENDER}[href*='/profiles.php?XID=${userId}']`,
-					`${SELECTOR_CHAT_ROOT} a${SELECTOR_CHAT_V3__MESSAGE_SENDER}[href*='/profiles.php?XID=${userId}']`,
-				].join(", "),
-			).forEach((profileLink) => {
+			findAllElements(`${SELECTOR_CHAT_ROOT} a${SELECTOR_CHAT_V3__MESSAGE_SENDER}[href*='/profiles.php?XID=${userId}']`).forEach((profileLink) => {
 				profileLink.dataset.original = profileLink.textContent;
 				profileLink.firstChild!.textContent = alias;
 			});

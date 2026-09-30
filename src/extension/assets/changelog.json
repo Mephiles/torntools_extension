@@ -41,7 +41,7 @@
 					"contributor": "DeKleineKobini"
 				}
 			],
-			"removed": [],
+			"removed": [{ "message": "Remove support for chat v2, as Torn removed it.", "contributor": "DeKleineKobini" }],
 			"technical": [
 				{
 					"message": "Update our internal pages to be in line with the current way of working for the used dependencies.",

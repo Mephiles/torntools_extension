@@ -5,9 +5,6 @@ import { withoutEndPunctuation } from "@common/utils/functions/formatting";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
 import { getUserDetails, HIGHLIGHT_PLACEHOLDERS, is2FACheckPage } from "@common/utils/functions/torn";
 import {
-	SELECTOR_CHAT_V2__CHAT_BOX_BODY,
-	SELECTOR_CHAT_V2__MESSAGE_BOX,
-	SELECTOR_CHAT_V2__MESSAGE_SENDER,
 	SELECTOR_CHAT_V3__BOX_SCROLLER,
 	SELECTOR_CHAT_V3__MESSAGE,
 	SELECTOR_CHAT_V3__MESSAGE_SELF,
@@ -30,27 +27,12 @@ interface HighlightColor {
 }
 
 function initialiseHighlights() {
-	addCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, ({ message }) => {
-		const messageBox = findElement(SELECTOR_CHAT_V2__MESSAGE_BOX, message, true);
-
-		if (messageBox) applyV2Highlights(messageBox);
-		else applyV3Highlights(message);
-	});
+	addCustomListener(EVENT_CHANNELS.CHAT_MESSAGE, ({ message }) => applyV3Highlights(message));
 	addCustomListener(EVENT_CHANNELS.CHAT_OPENED, ({ chat }) => {
-		for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`, chat)) {
-			applyV2Highlights(message);
-		}
-		for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`, chat)) {
-			applyV3Highlights(message);
-		}
+		findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`, chat).forEach(applyV3Highlights);
 	});
-	addCustomListener(EVENT_CHANNELS.CHAT_REFRESHED, (information) => {
-		if (information) {
-			const { chat } = information;
-			findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`, chat).forEach(applyV3Highlights);
-		} else {
-			findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`).forEach(applyV2Highlights);
-		}
+	addCustomListener(EVENT_CHANNELS.CHAT_REFRESHED, ({ chat }) => {
+		findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`, chat).forEach(applyV3Highlights);
 	});
 	addCustomListener(EVENT_CHANNELS.CHAT_RECONNECTED, () => {
 		findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`).forEach(applyV3Highlights);
@@ -81,44 +63,8 @@ function readSettings() {
 
 function applyAllHighlights() {
 	requireChatsLoaded().then(() => {
-		removeHighlights();
-
-		for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}`)) {
-			applyV2Highlights(message);
-		}
-		for (const message of findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`)) {
-			applyV3Highlights(message);
-		}
+		findAllElements(`${SELECTOR_CHAT_V3__BOX_SCROLLER} ${SELECTOR_CHAT_V3__MESSAGE}`).forEach(applyV3Highlights);
 	});
-}
-
-function applyV2Highlights(message: HTMLElement) {
-	if (!message) return;
-	if (!highlights?.length) return;
-
-	const sender = simplify(findElement(SELECTOR_CHAT_V2__MESSAGE_SENDER, message).textContent.replace(":", ""));
-	const words = message
-		.lastElementChild!.textContent!.split(" ")
-		.map(simplify)
-		.flatMap((text) => [text, withoutEndPunctuation(text)]);
-
-	const senderHighlights = highlights.filter(({ name }) => name === sender || name === "*");
-	if (senderHighlights.length) {
-		// When message sender is in highlights.
-		message.style.outline = `1px solid ${senderHighlights[0].senderColor}`;
-	}
-
-	for (const { name, color } of highlights) {
-		// When word includes a name in highlights.
-		if (!words.includes(name)) continue;
-
-		message.style.backgroundColor = color;
-		break;
-	}
-
-	function simplify(text: string) {
-		return text.toLowerCase().trim();
-	}
 }
 
 function applyV3Highlights(message: HTMLElement) {
@@ -181,12 +127,6 @@ function writeDebugData(message: HTMLElement, type: string, match: string) {
 	debugData.push({ type, match });
 
 	message.dataset.ttHighlightDebug = JSON.stringify(debugData, null, 2);
-}
-
-function removeHighlights() {
-	for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}[style]`)) {
-		message.style = "";
-	}
 }
 
 export default class ChatHighlightFeature extends Feature {
