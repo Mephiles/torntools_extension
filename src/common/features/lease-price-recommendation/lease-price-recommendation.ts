@@ -75,10 +75,7 @@ async function startFeature() {
 
 		if (!isMarketPanelVisible()) {
 			log("Lease route active, but rental-market panel is not visible yet. Waiting for tab/form.");
-			renderPanel({
-				state: "message",
-				text: "Switch to Add Property to Rental Market to see price recommendations.",
-			});
+			removePanel();
 			return;
 		}
 
@@ -135,10 +132,7 @@ function bindTabListeners() {
 
 		const personTab = target.closest("#leaseperson, #user1, a[href='#user'], [aria-controls='user']");
 		if (personTab) {
-			renderPanel({
-				state: "message",
-				text: "Switch to Add Property to Rental Market to see price recommendations.",
-			});
+			removePanel();
 		}
 	});
 }
