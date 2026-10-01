@@ -48,16 +48,17 @@ export class ExtensionFeatureManager implements FeatureManager {
 
 		window.addEventListener("error", (e) => {
 			if (e.error) {
-				this.logError("Uncaught window error:", e.error);
+				if (e.error.filename.includes("injectedScript")) return;
+
+				this.logError("Uncaught window error: ", e.error);
 			} else {
-				// For some reason we are getting an error from Torn here (while scrolling in the chats).
 				if (
 					e.message === "ResizeObserver loop completed with undelivered notifications." &&
 					(e.filename.includes("torn.com/") || e.filename === "") // Firefox has no filename for some reason.
 				)
 					return;
 
-				this.logError("Uncaught window error:", e);
+				this.logError("Uncaught window error: ", e);
 			}
 		});
 		window.addEventListener("unhandledrejection", (e) => {

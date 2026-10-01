@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { settings } from "@common/utils/data/database";
 	import type { TornW3BResult } from "@common/utils/functions/api.types.ts";
 	import { formatNumber, formatTime } from "@common/utils/functions/formatting";
+	import { ITEM_ID_PARAMETER } from "@features/bazaar-item-highlight/bazaar-item-highlight.ts";
 	import type { SortField, SortOrder } from "./bazaar-listings.types.ts";
 	import styles from "./bazaar-market.module.css";
 
@@ -32,12 +34,13 @@
 		}),
 	);
 	let totalItems = $derived(market.listings.reduce((total, listing) => total + listing.quantity, 0));
+	let itemIdQuery = $derived(settings.pages.itemmarket.bazaarItemHighlight ? `&${ITEM_ID_PARAMETER}=${market.item_id}` : "");
 </script>
 
 <div class={styles.listWrapper}>
 	<div class={styles.list}>
 		{#each sortedListings as listing (listing.player_id)}
-			<a href="https://www.torn.com/bazaar.php?userId={listing.player_id}" target="_blank" rel="noopener noreferrer" class={styles.listing}>
+			<a href="https://www.torn.com/bazaar.php?userId={listing.player_id}{itemIdQuery}" target="_blank" rel="noopener noreferrer" class={styles.listing}>
 				<span class={styles.playerName}>{listing.player_name}</span>
 
 				<div class={styles.details}>

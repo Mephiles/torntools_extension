@@ -87,13 +87,16 @@ async function showQuickItems(section: string) {
 
 				return allowQuickItem(imgWrap.dataset.itemid!, findElement(".type", item, true)?.textContent ?? null);
 			}),
-			...findAllElements("#armoury-points .give[data-role='give'], #armoury-points .give[data-role='refill']"),
+			...findAllElements(".armoury-points-wrap .give[data-role='refill']"),
 		],
 		parseSourceItem: (element) => {
-			const target = element.dataset.type === "tt-points" ? element : findParent(element, { tag: "LI" })!;
-			const id = findElement(".img-wrap", target).dataset.itemid!;
+			const pointsButton = element.closest<HTMLElement>("[data-type='tt-points']");
+			const target = pointsButton ?? (element.dataset.type === "tt-points" ? element : findParent(element, { tag: "LI" }));
+			if (!target) throw new Error("Couldn't find the item's container.");
+			const imgWrap = findElement(".img-wrap", target, true);
+			if (!imgWrap?.dataset.itemid) throw new Error("Couldn't find the item's id.");
 
-			return { id: parseQuickItemId(id) };
+			return { id: parseQuickItemId(imgWrap.dataset.itemid) };
 		},
 		onEditToggle: (editing) => {
 			findAllElements(
@@ -151,8 +154,10 @@ function setupQuickDragListeners() {
 	});
 
 	if (tab.id === "tab=armoury&sub=points") {
-		for (const item of findAllElements(".give[data-role]", tab)) {
-			const type = item.textContent.trim().split(" ")[1].toLowerCase();
+		for (const item of findAllElements(".give[data-role='refill']", tab)) {
+			const action = item.dataset.action?.toLowerCase();
+			if (action !== "energy" && action !== "nerve") continue;
+			const type = `points-${action}`;
 
 			item.dataset.type = "tt-points";
 			if (enableDrag) {
@@ -161,11 +166,13 @@ function setupQuickDragListeners() {
 				item.addEventListener("dragend", dragHandlers.onDragEnd);
 			}
 
+			if (findElement(`.img-wrap[data-itemid='${type}']`, item, true)) continue;
+
 			item.appendChild(
 				elementBuilder({
 					type: "div",
 					class: "img-wrap tt-lazy-magic",
-					dataset: { itemid: `points-${type}` },
+					dataset: { itemid: type },
 					style: { display: "none" },
 				}),
 			);

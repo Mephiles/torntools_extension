@@ -62,7 +62,10 @@
 			<StorageSwitch path="settings.pages.itemmarket.highlightCheapItemsSound" label="Play a sound when highlighting cheap items" />
 			<StorageSwitch path="settings.pages.itemmarket.leftBar" label="Move the market bar to the left" />
 			<StorageSwitch path="settings.pages.itemmarket.fillMax" label="Fill Max" />
-			<StorageSwitch path="settings.pages.itemmarket.bazaars" label="Bazaar entries" externalServices={["tornw3b"]} />
+			<StorageSwitch path="settings.pages.itemmarket.bazaars" label="Bazaar entries" externalServices={["tornw3b"]}>
+				<StorageSwitch path="settings.pages.itemmarket.bazaarItemHighlight" label="Highlight the opened item" />
+				<StorageSwitch path="settings.pages.itemmarket.bazaarItemHighlightScroll" label="Scroll to the highlighted item" />
+			</StorageSwitch>
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 

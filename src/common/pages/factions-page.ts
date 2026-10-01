@@ -6,7 +6,7 @@ import { getHashParameters, getSearchParameters, isElement } from "@common/utils
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener, addXHRListener } from "@common/utils/functions/listeners";
-import { requireDOMContentLoaded, requireElement } from "@common/utils/functions/requires";
+import { requireDOMContentLoaded, requireElement, requireElementOptionally } from "@common/utils/functions/requires";
 import { isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
 import type { UserFactionResponse } from "tornapi-typescript";
 
@@ -81,7 +81,7 @@ export async function setupFactionsPage() {
 		}
 
 		async function loadInfo() {
-			const root = await requireElement("#react-root-faction-info").catch(() => {});
+			const root = await requireElementOptionally("#react-root-faction-info");
 			if (!root || root.classList.contains("tt-handled")) return;
 
 			root.classList.add("tt-handled");

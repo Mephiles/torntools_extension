@@ -1,6 +1,6 @@
 import { daySuffix } from "@common/utils/functions/formatting";
 import { MONTHS } from "@common/utils/functions/utilities";
-import { CONTRIBUTORS } from "@common/utils/team";
+import { CONTRIBUTOR_COLORS, getContributor } from "@common/utils/team";
 import changelog from "@/assets/changelog.json";
 
 export type ChangelogEntry = {
@@ -55,27 +55,38 @@ export interface DisplayableLog {
 
 const DEFAULT_CONTRIBUTOR_COLOR = "gray";
 
+export function buildContributors(names: string[]): Contributor[] {
+	const nonCoreNames = names.filter((name) => !isCoreContributor(name));
+
+	return names.map<Contributor>((name) => {
+		const info = getContributor(name);
+
+		if (info?.core && info.color) {
+			return { key: name, id: info.id, name: info.name, color: info.color };
+		}
+
+		return {
+			key: name,
+			id: info?.id ?? null,
+			name: info?.name ?? name,
+			color: CONTRIBUTOR_COLORS[nonCoreNames.indexOf(name) % CONTRIBUTOR_COLORS.length],
+		};
+	});
+}
+
+function isCoreContributor(name: string): boolean {
+	return getContributor(name)?.core === true;
+}
+
 export function toDisplayableChangelogEntry(entry: ChangelogEntry): DisplayableChangelogEntry {
 	const version = concatenateVersion(entry.version);
 
-	const contributors = Object.values(entry.logs)
-		.flat()
-		.map((log) => (log as { message: string | string[]; contributor: string }).contributor)
-		.filter((value, i, self) => !!value && self.indexOf(value) === i)
-		.map<Contributor>((contributor) => {
-			if (contributor in CONTRIBUTORS) {
-				return {
-					key: contributor,
-					...CONTRIBUTORS[contributor],
-				};
-			} else {
-				return {
-					key: contributor,
-					name: contributor,
-					color: DEFAULT_CONTRIBUTOR_COLOR,
-				};
-			}
-		});
+	const contributors = buildContributors(
+		Object.values(entry.logs)
+			.flat()
+			.map((log) => (log as { message: string | string[]; contributor: string }).contributor)
+			.filter((value, i, self) => !!value && self.indexOf(value) === i),
+	);
 
 	const logs = Object.entries(entry.logs)
 		.map<[string, DisplayableLog[]]>(([section, logs]) => {

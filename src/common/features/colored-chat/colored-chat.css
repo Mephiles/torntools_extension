@@ -1,26 +1,11 @@
 /*
- * Chat 2.0
+ * Chat v3
  */
 
-:is([class*="minimized-chat-box__"], [class*="chat-box-header__"]).tt-chat-colored {
-	background: linear-gradient(0deg, var(--highlight-color_1) 0%, var(--highlight-color_2) 100%);
-	border-radius: 5px 5px 0 0;
-	height: inherit;
-}
-
-:is([class*="minimized-chat-box__"], [class*="chat-box-header__"]).tt-chat-colored:hover {
-	background: linear-gradient(90deg, var(--highlight-color_1) 0%, var(--highlight-color_2) 100%);
-	filter: brightness(1.25);
-}
-
-[class*="minimized-chat-box__"].tt-chat-colored > button::after {
-	background: none;
-}
-
-/*
- * Chat 3.0
- */
-
-[class*="root___"] .tt-chat-colored button {
-	background: linear-gradient(0deg, var(--highlight-color_1) 0%, var(--highlight-color_2) 100%);
+[class*="root___"] .tt-chat-colored {
+	button[id*="chat_panel_button:"],
+	button[class*="header___"],
+	button[class*="header___"] [class*="actionButton___"] {
+		background: linear-gradient(0deg, var(--highlight-color_1) 0%, var(--highlight-color_2) 100%) !important;
+	}
 }

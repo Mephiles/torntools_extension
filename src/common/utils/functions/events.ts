@@ -1,3 +1,4 @@
+import type { TornInternalBazaarItems } from "@common/pages/bazaar-page.ts";
 import type { CRIMES2 } from "@common/pages/crimes2-page";
 import type { PropertiesRoute } from "@common/pages/properties-page";
 import type { AbroadItem } from "@common/pages/travel-abroad-page";
@@ -42,6 +43,7 @@ export enum EVENT_CHANNELS {
 	TRAVEL_DESTINATION_UPDATE = "travel-destination-update",
 	TRAVEL_ABROAD__SHOP_LOAD = "TRAVEL_ABROAD__SHOP_LOAD",
 	TRAVEL_ABROAD__SHOP_REFRESH = "TRAVEL_ABROAD__SHOP_REFRESH",
+	TRAVEL_ABROAD__ITEM_BOUGHT = "TRAVEL_ABROAD__ITEM_BOUGHT",
 	FEATURE_ENABLED = "feature-enabled",
 	FEATURE_RELOADED = "feature-reloaded",
 	STATE_CHANGED = "state-changed",
@@ -83,6 +85,8 @@ export enum EVENT_CHANNELS {
 	ELIMINATION__TEAM = "ELIMINATION__TEAM",
 	ELIMINATION__TEAM_DATA = "ELIMINATION__TEAM_DATA",
 	ELIMINATION__TEAM_TABLE_CHANGE = "ELIMINATION__TEAM_TABLE_CHANGE",
+	BAZAAR__LOAD_ITEMS = "BAZAAR__LOAD_ITEMS",
+	BAZAAR__INFINITE_SCROLL = "BAZAAR__INFINITE_SCROLL",
 }
 
 export interface EventPayloads {
@@ -91,7 +95,7 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.CHAT_OPENED]: { chat: HTMLElement };
 	[EVENT_CHANNELS.CHAT_PEOPLE_MENU_OPENED]: { peopleMenu: HTMLElement };
 	[EVENT_CHANNELS.CHAT_SETTINGS_MENU_OPENED]: { settingsPanel: HTMLElement };
-	[EVENT_CHANNELS.CHAT_REFRESHED]: { chat?: Element } | undefined;
+	[EVENT_CHANNELS.CHAT_REFRESHED]: { chat: Element };
 	[EVENT_CHANNELS.CHAT_RECONNECTED]: never;
 	[EVENT_CHANNELS.CHAT_CLOSED]: never;
 	[EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE]: never;
@@ -120,6 +124,7 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE]: never;
 	[EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD]: { country: string; items: AbroadItem[] };
 	[EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH]: never;
+	[EVENT_CHANNELS.TRAVEL_ABROAD__ITEM_BOUGHT]: { item: number; amount: number };
 	[EVENT_CHANNELS.TRADE]: { step: string; active: boolean };
 	[EVENT_CHANNELS.FEATURE_ENABLED]: { name: string };
 	[EVENT_CHANNELS.FEATURE_RELOADED]: { name: string };
@@ -169,6 +174,8 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.ELIMINATION__TEAM]: never;
 	[EVENT_CHANNELS.ELIMINATION__TEAM_DATA]: { page: number };
 	[EVENT_CHANNELS.ELIMINATION__TEAM_TABLE_CHANGE]: never;
+	[EVENT_CHANNELS.BAZAAR__LOAD_ITEMS]: { data: TornInternalBazaarItems };
+	[EVENT_CHANNELS.BAZAAR__INFINITE_SCROLL]: never;
 }
 
 export type CustomEventListener<T extends keyof EventPayloads> = (payload: EventPayloads[T]) => void;

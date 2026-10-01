@@ -4,6 +4,7 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireChatsLoaded } from "@common/utils/functions/requires";
 import { CHAT_TITLE_COLORS, is2FACheckPage } from "@common/utils/functions/torn";
+import { SELECTOR_CHAT_V3__VARIOUS_ROOT } from "@common/utils/global/selectors/chatSelectors";
 import { Feature } from "@features/feature";
 
 async function initialiseColoredChats() {
@@ -27,10 +28,8 @@ async function showColoredChats(loaded = false) {
 
 	findAllElements(
 		[
-			"[class*='group-minimized-chat-box__'] > [class*='minimized-chat-box__']", // Chat 2.0 - minimized chats
-			"[class*='chat-box__'] > [class*='chat-box-header__']", // Chat 2.0 - chat headers
-			"[class*='root___']:has(> button[id*='channel_panel_button:private'])", // Chat 3.0 - minimized private chats
-			"[class*='root___'] > [class*='root___']:has(> button[class*='header___'])", // Chat 3.0 - chat headers
+			`${SELECTOR_CHAT_V3__VARIOUS_ROOT}:has(> button[id*='chat_panel_button:']:not([title]))`, // Chat v3 - minimized private chats
+			`${SELECTOR_CHAT_V3__VARIOUS_ROOT} > ${SELECTOR_CHAT_V3__VARIOUS_ROOT}:has(> button[class*='header___'])`, // Chat v3 - chat headers
 		].join(", "),
 	).forEach((chatHeader) => {
 		const chatPlayer = chatHeader.textContent;
@@ -38,7 +37,7 @@ async function showColoredChats(loaded = false) {
 
 		applyColor(highlights, chatHeader);
 	});
-	findAllElements("[class*='root___']:has(> button[id*='channel_panel_button:'][title])") // Chat 3.0 - minimized group chats
+	findAllElements(`${SELECTOR_CHAT_V3__VARIOUS_ROOT}:has(> button[id*='chat_panel_button:'][title])`) // Chat v3 - minimized group chats
 		.forEach((chatHeader) => {
 			const chatPlayer = findElement("button[title]", chatHeader).getAttribute("title");
 			const highlights = settings.pages.chat.titleHighlights.filter((highlight) => highlight.title === chatPlayer);

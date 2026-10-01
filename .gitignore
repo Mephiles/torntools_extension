@@ -42,3 +42,12 @@ web-ext.config.ts
 
 wip/
 docs/.astro
+
+# AI Tools
+.agents/*
+.codex/*
+.cursor/*
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+opencode.jsonc

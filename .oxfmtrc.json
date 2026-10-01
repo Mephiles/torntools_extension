@@ -7,5 +7,5 @@
 	},
 	"sortTailwindcss": true,
 	"svelte": true,
-	"ignorePatterns": [".github/**", "bun.lock", "**/*.md"]
+	"ignorePatterns": [".github/**", "bun.lock"]
 }

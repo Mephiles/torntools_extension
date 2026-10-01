@@ -1,4 +1,5 @@
 import { setupAuctionHousePage } from "@common/pages/auction-house-page";
+import { setupBazaarPage } from "@common/pages/bazaar-page.ts";
 import { setupBountiesPage } from "@common/pages/bounties-page";
 import { setupCompanyPage } from "@common/pages/company-page";
 import { setupCrimesV1Page } from "@common/pages/crimes1-page";
@@ -31,9 +32,9 @@ import AlcoholNerveFeature from "@features/alcohol-nerve/alcohol-nerve";
 import AlignLeftFeature from "@features/align-left/align-left";
 import ArmoryFilterFeature from "@features/armory-filter/armory-filter";
 import ArmoryWorthFeature from "@features/armory-worth/armory-worth";
-import AttackTimeoutWarningFeature from "@features/attack-timeout-warning/attack-timeout-warning";
 import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
+import AttackTimeoutWarningFeature from "@features/attack-timeout-warning/attack-timeout-warning";
 import AuctionHouseFilterFeature from "@features/auction-house-filter/auction-house-filter";
 import AuctionHouseMovePaginationFeature from "@features/auction-house-move-pagination/auction-house-move-pagination";
 import AveragePersonalStatFeature from "@features/average-personal-stat/average-personal-stat";
@@ -41,6 +42,7 @@ import BalanceWarningFeature from "@features/balance-warning/balance-warning.ts"
 import BankInvestmentDueTimeFeature from "@features/bank-investment-due-time/bank-investment-due-time";
 import BankInvestmentInfoFeature from "@features/bank-investment-info/bank-investment-info";
 import BarLinksFeature from "@features/bar-links/bar-links";
+import BazaarItemHighlightFeature from "@features/bazaar-item-highlight/bazaar-item-highlight.ts";
 import BazaarMarketFeature from "@features/bazaar-market/bazaar-market.svelte";
 import BazaarSubVendorItemsFeature from "@features/bazaar-sub-vendor-items/bazaar-sub-vendor-items";
 import BazaarWorthFeature from "@features/bazaar-worth/bazaar-worth";
@@ -370,10 +372,12 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new AuctionHouseFilterFeature());
 		FEATURE_MANAGER.registerFeature(new AuctionHouseMovePaginationFeature());
 	} else if (page === "bazaar") {
+		setupBazaarPage().catch((err) => console.debug(err));
 		FEATURE_MANAGER.registerFeature(new BazaarFillMaxFeature());
 		FEATURE_MANAGER.registerFeature(new BazaarSubVendorItemsFeature());
 		FEATURE_MANAGER.registerFeature(new BazaarWorthFeature());
 		FEATURE_MANAGER.registerFeature(new TotalItemCostFeature());
+		FEATURE_MANAGER.registerFeature(new BazaarItemHighlightFeature());
 	} else if (page === "bounties") {
 		setupBountiesPage().catch((err) => console.debug(err));
 		FEATURE_MANAGER.registerFeature(new StatsEstimateBountiesFeature());

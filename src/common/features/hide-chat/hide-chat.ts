@@ -12,14 +12,14 @@ function initializeListeners() {
 }
 
 function hideChats() {
-	if (settings.pages.chat.hideChat) document.documentElement.classList.add("tt-chat-hidden");
+	document.documentElement.classList.add("tt-chat-hidden");
 }
 
 async function showButton(settingsPanel: HTMLElement | null = null) {
 	if (!settingsPanel) {
 		await requireChatsLoaded();
 
-		settingsPanel = findElement("#chatRoot [class*='settings-panel__'], #settings_panel", true);
+		settingsPanel = findElement("#settings_panel", true);
 	}
 
 	if (!settingsPanel) return;
@@ -60,7 +60,7 @@ export default class HideChatFeature extends Feature {
 	}
 
 	override async execute() {
-		hideChats();
+		if (settings.pages.chat.hideChat) hideChats();
 		await showButton();
 	}
 
