@@ -3,6 +3,7 @@ import { ttCache } from "@common/utils/data/cache";
 import { settings, torndata, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
+import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -15,7 +16,7 @@ import { computeDailyRateStats, computeLeasePriceStats, totalFromDailyRate } fro
 import type { DailyRateStats, LeasePriceStats } from "@features/lease-price-recommendation/lease-price-stats";
 import type { MarketRentalsResponse } from "tornapi-typescript";
 
-const PANEL_ID = "tt-lease-price-recommendation";
+const CONTAINER_TITLE = "Market Prices";
 const CACHE_SECTION = "propertyRentals";
 const CACHE_TTL = TO_MILLIS.MINUTES * 5;
 const FETCH_LIMIT = 100;
@@ -196,11 +197,6 @@ async function refreshRecommendation() {
 		return;
 	}
 
-	if (!hasAPIData()) {
-		renderPanel({ state: "message", text: "No API access. Add an API key in TornTools to load market prices." });
-		return;
-	}
-
 	const days = parseDays(daysInput.value);
 	if (days == null) {
 		renderPanel({ state: "message", text: "Enter a valid number of days to see market prices." });
@@ -290,14 +286,22 @@ type PanelContent =
 	| { state: "stats"; periodStats: LeasePriceStats | null; dailyStats: DailyRateStats | null; days: number };
 
 function renderPanel(content: PanelContent) {
-	removePanel();
-
 	const marketForm = findElement("#market form", true);
 	const leaseInput = findElement("#market .lease-input", true);
 	const anchor = marketForm ?? leaseInput;
-	if (!anchor) return;
+	if (!anchor) {
+		removePanel();
+		return;
+	}
 
-	const children: (string | Node)[] = [elementBuilder({ type: "div", class: "tt-lease-price-title", text: "Market prices" })];
+	// Keep the container outside Torn's lease <form> so Apply is not treated as submit / disabled with NEXT.
+	const { content: containerContent } = createContainer(CONTAINER_TITLE, {
+		previousElement: anchor,
+		spacer: true,
+		class: "tt-lease-price-recommendation",
+	});
+
+	const children: (string | Node)[] = [];
 
 	if (content.state === "loading") {
 		children.push(elementBuilder({ type: "div", class: "tt-lease-price-message", text: "Loading comparable listings…" }));
@@ -330,19 +334,7 @@ function renderPanel(content: PanelContent) {
 		}
 	}
 
-	const panel = elementBuilder({
-		type: "div",
-		id: PANEL_ID,
-		class: "tt-lease-price-recommendation",
-		children,
-	});
-
-	// Keep the panel outside Torn's lease <form> so Apply is not treated as submit / disabled with NEXT.
-	if (marketForm) {
-		marketForm.insertAdjacentElement("afterend", panel);
-	} else {
-		anchor.insertAdjacentElement("afterend", panel);
-	}
+	containerContent.replaceChildren(...children);
 }
 
 function buildPeriodSection(stats: LeasePriceStats, days: number) {
@@ -439,7 +431,7 @@ function applyRecommended(amount: number) {
 }
 
 function removePanel() {
-	findElement(`#${PANEL_ID}`, true)?.remove();
+	removeContainer(CONTAINER_TITLE);
 }
 
 function isLeaseRoute() {
@@ -457,6 +449,7 @@ export default class LeasePriceRecommendationFeature extends Feature {
 	}
 
 	override requirements() {
+		if (!hasAPIData()) return "No API access.";
 		return true;
 	}
 

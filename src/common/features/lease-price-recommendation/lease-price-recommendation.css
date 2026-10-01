@@ -1,20 +1,7 @@
-.tt-lease-price-recommendation {
-	margin: 10px;
+.tt-lease-price-recommendation main {
 	padding: 8px 10px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	background: var(--tt-color-green--20);
 	font-size: 13px;
 	line-height: 1.4;
-}
-
-body.dark-mode .tt-lease-price-recommendation {
-	border-color: #555;
-}
-
-.tt-lease-price-recommendation .tt-lease-price-title {
-	font-weight: bold;
-	margin-bottom: 8px;
 }
 
 .tt-lease-price-recommendation .tt-lease-price-section {
