@@ -16,6 +16,7 @@ const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD, addProfitsColumn);
 	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH, addProfitsColumn);
+	addCustomListener(EVENT_CHANNELS.TRAVEL_ABROAD__ITEM_BOUGHT, addProfitsColumn);
 }
 
 async function addProfitsColumn() {

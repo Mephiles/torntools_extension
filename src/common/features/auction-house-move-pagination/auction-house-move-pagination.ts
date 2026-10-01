@@ -1,6 +1,6 @@
 import { settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
-import { requireElement } from "@common/utils/functions/requires";
+import { requireElementOptionally } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
@@ -8,7 +8,7 @@ function initialiseListeners() {
 }
 
 async function movePagination() {
-	const pagination = await requireElement(".tabContent[aria-expanded='true'] .pagination-wrap").catch<HTMLElement | null>(() => null);
+	const pagination = await requireElementOptionally(".tabContent[aria-expanded='true'] .pagination-wrap");
 	if (!pagination?.previousElementSibling) return;
 
 	pagination.parentElement!.insertBefore(pagination, pagination.parentElement!.firstElementChild!);

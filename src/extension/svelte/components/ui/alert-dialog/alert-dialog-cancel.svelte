@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { buttonVariants } from "@svelte/components/ui/button/index.js";
-	import type { ButtonSize, ButtonVariant } from "@svelte/components/ui/button/index.js";
+	import type { ButtonVariant, ButtonSize } from "@svelte/components/ui/button/index.js";
 	import { cn } from "@svelte/utils.js";
 	import { AlertDialog as AlertDialogPrimitive } from "bits-ui";
 
@@ -16,9 +16,4 @@
 	} = $props();
 </script>
 
-<AlertDialogPrimitive.Cancel
-	bind:ref
-	data-slot="alert-dialog-cancel"
-	class={cn(buttonVariants({ variant, size }), "cn-alert-dialog-cancel", className)}
-	{...restProps}
-/>
+<AlertDialogPrimitive.Cancel bind:ref data-slot="alert-dialog-cancel" class={cn(buttonVariants({ variant, size }), "", className)} {...restProps} />

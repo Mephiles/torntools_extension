@@ -3,7 +3,7 @@ import { isInternalFaction } from "@common/pages/factions-page";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, isElement } from "@common/utils/functions/dom";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
-import { requireElement } from "@common/utils/functions/requires";
+import { requireElementOptionally } from "@common/utils/functions/requires";
 import { getItemEnergy, getPage, getPageStatus, getUserEnergy } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
@@ -27,7 +27,7 @@ async function addWarning(item: HTMLElement) {
 		return;
 	}
 
-	const message = await requireElement(".confirm-wrap, .use-act", { parent: item }).catch(() => {});
+	const message = await requireElementOptionally(".confirm-wrap, .use-act", { parent: item });
 	if (!message) return;
 
 	const factionPage = getPage() === "factions";

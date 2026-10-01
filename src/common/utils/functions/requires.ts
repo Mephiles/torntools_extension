@@ -145,6 +145,13 @@ export function requireElement<T extends Element = HTMLElement>(selector: string
 	});
 }
 
+export function requireElementOptionally<T extends Element = HTMLElement>(
+	selector: string,
+	attributes?: Partial<Omit<RequireElementOptions, "invert">>,
+): Promise<T | null> {
+	return requireElement<T>(selector, attributes).catch(() => null);
+}
+
 interface ObserverEntry {
 	parent: Element | Document;
 	observer: MutationObserver;

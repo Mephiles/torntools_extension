@@ -1,0 +1,54 @@
+---
+name: PR Template Check
+
+on:
+    pull_request_target:
+        types:
+            - opened
+            - edited
+            - reopened
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+    cancel-in-progress: true
+
+permissions:
+    contents: read
+    pull-requests: write
+    issues: write
+
+jobs:
+    validate:
+        name: Validate PR template
+        runs-on: ubuntu-latest
+        if: >-
+            github.event.pull_request.user.login != 'dependabot[bot]' &&
+            !contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.pull_request.author_association)
+        steps:
+            - uses: actions/github-script@v9
+              env:
+                  PR_BODY: ${{ github.event.pull_request.body }}
+              with:
+                  script: |
+                      const body = process.env.PR_BODY ?? "";
+                      const missing = ["Purpose of PR", "Linked issues"].filter((marker) => !body.includes(marker));
+                      if (missing.length === 0) return;
+
+                      const { owner, repo } = context.repo;
+                      const issue_number = context.payload.issue.number;
+
+                      await github.rest.issues.addLabels({ owner, repo, issue_number, labels: ["invalid-template"] });
+                      await github.rest.issues.createComment({
+                          owner,
+                          repo,
+                          issue_number,
+                          body: [
+                              "Thanks for the contribution! This PR does not use our pull request template.",
+                              "",
+                              "Please edit the description to use the template, then reopen the PR. See CONTRIBUTING.md for details.",
+                          ].join("\n"),
+                      });
+
+                      await github.rest.pulls.update({ owner, repo, pull_number: issue_number, state: "closed" });
+
+                      core.setFailed(`PR does not follow the pull request template (missing: ${missing.join(", ")})`);

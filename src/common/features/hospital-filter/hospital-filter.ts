@@ -9,10 +9,10 @@ import { requireElement } from "@common/utils/functions/requires";
 import { extractFactionsFromPage, getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
-let filter: FilterController;
+let filter: FilterController | undefined;
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE, () => filter.run());
+	addCustomListener(EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE, () => filter?.run());
 }
 
 type HospitalFilterState = {

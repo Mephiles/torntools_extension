@@ -48,3 +48,22 @@
 	left: 0;
 	width: 100%;
 }
+
+/**
+ * Abroad
+ */
+
+.tt-max-buy-abroad {
+	color: var(--tt-color-item-text);
+	font-size: 11px;
+	cursor: pointer;
+}
+
+div[data-tt-content-type="buy"]:has(.tt-max-buy-abroad) {
+	flex-direction: column;
+	justify-content: center;
+}
+
+div[class*="stockTableWrapper___"] div[class*="row___"]:has(.tt-max-buy-abroad) {
+	height: 42px;
+}

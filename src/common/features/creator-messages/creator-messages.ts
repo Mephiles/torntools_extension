@@ -2,7 +2,7 @@ import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
-import { TEAM } from "@common/utils/team";
+import { CORE_TEAM } from "@common/utils/team";
 import { Feature } from "@features/feature";
 import styles from "./creator-messages.module.css";
 
@@ -38,8 +38,8 @@ async function startCreatorMessage() {
 async function showCreatorMessageWarning(id: number) {
 	const warning = findElement(`.${styles.messageWarning}`, true);
 
-	const creator = TEAM.find(({ torn }) => torn === id);
-	if (!creator?.core) {
+	const creator = CORE_TEAM.find(({ torn }) => torn === id);
+	if (!creator) {
 		warning?.remove();
 		return;
 	} else if (warning) return;

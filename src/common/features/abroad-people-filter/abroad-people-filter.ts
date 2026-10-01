@@ -18,7 +18,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { extractFactionsFromPage, isAbroad, SPECIAL_FILTER_ICONS } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
-let filter: FilterController;
+let filter: FilterController | undefined;
 
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, ({ row }) => filter?.runScoped({ rows: [row], sections: ["statsEstimates"] }));

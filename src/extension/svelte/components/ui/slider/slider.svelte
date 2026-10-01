@@ -32,7 +32,7 @@ get along, so we shut typescript up by casting `value` to `never`.
 			data-slot="slider-track"
 			data-orientation={orientation}
 			class={cn(
-				"bg-muted bg-muted relative grow overflow-hidden rounded-full data-horizontal:h-1 data-horizontal:w-full data-horizontal:w-full data-vertical:h-full data-vertical:h-full data-vertical:w-1",
+				"bg-muted relative grow overflow-hidden rounded-full data-horizontal:h-1 data-horizontal:w-full data-horizontal:w-full data-vertical:h-full data-vertical:h-full data-vertical:w-1",
 			)}
 		>
 			<SliderPrimitive.Range data-slot="slider-range" class={cn("bg-primary absolute select-none data-horizontal:h-full data-vertical:w-full")} />

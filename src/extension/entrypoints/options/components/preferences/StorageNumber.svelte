@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Field from "@svelte/components/ui/field";
-	import type { FieldOrientation } from "@svelte/components/ui/field/field.svelte";
+	import type { FieldOrientation } from "@svelte/components/ui/field/helper.ts";
 	import { Input } from "@svelte/components/ui/input";
 	import { apiStore, settingsStore } from "../../stores/database-store.svelte";
 	import { getPreferenceValue, updatePreferenceValue } from "./preference-storage";

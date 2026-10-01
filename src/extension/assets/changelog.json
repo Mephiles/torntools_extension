@@ -10,6 +10,8 @@
 					"message": "Submit the OC2 scenarios for analysis anonymously, (requires the 'Torn Probability' connection). Disabled by default.",
 					"contributor": "DeKleineKobini"
 				},
+				{ "message": "Reintroduce the previously disabled 'Travel Fill Max', adapted for the travel 2.0.", "contributor": "DeKleineKobini" },
+				{ "message": "Highlight bazaar entries when clicking through the 'Bazaar Market' feature.", "contributor": "DeKleineKobini" },
 				{
 					"message": "Show Next BB cost under Dividend on the stock exchange (with cheapest/second/most-expensive highlights), and in the popup stocks overview.",
 					"contributor": "Murfy"
@@ -17,14 +19,47 @@
 			],
 			"fixes": [
 				{ "message": "Clearing the cache now also always takes the fallback storage with it.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid an error with 'Properties Filter' when not the actual properties overview.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid an error with 'Properties Filter' when not the actual properties overview.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid an error in the feature manager when an error occurs in a userscript on Firefox.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Have the 'Stocks Money Input' keep showing up when opening other stocks without closing the previous one.",
+					"contributor": "DeKleineKobini"
+				},
+				{ "message": "Changed rounding error resulting in revive prices showing 2m rather than intended 1.8m", "contributor": "zachwozn" },
+				{ "message": "Fix the 'High-low Helper' not removing the losing card.", "contributor": "xhang98" },
+				{ "message": "Don't toggle the collapsible area when clicking the settings icon within.", "contributor": "DeKleineKobini" },
+				{ "message": "Buying a mission reward no longer triggered the 'Mission Rewards' to reappear again.", "contributor": "DeKleineKobini" },
+				{ "message": "Show the 'Travel Item Profits' for an item you just bought.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid errors in several filter features.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid an error in 'Total Item Cost'.", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve errors in 'Total Item Cost' being silenced.", "contributor": "DeKleineKobini" },
+				{ "message": "'Chat Highlight' didn't trigger when it matched a user changed by an alias.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix the 'Faction Quick Items' not being able to add the energy and nerve refills.", "contributor": "xhang98" }
 			],
 			"changes": [
 				{ "message": "Maintenance buttons to reset a fetched section.", "contributor": "DeKleineKobini" },
-				{ "message": "Better design for 'Average Personal Stat' on mobile.", "contributor": "DeKleineKobini" }
+				{ "message": "Better design for 'Average Personal Stat' on mobile.", "contributor": "DeKleineKobini" },
+				{ "message": "Explicitly state if there are no recorded changes in 'Live Networth'.", "contributor": "DeKleineKobini" },
+				{ "message": "Change the link from stocks in the popup to open the clicked stock.", "contributor": "DeKleineKobini" },
+				{ "message": "No longer assign a fixed color to non-core contributors in the changelog.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Automatically reapply the 'Abroad Items Filter' when it updates, including when buying an item.",
+					"contributor": "DeKleineKobini"
+				},
+				{ "message": "Adapt 'Colored Chat' to chat v3.1.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'Hide Chat' to chat v3.1.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'Search Chat' to chat v3.1.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'Trade Timer' to chat v3.1.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'Chat Autocomplete' to chat v3.1.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'User Alias - Chat' to chat v3.1.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
-			"technical": []
+			"removed": [{ "message": "Remove support for chat v2, as Torn removed it.", "contributor": "DeKleineKobini" }],
+			"technical": [
+				{
+					"message": "Update our internal pages to be in line with the current way of working for the used dependencies.",
+					"contributor": "DeKleineKobini"
+				}
+			]
 		}
 	},
 	{

@@ -4,7 +4,7 @@ import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { torntools } from "@common/utils/icons/torntools";
-import { TEAM } from "@common/utils/team";
+import { CORE_TEAM } from "@common/utils/team";
 import { Feature } from "@features/feature";
 
 async function showCreators() {
@@ -14,8 +14,8 @@ async function showCreators() {
 		)![0],
 	);
 
-	const creator = TEAM.find(({ torn }) => torn === id);
-	if (!creator?.core) return;
+	const creator = CORE_TEAM.find(({ torn }) => torn === id);
+	if (!creator) return;
 
 	const title = Array.isArray(creator.title) ? creator.title[0] : creator.title;
 

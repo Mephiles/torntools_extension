@@ -6,9 +6,6 @@ import { findAllElements, findElement } from "@common/utils/functions/find-eleme
 import { requireChatsLoaded } from "@common/utils/functions/requires";
 import {
 	SELECTOR_CHAT_ROOT,
-	SELECTOR_CHAT_V2__CHAT_BOX_BODY,
-	SELECTOR_CHAT_V2__MESSAGE_BOX,
-	SELECTOR_CHAT_V2__MESSAGE_SENDER,
 	SELECTOR_CHAT_V3__BOX,
 	SELECTOR_CHAT_V3__BOX_SCROLLER,
 	SELECTOR_CHAT_V3__MESSAGE,
@@ -27,7 +24,7 @@ function initialiseSearchChat() {
 		if (!input) return;
 
 		const inputValue = input.value;
-		if (inputValue) searchChat(findElement(`${SELECTOR_CHAT_V2__MESSAGE_BOX}, ${SELECTOR_CHAT_V3__MESSAGE}`, message, true), inputValue);
+		if (inputValue) searchChat(findElement(SELECTOR_CHAT_V3__MESSAGE, message, true), inputValue);
 	});
 	addCustomListener(EVENT_CHANNELS.CHAT_REFRESHED, () => {
 		// Re-filter all chats after they refresh.
@@ -44,10 +41,11 @@ function initialiseSearchChat() {
 
 async function showSearch() {
 	await requireChatsLoaded();
+
 	for (const chat of findAllElements(
 		[
 			`${SELECTOR_CHAT_ROOT} [class*='group-chat-box__'] [class*='group-chat-box__chat-box-wrapper__']`,
-			`${SELECTOR_CHAT_ROOT} ${SELECTOR_CHAT_V3__BOX}[style*='z-index']:not(:has(#people_panel))`,
+			`#chatRoot [class*='item___'][style*='z-index']:not(:has(#people_panel)):not(:has(#settings_panel))`,
 		].join(", "),
 	)) {
 		addChatSearch(chat);
@@ -154,12 +152,12 @@ function onChatSearch(event: { target: EventTarget | null }, chat: Element) {
 
 	const keyword = event.target.value.toLowerCase();
 
-	for (const message of findAllElements(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY} ${SELECTOR_CHAT_V2__MESSAGE_BOX}, ${SELECTOR_CHAT_V3__MESSAGE}`, chat)) {
+	for (const message of findAllElements(SELECTOR_CHAT_V3__MESSAGE, chat)) {
 		searchChat(message, keyword);
 	}
 
 	if (!keyword) {
-		const chatBody = findElement(`${SELECTOR_CHAT_V2__CHAT_BOX_BODY}, ${SELECTOR_CHAT_V3__BOX_SCROLLER}`, chat);
+		const chatBody = findElement(SELECTOR_CHAT_V3__BOX_SCROLLER, chat);
 		chatBody.scrollTop = chatBody.scrollHeight;
 	}
 }
@@ -171,7 +169,7 @@ function searchChat(message: Element | null, keyword: string) {
 		const target = splitInput.shift()!.split(":")[1];
 		keyword = splitInput.join(" ");
 
-		const sender = findElement<HTMLAnchorElement>(`${SELECTOR_CHAT_V2__MESSAGE_SENDER}, ${SELECTOR_CHAT_V3__MESSAGE_SENDER}`, message);
+		const sender = findElement<HTMLAnchorElement>(SELECTOR_CHAT_V3__MESSAGE_SENDER, message);
 		if (!sender.textContent.toLowerCase().includes(target) && (Number.isNaN(parseInt(target)) || !sender.href.match(`XID=${target}$`))) {
 			message.closest("[class*='chat-box-message___'], div[class*='root___']")!.classList.add("tt-hidden");
 			return;

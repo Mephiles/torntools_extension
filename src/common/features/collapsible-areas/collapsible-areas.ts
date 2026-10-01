@@ -1,14 +1,12 @@
 import { ttStorage } from "@common/utils/context";
 import { filters, settings } from "@common/utils/data/database";
-import { checkDevice, isElement } from "@common/utils/functions/dom";
+import { checkDevice, isElement, isHTMLElement } from "@common/utils/functions/dom";
 import { findElementWithText } from "@common/utils/functions/find-elements";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isFlyoutSidebar, isPageWithSidebar } from "@common/utils/functions/torn";
 import { PHFillCaretDown } from "@common/utils/icons/phosphor-icons";
 import { Feature } from "@features/feature";
 import styles from "./collapsible-areas.module.css";
-
-let listener: (() => void) | undefined;
 
 async function addCollapseIcon() {
 	const title = findElementWithText("h2", "Areas", true);
@@ -29,17 +27,20 @@ async function addCollapseIcon() {
 		areaWrapper.classList.add(styles.flyoutSupport);
 		if (filters.containers.collapseAreas) areaWrapper.classList.add(styles.collapsed);
 
-		listener = () => clickListener(areaWrapper);
-		header.addEventListener("click", listener);
+		header.addEventListener("click", (event) => clickListener(event, areaWrapper));
 	} else {
 		header.classList.add(styles.clickableArea, styles.legacySupport);
 		if (filters.containers.collapseAreas) header.classList.add(styles.collapsed);
 
-		listener = () => clickListener(header);
-		header.addEventListener("click", listener);
+		header.addEventListener("click", (event) => clickListener(event, header));
 	}
 }
-async function clickListener(parent: HTMLElement) {
+async function clickListener(event: PointerEvent, parent: HTMLElement) {
+	if (isHTMLElement(event.target) && event.target.closest("[class*='navigationSettings___']")) {
+		// Don't collapse the header when clicking the settings icon.
+		return;
+	}
+
 	const collapsed = parent.classList.toggle(styles.collapsed);
 
 	await ttStorage.change({ filters: { containers: { collapseAreas: collapsed } } });
