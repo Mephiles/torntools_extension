@@ -1,5 +1,6 @@
-.tt-lease-price-recommendation main {
-	padding: 8px 10px;
+/* Need higher specificity than `.tt-container:not(.compact) > main` (default 4px). */
+.tt-container.tt-lease-price-recommendation:not(.compact) > main {
+	padding: 10px 12px;
 	font-size: 13px;
 	line-height: 1.4;
 }

@@ -189,11 +189,28 @@ function isMarketTabSelected() {
 	);
 }
 
-function isMarketPanelVisible() {
-	if (isMarketTabSelected()) return true;
+function isPersonTabSelected() {
+	return !!findElement(
+		[
+			"#leaseperson.ui-tabs-active",
+			"#leaseperson.ui-state-active",
+			"#user1.ui-tabs-active",
+			"#user1.ui-state-active",
+			"#tab-menu-lease .ui-tabs-active a[href='#user']",
+			"#tab-menu-lease .ui-state-active a[href='#user']",
+			".lease-opt .ui-tabs-active a[href='#user']",
+			".lease-opt .ui-state-active a[href='#user']",
+			".lease-opt .ui-tabs-active [aria-controls='user']",
+			".lease-opt .ui-state-active [aria-controls='user']",
+		].join(", "),
+		true,
+	);
+}
 
-	const daysInput = getDaysInput();
-	if (daysInput && isVisible(daysInput)) return true;
+function isMarketPanelVisible() {
+	// Person-lease tab also has days/cost inputs — never treat that as the rental market.
+	if (isPersonTabSelected()) return false;
+	if (isMarketTabSelected()) return true;
 
 	const marketPanel = findElement("#market", true);
 	return !!marketPanel && isVisible(marketPanel);
