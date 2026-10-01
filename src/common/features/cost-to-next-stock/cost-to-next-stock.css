@@ -7,15 +7,3 @@
 	color: var(--stockmarket-secondary-gray-color, #aaa);
 	white-space: nowrap;
 }
-
-.tt-cost-to-next--cheapest {
-	color: var(--tt-color-green);
-}
-
-.tt-cost-to-next--second {
-	color: var(--tt-color-orange);
-}
-
-.tt-cost-to-next--expensive {
-	color: var(--tt-color-red);
-}

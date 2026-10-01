@@ -1,7 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import type { UserStock } from "tornapi-typescript";
 import {
-	getCostToNextHighlight,
 	getCostToNextStockBlock,
 	getNextChainBonus,
 	getRequiredStocks,
@@ -109,28 +108,6 @@ describe("torn", () => {
 
 		it("should return null when a non-dividend requirement is met", () => {
 			expect(getCostToNextStockBlock(nonDividendStock, 500)).toBeNull();
-		});
-	});
-
-	describe("getCostToNextHighlight", () => {
-		it("should mark the cheapest cost", () => {
-			expect(getCostToNextHighlight(10, [10, 20, 30])).toBe("cheapest");
-		});
-
-		it("should mark the second-cheapest cost", () => {
-			expect(getCostToNextHighlight(20, [10, 20, 30])).toBe("secondCheapest");
-		});
-
-		it("should mark the most expensive cost", () => {
-			expect(getCostToNextHighlight(30, [10, 20, 30])).toBe("mostExpensive");
-		});
-
-		it("should prefer most-expensive over second-cheapest when only two values exist", () => {
-			expect(getCostToNextHighlight(20, [10, 20])).toBe("mostExpensive");
-		});
-
-		it("should return null for middle values beyond second-cheapest", () => {
-			expect(getCostToNextHighlight(25, [10, 20, 25, 30])).toBeNull();
 		});
 	});
 

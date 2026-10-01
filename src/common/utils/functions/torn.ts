@@ -2017,23 +2017,6 @@ export function getCostToNextStockBlock(
 	return { cost: sharesNeeded * price, sharesNeeded, nextLevel: 1 };
 }
 
-export type CostToNextHighlight = "cheapest" | "secondCheapest" | "mostExpensive" | null;
-
-/** Rank a Next BB cost among others: cheapest, second-cheapest, or most expensive. */
-export function getCostToNextHighlight(cost: number, allCosts: number[]): CostToNextHighlight {
-	const unique = [...new Set(allCosts)].toSorted((a, b) => a - b);
-	if (unique.length === 0) return null;
-
-	const cheapest = unique.at(0)!;
-	const mostExpensive = unique.at(-1)!;
-	const secondCheapest = unique.at(1);
-
-	if (cost === cheapest) return "cheapest";
-	if (unique.length > 1 && cost === mostExpensive) return "mostExpensive";
-	if (secondCheapest !== undefined && cost === secondCheapest) return "secondCheapest";
-	return null;
-}
-
 export function getStockReward(reward: string, increment: number) {
 	let value: string;
 	if (reward.startsWith("$")) {

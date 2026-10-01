@@ -2,7 +2,7 @@
 	import { ttStorage } from "@common/utils/context";
 	import type { DatabaseSettings, DatabaseStockdata, DatabaseUserdata } from "@common/utils/data/database";
 	import { applyPlural, dropDecimals, formatNumber } from "@common/utils/functions/formatting";
-	import { getCostToNextHighlight, getCostToNextStockBlock, getStockBoughtPrice } from "@common/utils/functions/torn";
+	import { getCostToNextStockBlock, getStockBoughtPrice } from "@common/utils/functions/torn";
 	import BenefitInformation from "@extension/entrypoints/popup/components/stocks/BenefitInformation.svelte";
 	import StockSection from "@extension/entrypoints/popup/components/stocks/StockSection.svelte";
 	import { Card, CardContent, CardHeader, CardTitle } from "@svelte/components/ui/card";
@@ -19,18 +19,6 @@
 	const { query, sortMode = "default" }: StocksTableProps = $props();
 
 	const rows = $derived(getRows($stockdataStore, $userdataStore, $settingsStore, query, sortMode));
-	const costHighlights = $derived.by(() => {
-		const costs = rows.map((row) => row.costToNext?.cost).filter((cost): cost is number => cost !== undefined);
-		return new Map(costs.map((cost) => [cost, getCostToNextHighlight(cost, costs)]));
-	});
-
-	function nextBbClass(cost: number) {
-		const highlight = costHighlights.get(cost);
-		if (highlight === "cheapest") return "text-primary";
-		if (highlight === "secondCheapest") return "text-amber-600 dark:text-amber-400";
-		if (highlight === "mostExpensive") return "text-destructive";
-		return "text-muted-foreground";
-	}
 
 	function getRows(
 		stockdata: DatabaseStockdata,
@@ -110,13 +98,13 @@
 					<div class="text-muted-foreground flex flex-wrap gap-x-2 text-xs">
 						<span>({formatNumber(row.userStock.shares, { shorten: 2 })} share{applyPlural(row.userStock.shares)})</span>
 						{#if row.costToNext}
-							<span class={nextBbClass(row.costToNext.cost)}>
+							<span class="text-muted-foreground">
 								Next BB: {formatNumber(row.costToNext.cost, { currency: true, shorten: 2 })}
 							</span>
 						{/if}
 					</div>
 				{:else if row.costToNext}
-					<div class={`text-xs ${nextBbClass(row.costToNext.cost)}`}>
+					<div class="text-muted-foreground text-xs">
 						Next BB: {formatNumber(row.costToNext.cost, { currency: true, shorten: 2 })}
 					</div>
 				{/if}
