@@ -1,14 +1,14 @@
 import "./lease-price-recommendation.css";
 import { ttCache } from "@common/utils/data/cache";
-import { settings, userdata } from "@common/utils/data/database";
+import { settings, torndata, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
-import { findElement } from "@common/utils/functions/find-elements";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
-import { requireCondition, requireElement } from "@common/utils/functions/requires";
+import { requireCondition, requireElement, requireElementOptionally } from "@common/utils/functions/requires";
 import { getPageStatus, updateReactInput } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
@@ -46,17 +46,22 @@ function initialiseListeners() {
 }
 
 async function startFeature() {
-	await requireElement(".lease-opt");
-	await requireElement("#tab-menu-lease");
+	const leaseOpt = await requireElementOptionally(".lease-opt");
+	if (!leaseOpt) {
+		console.debug("TT - Lease Price Recommendation: .lease-opt not found.");
+		return;
+	}
 
+	await requireElementOptionally("#tab-menu-lease");
 	bindTabListeners();
 
-	if (!isMarketPanelVisible()) {
+	// Prefer waiting for the market form itself — visibility APIs are unreliable on Torn tab panels.
+	const leaseInput = await requireElementOptionally("#market .lease-input");
+	if (!leaseInput || !isMarketPanelVisible()) {
 		removePanel();
 		return;
 	}
 
-	await requireElement("#market .lease-input");
 	bindDaysListener();
 	// Days are pre-filled (default 7) — recommend immediately without waiting for input.
 	await refreshRecommendation();
@@ -91,9 +96,28 @@ async function showWhenMarketReady() {
 	}
 }
 
+function isVisible(element: Element) {
+	if (typeof element.checkVisibility === "function") {
+		try {
+			if (element.checkVisibility()) return true;
+		} catch {
+			// Fall through to style checks — Torn tab panels can confuse checkVisibility.
+		}
+	}
+
+	if (element.getAttribute("aria-hidden") === "true") return false;
+	if (element.getAttribute("aria-expanded") === "false") return false;
+
+	const style = window.getComputedStyle(element);
+	return style.display !== "none" && style.visibility !== "hidden";
+}
+
 function isMarketPanelVisible() {
+	const daysInput = getDaysInput();
+	if (daysInput && isVisible(daysInput)) return true;
+
 	const marketPanel = findElement("#market", true);
-	return !!marketPanel?.checkVisibility();
+	return !!marketPanel && isVisible(marketPanel);
 }
 
 function bindDaysListener() {
@@ -136,15 +160,43 @@ function getOwnedProperty(propertyId: number) {
 	return properties.find((property) => property.id === propertyId);
 }
 
+function getPropertyTypeFromDom(): { id: number; name: string; happy?: number } | undefined {
+	const resolvedName = findElement(".property-info-cont .title-black", true)?.textContent?.trim();
+	if (!resolvedName) return undefined;
+
+	const happyRow = findAllElements(".property-info-cont .info > li").find((row) => findElement(".title", row, true)?.textContent?.trim() === "Happiness");
+	const happyText = happyRow ? findElement(".desc", happyRow, true)?.textContent?.replaceAll(/[^\d]/g, "") : undefined;
+	const happy = happyText ? parseInt(happyText, 10) : undefined;
+
+	const tornProperties = torndata.properties;
+	if (Array.isArray(tornProperties)) {
+		const match = tornProperties.find((property) => property.name === resolvedName);
+		if (match) return { id: match.id, name: match.name, happy: Number.isFinite(happy) ? happy : undefined };
+	}
+
+	return undefined;
+}
+
 function resolvePropertyContext(propertyId: number) {
 	const owned = getOwnedProperty(propertyId);
-	if (!owned?.property.id) return undefined;
+	if (owned?.property.id) {
+		return {
+			typeId: owned.property.id,
+			name: owned.property.name,
+			happy: owned.happy,
+		};
+	}
 
-	return {
-		typeId: owned.property.id,
-		name: owned.property.name,
-		happy: owned.happy,
-	};
+	const fromDom = getPropertyTypeFromDom();
+	if (fromDom) {
+		return {
+			typeId: fromDom.id,
+			name: fromDom.name,
+			happy: fromDom.happy,
+		};
+	}
+
+	return undefined;
 }
 
 function parseDays(value: string): number | null {
@@ -247,14 +299,15 @@ type PanelContent =
 	| { state: "stats"; periodStats: LeasePriceStats | null; dailyStats: DailyRateStats | null; days: number };
 
 function renderPanel(content: PanelContent) {
-	const leasePanel = findElement(".lease-opt", true);
-	if (!leasePanel) {
+	// Prefer the options panel root so the container sits under the Torn lease panel.
+	const anchor = findElement(".property-option", true) ?? findElement(".lease-opt", true);
+	if (!anchor) {
 		removePanel();
 		return;
 	}
 
 	const { content: containerContent } = createContainer(CONTAINER_TITLE, {
-		previousElement: leasePanel,
+		previousElement: anchor,
 		spacer: true,
 		class: "tt-lease-price-recommendation",
 	});
