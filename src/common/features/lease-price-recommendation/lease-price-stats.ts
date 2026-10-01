@@ -41,11 +41,11 @@ export function costPerDay(listing: RentalListingLike): number {
 	return Math.round(listing.cost / listing.rental_period);
 }
 
-export function filterByRentalPeriod<T extends RentalListingLike>(listings: T[], days: number): T[] {
+export function filterByRentalPeriod(listings: RentalListingLike[], days: number): RentalListingLike[] {
 	return listings.filter((listing) => listing.rental_period === days);
 }
 
-export function filterByHappyBand<T extends RentalListingLike>(listings: T[], happy: number, tolerance: number): T[] {
+export function filterByHappyBand(listings: RentalListingLike[], happy: number, tolerance: number): RentalListingLike[] {
 	const minHappy = happy * (1 - tolerance);
 	const maxHappy = happy * (1 + tolerance);
 	return listings.filter((listing) => listing.happy >= minHappy && listing.happy <= maxHappy);
@@ -69,11 +69,11 @@ export function recommendedFromCosts(costs: number[], cheapestCount: number): nu
 	return median(cheapest);
 }
 
-function selectComparableListings<T extends RentalListingLike>(
-	listings: T[],
+function selectComparableListings(
+	listings: RentalListingLike[],
 	happy: number | null | undefined,
 	options: Required<LeasePriceStatsOptions>,
-): { comparable: T[]; usedHappyFilter: boolean } {
+): { comparable: RentalListingLike[]; usedHappyFilter: boolean } {
 	if (listings.length === 0) return { comparable: [], usedHappyFilter: false };
 
 	if (happy != null && Number.isFinite(happy)) {
@@ -133,8 +133,4 @@ export function computeDailyRateStats(
 		matchCount: comparable.length,
 		usedHappyFilter,
 	};
-}
-
-export function totalFromDailyRate(perDay: number, days: number): number {
-	return perDay * days;
 }

@@ -8,7 +8,6 @@ import {
 	filterByRentalPeriod,
 	median,
 	recommendedFromCosts,
-	totalFromDailyRate,
 } from "./lease-price-stats";
 
 function listing(partial: Partial<RentalListingLike> & Pick<RentalListingLike, "cost" | "rental_period">): RentalListingLike {
@@ -142,11 +141,5 @@ describe("computeDailyRateStats", () => {
 			matchCount: 3,
 			usedHappyFilter: false,
 		});
-	});
-});
-
-describe("totalFromDailyRate", () => {
-	it("multiplies the daily rate by the selected days", () => {
-		expect(totalFromDailyRate(100, 7)).toBe(700);
 	});
 });

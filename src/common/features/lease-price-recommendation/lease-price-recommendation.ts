@@ -1,18 +1,18 @@
 import "./lease-price-recommendation.css";
 import { ttCache } from "@common/utils/data/cache";
-import { settings, torndata, userdata } from "@common/utils/data/database";
+import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
-import { findAllElements, findElement } from "@common/utils/functions/find-elements";
+import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, updateReactInput } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
-import { computeDailyRateStats, computeLeasePriceStats, totalFromDailyRate } from "@features/lease-price-recommendation/lease-price-stats";
+import { computeDailyRateStats, computeLeasePriceStats } from "@features/lease-price-recommendation/lease-price-stats";
 import type { DailyRateStats, LeasePriceStats } from "@features/lease-price-recommendation/lease-price-stats";
 import type { MarketRentalsResponse } from "tornapi-typescript";
 
@@ -93,15 +93,7 @@ async function showWhenMarketReady() {
 
 function isMarketPanelVisible() {
 	const marketPanel = findElement("#market", true);
-	if (!marketPanel) return false;
-
-	if (marketPanel.getAttribute("aria-hidden") === "true") return false;
-	if (marketPanel.getAttribute("aria-expanded") === "false") return false;
-
-	const style = window.getComputedStyle(marketPanel);
-	if (style.display === "none" || style.visibility === "hidden") return false;
-
-	return true;
+	return !!marketPanel?.checkVisibility();
 }
 
 function bindDaysListener() {
@@ -125,7 +117,7 @@ function getCostInput() {
 	return findElement<HTMLInputElement>("#market input.lease.input-money[data-name='money']:not([type='hidden'])", true);
 }
 
-function getPropertyId() {
+function getPropertyId(): number | null {
 	const fromHash = getHashParameters().get("ID");
 	if (fromHash) return parseInt(fromHash);
 
@@ -135,7 +127,7 @@ function getPropertyId() {
 	const fromForm = findElement<HTMLInputElement>("#market input[name='ID']", true)?.value;
 	if (fromForm) return parseInt(fromForm);
 
-	return NaN;
+	return null;
 }
 
 function getOwnedProperty(propertyId: number) {
@@ -144,43 +136,15 @@ function getOwnedProperty(propertyId: number) {
 	return properties.find((property) => property.id === propertyId);
 }
 
-function getPropertyTypeFromDom(): { id: number; name: string; happy?: number } | undefined {
-	const resolvedName = findElement(".property-info-cont .title-black", true)?.textContent?.trim();
-	if (!resolvedName) return undefined;
-
-	const happyRow = findAllElements(".property-info-cont .info > li").find((row) => findElement(".title", row, true)?.textContent?.trim() === "Happiness");
-	const happyText = happyRow ? findElement(".desc", happyRow, true)?.textContent?.replaceAll(/[^\d]/g, "") : undefined;
-	const happy = happyText ? parseInt(happyText, 10) : undefined;
-
-	const tornProperties = torndata.properties;
-	if (Array.isArray(tornProperties)) {
-		const match = tornProperties.find((property) => property.name === resolvedName);
-		if (match) return { id: match.id, name: match.name, happy: Number.isFinite(happy) ? happy : undefined };
-	}
-
-	return undefined;
-}
-
 function resolvePropertyContext(propertyId: number) {
 	const owned = getOwnedProperty(propertyId);
-	if (owned?.property.id) {
-		return {
-			typeId: owned.property.id,
-			name: owned.property.name,
-			happy: owned.happy,
-		};
-	}
+	if (!owned?.property.id) return undefined;
 
-	const fromDom = getPropertyTypeFromDom();
-	if (fromDom) {
-		return {
-			typeId: fromDom.id,
-			name: fromDom.name,
-			happy: fromDom.happy,
-		};
-	}
-
-	return undefined;
+	return {
+		typeId: owned.property.id,
+		name: owned.property.name,
+		happy: owned.happy,
+	};
 }
 
 function parseDays(value: string): number | null {
@@ -204,17 +168,14 @@ async function refreshRecommendation() {
 	}
 
 	const propertyId = getPropertyId();
-	if (!Number.isFinite(propertyId)) {
+	if (propertyId == null) {
 		renderPanel({ state: "message", text: "Could not determine which property is being leased." });
 		return;
 	}
 
 	const context = resolvePropertyContext(propertyId);
 	if (!context) {
-		renderPanel({
-			state: "message",
-			text: "Property data is not available yet. Wait for the API update or enable user properties.",
-		});
+		renderPanel({ state: "message", text: "Property data is not available yet." });
 		return;
 	}
 
@@ -286,22 +247,19 @@ type PanelContent =
 	| { state: "stats"; periodStats: LeasePriceStats | null; dailyStats: DailyRateStats | null; days: number };
 
 function renderPanel(content: PanelContent) {
-	const marketForm = findElement("#market form", true);
-	const leaseInput = findElement("#market .lease-input", true);
-	const anchor = marketForm ?? leaseInput;
-	if (!anchor) {
+	const leasePanel = findElement(".lease-opt", true);
+	if (!leasePanel) {
 		removePanel();
 		return;
 	}
 
-	// Keep the container outside Torn's lease <form> so Apply is not treated as submit / disabled with NEXT.
 	const { content: containerContent } = createContainer(CONTAINER_TITLE, {
-		previousElement: anchor,
+		previousElement: leasePanel,
 		spacer: true,
 		class: "tt-lease-price-recommendation",
 	});
 
-	const children: (string | Node)[] = [];
+	const children: Node[] = [];
 
 	if (content.state === "loading") {
 		children.push(elementBuilder({ type: "div", class: "tt-lease-price-message", text: "Loading comparable listings…" }));
@@ -360,7 +318,7 @@ function buildPeriodSection(stats: LeasePriceStats, days: number) {
 
 function buildDailySection(stats: DailyRateStats, days: number) {
 	const happyNote = stats.usedHappyFilter ? " (similar happiness)" : "";
-	const total = totalFromDailyRate(stats.recommendedPerDay, days);
+	const total = stats.recommendedPerDay * days;
 
 	return elementBuilder({
 		type: "div",
@@ -450,6 +408,7 @@ export default class LeasePriceRecommendationFeature extends Feature {
 
 	override requirements() {
 		if (!hasAPIData()) return "No API access.";
+		if (!settings.apiUsage.user.properties) return "User properties is disabled.";
 		return true;
 	}
 
@@ -477,7 +436,10 @@ export default class LeasePriceRecommendationFeature extends Feature {
 	}
 
 	override storageKeys() {
-		// Restart when property/torndata arrives so the first open after install still works.
-		return ["settings.pages.property.leasePriceRecommendation", "userdata.properties", "torndata.properties"];
+		return [
+			"settings.pages.property.leasePriceRecommendation",
+			"settings.apiUsage.user.properties",
+			"userdata.properties",
+		];
 	}
 }
