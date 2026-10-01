@@ -13,6 +13,8 @@ const author = "DeKleineKobini [2114440] and the TornTools team";
 const icon = "https://www.google.com/s2/favicons?sz=64&domain=torn.com";
 
 const aliases = {
+	// Keep migrations out of userscript bundles (never executed there).
+	"@common/utils/data/migrations": resolve(root, "src/userscripts/runtime/migrations-noop.ts"),
 	"@common": resolve(root, "src/common"),
 	"@features": resolve(root, "src/common/features"),
 	"@svelte": resolve(root, "src/extension/svelte"),
