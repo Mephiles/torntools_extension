@@ -8,7 +8,7 @@ import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
-import { requireCondition, requireElement, requireElementOptionally } from "@common/utils/functions/requires";
+import { requireCondition, requireElementOptionally } from "@common/utils/functions/requires";
 import { getPageStatus, updateReactInput } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
@@ -22,14 +22,21 @@ const CACHE_TTL = TO_MILLIS.MINUTES * 5;
 const FETCH_LIMIT = 100;
 const MAX_PAGES = 5;
 const DAYS_DEBOUNCE_MS = 300;
+const LOG_PREFIX = "[TornTools] Lease Price Recommendation -";
 
 let daysDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 let activeRequestId = 0;
+let marketObserver: MutationObserver | null = null;
+let startInFlight = false;
+
+function log(...args: unknown[]) {
+	console.warn(LOG_PREFIX, ...args);
+}
 
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE, async ({ route: { page, paramTab } }) => {
 		if (page !== "options" || paramTab !== "lease") {
-			removePanel();
+			teardown();
 			return;
 		}
 
@@ -37,7 +44,7 @@ function initialiseListeners() {
 	});
 	addCustomListener(EVENT_CHANNELS.PROPERTIES__ROUTE_PAGE, async ({ route: { page, paramTab } }) => {
 		if (page !== "options" || paramTab !== "lease") {
-			removePanel();
+			teardown();
 			return;
 		}
 
@@ -46,29 +53,73 @@ function initialiseListeners() {
 }
 
 async function startFeature() {
-	const leaseOpt = await requireElementOptionally(".lease-opt");
-	if (!leaseOpt) {
-		console.debug("TT - Lease Price Recommendation: .lease-opt not found.");
-		return;
+	if (startInFlight) return;
+	startInFlight = true;
+
+	try {
+		if (!isLeaseRoute()) {
+			teardown();
+			return;
+		}
+
+		const optionsPanel = await requireElementOptionally(".property-option", { timeout: TO_MILLIS.SECONDS * 10 });
+		if (!optionsPanel) {
+			log("`.property-option` not found on lease route.");
+			return;
+		}
+
+		// `.lease-opt` is preferred but not required — Torn markup can vary.
+		await requireElementOptionally(".lease-opt, #tab-menu-lease", { timeout: TO_MILLIS.SECONDS * 5 });
+		bindTabListeners();
+		watchForMarketForm(optionsPanel);
+
+		if (!isMarketPanelVisible()) {
+			log("Lease route active, but rental-market panel is not visible yet. Waiting for tab/form.");
+			renderPanel({
+				state: "message",
+				text: "Switch to Add Property to Rental Market to see price recommendations.",
+			});
+			return;
+		}
+
+		const daysInput = await waitForDaysInput();
+		if (!daysInput) {
+			log("Market panel looks visible, but days input was not found.", {
+				market: !!findElement("#market", true),
+				leaseInput: !!findElement("#market .lease-input, #market input[data-name='days']", true),
+			});
+			renderPanel({
+				state: "message",
+				text: "Could not find the rental-market days field. Report this if it keeps happening.",
+			});
+			return;
+		}
+
+		bindDaysListener();
+		await refreshRecommendation();
+	} finally {
+		startInFlight = false;
 	}
+}
 
-	await requireElementOptionally("#tab-menu-lease");
-	bindTabListeners();
+function watchForMarketForm(root: Element) {
+	marketObserver?.disconnect();
+	marketObserver = new MutationObserver(() => {
+		if (!isLeaseRoute()) {
+			teardown();
+			return;
+		}
 
-	// Prefer waiting for the market form itself — visibility APIs are unreliable on Torn tab panels.
-	const leaseInput = await requireElementOptionally("#market .lease-input");
-	if (!leaseInput || !isMarketPanelVisible()) {
-		removePanel();
-		return;
-	}
+		if (!isMarketPanelVisible()) return;
+		if (!getDaysInput()) return;
 
-	bindDaysListener();
-	// Days are pre-filled (default 7) — recommend immediately without waiting for input.
-	await refreshRecommendation();
+		void startFeature();
+	});
+	marketObserver.observe(root, { childList: true, subtree: true, attributes: true });
 }
 
 function bindTabListeners() {
-	const tabMenu = findElement("#tab-menu-lease", true);
+	const tabMenu = findElement("#tab-menu-lease, .lease-opt .ui-tabs-nav, .lease-opt ul.tabs", true);
 	if (!tabMenu || tabMenu.dataset.ttLeasePriceBound === "true") return;
 
 	tabMenu.dataset.ttLeasePriceBound = "true";
@@ -76,48 +127,85 @@ function bindTabListeners() {
 		const target = event.target;
 		if (!(target instanceof Element)) return;
 
-		if (target.closest("#leasemarket, #market1")) {
+		const marketTab = target.closest("#leasemarket, #market1, a[href='#market'], [aria-controls='market']");
+		if (marketTab) {
 			void showWhenMarketReady();
 			return;
 		}
 
-		if (target.closest("#leaseperson, #user1")) {
-			removePanel();
+		const personTab = target.closest("#leaseperson, #user1, a[href='#user'], [aria-controls='user']");
+		if (personTab) {
+			renderPanel({
+				state: "message",
+				text: "Switch to Add Property to Rental Market to see price recommendations.",
+			});
 		}
 	});
 }
 
 async function showWhenMarketReady() {
 	try {
-		await requireCondition(() => isMarketPanelVisible(), { delay: 50, maxCycles: 40 });
+		await requireCondition(() => isMarketPanelVisible() && !!getDaysInput(), { delay: 50, maxCycles: 80 });
 		await startFeature();
 	} catch (error) {
-		console.debug("TT - Lease market tab did not become ready in time.", error);
+		log("Rental-market tab did not become ready in time.", error);
 	}
 }
 
 function isVisible(element: Element) {
-	if (typeof element.checkVisibility === "function") {
-		try {
-			if (element.checkVisibility()) return true;
-		} catch {
-			// Fall through to style checks — Torn tab panels can confuse checkVisibility.
-		}
-	}
-
 	if (element.getAttribute("aria-hidden") === "true") return false;
 	if (element.getAttribute("aria-expanded") === "false") return false;
 
 	const style = window.getComputedStyle(element);
-	return style.display !== "none" && style.visibility !== "hidden";
+	if (style.display === "none" || style.visibility === "hidden") return false;
+
+	// Prefer style/aria over checkVisibility — Torn tab panels often fail checkVisibility.
+	if (typeof element.checkVisibility === "function") {
+		try {
+			if (element.checkVisibility()) return true;
+		} catch {
+			// Ignore and trust style checks above.
+		}
+	}
+
+	return true;
+}
+
+function isMarketTabSelected() {
+	return !!findElement(
+		[
+			"#leasemarket.ui-tabs-active",
+			"#leasemarket.ui-state-active",
+			"#market1.ui-tabs-active",
+			"#market1.ui-state-active",
+			"#tab-menu-lease .ui-tabs-active a[href='#market']",
+			"#tab-menu-lease .ui-state-active a[href='#market']",
+			".lease-opt .ui-tabs-active a[href='#market']",
+			".lease-opt .ui-state-active a[href='#market']",
+			".lease-opt .ui-tabs-active [aria-controls='market']",
+			".lease-opt .ui-state-active [aria-controls='market']",
+		].join(", "),
+		true,
+	);
 }
 
 function isMarketPanelVisible() {
+	if (isMarketTabSelected()) return true;
+
 	const daysInput = getDaysInput();
 	if (daysInput && isVisible(daysInput)) return true;
 
 	const marketPanel = findElement("#market", true);
 	return !!marketPanel && isVisible(marketPanel);
+}
+
+async function waitForDaysInput() {
+	const existing = getDaysInput();
+	if (existing) return existing;
+
+	return requireElementOptionally("#market input[data-name='days']:not([type='hidden']), #market .lease-input input[data-name='days']", {
+		timeout: TO_MILLIS.SECONDS * 5,
+	});
 }
 
 function bindDaysListener() {
@@ -134,21 +222,35 @@ function bindDaysListener() {
 }
 
 function getDaysInput() {
-	return findElement<HTMLInputElement>("#market input.lease.input-money[data-name='days']:not([type='hidden'])", true);
+	return findElement<HTMLInputElement>(
+		[
+			"#market input.lease.input-money[data-name='days']:not([type='hidden'])",
+			"#market input.input-money[data-name='days']:not([type='hidden'])",
+			"#market input[data-name='days']:not([type='hidden'])",
+		].join(", "),
+		true,
+	);
 }
 
 function getCostInput() {
-	return findElement<HTMLInputElement>("#market input.lease.input-money[data-name='money']:not([type='hidden'])", true);
+	return findElement<HTMLInputElement>(
+		[
+			"#market input.lease.input-money[data-name='money']:not([type='hidden'])",
+			"#market input.input-money[data-name='money']:not([type='hidden'])",
+			"#market input[data-name='money']:not([type='hidden'])",
+		].join(", "),
+		true,
+	);
 }
 
 function getPropertyId(): number | null {
 	const fromHash = getHashParameters().get("ID");
 	if (fromHash) return parseInt(fromHash);
 
-	const fromList = findElement(".options-list.lease", true)?.dataset.id;
+	const fromList = findElement(".options-list.lease, .options-list[data-id]", true)?.dataset.id;
 	if (fromList) return parseInt(fromList);
 
-	const fromForm = findElement<HTMLInputElement>("#market input[name='ID']", true)?.value;
+	const fromForm = findElement<HTMLInputElement>("#market input[name='ID'], .property-option input[name='ID']", true)?.value;
 	if (fromForm) return parseInt(fromForm);
 
 	return null;
@@ -161,10 +263,12 @@ function getOwnedProperty(propertyId: number) {
 }
 
 function getPropertyTypeFromDom(): { id: number; name: string; happy?: number } | undefined {
-	const resolvedName = findElement(".property-info-cont .title-black", true)?.textContent?.trim();
+	const resolvedName = findElement(".property-info-cont .title-black, .property-option .title-black", true)?.textContent?.trim();
 	if (!resolvedName) return undefined;
 
-	const happyRow = findAllElements(".property-info-cont .info > li").find((row) => findElement(".title", row, true)?.textContent?.trim() === "Happiness");
+	const happyRow = findAllElements(".property-info-cont .info > li, .property-option .info > li").find(
+		(row) => findElement(".title", row, true)?.textContent?.trim() === "Happiness",
+	);
 	const happyText = happyRow ? findElement(".desc", happyRow, true)?.textContent?.replaceAll(/[^\d]/g, "") : undefined;
 	const happy = happyText ? parseInt(happyText, 10) : undefined;
 
@@ -221,12 +325,14 @@ async function refreshRecommendation() {
 
 	const propertyId = getPropertyId();
 	if (propertyId == null) {
+		log("Could not resolve property ID from hash/DOM.");
 		renderPanel({ state: "message", text: "Could not determine which property is being leased." });
 		return;
 	}
 
 	const context = resolvePropertyContext(propertyId);
 	if (!context) {
+		log("Could not resolve property type context.", { propertyId, hasUserProperties: Array.isArray(userdata.properties) });
 		renderPanel({ state: "message", text: "Property data is not available yet." });
 		return;
 	}
@@ -251,7 +357,7 @@ async function refreshRecommendation() {
 		renderPanel({ state: "stats", periodStats, dailyStats, days });
 	} catch (error) {
 		if (requestId !== activeRequestId) return;
-		console.error("TT - Failed to load lease market prices.", error);
+		console.error(LOG_PREFIX, "Failed to load lease market prices.", error);
 		renderPanel({ state: "message", text: "Failed to load rental market prices." });
 	}
 }
@@ -299,9 +405,9 @@ type PanelContent =
 	| { state: "stats"; periodStats: LeasePriceStats | null; dailyStats: DailyRateStats | null; days: number };
 
 function renderPanel(content: PanelContent) {
-	// Prefer the options panel root so the container sits under the Torn lease panel.
 	const anchor = findElement(".property-option", true) ?? findElement(".lease-opt", true);
 	if (!anchor) {
+		log("Cannot render panel — no `.property-option` / `.lease-opt` anchor.");
 		removePanel();
 		return;
 	}
@@ -428,14 +534,13 @@ function buildStatRow(label: string, value: string, recommended = false) {
 function applyRecommended(amount: number) {
 	const costInput = getCostInput();
 	if (!costInput) {
-		console.warn("TT - Could not find the lease cost input to apply the recommended price.");
+		log("Could not find the lease cost input to apply the recommended price.");
 		return;
 	}
 
 	updateReactInput(costInput, amount.toString());
 
-	// Keep Torn's paired hidden money field in sync when present.
-	const hiddenCost = findElement<HTMLInputElement>("#market input.lease.input-money[data-name='money'][type='hidden']", true);
+	const hiddenCost = findElement<HTMLInputElement>("#market input[data-name='money'][type='hidden']", true);
 	if (hiddenCost && hiddenCost !== costInput) {
 		updateReactInput(hiddenCost, amount.toString());
 	}
@@ -443,6 +548,12 @@ function applyRecommended(amount: number) {
 
 function removePanel() {
 	removeContainer(CONTAINER_TITLE);
+}
+
+function teardown() {
+	marketObserver?.disconnect();
+	marketObserver = null;
+	removePanel();
 }
 
 function isLeaseRoute() {
@@ -481,7 +592,7 @@ export default class LeasePriceRecommendationFeature extends Feature {
 
 	override async reload() {
 		if (!isLeaseRoute()) {
-			removePanel();
+			teardown();
 			return;
 		}
 
