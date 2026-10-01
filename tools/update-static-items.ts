@@ -21,13 +21,31 @@ type ApiErrorResponse = {
 
 type ApiResult = TornItemsResponse | ApiErrorResponse;
 
-const cli = createInterface({
-	input: process.stdin,
-	output: process.stdout,
-});
+async function getApiKey(): Promise<string> {
+	const apiKeyFlag = process.argv.indexOf("--api-key");
+	const apiKey = apiKeyFlag !== -1 ? process.argv[apiKeyFlag + 1] : undefined;
 
-const key = await cli.question("Please provide a public api key: ");
-cli.close();
+	if (apiKey) {
+		return apiKey;
+	}
+
+	const cli = createInterface({
+		input: process.stdin,
+		output: process.stdout,
+	});
+
+	const key = await cli.question("Please provide a public api key: ");
+	cli.close();
+
+	return key;
+}
+
+const key = await getApiKey();
+
+if (!key) {
+	console.error('No API key provided. Pass one with --api-key "<key>" or enter it when prompted.');
+	process.exit(1);
+}
 
 const response = await fetch(`https://api.torn.com/v2/torn/?key=${key}&comment=tt-static&selections=items`);
 const result = (await response.json()) as ApiResult;
