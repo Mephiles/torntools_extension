@@ -92,9 +92,9 @@ async function showQuickItems(section: string) {
 		parseSourceItem: (element) => {
 			const pointsButton = element.closest<HTMLElement>("[data-type='tt-points']");
 			const target = pointsButton ?? (element.dataset.type === "tt-points" ? element : findParent(element, { tag: "LI" }));
-			if (!target) return null;
+			if (!target) throw new Error("Couldn't find the item's container.");
 			const imgWrap = findElement(".img-wrap", target, true);
-			if (!imgWrap?.dataset.itemid) return null;
+			if (!imgWrap?.dataset.itemid) throw new Error("Couldn't find the item's id.");
 
 			return { id: parseQuickItemId(imgWrap.dataset.itemid) };
 		},
