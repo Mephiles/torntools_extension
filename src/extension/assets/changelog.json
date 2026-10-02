@@ -13,7 +13,7 @@
 				{ "message": "Reintroduce the previously disabled 'Travel Fill Max', adapted for the travel 2.0.", "contributor": "DeKleineKobini" },
 				{ "message": "Highlight bazaar entries when clicking through the 'Bazaar Market' feature.", "contributor": "DeKleineKobini" },
 				{
-					"message": "Recommend lease prices on the property rental market listing form, with same-period totals and market-wide daily rates.",
+					"message": "Recommend lease prices on the property rental market and lease extension forms, with same-period totals and market-wide daily rates.",
 					"contributor": "Murfy"
 				}
 			],

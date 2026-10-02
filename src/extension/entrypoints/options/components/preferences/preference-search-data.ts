@@ -289,7 +289,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.property.happy", label: "Show happiness of all properties", group: "qol", section: "information", keywords: ["property"] },
 	{
 		path: "settings.pages.property.leasePriceRecommendation",
-		label: "Recommend rental market lease prices",
+		label: "Recommend lease prices on rental market and extensions",
 		group: "qol",
 		section: "information",
 		keywords: ["estate"],
