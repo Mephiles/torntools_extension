@@ -27,9 +27,9 @@ on:
                 type: boolean
                 description: Make a beta release
                 default: false
-            commit_beta_changes:
+            prepare_next_version:
                 type: boolean
-                description: Commit beta versions
+                description: Prepare next version
                 default: true
 
 concurrency:
@@ -161,60 +161,9 @@ jobs:
                   EDGE_CLIENT_ID: ${{ secrets.MICROSOFT_CLIENT_ID }}
                   EDGE_API_KEY: ${{ secrets.MICROSOFT_API_KEY }}
 
-            - name: Delete temporary files
-              run: rm -f ./releaseBody.md
-
-            - name: Change package and changelog to beta version
-              if: ${{ inputs.commit_beta_changes }}
-              run: |
-                  set -euo pipefail
-                  # Setup variables again
-                  DaySuffix() {
-                    case $(date +%-d) in
-                    1|21|31) echo "st";;
-                    2|22)    echo "nd";;
-                    3|23)    echo "rd";;
-                    *)       echo "th";;
-                    esac
-                  }
-                  tmpFile="tmp.tmp"
-                  packagePath="./package.json"
-                  changelogPath="./src/extension/assets/changelog.json"
-                  newVersionMajor="$(echo -n "\"${version}\"" | jq -j "split(\".\")[0] | tonumber | .")"
-                  newVersionMinor="$(echo -n "\"${version}\"" | jq -j "split(\".\")[1] | tonumber | .")"
-                  newVersionBuild="$(echo -n "\"${version}\"" | jq -j "split(\".\")[2] | tonumber | . + 1")"
-                  newVersion="${newVersionMajor}.${newVersionMinor}.${newVersionBuild}"
-                  newVersionTitle="Beta"
-
-                  export newVersion
-                  echo "newVersion=$newVersion" >> "$GITHUB_ENV"
-
-                  # Add beta changelog entry
-                  jq -r --indent 0 "
-                    . |= 
-                      [{
-                          \"version\": { \"major\": ${newVersionMajor}, \"minor\": ${newVersionMinor}, \"build\": ${newVersionBuild} },
-                          \"title\": \"${newVersionTitle}\",
-                          \"date\": false,
-                          \"logs\": {
-                              \"features\": [],
-                              \"fixes\": [],
-                              \"changes\": [],
-                              \"removed\": [],
-                              \"technical\": []
-                          }
-                      }] +
-                      ." "${changelogPath}" | sponge "${changelogPath}"
-
-                  # Change package to next version
-                  bun pm version $newVersion --force --no-git-tag-version
-
-            - name: Run Oxfmt
-              if: ${{ inputs.commit_beta_changes }}
-              run: bun oxfmt
-
-            - name: Add & Commit
-              uses: EndBug/add-and-commit@v10
-              if: ${{ inputs.commit_beta_changes }}
-              with:
-                  message: "Pack v${{ env.version }} and update to v${{ env.newVersion }}"
+    prepare-next-version:
+        needs: publish
+        if: ${{ inputs.prepare_next }}
+        permissions:
+            contents: write
+        uses: ./.github/workflows/prepare-next-version.yml
