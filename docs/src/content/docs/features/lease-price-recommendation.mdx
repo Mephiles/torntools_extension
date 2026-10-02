@@ -1,15 +1,15 @@
 ---
 title: Lease Price Recommendation
-description: Shows same-period and daily-rate lease price guidance when listing a property on the rental market.
+description: Shows same-period and daily-rate lease price guidance when listing a property on the rental market or offering a lease extension.
 ---
 
-When you put a property on the rental market, TornTools looks up comparable listings and suggests competitive prices —
-both for the exact number of days you entered, and from market-wide daily rates.
+When you put a property on the rental market or offer a lease extension, TornTools looks up comparable listings and
+suggests competitive prices — both for the exact number of days you entered, and from market-wide daily rates.
 
 ## How It Works
 
-1. Open a property's options and choose **Lease this property**.
-2. Switch to the **Add Property to Rental Market** tab.
+1. Open a property's options and choose **Lease this property**, or open **Offer Extension** for an active lease.
+2. For a new listing, switch to the **Add Property to Rental Market** tab.
 3. Enter the **Amount of days** (defaults are used immediately).
 4. TornTools fetches current rental market listings for that property type from the Torn API.
 5. It shows two suggestion blocks (happiness-filtered when enough similar listings exist):
@@ -32,9 +32,10 @@ Uses all listings for that property type, regardless of duration:
 
 ## Where It Works
 
-| Page                                         | Behavior                                               |
-| -------------------------------------------- | ------------------------------------------------------ |
-| Properties → Options → Lease → Rental Market | Shows a Market Prices container under the lease panel |
+| Page                                              | Behavior                                               |
+| ------------------------------------------------- | ------------------------------------------------------ |
+| Properties → Options → Lease → Rental Market      | Shows a Market Prices container under the lease panel |
+| Properties → Options → Offer Extension            | Shows the same guidance for lease extension offers    |
 
 ## Setup / Requirements
 
@@ -46,7 +47,7 @@ Uses all listings for that property type, regardless of duration:
 
 | Setting                                            | Default | Description                                                        |
 | -------------------------------------------------- | ------- | ------------------------------------------------------------------ |
-| `settings.pages.property.leasePriceRecommendation` | On      | Show lease price recommendations on the rental market listing form |
+| `settings.pages.property.leasePriceRecommendation` | On      | Show lease price recommendations on lease market and extension forms |
 
 ## Troubleshooting
 
@@ -56,4 +57,4 @@ Uses all listings for that property type, regardless of duration:
 | Feature shows "User properties is disabled." | Enable user properties under API usage settings                     |
 | "No rental market listings found"     | Nothing listed for that property type                                      |
 | Same-period section empty             | No listings for exactly that day count (daily-rate section may still show) |
-| Panel missing on the person-lease tab | Guidance only appears on the rental market tab                             |
+| Panel missing on the person-lease tab | Guidance only appears on the rental market and offer-extension tabs        |
