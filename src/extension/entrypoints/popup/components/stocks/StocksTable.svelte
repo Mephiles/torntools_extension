@@ -20,13 +20,7 @@
 
 	const rows = $derived(getRows($stockdataStore, $userdataStore, $settingsStore, query, sortMode));
 
-	function getRows(
-		stockdata: DatabaseStockdata,
-		userdata: DatabaseUserdata,
-		settings: DatabaseSettings,
-		search: string,
-		sort: StocksSortMode
-	) {
+	function getRows(stockdata: DatabaseStockdata, userdata: DatabaseUserdata, settings: DatabaseSettings, search: string, sort: StocksSortMode) {
 		const keyword = search.trim().toLowerCase();
 		const mapped = stockdata.stocks
 			.map((stock) => {

@@ -1,14 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import type { UserStock } from "tornapi-typescript";
-import {
-	getCostToNextStockBlock,
-	getNextChainBonus,
-	getRequiredStocks,
-	getStockBoughtPrice,
-	getStockIncrement,
-	getStockReward,
-	isDividendStock,
-} from "./torn";
+import { getCostToNextStockBlock, getNextChainBonus, getRequiredStocks, getStockBoughtPrice, getStockIncrement, getStockReward, isDividendStock } from "./torn";
 
 describe("torn", () => {
 	describe("getNextChainBonus", () => {

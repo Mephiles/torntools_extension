@@ -1998,7 +1998,7 @@ export type CostToNextStockBlock = {
  */
 export function getCostToNextStockBlock(
 	stock: { id: number; bonus: { requirement: number }; market: { price: number } },
-	shares: number
+	shares: number,
 ): CostToNextStockBlock | null {
 	const { requirement } = stock.bonus;
 	const { price } = stock.market;
