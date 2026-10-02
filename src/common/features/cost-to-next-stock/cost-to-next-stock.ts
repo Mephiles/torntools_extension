@@ -36,11 +36,11 @@ async function showCostToNext() {
 }
 
 function getAttachTarget(row: Element): HTMLElement | null {
-	const dividendInfo = findElement<HTMLElement>("li[class*='stockDividend__'] [class*='dividendInfo__']", row, true);
+	const dividendInfo = findElement("li[class*='stockDividend__'] [class*='dividendInfo__']", row, true);
 	if (dividendInfo?.checkVisibility()) return dividendInfo;
 
 	// Mobile collapses the dividend column — attach under owned shares instead.
-	return findElement<HTMLElement>("li[class*='stockOwned__']", row, true) ?? findElement<HTMLElement>("li[class*='stockPrice__']", row, true);
+	return findElement("li[class*='stockOwned__']", row, true) ?? findElement("li[class*='stockPrice__']", row, true);
 }
 
 function removeCostToNext() {
