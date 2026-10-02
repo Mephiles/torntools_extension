@@ -67,6 +67,7 @@ import CompanySpecialsFeature from "@features/company-specials/company-specials"
 import CompanyStockFillFeature from "@features/company-stock-fill/company-stock-fill";
 import ComputerLinkFeature from "@features/computer-link/computer-link";
 import CooldownEndTimesFeature from "@features/cooldown-end-times/cooldown-end-times";
+import CostToNextStockFeature from "@features/cost-to-next-stock/cost-to-next-stock";
 import CreatorMessagesFeature from "@features/creator-messages/creator-messages";
 import CreatorsFeature from "@features/creators/creators";
 import CrimeValueFeature from "@features/crime-value/crime-value";
@@ -524,6 +525,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new StocksFilterFeature());
 		FEATURE_MANAGER.registerFeature(new TotalPortfolioValueFeature());
 		FEATURE_MANAGER.registerFeature(new StocksMoneyInputFeature());
+		FEATURE_MANAGER.registerFeature(new CostToNextStockFeature());
 	} else if (page === "personalstats") {
 		FEATURE_MANAGER.registerFeature(new AveragePersonalStatFeature());
 	} else if (page === "racing") {

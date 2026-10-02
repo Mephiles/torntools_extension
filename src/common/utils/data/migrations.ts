@@ -1,4 +1,4 @@
-import { OFFLOAD_SERVICE, RUNTIME_INFORMATION, ttStorage } from "@common/utils/context";
+import { OFFLOAD_SERVICE, ttStorage } from "@common/utils/context";
 import type { Database } from "@common/utils/data/database";
 import type { FactionStakeoutEntry, StakeoutData, StoredUserdata } from "@common/utils/data/default-database";
 import { toNumericVersion } from "@common/utils/functions/utilities";
@@ -271,8 +271,6 @@ export const MIGRATIONS: MigrationScript[] = [
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {
-	if (RUNTIME_INFORMATION.isUserscript()) return;
-
 	const migrations = MIGRATIONS.filter(({ version }) => toNumericVersion(version) >= toNumericVersion(storage.version.initial)).filter(
 		({ id }) => !storage.migrations.map(({ id }) => id).includes(id),
 	);

@@ -15,6 +15,10 @@
 				{
 					"message": "Recommend lease prices on the property rental market and lease extension forms, with same-period totals and market-wide daily rates.",
 					"contributor": "Murfy"
+				},
+				{
+					"message": "Show Next BB cost under Dividend on the stock exchange, and in the popup stocks overview.",
+					"contributor": "Murfy"
 				}
 			],
 			"fixes": [
