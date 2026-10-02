@@ -98,13 +98,13 @@
 					<div class="text-muted-foreground flex flex-wrap gap-x-2 text-xs">
 						<span>({formatNumber(row.userStock.shares, { shorten: 2 })} share{applyPlural(row.userStock.shares)})</span>
 						{#if row.costToNext}
-							<span class="text-muted-foreground">
+							<span class="text-primary">
 								Next BB: {formatNumber(row.costToNext.cost, { currency: true, shorten: 2 })}
 							</span>
 						{/if}
 					</div>
 				{:else if row.costToNext}
-					<div class="text-muted-foreground text-xs">
+					<div class="text-primary text-xs">
 						Next BB: {formatNumber(row.costToNext.cost, { currency: true, shorten: 2 })}
 					</div>
 				{/if}
