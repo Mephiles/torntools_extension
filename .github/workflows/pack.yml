@@ -163,7 +163,7 @@ jobs:
 
     prepare-next-version:
         needs: publish
-        if: ${{ inputs.prepare_next }}
+        if: ${{ inputs.prepare_next_version }}
         permissions:
             contents: write
         uses: ./.github/workflows/prepare-next-version.yml

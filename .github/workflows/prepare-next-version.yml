@@ -33,15 +33,6 @@ jobs:
 
                   version="$(jq -j ".version" "./package.json")"
 
-                  DaySuffix() {
-                    case $(date +%-d) in
-                    1|21|31) echo "st";;
-                    2|22)    echo "nd";;
-                    3|23)    echo "rd";;
-                    *)       echo "th";;
-                    esac
-                  }
-
                   newVersionMajor="$(echo -n "\"${version}\"" | jq -j "split(\".\")[0] | tonumber | .")"
                   newVersionMinor="$(echo -n "\"${version}\"" | jq -j "split(\".\")[1] | tonumber | .")"
                   newVersionBuild="$(echo -n "\"${version}\"" | jq -j "split(\".\")[2] | tonumber | . + 1")"
