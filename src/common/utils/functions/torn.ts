@@ -1986,6 +1986,37 @@ export function getStockIncrement(required: number, stocks: number) {
 	return Math.log2(Math.floor(stocks / required) + 1);
 }
 
+export type CostToNextStockBlock = {
+	cost: number;
+	sharesNeeded: number;
+	nextLevel: number;
+};
+
+/**
+ * Money and shares still needed to reach the next stock benefit block.
+ * Returns null when the stock is already maxed (dividend level 5) or the non-dividend requirement is met.
+ */
+export function getCostToNextStockBlock(
+	stock: { id: number; bonus: { requirement: number }; market: { price: number } },
+	shares: number
+): CostToNextStockBlock | null {
+	const { requirement } = stock.bonus;
+	const { price } = stock.market;
+
+	if (isDividendStock(stock.id)) {
+		const nextLevel = Math.floor(getStockIncrement(requirement, shares)) + 1;
+		if (nextLevel > 5) return null;
+
+		const sharesNeeded = getRequiredStocks(requirement, nextLevel) - shares;
+		return { cost: sharesNeeded * price, sharesNeeded, nextLevel };
+	}
+
+	if (shares >= requirement) return null;
+
+	const sharesNeeded = requirement - shares;
+	return { cost: sharesNeeded * price, sharesNeeded, nextLevel: 1 };
+}
+
 export function getStockReward(reward: string, increment: number) {
 	let value: string;
 	if (reward.startsWith("$")) {

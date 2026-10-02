@@ -89,6 +89,7 @@ export const CONTRIBUTORS: Record<string, number | null> = {
 	luke__: 3720006,
 	Manuel: 3747263,
 	MOBermejo: 3385879,
+	Murfy: 420016,
 	"mystify-321": 3737350,
 	nao: 2669774,
 	Natty_Boh: 1651049,
