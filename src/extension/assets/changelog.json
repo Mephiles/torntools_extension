@@ -7,10 +7,9 @@
 			"features": [],
 			"fixes": [],
 			"changes": [
-				{
-					"message": "Don't require the 'essential' data update for the other update cycles.",
-					"contributor": "DeKleineKobini"
-				}
+				{ "message": "Don't require the 'essential' data update for the other update cycles.", "contributor": "DeKleineKobini" },
+				{ "message": "Put a maximum on the essential update delay.", "contributor": "DeKleineKobini" },
+				{ "message": "Hold the update delay into account for the basic and passive data updates.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": []

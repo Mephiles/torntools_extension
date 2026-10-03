@@ -49,6 +49,7 @@ import type {
 import { dispatchNotification, newNotification } from "../notifications";
 
 const UPDATE_JITTER = 1_000;
+export const MAX_DELAY_ESSENTIAL = 300; // in seconds
 
 export type FetchedUserdata = UserProfileResponse &
 	UserFactionResponse &
@@ -95,13 +96,11 @@ export async function updateUserdata(forceUpdate = false) {
 	const updateBasic =
 		forceUpdate ||
 		!userdata?.dateBasic ||
-		(hasTimePassed(userdata?.dateBasic - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayBasic) &&
-			!hasTimePassed(userdata?.profile?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5));
+		(hasTimePassed(userdata?.dateBasic - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayBasic) && wasOnlineRecently());
 	const updatePassive =
 		forceUpdate ||
 		!userdata?.datePassive ||
-		(hasTimePassed(userdata?.datePassive - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayPassive) &&
-			!hasTimePassed(userdata?.profile?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5));
+		(hasTimePassed(userdata?.datePassive - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayPassive) && wasOnlineRecently());
 
 	const selections: string[] = [];
 	const selectionsV2: string[] = [];
@@ -849,6 +848,13 @@ export async function updateUserdata(forceUpdate = false) {
 			await ttStorage.update("notifications", (notifications) => (notifications.refillNerve = {}));
 		}
 	}
+}
+
+function wasOnlineRecently(): boolean {
+	const lastActionTimestamp = userdata?.profile?.last_action?.timestamp;
+	if (!lastActionTimestamp) return true;
+
+	return !hasTimePassed(lastActionTimestamp * TO_MILLIS.SECONDS, TO_MILLIS.MINUTES * 5 + settings.apiUsage.delayEssential * 1_000);
 }
 
 function validateUserdataResponse(fetchedUserdata: FetchedUserdata, _request: FetchRequest) {

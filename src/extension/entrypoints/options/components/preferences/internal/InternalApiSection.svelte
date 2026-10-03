@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { MAX_DELAY_ESSENTIAL } from "@/entrypoints/background/updates/userdata.ts";
 	import type { BooleanPreferenceStoragePath } from "../preference-storage";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
@@ -46,7 +47,7 @@
 
 	<PreferenceSectionCard title="API Usage" description="All API usage is checked every 30 seconds.">
 		<StorageText path="settings.apiUsage.comment" label="API call comment" />
-		<StorageNumber path="settings.apiUsage.delayEssential" label="Essential userdata interval" min={30} />
+		<StorageNumber path="settings.apiUsage.delayEssential" label="Essential userdata interval" min={30} max={MAX_DELAY_ESSENTIAL} />
 		<StorageNumber path="settings.apiUsage.delayBasic" label="Basic userdata interval" min={30} />
 		<StorageNumber path="settings.apiUsage.delayPassive" label="Passive userdata interval" min={30} />
 		<StorageNumber path="settings.apiUsage.delayStakeouts" label="Stakeout interval" min={30} />
