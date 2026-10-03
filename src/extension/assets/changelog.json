@@ -1,5 +1,39 @@
 [
 	{
+		"version": { "major": 9, "minor": 3, "build": 3 },
+		"title": "Beta",
+		"date": false,
+		"logs": {
+			"features": [
+				{
+					"message": "Recommend lease prices on the property rental market and lease extension forms, with same-period totals and market-wide daily rates.",
+					"contributor": "Murfy"
+				}
+			],
+			"fixes": [],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
+	},
+	{
+		"version": { "major": 9, "minor": 3, "build": 2 },
+		"title": "Beta",
+		"date": false,
+		"logs": {
+			"features": [],
+			"fixes": [
+				{
+					"message": "Remove some debugging code from 'Live Networth', which always resulted in no changes being shown.",
+					"contributor": "DeKleineKobini"
+				}
+			],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
+	},
+	{
 		"version": { "major": 9, "minor": 3, "build": 1 },
 		"title": "Beta",
 		"date": false,
@@ -12,14 +46,7 @@
 				},
 				{ "message": "Reintroduce the previously disabled 'Travel Fill Max', adapted for the travel 2.0.", "contributor": "DeKleineKobini" },
 				{ "message": "Highlight bazaar entries when clicking through the 'Bazaar Market' feature.", "contributor": "DeKleineKobini" },
-				{
-					"message": "Recommend lease prices on the property rental market and lease extension forms, with same-period totals and market-wide daily rates.",
-					"contributor": "Murfy"
-				},
-				{
-					"message": "Show Next BB cost under Dividend on the stock exchange, and in the popup stocks overview.",
-					"contributor": "Murfy"
-				}
+				{ "message": "Show Next BB cost under Dividend on the stock exchange, and in the popup stocks overview.", "contributor": "Murfy" }
 			],
 			"fixes": [
 				{ "message": "Clearing the cache now also always takes the fallback storage with it.", "contributor": "DeKleineKobini" },
