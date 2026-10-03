@@ -93,17 +93,15 @@ export async function updateUserdata(forceUpdate = false) {
 		!Object.keys(userdata).length ||
 		hasTimePassed((userdata.date ?? 0) - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayEssential);
 	const updateBasic =
-		updateEssential &&
-		(forceUpdate ||
-			!userdata?.dateBasic ||
-			(hasTimePassed(userdata?.dateBasic - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayBasic) &&
-				!hasTimePassed(userdata?.profile?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
+		forceUpdate ||
+		!userdata?.dateBasic ||
+		(hasTimePassed(userdata?.dateBasic - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayBasic) &&
+			!hasTimePassed(userdata?.profile?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5));
 	const updatePassive =
-		updateEssential &&
-		(forceUpdate ||
-			!userdata?.datePassive ||
-			(hasTimePassed(userdata?.datePassive - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayPassive) &&
-				!hasTimePassed(userdata?.profile?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5)));
+		forceUpdate ||
+		!userdata?.datePassive ||
+		(hasTimePassed(userdata?.datePassive - UPDATE_JITTER, TO_MILLIS.SECONDS * settings.apiUsage.delayPassive) &&
+			!hasTimePassed(userdata?.profile?.last_action?.timestamp * 1000, TO_MILLIS.MINUTES * 5));
 
 	const selections: string[] = [];
 	const selectionsV2: string[] = [];
