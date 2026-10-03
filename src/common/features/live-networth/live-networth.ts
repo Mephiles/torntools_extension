@@ -205,8 +205,7 @@ async function showNetworth() {
 		const previous = type.snapshotGetter(userdata);
 		const current = type.liveGetter(userdata);
 
-		// oxlint-disable-next-line no-constant-condition -- debug: force the table to have no rows
-		if (current === previous || true) return;
+		if (current === previous) return;
 
 		hasChanges = true;
 
