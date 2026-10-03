@@ -1,5 +1,11 @@
 [
 	{
+		"version": { "major": 9, "minor": 3, "build": 3 },
+		"title": "Beta",
+		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
 		"version": { "major": 9, "minor": 3, "build": 2 },
 		"title": "Beta",
 		"date": false,
