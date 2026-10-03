@@ -1,0 +1,55 @@
+/* Need higher specificity than `.tt-container:not(.compact) > main` (default 4px). */
+.tt-container.tt-lease-price-recommendation:not(.compact) > main {
+	padding: 10px 12px;
+	font-size: 13px;
+	line-height: 1.4;
+}
+
+.tt-lease-price-recommendation .tt-lease-price-section {
+	margin-top: 8px;
+	padding-top: 8px;
+	border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+body.dark-mode .tt-lease-price-recommendation .tt-lease-price-section {
+	border-top-color: rgba(255, 255, 255, 0.15);
+}
+
+.tt-lease-price-recommendation .tt-lease-price-section:first-of-type {
+	margin-top: 0;
+	padding-top: 0;
+	border-top: none;
+}
+
+.tt-lease-price-recommendation .tt-lease-price-section-title {
+	font-weight: bold;
+	margin-bottom: 4px;
+}
+
+.tt-lease-price-recommendation .tt-lease-price-row {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	margin: 2px 0;
+}
+
+.tt-lease-price-recommendation .tt-lease-price-row.recommended .tt-lease-price-value {
+	color: var(--tt-color-green);
+	font-weight: bold;
+}
+
+.tt-lease-price-recommendation .tt-lease-price-label {
+	opacity: 0.85;
+}
+
+.tt-lease-price-recommendation .tt-lease-price-meta,
+.tt-lease-price-recommendation .tt-lease-price-message {
+	margin-top: 6px;
+	opacity: 0.85;
+	font-size: 12px;
+}
+
+.tt-lease-price-recommendation .tt-lease-price-apply {
+	display: inline-block;
+	margin-top: 8px;
+}

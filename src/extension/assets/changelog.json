@@ -3,7 +3,18 @@
 		"version": { "major": 9, "minor": 3, "build": 3 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [
+				{
+					"message": "Recommend lease prices on the property rental market and lease extension forms, with same-period totals and market-wide daily rates.",
+					"contributor": "Murfy"
+				}
+			],
+			"fixes": [],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
 	},
 	{
 		"version": { "major": 9, "minor": 3, "build": 2 },
