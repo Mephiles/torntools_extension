@@ -9,7 +9,11 @@
 			"changes": [
 				{ "message": "Don't require the 'essential' data update for the other update cycles.", "contributor": "DeKleineKobini" },
 				{ "message": "Put a maximum on the essential update delay.", "contributor": "DeKleineKobini" },
-				{ "message": "Hold the update delay into account for the basic and passive data updates.", "contributor": "DeKleineKobini" }
+				{ "message": "Hold the update delay into account for the basic and passive data updates.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Put an error boundary around the stakeout list in the popup so errors in there don't block out the entire dashboard.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"removed": [],
 			"technical": []

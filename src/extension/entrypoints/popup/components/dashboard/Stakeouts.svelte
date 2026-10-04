@@ -6,6 +6,7 @@
 	import CaretDownIcon from "phosphor-svelte/lib/CaretDownIcon";
 	import CaretRightIcon from "phosphor-svelte/lib/CaretRightIcon";
 	import { browser } from "wxt/browser";
+	import ErrorMessage from "@/entrypoints/popup/components/ErrorMessage.svelte";
 	import type { StakeoutRow as StakeoutRowType } from "./dashboard.svelte.js";
 	import StakeoutRow from "./StakeoutRow.svelte";
 
@@ -49,9 +50,15 @@
 
 		{#if stakeoutsOpen}
 			<div class="space-y-1">
-				{#each stakeoutRows as row (row.id)}
-					<StakeoutRow {row} />
-				{/each}
+				<svelte:boundary>
+					{#each stakeoutRows as row (row.id)}
+						<StakeoutRow {row} />
+					{/each}
+
+					{#snippet failed(error, reset)}
+						<ErrorMessage {error} />
+					{/snippet}
+				</svelte:boundary>
 			</div>
 		{/if}
 	</section>
