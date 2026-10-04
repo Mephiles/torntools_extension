@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [{ "message": "Revert a visual change to 'Stocks Money Input' for mobile layouts.", "contributor": "DeKleineKobini" }],
 			"changes": [
 				{ "message": "Don't require the 'essential' data update for the other update cycles.", "contributor": "DeKleineKobini" },
 				{ "message": "Put a maximum on the essential update delay.", "contributor": "DeKleineKobini" },
