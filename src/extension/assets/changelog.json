@@ -16,7 +16,7 @@
 				}
 			],
 			"removed": [],
-			"technical": []
+			"technical": [{ "message": "Use nested CSS in 'Travel Table'.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{
