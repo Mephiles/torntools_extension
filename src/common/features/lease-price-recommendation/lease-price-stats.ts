@@ -1,6 +1,9 @@
+import { arraysEquals } from "@common/utils/functions/utilities.ts";
+
 export interface RentalListingLike {
 	happy: number;
 	cost: number;
+	modifications: string[];
 	rental_period: number;
 	cost_per_day?: number;
 }
@@ -10,7 +13,7 @@ export interface LeasePriceStats {
 	max: number;
 	recommended: number;
 	matchCount: number;
-	usedHappyFilter: boolean;
+	filter: ComparingFilter;
 }
 
 export interface DailyRateStats {
@@ -18,7 +21,7 @@ export interface DailyRateStats {
 	maxPerDay: number;
 	recommendedPerDay: number;
 	matchCount: number;
-	usedHappyFilter: boolean;
+	filter: ComparingFilter;
 }
 
 export interface LeasePriceStatsOptions {
@@ -51,6 +54,12 @@ export function filterByHappyBand(listings: RentalListingLike[], happy: number, 
 	return listings.filter((listing) => listing.happy >= minHappy && listing.happy <= maxHappy);
 }
 
+export function filterByModifications(listings: RentalListingLike[], modifications: string[]): RentalListingLike[] {
+	const sortedModifications = Array.from(modifications).sort();
+
+	return listings.filter((listing) => arraysEquals(Array.from(listing.modifications).sort(), sortedModifications));
+}
+
 export function median(values: number[]): number {
 	if (values.length === 0) throw new Error("Cannot compute median of an empty list.");
 
@@ -69,21 +78,29 @@ export function recommendedFromCosts(costs: number[], cheapestCount: number): nu
 	return median(cheapest);
 }
 
+type ComparingFilter = "none" | "modifications" | "happy";
+
 function selectComparableListings(
 	listings: RentalListingLike[],
 	happy: number | null | undefined,
+	modifications: string[],
 	options: Required<LeasePriceStatsOptions>,
-): { comparable: RentalListingLike[]; usedHappyFilter: boolean } {
-	if (listings.length === 0) return { comparable: [], usedHappyFilter: false };
+): { comparable: RentalListingLike[]; filter: ComparingFilter } {
+	if (listings.length === 0) return { comparable: [], filter: "none" };
+
+	const modificationMatches = filterByModifications(listings, modifications);
+	if (modificationMatches.length > 0) {
+		return { comparable: modificationMatches, filter: "modifications" };
+	}
 
 	if (happy != null && Number.isFinite(happy)) {
 		const happyMatches = filterByHappyBand(listings, happy, options.happyTolerance);
 		if (happyMatches.length >= options.minHappyMatches) {
-			return { comparable: happyMatches, usedHappyFilter: true };
+			return { comparable: happyMatches, filter: "happy" };
 		}
 	}
 
-	return { comparable: listings, usedHappyFilter: false };
+	return { comparable: listings, filter: "none" };
 }
 
 /**
@@ -94,13 +111,14 @@ export function computeLeasePriceStats(
 	listings: RentalListingLike[],
 	days: number,
 	happy?: number | null,
+	modifications: string[],
 	partialOptions: LeasePriceStatsOptions = {},
 ): LeasePriceStats | null {
 	const options = { ...DEFAULT_OPTIONS, ...partialOptions };
 	const samePeriod = filterByRentalPeriod(listings, days);
 	if (samePeriod.length === 0) return null;
 
-	const { comparable, usedHappyFilter } = selectComparableListings(samePeriod, happy, options);
+	const { comparable, filter } = selectComparableListings(samePeriod, happy, modifications, options);
 	const costs = comparable.map((listing) => listing.cost);
 
 	return {
@@ -108,7 +126,7 @@ export function computeLeasePriceStats(
 		max: Math.max(...costs),
 		recommended: recommendedFromCosts(costs, options.cheapestCount),
 		matchCount: comparable.length,
-		usedHappyFilter,
+		filter,
 	};
 }
 
@@ -118,12 +136,13 @@ export function computeLeasePriceStats(
 export function computeDailyRateStats(
 	listings: RentalListingLike[],
 	happy?: number | null,
+	modifications: string[],
 	partialOptions: LeasePriceStatsOptions = {},
 ): DailyRateStats | null {
 	const options = { ...DEFAULT_OPTIONS, ...partialOptions };
 	if (listings.length === 0) return null;
 
-	const { comparable, usedHappyFilter } = selectComparableListings(listings, happy, options);
+	const { comparable, filter } = selectComparableListings(listings, happy, modifications, options);
 	const rates = comparable.map(costPerDay);
 
 	return {
@@ -131,6 +150,6 @@ export function computeDailyRateStats(
 		maxPerDay: Math.max(...rates),
 		recommendedPerDay: recommendedFromCosts(rates, options.cheapestCount),
 		matchCount: comparable.length,
-		usedHappyFilter,
+		filter,
 	};
 }

@@ -176,6 +176,7 @@ function resolvePropertyContext(propertyId: number) {
 		typeId: owned.property.id,
 		name: owned.property.name,
 		happy: owned.happy,
+		modifications: owned.modifications,
 	};
 }
 
@@ -211,8 +212,8 @@ async function refreshRecommendation() {
 		const listings = await fetchRentalListings(context.typeId);
 		if (requestId !== activeRequestId) return;
 
-		const periodStats = computeLeasePriceStats(listings, days, context.happy);
-		const dailyStats = computeDailyRateStats(listings, context.happy);
+		const periodStats = computeLeasePriceStats(listings, days, context.happy, context.modifications);
+		const dailyStats = computeDailyRateStats(listings, context.happy, context.modifications);
 
 		if (!periodStats && !dailyStats) {
 			renderPanel({
@@ -317,7 +318,9 @@ function renderPanel(content: PanelContent) {
 }
 
 function buildPeriodSection(stats: LeasePriceStats, days: number) {
-	const happyNote = stats.usedHappyFilter ? " (similar happiness)" : "";
+	let note = "";
+	if (stats.filter === "modifications") note = " (exact match)";
+	else if (stats.filter === "happy") note = " (similar happiness)";
 
 	return elementBuilder({
 		type: "div",
@@ -330,7 +333,7 @@ function buildPeriodSection(stats: LeasePriceStats, days: number) {
 			elementBuilder({
 				type: "div",
 				class: "tt-lease-price-meta",
-				text: `Based on ${stats.matchCount} listing${stats.matchCount === 1 ? "" : "s"} for ${days} days${happyNote}.`,
+				text: `Based on ${stats.matchCount} listing${stats.matchCount === 1 ? "" : "s"} for ${days} days${note}.`,
 			}),
 			buildApplyButton("Apply same-period price", () => applyRecommended(stats.recommended)),
 		],
@@ -338,7 +341,10 @@ function buildPeriodSection(stats: LeasePriceStats, days: number) {
 }
 
 function buildDailySection(stats: DailyRateStats, days: number) {
-	const happyNote = stats.usedHappyFilter ? " (similar happiness)" : "";
+	let note = "";
+	if (stats.filter === "modifications") note = " (exact match)";
+	else if (stats.filter === "happy") note = " (similar happiness)";
+
 	const total = stats.recommendedPerDay * days;
 
 	return elementBuilder({
@@ -353,7 +359,7 @@ function buildDailySection(stats: DailyRateStats, days: number) {
 			elementBuilder({
 				type: "div",
 				class: "tt-lease-price-meta",
-				text: `Based on ${stats.matchCount} listing${stats.matchCount === 1 ? "" : "s"} across all durations${happyNote}.`,
+				text: `Based on ${stats.matchCount} listing${stats.matchCount === 1 ? "" : "s"} across all durations${note}.`,
 			}),
 			buildApplyButton("Apply daily-rate total", () => applyRecommended(total)),
 		],
