@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Average Personal Stats",
 	description: "Calculate the average personal stat increase.",
-	version: "1.0.0",
+	version: "1.0.1",
 	matches: ["https://*.torn.com/personalstats.php*"],
 	runAt: "document-start",
 };
