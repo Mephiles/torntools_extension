@@ -82,7 +82,7 @@ type ComparingFilter = "none" | "modifications" | "happy";
 
 function selectComparableListings(
 	listings: RentalListingLike[],
-	happy: number | null | undefined,
+	happy: number,
 	modifications: string[],
 	options: Required<LeasePriceStatsOptions>,
 ): { comparable: RentalListingLike[]; filter: ComparingFilter } {
@@ -93,11 +93,9 @@ function selectComparableListings(
 		return { comparable: modificationMatches, filter: "modifications" };
 	}
 
-	if (happy != null && Number.isFinite(happy)) {
-		const happyMatches = filterByHappyBand(listings, happy, options.happyTolerance);
-		if (happyMatches.length >= options.minHappyMatches) {
-			return { comparable: happyMatches, filter: "happy" };
-		}
+	const happyMatches = filterByHappyBand(listings, happy, options.happyTolerance);
+	if (happyMatches.length >= options.minHappyMatches) {
+		return { comparable: happyMatches, filter: "happy" };
 	}
 
 	return { comparable: listings, filter: "none" };
@@ -105,12 +103,11 @@ function selectComparableListings(
 
 /**
  * Compute min/max/recommended lease cost for listings matching the rental period.
- * When happiness is known and enough listings fall in ±tolerance, prefer that subset.
  */
 export function computeLeasePriceStats(
 	listings: RentalListingLike[],
 	days: number,
-	happy?: number | null,
+	happy: number,
 	modifications: string[],
 	partialOptions: LeasePriceStatsOptions = {},
 ): LeasePriceStats | null {
@@ -135,7 +132,7 @@ export function computeLeasePriceStats(
  */
 export function computeDailyRateStats(
 	listings: RentalListingLike[],
-	happy?: number | null,
+	happy: number,
 	modifications: string[],
 	partialOptions: LeasePriceStatsOptions = {},
 ): DailyRateStats | null {
