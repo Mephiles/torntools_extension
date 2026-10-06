@@ -16,7 +16,7 @@ import type { DailyRateStats, LeasePriceStats } from "@features/lease-price-reco
 import { computeDailyRateStats, computeLeasePriceStats } from "@features/lease-price-recommendation/lease-price-stats";
 import type { MarketRentalsResponse } from "tornapi-typescript";
 
-const CONTAINER_TITLE = "Market Prices";
+const CONTAINER_TITLE = "Lease Recommendations";
 const CACHE_SECTION = "propertyRentals";
 const CACHE_TTL = TO_MILLIS.MINUTES * 5;
 const FETCH_LIMIT = 100;
