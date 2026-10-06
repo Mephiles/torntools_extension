@@ -875,12 +875,16 @@ function getTravelType() {
 
 	function toCorrectMethod(method: string | null) {
 		switch (method) {
+			case "1":
 			case "standard":
 				return "standard";
+			case "2":
 			case "airstrip":
 				return "airstrip";
+			case "3":
 			case "private":
 				return "private";
+			case "4":
 			case "business":
 				return "business";
 			default:
