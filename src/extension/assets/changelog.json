@@ -4,7 +4,10 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Recommend lease prices on for your rental properties.", "contributor": "Murfy" }],
+			"features": [
+				{ "message": "Recommend lease prices on for your rental properties.", "contributor": "Murfy" },
+				{ "message": "Hold vendor sell prices into account with 'Travel Table'.", "contributor": "DeKleineKobini" }
+			],
 			"fixes": [
 				{ "message": "Revert a visual change to 'Stocks Money Input' for mobile layouts.", "contributor": "DeKleineKobini" },
 				{ "message": "Read the correct travel type from the travel page for 'Travel Table'.", "contributor": "DeKleineKobini" }

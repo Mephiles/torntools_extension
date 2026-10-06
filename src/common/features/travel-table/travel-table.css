@@ -227,6 +227,10 @@
 		.stock .update {
 			font-size: 10px;
 		}
+
+		sup {
+			opacity: 0.6;
+		}
 	}
 
 	.positive {

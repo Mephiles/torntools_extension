@@ -594,23 +594,26 @@ async function startTable() {
 
 			if (getTravelType() === "standard") totalCost += country.cost;
 
-			let value: number | "N/A" = tornItem?.value.market_price ?? 0;
+			const marketValue = tornItem?.value.market_price ?? 0;
+			const sellValue = tornItem?.value.sell_price ?? null;
+			let value: number | "N/A";
+			let isSellValue: boolean;
 			const time = country.time * getTimeModifier(getTravelType());
 			let profitItem: number | "N/A", profitMinute: number | "N/A", profit: number | "N/A";
-			if (value !== 0) {
-				const sales = value * amount;
-
+			if (tornItem !== null && marketValue !== 0) {
 				const applySalesTax = findElement<HTMLInputElement>("#apply-sales-tax", content).checked;
-				const salesTax = applySalesTax ? Math.ceil((sales * SALES_TAX) / 100) : 0;
-
 				const sellAnonymously = findElement<HTMLInputElement>("#sell-anonymously", content).checked;
-				const anonymousTax = sellAnonymously ? Math.ceil((sales * ANONYMOUS_TAX) / 100) : 0;
 
-				profit = sales - (totalCost + salesTax + anonymousTax);
+				const information = saleInformation(marketValue, sellValue, amount, applySalesTax, sellAnonymously);
+				value = information.value;
+				isSellValue = information.isSellValue;
+
+				profit = information.net - totalCost;
 				profitItem = dropDecimals(profit / amount);
 				profitMinute = dropDecimals(profit / (time * 2));
 			} else {
 				value = "N/A";
+				isSellValue = false;
 				profitItem = "N/A";
 				profitMinute = "N/A";
 				profit = "N/A";
@@ -637,8 +640,13 @@ async function startTable() {
 						<div class="buy-price advanced" data-value="${item.cost}">
 							${formatNumber(item.cost, { shorten: true, currency: true })}
 						</div>
-						<div class="market-value advanced" data-value="${typeof value !== "number" ? 0 : value}">
+						<div 
+							class="market-value advanced" 
+							data-value="${typeof value !== "number" ? 0 : value}"
+							${isSellValue ? "title='Sell to the game for best value'" : ""}
+						>
 							${formatNumber(value, { shorten: true, currency: true })}
+							${isSellValue ? "<sup>*</sup>" : ""}
 						</div>
 						<div class="profit-item advanced ${getValueClass(profitItem)}" data-value="${typeof profitItem !== "number" ? 0 : profitItem}">
 							${formatNumber(profitItem, { shorten: true, currency: true, forceOperation: true })}
@@ -656,7 +664,8 @@ async function startTable() {
 				dataset: {
 					country: country.tag,
 					category,
-					value,
+					marketValue,
+					sellValue: sellValue ?? 0,
 					cost,
 					travelCost: getTravelType() === "standard" ? country.cost : 0,
 					time: country.time,
@@ -727,6 +736,35 @@ function getValueClass(value: number | "N/A") {
 	return value > 0 ? "positive" : "negative";
 }
 
+function saleInformation(marketValue: number, sellValue: number | null, amount: number, applySalesTax: boolean, sellAnonymously: boolean) {
+	const marketTotal = marketValue * amount;
+	const salesTax = applySalesTax ? Math.ceil((marketTotal * SALES_TAX) / 100) : 0;
+	const anonymousTax = sellAnonymously ? Math.ceil((marketTotal * ANONYMOUS_TAX) / 100) : 0;
+	const marketNet = marketTotal - salesTax - anonymousTax;
+
+	if (sellValue) {
+		const sellNet = sellValue * amount;
+		if (sellNet >= marketNet) return { isSellValue: true, value: sellValue, net: sellNet };
+	}
+
+	return { isSellValue: false, value: marketValue, net: marketNet };
+}
+
+function setProfitCell(element: HTMLElement, value: number) {
+	element.classList.remove("positive", "negative");
+	element.classList.add(getValueClass(value));
+	element.textContent = formatNumber(value, { shorten: true, currency: true, forceOperation: true });
+	element.dataset.value = value.toString();
+}
+
+function setMarketValueCell(element: HTMLElement, value: number, isSellValue: boolean) {
+	element.dataset.value = value.toString();
+	element.innerHTML = `${formatNumber(value, { shorten: true, currency: true })}${isSellValue ? "<sup>*</sup>" : ""}`;
+
+	if (isSellValue) element.title = "Sell to the game for best value";
+	else element.removeAttribute("title");
+}
+
 function getSelectedCategories(content: Element) {
 	return findAllElements(".categories input[name='item']:checked", content)
 		.map((el) => el.dataset.category)
@@ -772,36 +810,23 @@ function updateValues() {
 	const sellAnonymously = findElement<HTMLInputElement>("#sell-anonymously", content).checked;
 
 	for (const row of findAllElements(".row:not(.header)", table)) {
-		const { value, cost, travelCost, time } = toCorrectType(row.dataset);
+		const { marketValue, sellValue, cost, travelCost, time } = toCorrectType(row.dataset);
 		if (!cost) continue;
 
 		const modifiedTime = time * getTimeModifier(getTravelType());
 		const totalCost = amount * cost + travelCost;
-		if (value && value !== "N/A") {
-			const sales = value * amount;
-			const salesTax = applySalesTax ? Math.ceil((sales * SALES_TAX) / 100) : 0;
-			const anonymousTax = sellAnonymously ? Math.ceil((sales * ANONYMOUS_TAX) / 100) : 0;
+		if (marketValue) {
+			const route = saleInformation(marketValue, sellValue, amount, applySalesTax, sellAnonymously);
 
-			const profit = sales - (totalCost + salesTax + anonymousTax);
+			const profit = route.net - totalCost;
 			const profitItem = dropDecimals(profit / amount);
 			const profitMinute = dropDecimals(profit / (modifiedTime * 2));
 
-			const elementProfitItem = findElement(".profit-item", row);
-			const elementProfitMinute = findElement(".profit-minute", row);
-			const elementProfit = findElement(".profit", row);
+			setProfitCell(findElement(".profit-item", row), profitItem);
+			setProfitCell(findElement(".profit-minute", row), profitMinute);
+			setProfitCell(findElement(".profit", row), profit);
 
-			const allElements: [HTMLElement, number][] = [
-				[elementProfitItem, profitItem],
-				[elementProfitMinute, profitMinute],
-				[elementProfit, profit],
-			];
-
-			allElements.forEach(([element, value]) => {
-				element.classList.remove("positive", "negative");
-				element.classList.add(getValueClass(value));
-				element.textContent = formatNumber(value, { shorten: true, currency: true, forceOperation: true });
-				element.dataset.value = value.toString();
-			});
+			setMarketValueCell(findElement(".market-value", row), route.value, route.isSellValue);
 		}
 
 		findElement(".money", row).textContent = formatNumber(totalCost, { shorten: true, currency: true });
