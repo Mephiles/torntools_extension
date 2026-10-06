@@ -5,7 +5,10 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [{ "message": "Revert a visual change to 'Stocks Money Input' for mobile layouts.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Revert a visual change to 'Stocks Money Input' for mobile layouts.", "contributor": "DeKleineKobini" },
+				{ "message": "Read the correct travel type from the travel page for 'Travel Table'.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [
 				{ "message": "Don't require the 'essential' data update for the other update cycles.", "contributor": "DeKleineKobini" },
 				{ "message": "Put a maximum on the essential update delay.", "contributor": "DeKleineKobini" },
