@@ -9,11 +9,11 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
-import { getPageStatus, updateReactInput } from "@common/utils/functions/torn";
+import { getPageStatus, REACT_UPDATE_VERSIONS, updateReactInput } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
-import { computeDailyRateStats, computeLeasePriceStats } from "@features/lease-price-recommendation/lease-price-stats";
 import type { DailyRateStats, LeasePriceStats } from "@features/lease-price-recommendation/lease-price-stats";
+import { computeDailyRateStats, computeLeasePriceStats } from "@features/lease-price-recommendation/lease-price-stats";
 import type { MarketRentalsResponse } from "tornapi-typescript";
 
 const CONTAINER_TITLE = "Market Prices";
@@ -272,10 +272,7 @@ type PanelContent =
 	| { state: "stats"; periodStats: LeasePriceStats | null; dailyStats: DailyRateStats | null; days: number };
 
 function renderPanel(content: PanelContent) {
-	const anchor =
-		activeForm === "extension"
-			? findElement(".property-option, .offerExtension-form")
-			: findElement(".property-option, .lease-opt");
+	const anchor = activeForm === "extension" ? findElement(".property-option, .offerExtension-form") : findElement(".property-option, .lease-opt");
 
 	const { content: containerContent } = createContainer(CONTAINER_TITLE, {
 		previousElement: anchor,
@@ -398,7 +395,7 @@ function buildStatRow(label: string, value: string, recommended = false) {
 
 function applyRecommended(amount: number) {
 	const costInput = getCostInput();
-	updateReactInput(costInput, amount.toString());
+	updateReactInput(costInput, amount.toString(), { version: REACT_UPDATE_VERSIONS.DOUBLE_DEFAULT });
 
 	if (activeForm === "market") {
 		const hiddenCost = findElement<HTMLInputElement>("#market input.lease.input-money[data-name='money'][type='hidden']", true);
@@ -456,10 +453,6 @@ export default class LeasePriceRecommendationFeature extends Feature {
 	}
 
 	override storageKeys() {
-		return [
-			"settings.pages.property.leasePriceRecommendation",
-			"settings.apiUsage.user.properties",
-			"userdata.properties",
-		];
+		return ["settings.pages.property.leasePriceRecommendation", "settings.apiUsage.user.properties", "userdata.properties"];
 	}
 }
