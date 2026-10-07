@@ -500,6 +500,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 		keywords: ["organized crime"],
 	},
 	{ path: "settings.pages.faction.rankedWarValue", label: "Show the total rewards for ranked wars", group: "qol", section: "faction" },
+	{ path: "settings.pages.faction.stakeout", label: "Show the option to stakeout a faction", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.warReportHighlight", label: "Highlight yourself in war reports", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.ocWeights", label: "Display role weights for OC2 scenarios", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.submitScenarios", label: "Submit OC2 scenario data", group: "qol", section: "faction" },

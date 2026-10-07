@@ -90,6 +90,7 @@
 			<StorageSwitch path="settings.pages.faction.totalChallengeContributions" label="Show total challenge contributions" />
 			<StorageSwitch path="settings.pages.faction.warReportHighlight" label="Highlight yourself in war reports" />
 			<StorageSwitch path="settings.pages.faction.rankedWarValue" label="Show the total rewards for ranked wars" />
+			<StorageSwitch path="settings.pages.faction.stakeout" label="Show the option to stakeout a faction" />
 		</PreferenceSettingGroup>
 
 		<PreferenceSettingGroup title="Banking">

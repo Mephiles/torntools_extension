@@ -10,7 +10,8 @@
 			],
 			"fixes": [
 				{ "message": "Revert a visual change to 'Stocks Money Input' for mobile layouts.", "contributor": "DeKleineKobini" },
-				{ "message": "Read the correct travel type from the travel page for 'Travel Table'.", "contributor": "DeKleineKobini" }
+				{ "message": "Read the correct travel type from the travel page for 'Travel Table'.", "contributor": "DeKleineKobini" },
+				{ "message": "Add the missing option to disable 'Faction Stakeouts'.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Don't require the 'essential' data update for the other update cycles.", "contributor": "DeKleineKobini" },
