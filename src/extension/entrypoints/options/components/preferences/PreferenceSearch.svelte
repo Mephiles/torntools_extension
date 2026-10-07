@@ -3,7 +3,7 @@
 	import * as Dialog from "@svelte/components/ui/dialog";
 	import { push } from "svelte-spa-router";
 	import { PREFERENCE_GROUPS } from "./configuration";
-	import { getLastKey, PREFERENCE_SEARCH_DATA } from "./preference-search-data";
+	import { PREFERENCE_SEARCH_DATA, getPreferenceSearchKeywords, preferenceSearchFilter } from "./preference-search-data";
 	import type { SearchablePreference } from "./preference-search-data";
 	import { getPreferenceSectionRoute } from "./preferences";
 
@@ -25,10 +25,6 @@
 				}));
 		}),
 	);
-
-	function getKeywords(item: SearchablePreference): string[] {
-		return [item.label, getLastKey(item.path), ...(item.keywords ?? [])].filter((t) => !!t);
-	}
 
 	function selectPreference(item: SearchablePreference) {
 		open = false;
@@ -52,7 +48,7 @@
 			<Dialog.Description>Search through the TornTools preferences.</Dialog.Description>
 		</Dialog.Header>
 
-		<Command.Root>
+		<Command.Root filter={preferenceSearchFilter}>
 			<Command.Input placeholder="Search preferences" />
 
 			<Command.List>
@@ -61,7 +57,7 @@
 				{#each groupedData as group (group.key)}
 					<Command.Group heading={group.heading}>
 						{#each group.items as item (item.path)}
-							<Command.Item value={item.path} keywords={getKeywords(item)} onSelect={() => selectPreference(item)}>
+							<Command.Item value={item.path} keywords={getPreferenceSearchKeywords(item)} onSelect={() => selectPreference(item)}>
 								<div>
 									<span class="truncate text-sm">{item.label}</span>
 									{#if item.description}

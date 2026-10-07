@@ -10,11 +10,6 @@ export interface SearchablePreference {
 	section: string;
 }
 
-export function getLastKey(path: string): string {
-	const parts = path.split(".");
-	return parts.at(-1)!;
-}
-
 export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	/*
 	 * Internal
@@ -567,3 +562,68 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "api.ffScouter.key", label: "FFScouter API key", group: "connections", section: "services" },
 	{ path: "settings.external.tornintel", label: "Enable Torn Intel", group: "connections", section: "services" },
 ];
+
+const WORD_SPLIT = /[^a-z0-9]+/;
+const WORD_JOIN = /[^a-z0-9]+/g;
+
+export function getPreferenceSearchKeywords(item: SearchablePreference): string[] {
+	return [item.label, ...(item.keywords ?? [])].filter((term): term is string => !!term);
+}
+
+function condense(value: string): string {
+	return value.toLowerCase().replace(WORD_JOIN, "");
+}
+
+function singular(word: string): string {
+	return word.endsWith("s") ? word.slice(0, -1) : word;
+}
+
+/**
+ * Scores a single query term against one search source (label, keyword or section title).
+ * Returns 0 when the source does not match the term.
+ */
+function scoreTerm(source: string, term: string): number {
+	const lower = source.trim().toLowerCase();
+	if (!lower) return 0;
+	if (lower === term) return 1;
+
+	const words = lower.split(WORD_SPLIT).filter(Boolean);
+	if (words.includes(term)) return 0.95;
+	if (words.some((word) => word.startsWith(term))) return 0.85;
+	if (term.length >= 3 && words.some((word) => singular(word) === term || word === singular(term))) return 0.8;
+
+	const condensedTerm = condense(term);
+	if (condensedTerm.length >= 4 && condense(lower).includes(condensedTerm)) return 0.45;
+
+	return 0;
+}
+
+/**
+ * Custom filter for the bits-ui `Command` primitive.
+ *
+ * Unlike the default fuzzy filter this ignores the item `value` (the storage path) and only
+ * searches the supplied keywords. Every space-separated query term must match at least one
+ * keyword, and matching is done on whole words, word prefixes, simple plurals and a
+ * separator-insensitive substring fallback. This prevents the low-confidence fuzzy matches that
+ * previously flooded the preference search with unrelated results.
+ */
+export function preferenceSearchFilter(_value: string, search: string, keywords?: string[]): number {
+	const query = search.trim().toLowerCase();
+	if (!query) return 1;
+
+	const sources = (keywords ?? []).map((keyword) => keyword.trim().toLowerCase()).filter(Boolean);
+	if (sources.length === 0) return 0;
+
+	const terms = query.split(/\s+/).filter(Boolean);
+	let total = 0;
+	for (const term of terms) {
+		let bestScore = 0;
+		for (const source of sources) {
+			bestScore = Math.max(bestScore, scoreTerm(source, term));
+		}
+		if (bestScore === 0) return 0;
+		total += bestScore;
+	}
+
+	return total / terms.length;
+}
