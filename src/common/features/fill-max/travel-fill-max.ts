@@ -20,7 +20,7 @@ async function displayFillMaxButtons() {
 	await requireElement("[class*='stockTableWrapper___']");
 	await markTravelTableColumns();
 
-	findAllElements(`[class*='stockTableWrapper___'] > li:not(:has(.${styles.ttMaxBuyAbroad}))`).forEach((row) => {
+	findAllElements(`[class*='stockTableWrapper___'] > li:not(:has(.${styles.ttMaxBuyAbroad})):has(li[class*='row___'])`).forEach((row) => {
 		const parent = findElement("[data-tt-content-type='buy']", row);
 
 		parent.append(
