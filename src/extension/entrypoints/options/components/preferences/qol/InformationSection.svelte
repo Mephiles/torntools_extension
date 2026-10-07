@@ -32,6 +32,7 @@
 		<PreferenceSettingGroup>
 			<StorageSwitch path="settings.pages.property.value" label="Show value of all properties" />
 			<StorageSwitch path="settings.pages.property.happy" label="Show happiness of all properties" />
+			<StorageSwitch path="settings.pages.property.leasePriceRecommendation" label="Recommend lease prices on rental market and extensions" />
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 
