@@ -23,7 +23,8 @@
 				{
 					"message": "Put an error boundary around the stakeout list in the popup so errors in there don't block out the entire dashboard.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Include selling to the vendor in the mission hint for Sellout Slayer.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [
