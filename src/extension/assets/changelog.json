@@ -13,7 +13,8 @@
 				{ "message": "Read the correct travel type from the travel page for 'Travel Table'.", "contributor": "DeKleineKobini" },
 				{ "message": "Add the missing option to disable 'Faction Stakeouts'.", "contributor": "DeKleineKobini" },
 				{ "message": "Searching for a setting returned way too many results.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid an error in 'Travel Fill Max'.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid an error in 'Travel Fill Max'.", "contributor": "DeKleineKobini" },
+				{ "message": "Make sure there is always only a single settings link.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Don't require the 'essential' data update for the other update cycles.", "contributor": "DeKleineKobini" },

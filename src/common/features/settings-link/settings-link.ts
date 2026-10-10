@@ -24,7 +24,10 @@ function initialiseLink() {
 async function addLink() {
 	await requireSidebar();
 
-	findElement(".areasWrapper [class*='toggle-content__'], #sidebar [class*='areas___']").appendChild(
+	const parent = findElement(".areasWrapper [class*='toggle-content__'], #sidebar [class*='areas___']");
+	if (findElement(`.${styles.settings}`, true)) return;
+
+	parent.appendChild(
 		elementBuilder({
 			type: "div",
 			class: [styles.settings, "pill"],
