@@ -3,6 +3,7 @@ import { loadDatabase, settings, storageListeners } from "@common/utils/data/dat
 import { checkDevice, elementBuilder, getSearchParameters, isElement, isHTMLElement } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
+import { logger } from "@common/utils/functions/logger";
 import { requireChatsLoaded, requireCondition, requireContent } from "@common/utils/functions/requires";
 import { updateTimers } from "@common/utils/functions/timers";
 import { getPage } from "@common/utils/functions/torn";
@@ -148,8 +149,8 @@ export function runGlobalPageScripts() {
 	requireCondition(() => document.body).then(() => {
 		handleTheme().catch(() => {});
 		createOverlay();
-		observeChat().catch(console.error);
-		observeBody().catch(console.error);
+		observeChat().catch(logger.error);
+		observeBody().catch(logger.error);
 		handlePage();
 
 		setInterval(updateTimers, 1000);

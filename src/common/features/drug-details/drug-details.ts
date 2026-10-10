@@ -6,6 +6,7 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { DRUG_INFORMATION, getPage, getPageStatus } from "@common/utils/functions/torn";
 import type { DrugDetail } from "@common/utils/functions/torn";
@@ -52,7 +53,7 @@ function setupXHR(options = {}) {
 
 		const { json } = detail;
 
-		showDetails(json.itemID, options).catch((error) => console.error("Couldn't show drug details.", error));
+		showDetails(json.itemID, options).catch((error) => logger.error("Couldn't show drug details.", error));
 	});
 }
 
@@ -91,7 +92,7 @@ function addMutationObserver(selector: string) {
 				}
 			}
 
-			showDetails(id, { target }).catch((error) => console.error("Couldn't show drug details.", error));
+			showDetails(id, { target }).catch((error) => logger.error("Couldn't show drug details.", error));
 		}).observe(findElement(selector), { subtree: true, childList: true });
 	});
 }

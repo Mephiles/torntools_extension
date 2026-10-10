@@ -6,6 +6,7 @@ import { elementBuilder } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { createMessageBox, getUserDetails } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -33,7 +34,7 @@ async function addWorth() {
 		});
 	} catch (error) {
 		await displayError(!userId, error);
-		console.log("TT - Display Cabinet Worth API Error:", error);
+		logger.info("Display Cabinet Worth API Error:", error);
 		return;
 	}
 

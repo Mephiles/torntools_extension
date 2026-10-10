@@ -5,6 +5,7 @@ import { createContainer, removeContainer } from "@common/utils/functions/contai
 import { checkDevice, elementBuilder, mobile, tablet } from "@common/utils/functions/dom";
 import { findElement, findElementWithText } from "@common/utils/functions/find-elements";
 import { formatNumber, formatTime } from "@common/utils/functions/formatting";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement, requireSidebar } from "@common/utils/functions/requires";
 import { countTimers } from "@common/utils/functions/timers";
 import { getPage, isPageWithSidebar } from "@common/utils/functions/torn";
@@ -51,7 +52,7 @@ async function showAchievements() {
 				try {
 					current = achievement.stats();
 				} catch (error) {
-					console.error(`Achievement "${achievement.name}" failed to calculate its score.`, error);
+					logger.error(`Achievement "${achievement.name}" failed to calculate its score.`, error);
 					current = -1;
 				}
 

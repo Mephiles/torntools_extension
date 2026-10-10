@@ -1,5 +1,6 @@
 import "./dom.css";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements.ts";
+import { logger } from "@common/utils/functions/logger";
 import { requireCondition, requireDOMInteractive, requireElement } from "@common/utils/functions/requires";
 import { PHFillCaretDown, PHFillCaretUp } from "@common/utils/icons/phosphor-icons";
 
@@ -289,7 +290,7 @@ export function sortTable(table: HTMLElement, columnPlace: number, order?: Table
 							]!;
 						break;
 					default:
-						console.warn("Attempting to sort by a non-existing type.", elementA.dataset.sortType);
+						logger.warn("Attempting to sort by a non-existing type.", elementA.dataset.sortType);
 						return { a: 0, b: 0 }; // Keep original sorting order this way.
 				}
 			} else if (elementA.dataset.value !== undefined) {

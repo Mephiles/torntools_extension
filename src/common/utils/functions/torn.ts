@@ -2,6 +2,7 @@ import { COMMON_PROPERTY_TYPES } from "@common/constants/torn/properties.ts";
 import { INFORMATION_RETRIEVER, ITEM_RESOLVER } from "@common/utils/context";
 import { settings, torndata, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
+import { logger } from "@common/utils/functions/logger";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
 import { getCookie, isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
 import { torntools } from "@common/utils/icons/torntools";
@@ -2670,7 +2671,7 @@ export function extractXIDFromDOM(root: ParentNode): ExtractedXID[] {
 
 				return { item: parseInt(itemString), xid: parseInt(xidString) };
 			} catch (error) {
-				console.warn("[TornTools] Something went wrong when extracting XID's from the DOM.", error);
+				logger.warn("Something went wrong when extracting XID's from the DOM.", error);
 				return null;
 			}
 		})

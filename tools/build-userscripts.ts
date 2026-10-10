@@ -26,6 +26,9 @@ async function buildUserscript(entryName: string, userscript: UserscriptMetadata
 		root,
 		configFile: false,
 		publicDir: false,
+		define: {
+			__TT_DEV__: JSON.stringify(dev),
+		},
 		resolve: { alias: aliases },
 		plugins: [
 			svelte(),

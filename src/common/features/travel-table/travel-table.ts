@@ -7,6 +7,7 @@ import { elementBuilder, mobile, resortTable, sortTable } from "@common/utils/fu
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber, dropDecimals, formatNumber, formatTime } from "@common/utils/functions/formatting";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { createTTTopLinks, getPage, isAbroad, isCaptcha, isFlying, TAX_RATES } from "@common/utils/functions/torn";
 import { toCorrectType } from "@common/utils/functions/utilities";
@@ -877,7 +878,7 @@ function getTimeModifier(type: TravelType) {
 		case "business":
 			return 0.3;
 		default:
-			console.error(`Unknown travel type '${type}'!`);
+			logger.error(`Unknown travel type '${type}'!`);
 			return 1;
 	}
 }
@@ -913,7 +914,7 @@ function getTravelType() {
 			case "business":
 				return "business";
 			default:
-				console.log("TT - Detected unknown travel type.", method);
+				logger.info("Detected unknown travel type.", method);
 				return "standard";
 		}
 	}

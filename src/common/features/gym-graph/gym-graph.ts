@@ -7,6 +7,7 @@ import { createContainer } from "@common/utils/functions/containers";
 import { elementBuilder, mobile, showLoadingPlaceholder } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
 import { formatDate, formatNumber } from "@common/utils/functions/formatting";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, hasDarkMode } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
@@ -137,7 +138,7 @@ async function showGraph() {
 					"Can't display graph because no TornStats account was found. This likely is because the API keys don't match. Change the key in the settings, under 'external services'.";
 			}
 
-			console.log("TT - Couldn't load graph data from TornStats.", result);
+			logger.info("Couldn't load graph data from TornStats.", result);
 			showError(message);
 			return;
 		}

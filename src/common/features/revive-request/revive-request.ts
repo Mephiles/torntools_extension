@@ -4,6 +4,7 @@ import { calculateRevivePrice, doRequestRevive } from "@common/utils/functions/a
 import { checkDevice, elementBuilder, isElement } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
 import { capitalizeText } from "@common/utils/functions/formatting";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getFactionName, getPage, getUserDetails, isFlying } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
@@ -104,7 +105,7 @@ function showButton() {
 				} else {
 					displayMessage("Failed to request!", true);
 					button.removeAttribute("disabled");
-					console.log(`TT - Failed to request a revive with ${provider.name}!`, response);
+					logger.info(`Failed to request a revive with ${provider.name}!`, response);
 				}
 			});
 		return true;

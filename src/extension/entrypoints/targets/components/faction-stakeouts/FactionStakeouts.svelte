@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { ttStorage } from "@common/utils/context";
+	import { logger } from "@common/utils/functions/logger";
 	import { Button } from "@svelte/components/ui/button";
 	import { Input } from "@svelte/components/ui/input";
 	import PlusIcon from "phosphor-svelte/lib/PlusIcon";
@@ -30,7 +31,7 @@
 		}
 
 		const nextStakeouts = getStoredFactionStakeouts([...rows, getFactionStakeoutRow(factionId, null, true)], $factionStakeoutsStore?.date ?? 0);
-		ttStorage.set({ factionStakeouts: nextStakeouts }).catch(console.error);
+		ttStorage.set({ factionStakeouts: nextStakeouts }).catch(logger.error);
 		factionId = null;
 	}
 </script>

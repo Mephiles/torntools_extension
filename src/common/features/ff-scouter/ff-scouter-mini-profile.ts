@@ -2,6 +2,7 @@ import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { addFetchListener } from "@common/utils/functions/listeners";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 import { buildScoutInformation, scouterService } from "@features/ff-scouter/ff-scouter";
@@ -35,7 +36,7 @@ async function showFF(information: any) {
 			if ("error" in reason) {
 				showResult({ player_id: userId, message: reason.error, message_short: reason.error, isError: true });
 			} else {
-				console.error("TT - Failed to scout ff for the mini profile.", reason);
+				logger.error("Failed to scout ff for the mini profile.", reason);
 			}
 		});
 }

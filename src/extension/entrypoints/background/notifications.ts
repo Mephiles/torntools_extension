@@ -3,6 +3,7 @@ import { ttCache } from "@common/utils/data/cache";
 import { setNotificationHistory, settings } from "@common/utils/data/database";
 import type { TTFullNotification, TTNotification } from "@common/utils/data/default-database";
 import { hasInteractionSupport, hasSilentSupport } from "@common/utils/functions/browser";
+import { logger } from "@common/utils/functions/logger";
 import { isSpeechSynthesisAvailable, sleep, TO_MILLIS } from "@common/utils/functions/utilities";
 import type { OffscreenMessage } from "@extension/entrypoints/offscreen/offscreen";
 
@@ -45,7 +46,7 @@ class AudioPlayer {
 		} catch {
 			// Offscreen document may have been destroyed by the browser.
 			// This is expected — fail silently without propagating an error.
-			console.warn("Audio playback unavailable (offscreen document not ready).");
+			logger.warn("Audio playback unavailable (offscreen document not ready).");
 		}
 	}
 
@@ -144,7 +145,7 @@ async function notifyUser(title: string, message: string, url?: string) {
 	if (settings.notifications.tts) {
 		readMessage(title + message)
 			.then(() => {})
-			.catch((err) => console.error(err));
+			.catch(logger.error);
 	}
 
 	try {
@@ -153,7 +154,7 @@ async function notifyUser(title: string, message: string, url?: string) {
 		try {
 			await notifyService();
 		} catch (errorService) {
-			console.error("Failed to send notification.", { native: errorNative, service: errorService });
+			logger.error("Failed to send notification.", { native: errorNative, service: errorService });
 		}
 	}
 
@@ -176,7 +177,7 @@ async function notifyUser(title: string, message: string, url?: string) {
 		if (requireInteraction) options.requireInteraction = true;
 		const id = await browser.notifications.create(options);
 
-		if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().catch(console.error);
+		if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().catch(logger.error);
 
 		if (settings.notifications.link) {
 			const relation: NotificationRelation = { link: url };
@@ -214,7 +215,7 @@ async function notifyUser(title: string, message: string, url?: string) {
 			worker
 				.showNotification(title, options)
 				.then(() => {
-					if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().catch(console.error);
+					if (notificationSound !== "default" && notificationSound !== "mute") notificationPlayer.play().catch(logger.error);
 
 					resolve();
 				})
@@ -257,11 +258,11 @@ async function storeNotification(notification: TTNotification) {
 	const notificationHistory = await ttStorage.get("notificationHistory");
 
 	if ("combined" in notification) {
-		console.warn("Trying to save a combined notification.", notification);
+		logger.warn("Trying to save a combined notification.", notification);
 		return;
 	}
 	if (!notification.title || !notification.message || !notification.date) {
-		console.warn("Trying to save a notification without title, message or date.", notification);
+		logger.warn("Trying to save a notification without title, message or date.", notification);
 		return;
 	}
 

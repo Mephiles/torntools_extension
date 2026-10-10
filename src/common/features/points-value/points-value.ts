@@ -4,6 +4,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { checkDevice, executeScript, isElement } from "@common/utils/functions/dom";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { convertToNumber, formatNumber } from "@common/utils/functions/formatting";
+import { logger } from "@common/utils/functions/logger";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { isPageWithSidebar } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -42,7 +43,7 @@ async function showValue() {
 		null,
 	)?.singleNodeValue;
 	if (!block || !isElement(block)) {
-		console.warn("Couldn't find your points block for some odd reason.");
+		logger.warn("Couldn't find your points block for some odd reason.");
 		return;
 	}
 

@@ -171,6 +171,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.chat.resizable", label: "Make chats resizable", group: "global", section: "chat" },
 
 	// Section: advanced
+	{ path: "settings.logLevel", label: "Log level", group: "global", section: "advanced" },
 	{ path: "settings.developer", label: "Developer errors", group: "global", section: "advanced" },
 	{ path: "settings.featureDisplay", label: "Feature manager", group: "global", section: "advanced" },
 	{ path: "settings.featureDisplayOnlyFailed", label: "Feature manager: only failed", group: "global", section: "advanced" },

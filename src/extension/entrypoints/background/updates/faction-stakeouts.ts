@@ -1,6 +1,7 @@
 import { ttStorage } from "@common/utils/context";
 import { factionStakeouts, loadDatabase, notifications, settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
+import { logger } from "@common/utils/functions/logger";
 import { hasTimePassed, TO_MILLIS } from "@common/utils/functions/utilities";
 import type { FactionBasicResponse, FactionOngoingChainResponse, FactionWarsResponse } from "tornapi-typescript";
 import { dispatchNotification, newNotification } from "../notifications";
@@ -32,14 +33,14 @@ export async function updateFactionStakeouts(forceUpdate = false) {
 				silent: true,
 			});
 			if (!data) {
-				console.log("Unexpected result during faction stakeout updating.");
+				logger.info("Unexpected result during faction stakeout updating.");
 				failed++;
 				continue;
 			}
 
 			success++;
 		} catch (e) {
-			console.log("FACTION STAKEOUT error", e);
+			logger.info("FACTION STAKEOUT error", e);
 			failed++;
 			continue;
 		}

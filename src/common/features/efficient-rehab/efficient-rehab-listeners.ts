@@ -1,5 +1,6 @@
 import { EVENT_HANDLER } from "@common/utils/context";
 import { EVENT_CHANNELS } from "@common/utils/functions/events.ts";
+import { logger } from "@common/utils/functions/logger";
 import type { JQuery } from "@common/utils/type-helper";
 
 declare const $: (selector: string) => JQuery;
@@ -10,7 +11,7 @@ export function injectEfficientRehabListeners(pageWindow: Window = window) {
 		const rehabPercentages = JSON.parse($slider.attr("data-percentages")!) || [];
 
 		if (!(ticks in rehabPercentages)) {
-			console.warn("TornTools - Failed to update the rehab amount due to it being an invalid amount of ticks");
+			logger.warn("Failed to update the rehab amount due to it being an invalid amount of ticks");
 			return;
 		}
 

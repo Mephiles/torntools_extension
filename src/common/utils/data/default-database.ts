@@ -3,6 +3,7 @@ import type { DatabaseCache } from "@common/utils/data/cache";
 import type { StoredMigration } from "@common/utils/data/migrations";
 import type { FilterPresetsMap } from "@common/utils/functions/filter-presets.ts";
 import type { SpecialFilterValue } from "@common/utils/functions/filters";
+import type { LogLevel } from "@common/utils/functions/logger";
 import type { FetchedFactiondataBasic, FetchedFactiondataWithAccess } from "@extension/entrypoints/background/updates/factiondata";
 import type { FetchedTorndata } from "@extension/entrypoints/background/updates/torndata";
 import type { FetchedUserdata } from "@extension/entrypoints/background/updates/userdata";
@@ -60,6 +61,7 @@ export const DEFAULT_STORAGE = {
 		featureDisplayOnlyFailed: new DefaultSetting("boolean", false),
 		featureDisplayHideDisabled: new DefaultSetting("boolean", false),
 		featureDisplayHideEmpty: new DefaultSetting("boolean", true),
+		logLevel: new DefaultSetting<LogLevel>("string", "warn"),
 		developer: new DefaultSetting("boolean", false),
 		formatting: {
 			tct: new DefaultSetting("boolean", false),

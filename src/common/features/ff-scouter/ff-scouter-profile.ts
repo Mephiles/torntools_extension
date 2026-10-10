@@ -3,6 +3,7 @@ import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -22,7 +23,7 @@ async function showFF() {
 			if ("error" in reason) {
 				showResult({ player_id: id, message: reason.error, message_short: reason.error, isError: true });
 			} else {
-				console.error("TT - Failed to scout ff for the profile.", reason);
+				logger.error("Failed to scout ff for the profile.", reason);
 			}
 		});
 }

@@ -1,4 +1,5 @@
 import { loadDatabase } from "@common/utils/data/database";
+import { logger } from "@common/utils/functions/logger";
 import { loadAPIDemo } from "@features/api-demo/api-demo";
 import { loadAPISelections } from "@features/api-selections/api-selections";
 import { loadAutoAPIFill } from "@features/auto-api-fill/auto-api-fill";
@@ -15,7 +16,7 @@ export default defineContentScript({
 		registerExtensionContext();
 		await loadDatabase();
 
-		loadAPISelections().catch((err) => console.error(err));
+		loadAPISelections().catch(logger.error);
 		loadAutoAPIFill();
 		loadAPIDemo();
 		loadAPIPretty();

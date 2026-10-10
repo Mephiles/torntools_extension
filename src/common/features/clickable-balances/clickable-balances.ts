@@ -4,6 +4,7 @@ import { getHashParameters, isHTMLElement } from "@common/utils/functions/dom.ts
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements.ts";
 import { convertToNumber } from "@common/utils/functions/formatting.ts";
+import { logger } from "@common/utils/functions/logger";
 import { getPageStatus, getUsername, updateReactInput } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 import styles from "./clickable-balances.module.css";
@@ -41,19 +42,19 @@ function fillClickedBalance(event: MouseEvent) {
 function fillBalance(user: string, amount: number, activeMember: boolean) {
 	const moneyRoot = moneyRootElement();
 	if (!moneyRoot) {
-		console.warn(`TT - Failed to fill the balance for ${user} with ${amount} because we didn't find the money root.`);
+		logger.warn(`Failed to fill the balance for ${user} with ${amount} because we didn't find the money root.`);
 		return;
 	}
 
 	const moneyInput = findElement<HTMLInputElement>(".input-money:not([type='hidden'])", moneyRoot, true);
 	if (!moneyInput) {
-		console.warn(`TT - Failed to fill the balance for ${user} with ${amount} because we didn't find the money input.`);
+		logger.warn(`Failed to fill the balance for ${user} with ${amount} because we didn't find the money input.`);
 		return;
 	}
 
 	const userInput = findElement<HTMLInputElement>("[class*='userAutocomplete___']", moneyRoot, true);
 	if (!userInput) {
-		console.warn(`TT - Failed to fill the balance for ${user} with ${amount} because we didn't find the user input.`);
+		logger.warn(`Failed to fill the balance for ${user} with ${amount} because we didn't find the user input.`);
 		return;
 	}
 

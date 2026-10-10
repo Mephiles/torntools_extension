@@ -8,6 +8,7 @@ import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getUsername } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
@@ -59,7 +60,7 @@ async function addInfo(force: boolean) {
 	}
 
 	if (!balance) {
-		console.log("TT - Failed to load faction balance.");
+		logger.info("Failed to load faction balance.");
 		return;
 	}
 

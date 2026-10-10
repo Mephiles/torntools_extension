@@ -7,6 +7,7 @@ import { checkboxesSection, createFilter, presetSection, radioSection, sliderSec
 import type { FilterController, SliderRange } from "@common/utils/functions/filters";
 import { findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener } from "@common/utils/functions/listeners";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, getUsername } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -21,7 +22,7 @@ function initialiseListeners() {
 
 		const enemyFaction = await requireElement(".descriptions .faction-war .enemy-faction", { parent: rankedWarItem.parentElement! });
 
-		addFilterContainer(enemyFaction.closest(".faction-war")!).catch(console.error);
+		addFilterContainer(enemyFaction.closest(".faction-war")!).catch(logger.error);
 	});
 
 	addCustomListener(EVENT_CHANNELS.STATS_ESTIMATED, ({ row }) => {

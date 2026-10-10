@@ -7,6 +7,7 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement, requireItemsLoaded } from "@common/utils/functions/requires";
 import type { XHRDetails } from "@common/utils/functions/script-injector";
 import { getPage, getPageStatus, getUserDetails } from "@common/utils/functions/torn";
@@ -52,7 +53,7 @@ function initialiseItemValues() {
 		switch (step) {
 			case "getList":
 			case "getListById":
-				showInventoryList(params.get("type") || null, json.list, options).catch((error) => console.error("Couldn't show the item values.", error));
+				showInventoryList(params.get("type") || null, json.list, options).catch((error) => logger.error("Couldn't show the item values.", error));
 				break;
 		}
 	}

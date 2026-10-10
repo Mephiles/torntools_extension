@@ -10,6 +10,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, isElement } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
+import { logger } from "@common/utils/functions/logger";
 import { getPage } from "@common/utils/functions/torn";
 import { isTabFocused } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
@@ -106,7 +107,7 @@ function triggerGauge() {
 				});
 			}
 
-			console.error("TT - Failed to scout ff for the honor bars.", reason);
+			logger.error("Failed to scout ff for the honor bars.", reason);
 		})
 		.finally(() => (scoutLock = false));
 }

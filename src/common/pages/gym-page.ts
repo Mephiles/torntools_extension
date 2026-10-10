@@ -1,6 +1,7 @@
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { findElement } from "@common/utils/functions/find-elements.ts";
 import { addFetchListener } from "@common/utils/functions/listeners";
+import { logger } from "@common/utils/functions/logger";
 import { requireDOMContentLoaded, requireElement } from "@common/utils/functions/requires";
 
 const STATS: { [stat: string]: number } = {};
@@ -53,5 +54,5 @@ function triggerGymLoadFromDOM() {
 
 		triggerCustomListener(EVENT_CHANNELS.GYM_LOAD, { stats: STATS });
 		resolve();
-	}).catch((err) => console.debug(err));
+	}).catch(logger.debug);
 }

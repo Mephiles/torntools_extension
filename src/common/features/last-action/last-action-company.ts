@@ -8,6 +8,7 @@ import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { dropDecimals } from "@common/utils/functions/formatting";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getUsername } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
@@ -46,7 +47,7 @@ async function addLastAction(force: boolean) {
 
 		const employee = resolveEmployee(id, company);
 		if (!employee) {
-			console.warn(`TT - Couldn't find the employee information for ${id}!`, company);
+			logger.warn(`Couldn't find the employee information for ${id}!`, company);
 			continue;
 		}
 

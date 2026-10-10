@@ -3,18 +3,29 @@
 	import ExternalServiceRequirement from "@/entrypoints/options/components/preferences/ExternalServiceRequirement.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
+	import StorageSelect from "../StorageSelect.svelte";
 	import StorageSwitch from "../StorageSwitch.svelte";
 </script>
 
 <PreferenceSectionCard title="Debug Information">
 	<div class="grid gap-1">
 		<PreferenceSettingGroup>
-			<StorageSwitch path="settings.developer" label="Developer errors" />
 			<StorageSwitch path="settings.featureDisplay" label="Feature manager">
 				<StorageSwitch path="settings.featureDisplayOnlyFailed" label="only failed" />
 				<StorageSwitch path="settings.featureDisplayHideDisabled" label="hide disabled" />
 				<StorageSwitch path="settings.featureDisplayHideEmpty" label="hide when empty" />
 			</StorageSwitch>
+			<StorageSelect
+				path="settings.logLevel"
+				label="Log level"
+				items={[
+					{ value: "error", label: "Error" },
+					{ value: "warn", label: "Warning" },
+					{ value: "info", label: "Info" },
+					{ value: "debug", label: "Debug" },
+				]}
+			/>
+			<StorageSwitch path="settings.developer" label="Developer errors" />
 		</PreferenceSettingGroup>
 	</div>
 </PreferenceSectionCard>

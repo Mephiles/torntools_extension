@@ -21,6 +21,7 @@ import { setupTravelHomePage } from "@common/pages/travel-home-page";
 import { setupUserlistPage } from "@common/pages/userlist-page";
 import { FEATURE_MANAGER } from "@common/utils/context";
 import { initializeDatabase } from "@common/utils/data/database";
+import { logger } from "@common/utils/functions/logger";
 import { getPage } from "@common/utils/functions/torn";
 import AbroadEnergyWarningFeature from "@features/abroad-energy-warning/abroad-energy-warning";
 import AbroadItemsFilterFeature from "@features/abroad-items-filter/abroad-items-filter";
@@ -325,8 +326,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new EffectiveBattleStatsFeature());
 		FEATURE_MANAGER.registerFeature(new LiveNetworthFeature());
 	} else if (page === "travel") {
-		setupTravelAbroadPage().catch((err) => console.error(err));
-		setupTravelHomePage().catch((err) => console.error(err));
+		setupTravelAbroadPage().catch(logger.error);
+		setupTravelHomePage().catch(logger.error);
 		FEATURE_MANAGER.registerFeature(new TravelTableFeature());
 		FEATURE_MANAGER.registerFeature(new TravelSyncFeature());
 		FEATURE_MANAGER.registerFeature(new AbroadItemsFilterFeature());
@@ -369,18 +370,18 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new MarketIconsFeature());
 		FEATURE_MANAGER.registerFeature(new MissingBooksFeature());
 	} else if (page === "auction") {
-		setupAuctionHousePage().catch((err) => console.debug(err));
+		setupAuctionHousePage().catch(logger.debug);
 		FEATURE_MANAGER.registerFeature(new AuctionHouseFilterFeature());
 		FEATURE_MANAGER.registerFeature(new AuctionHouseMovePaginationFeature());
 	} else if (page === "bazaar") {
-		setupBazaarPage().catch((err) => console.debug(err));
+		setupBazaarPage().catch(logger.debug);
 		FEATURE_MANAGER.registerFeature(new BazaarFillMaxFeature());
 		FEATURE_MANAGER.registerFeature(new BazaarSubVendorItemsFeature());
 		FEATURE_MANAGER.registerFeature(new BazaarWorthFeature());
 		FEATURE_MANAGER.registerFeature(new TotalItemCostFeature());
 		FEATURE_MANAGER.registerFeature(new BazaarItemHighlightFeature());
 	} else if (page === "bounties") {
-		setupBountiesPage().catch((err) => console.debug(err));
+		setupBountiesPage().catch(logger.debug);
 		FEATURE_MANAGER.registerFeature(new StatsEstimateBountiesFeature());
 		FEATURE_MANAGER.registerFeature(new BountyFilterFeature());
 	} else if (page === "city") {
@@ -406,7 +407,7 @@ export function scriptManager() {
 		setupCrimesV2Page();
 		FEATURE_MANAGER.registerFeature(new CrimeValueFeature());
 	} else if (page === "factions") {
-		setupFactionsPage().catch((err) => console.debug(err));
+		setupFactionsPage().catch(logger.debug);
 		FEATURE_MANAGER.registerFeature(new AbroadEnergyWarningFeature());
 		FEATURE_MANAGER.registerFeature(new EnergyWarningFeature());
 		FEATURE_MANAGER.registerFeature(new MedicalLifeFeature());
@@ -453,7 +454,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new ForumWarningFeature());
 		FEATURE_MANAGER.registerFeature(new OnlyNewFeedFeature());
 	} else if (page === "gym") {
-		setupGymPage().catch((err) => console.debug(err));
+		setupGymPage().catch(logger.debug);
 		FEATURE_MANAGER.registerFeature(new GymDisableStatsFeature());
 		FEATURE_MANAGER.registerFeature(new GymGraphFeature());
 		FEATURE_MANAGER.registerFeature(new GymProgressFeature());
@@ -464,7 +465,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new HospitalFilterFeature());
 		FEATURE_MANAGER.registerFeature(new UserAliasUserlistFeature());
 	} else if (page === "itemmarket") {
-		setupItemMarketPage().catch((err) => console.debug(err));
+		setupItemMarketPage().catch(logger.debug);
 		FEATURE_MANAGER.registerFeature(new HighlightCheapItemsFeature());
 		FEATURE_MANAGER.registerFeature(new ItemMarketFillMaxFeature());
 		FEATURE_MANAGER.registerFeature(new ItemMarketLeftBarFeature());

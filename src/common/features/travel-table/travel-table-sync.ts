@@ -2,6 +2,7 @@ import { RUNTIME_INFORMATION } from "@common/utils/context";
 import { settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
+import { logger } from "@common/utils/functions/logger";
 import { getPageStatus, isAbroad } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { ExecutionTiming, Feature } from "@features/feature";
@@ -43,18 +44,18 @@ function syncData(items: SyncItem[], country: string) {
 
 	if (settings.external.yata) {
 		fetchData("yata", { section: "travel/import/", method: "POST", body: data, relay: true })
-			.then((response) => console.log("TT - Updated YATA abroad prices.", response))
-			.catch((error) => console.warn("TT - Failed to update YATA abroad prices.", error));
+			.then((response) => logger.info("Updated YATA abroad prices.", response))
+			.catch((error) => logger.warn("Failed to update YATA abroad prices.", error));
 	}
 	if (settings.external.prometheus) {
 		fetchData("prometheus", { section: "travel", method: "POST", body: data, relay: true })
-			.then((response) => console.log("TT - Updated Prometheus abroad prices.", response))
-			.catch((error) => console.warn("TT - Failed to update Prometheus abroad prices.", error));
+			.then((response) => logger.info("Updated Prometheus abroad prices.", response))
+			.catch((error) => logger.warn("Failed to update Prometheus abroad prices.", error));
 	}
 	if (settings.external.tornintel) {
 		fetchData("tornintel", { section: "foreign-stock/upload", method: "POST", body: data, relay: true })
-			.then((response) => console.log("TT - Updated Torn Intel abroad prices.", response))
-			.catch((error) => console.warn("TT - Failed to update Torn Intel abroad prices.", error));
+			.then((response) => logger.info("Updated Torn Intel abroad prices.", response))
+			.catch((error) => logger.warn("Failed to update Torn Intel abroad prices.", error));
 	}
 }
 

@@ -2,6 +2,7 @@ import { DATA_FETCHER, OFFLOAD_SERVICE, RUNTIME_INFORMATION, ttStorage } from "@
 import type { FetchResponse } from "@common/utils/context";
 import { api, settings } from "@common/utils/data/database";
 import { getBadgeText, setBadge } from "@common/utils/functions/extension";
+import { logger } from "@common/utils/functions/logger";
 import { getRFC } from "@common/utils/functions/torn";
 import { SCRIPT_TYPE, TO_MILLIS } from "@common/utils/functions/utilities";
 
@@ -284,7 +285,7 @@ async function handleTornApiState(location: FetchLocation, options: FetchOptions
 			.then((value) => {
 				if (value === "error") return setBadge("default");
 			})
-			.catch(() => console.error("TT - Couldn't get the badge text."));
+			.catch(() => logger.error("Couldn't get the badge text."));
 
 		await ttStorage.change({ api: { torn: { online: true, error: "" } } });
 	}

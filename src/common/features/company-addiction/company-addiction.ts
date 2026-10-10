@@ -4,6 +4,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
+import { logger } from "@common/utils/functions/logger";
 import { requireSidebar } from "@common/utils/functions/requires";
 import { getUserDetails, isPageWithSidebar, LINKS } from "@common/utils/functions/torn";
 import { getTimeUntilNextJobUpdate } from "@common/utils/functions/utilities";
@@ -53,7 +54,7 @@ async function getCompanyAddiction() {
 				silent: true,
 			});
 		} catch (error) {
-			console.error(`TT - An error occurred when fetching company employees data, Error: ${error}`);
+			logger.error(`An error occurred when fetching company employees data, Error: ${error}`);
 			throw new Error("Failed fetching company employees.", { cause: error });
 		}
 

@@ -46,7 +46,10 @@ export default defineConfig({
 			// Enable source maps in development
 		},
 	},
-	vite: () => ({
+	vite: (env) => ({
+		define: {
+			__TT_DEV__: JSON.stringify(env.mode === "development"),
+		},
 		plugins: [tailwindcss()],
 		build: {
 			sourcemap: true,

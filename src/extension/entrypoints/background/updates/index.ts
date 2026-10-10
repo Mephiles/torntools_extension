@@ -3,6 +3,7 @@ import { ttCache } from "@common/utils/data/cache";
 import { api, factiondata, initializeDatabase, stockdata, torndata } from "@common/utils/data/database";
 import { isTornApiError } from "@common/utils/functions/api";
 import { CUSTOM_API_ERROR } from "@common/utils/functions/api-fetcher";
+import { logger } from "@common/utils/functions/logger";
 import { hasTimePassed, isSameUTCDay, TO_MILLIS } from "@common/utils/functions/utilities";
 import { updateFactionStakeouts } from "@extension/entrypoints/background/updates/faction-stakeouts";
 import { updateFactiondata } from "@extension/entrypoints/background/updates/factiondata";
@@ -27,24 +28,24 @@ export async function timedUpdates() {
 			updatePromises.push(
 				updateUserdata()
 					.then(({ updated, types, selections }) => {
-						if (updated) console.log(`Updated ${(types ?? []).join("+")} userdata.`, selections);
-						else console.log("Skipped this userdata update.");
+						if (updated) logger.info(`Updated ${(types ?? []).join("+")} userdata.`, selections);
+						else logger.info("Skipped this userdata update.");
 					})
 					.catch((error) => logError("updating userdata", error)),
 				updateStakeouts()
 					.then(({ updated, success, failed }) => {
 						if (updated) {
-							if (success || failed) console.log("Updated stakeouts.", { success, failed });
-							else console.log("No stakeouts to update.");
-						} else console.log("Skipped this stakeout update.");
+							if (success || failed) logger.info("Updated stakeouts.", { success, failed });
+							else logger.info("No stakeouts to update.");
+						} else logger.info("Skipped this stakeout update.");
 					})
 					.catch((error) => logError("updating stakeouts", error)),
 				updateFactionStakeouts()
 					.then(({ updated, success, failed }) => {
 						if (updated) {
-							if (success || failed) console.log("Updated faction stakeouts.", { success, failed });
-							else console.log("No faction stakeouts to update.");
-						} else console.log("Skipped this faction stakeout update.");
+							if (success || failed) logger.info("Updated faction stakeouts.", { success, failed });
+							else logger.info("No faction stakeouts to update.");
+						} else logger.info("Skipped this faction stakeout update.");
 					})
 					.catch((error) => logError("updating faction stakeouts", error)),
 			);
@@ -57,7 +58,7 @@ export async function timedUpdates() {
 				// Update once every torn day.
 				updatePromises.push(
 					updateTorndata()
-						.then(() => console.log("Updated torndata."))
+						.then(() => logger.info("Updated torndata."))
 						.catch((error) => logError("updating torndata", error)),
 				);
 			}
@@ -65,7 +66,7 @@ export async function timedUpdates() {
 			if (!stockdata?.date || hasTimePassed(stockdata.date, TO_MILLIS.MINUTES * 5)) {
 				updatePromises.push(
 					updateStocks()
-						.then(() => console.log("Updated stocks."))
+						.then(() => logger.info("Updated stocks."))
 						.catch((error) => logError("updating stocks", error)),
 				);
 			}
@@ -73,7 +74,7 @@ export async function timedUpdates() {
 			if (!factiondata || !("date" in factiondata) || hasTimePassed(factiondata.date, TO_MILLIS.MINUTES * 15))
 				updatePromises.push(
 					updateFactiondata()
-						.then(() => console.log("Updated factiondata."))
+						.then(() => logger.info("Updated factiondata."))
 						.catch((error) => logError("updating factiondata", error)),
 				);
 		}
@@ -81,8 +82,8 @@ export async function timedUpdates() {
 		updatePromises.push(
 			updateNPCs()
 				.then(({ updated, alerts }) => {
-					if (updated) console.log("Updated npcs.");
-					if (alerts) console.log(`Sent out ${alerts} npc alerts.`);
+					if (updated) logger.info("Updated npcs.");
+					if (alerts) logger.info(`Sent out ${alerts} npc alerts.`);
 				})
 				.catch((error) => logError("updating npcs", error)),
 			verifyTime().catch((error) => logError("Failed to verify your time to be synced.", error)),
@@ -95,21 +96,21 @@ export async function timedUpdates() {
 
 	function logError(message: any, error: any) {
 		if (error.code === CUSTOM_API_ERROR.NO_PERMISSION) {
-			console.warn(`You disabled our permission to call the API!`);
+			logger.warn(`You disabled our permission to call the API!`);
 		} else if (error.code === CUSTOM_API_ERROR.NO_NETWORK) {
-			console.warn(`Error due to no internet while ${message}.`);
+			logger.warn(`Error due to no internet while ${message}.`);
 		} else if (error.code === CUSTOM_API_ERROR.CANCELLED) {
-			console.warn(`Error due to requests taking too long while ${message}.`);
+			logger.warn(`Error due to requests taking too long while ${message}.`);
 		} else if (isTornApiError(error)) {
 			if (error.code === 9) {
-				console.log(`Torn's API is temporary disabled while ${message}.`);
+				logger.info(`Torn's API is temporary disabled while ${message}.`);
 			} else if (error.code === 17) {
-				console.log(`Torn's API is having backend issues while ${message}.`);
+				logger.info(`Torn's API is having backend issues while ${message}.`);
 			} else {
-				console.error(`Error while ${message}.`, error);
+				logger.error(`Error while ${message}.`, error);
 			}
 		} else {
-			console.error(`Error while ${message}.`, error);
+			logger.error(`Error while ${message}.`, error);
 		}
 	}
 }
@@ -119,7 +120,7 @@ async function verifyTime() {
 
 	const now = Date.now();
 	if (savedTime != null && savedTime > Date.now()) {
-		console.warn("Detected a desynchronized time! Resetting timed data.");
+		logger.warn("Detected a desynchronized time! Resetting timed data.");
 		await ttCache.clear();
 		await Promise.all([updateUserdata(true), updateFactiondata(), updateTorndata(), updateStocks(), updateStakeouts(true), updateFactionStakeouts(true)]);
 	}

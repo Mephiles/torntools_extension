@@ -8,6 +8,7 @@ import type { TornstatsFactionCrimes, YATAFactionMembers } from "@common/utils/f
 import { elementBuilder, mobile } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
+import { logger } from "@common/utils/functions/logger";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
@@ -36,7 +37,7 @@ async function startFeature() {
 
 async function showNNB() {
 	const data = await loadData().catch((error) => {
-		console.error("TT - Unhandled error. Report this to the TornTools developers!", error);
+		logger.error("Unhandled error. Report this to the TornTools developers!", error);
 		return false;
 	});
 	if (!data) return;
@@ -64,7 +65,7 @@ async function showNNB() {
 						ttCache.set({ tornstats: result }, TO_MILLIS.HOURS, "crimes");
 					}
 				} catch (error) {
-					console.log("TT - Failed to load crimes from TornStats.", error);
+					logger.info("Failed to load crimes from TornStats.", error);
 					return;
 				}
 			}
@@ -100,7 +101,7 @@ async function showNNB() {
 
 					ttCache.set({ yata: result }, TO_MILLIS.HOURS, "crimes");
 				} catch (error) {
-					console.log("TT - Failed to load crimes from YATA.", error);
+					logger.info("Failed to load crimes from YATA.", error);
 					return;
 				}
 			}

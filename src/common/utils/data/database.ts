@@ -4,6 +4,7 @@ import type { DatabaseCache } from "@common/utils/data/cache";
 import { DEFAULT_STORAGE, DefaultSetting } from "@common/utils/data/default-database";
 import type { DefaultStorageType } from "@common/utils/data/default-database";
 import { executeMigrationScripts } from "@common/utils/data/migrations";
+import { logger, setLogLevel } from "@common/utils/functions/logger";
 
 export type RecursivePartial<T> = T extends (infer U)[] ? RecursivePartial<U>[] : T extends object ? { [P in keyof T]?: RecursivePartial<T[P]> } : T;
 export type Writable<T> = T extends object ? { -readonly [K in keyof T]: Writable<T[K]> } : T;
@@ -141,7 +142,7 @@ export async function loadDatabase(force = false): Promise<Omit<Database, "time"
 	databaseLoadPromise = (async () => {
 		const database = await ttStorage.get();
 		populateDatabaseVariables(database);
-		console.debug("TT - Database loaded.");
+		logger.debug("Database loaded.");
 		return database;
 	})();
 
@@ -162,7 +163,7 @@ export async function migrateDatabase(force = false): Promise<void> {
 		const loadedStorage = await ttStorage.get();
 
 		if (!loadedStorage || !Object.keys(loadedStorage).length) {
-			console.log("TT - Fresh installation detected, setting up default storage.");
+			logger.info("Fresh installation detected, setting up default storage.");
 			await ttStorage.reset();
 			await loadDatabase();
 			return;
@@ -171,7 +172,7 @@ export async function migrateDatabase(force = false): Promise<void> {
 		const storedVersion = loadedStorage?.version?.current || "5.0.0";
 		const currentVersion = RUNTIME_INFORMATION.getVersion();
 
-		console.log(`TT - Migration check: ${storedVersion} -> ${currentVersion}`);
+		logger.info(`Migration check: ${storedVersion} -> ${currentVersion}`);
 
 		// if (!force && toNumericVersion(storedVersion) >= toNumericVersion(currentVersion)) {
 		// 	console.log("TT - No migration needed, using existing storage.");
@@ -188,9 +189,9 @@ export async function migrateDatabase(force = false): Promise<void> {
 
 		populateDatabaseVariables(migratedStorage);
 
-		console.debug("TT - Database migration completed successfully.");
+		logger.debug("Database migration completed successfully.");
 	} catch (error) {
-		console.error("TT - Database migration failed:", error);
+		logger.error("Database migration failed:", error);
 		await loadDatabase();
 	}
 }
@@ -240,6 +241,7 @@ function isValidSettingValue(value: any, setting: DefaultSetting<any>): boolean 
 
 function populateDatabaseVariables(database: Database) {
 	settings = database.settings;
+	setLogLevel(settings?.logLevel);
 	filters = database.filters;
 	version = database.version;
 	api = database.api;
@@ -262,7 +264,7 @@ function populateDatabaseVariables(database: Database) {
 }
 
 export async function initializeDatabase() {
-	await loadDatabase().catch((reason) => console.error("TT - Failed to load database.", reason));
+	await loadDatabase().catch((reason) => logger.error("Failed to load database.", reason));
 	initializeDatabaseListener();
 }
 
@@ -280,6 +282,7 @@ export function initializeDatabaseListener() {
 						break;
 					case "settings":
 						settings = changes.settings.newValue as DatabaseSettings;
+						setLogLevel(settings?.logLevel);
 						break;
 					case "filters":
 						filters = changes.filters.newValue as DatabaseFilters;

@@ -8,6 +8,7 @@ import { elementBuilder, getSearchParameters } from "@common/utils/functions/dom
 import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addFetchListener } from "@common/utils/functions/listeners";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getUserDetails } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
@@ -40,12 +41,12 @@ async function addWorth(list: BazaarFetchItem[] | null = null) {
 	else await requireElement(".info-msg-cont .msg a[href]");
 
 	if (list && Array.isArray(list)) {
-		handleBazaar(list).catch(console.error);
+		handleBazaar(list).catch(logger.error);
 		return;
 	}
 
 	if (ttCache.hasValue("bazaar", bazaarUserId)) {
-		handleBazaar(ttCache.get("bazaar", bazaarUserId)!).catch(console.error);
+		handleBazaar(ttCache.get("bazaar", bazaarUserId)!).catch(logger.error);
 	} else {
 		// TODO - Migrate to V2 (user/bazaar).
 		fetchData<UserV1BazaarResponse>("tornv2", { section: "user", id: bazaarUserId, legacySelections: ["bazaar"] })
@@ -62,7 +63,7 @@ async function addWorth(list: BazaarFetchItem[] | null = null) {
 						text: `TORN API returned error: ${error.toString()}`,
 					}),
 				);
-				console.log("TT - Bazaar Worth API Error:", error);
+				logger.info("Bazaar Worth API Error:", error);
 			});
 	}
 

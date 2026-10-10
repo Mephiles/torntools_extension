@@ -1,5 +1,6 @@
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { addFetchListener } from "@common/utils/functions/listeners";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 
 export function setupCrimesV2Page() {
@@ -44,7 +45,7 @@ export function setupCrimesV2Page() {
 					json,
 				});
 			} catch (err) {
-				console.log("[TornTools] error during Crimes 2.0 listener trigger:", err);
+				logger.info("error during Crimes 2.0 listener trigger:", err);
 			}
 		},
 	);

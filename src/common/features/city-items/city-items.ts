@@ -13,6 +13,7 @@ import { EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatDate, formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { MONTHS } from "@common/utils/functions/utilities";
@@ -48,7 +49,7 @@ function initialise() {
 		if (isMapData(page, xhr, json)) {
 			const items = resolveUserItems(decodeTerritoryUserItems(json.territoryUserItems));
 
-			showCityItemsContainer(items).catch((cause) => console.error("TT City Items - Failed to show the city items container.", cause));
+			showCityItemsContainer(items).catch((cause) => logger.error("Failed to show the city items container.", cause));
 			return;
 		}
 
@@ -64,7 +65,7 @@ function initialise() {
 
 		const internalItems = userItems.filter(isInternalCityItem);
 		const items = resolveUserItems(internalItems);
-		showCityItemsContainer(items).catch((cause) => console.error("TT City Items - Failed to show the city items container.", cause));
+		showCityItemsContainer(items).catch((cause) => logger.error("Failed to show the city items container.", cause));
 	});
 }
 
@@ -74,7 +75,7 @@ function triggerFallback() {
 	const userItems = getPageModelItems();
 	if (userItems) {
 		const items = resolveUserItems(userItems);
-		showCityItemsContainer(items).catch((cause) => console.error("TT City Items - Failed to show the city items container.", cause));
+		showCityItemsContainer(items).catch((cause) => logger.error("Failed to show the city items container.", cause));
 		return;
 	}
 
@@ -668,7 +669,7 @@ function createItemSpan({ item, name, count, entries }: CityItem) {
 			click(event) {
 				if (!event.isTrusted) return;
 
-				collectEntry(entries[0], item, name).catch((cause) => console.error("TT City Items - Failed to collect the item entry.", cause));
+				collectEntry(entries[0], item, name).catch((cause) => logger.error("Failed to collect the item entry.", cause));
 			},
 		},
 	});
@@ -701,7 +702,7 @@ function handleMapOverlayClick(event: MouseEvent) {
 	if (typeof event.stopImmediatePropagation === "function") event.stopImmediatePropagation();
 
 	const item = findCityItemForEntry(entry);
-	collectEntry(entry, entry.itemId, item?.name ?? entry.name).catch((cause) => console.error("TT City Items - Failed to collect the item entry.", cause));
+	collectEntry(entry, entry.itemId, item?.name ?? entry.name).catch((cause) => logger.error("Failed to collect the item entry.", cause));
 }
 
 function handleCollectedTd(td: string) {

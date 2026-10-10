@@ -16,6 +16,7 @@ import { elementBuilder } from "@common/utils/functions/dom";
 import { createFilterPresets } from "@common/utils/functions/filter-presets";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { camelCase } from "@common/utils/functions/formatting";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { RANK_TRIGGERS, WEAPON_BONUSES } from "@common/utils/functions/torn";
 import { getUUID } from "@common/utils/functions/utilities";
@@ -885,7 +886,7 @@ export function createFilter<State extends Record<string, unknown> & { enabled: 
 					}
 					if (section.isExemption) break;
 				} catch (e) {
-					console.warn(`TT Filters: Something went wrong when filtering '${section?.key}' in the '${containerOpts?.title}'`, e);
+					logger.warn(`Filters: Something went wrong when filtering '${section?.key}' in the '${containerOpts?.title}'`, e);
 				}
 			}
 

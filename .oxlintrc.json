@@ -11,6 +11,7 @@
 		"eslint/array-callback-return": "warn",
 		"eslint/no-async-promise-executor": "off",
 		"eslint/no-cond-assign": "off",
+		"eslint/no-console": "error",
 		"eslint/no-constructor-return": "error",
 		"eslint/no-restricted-properties": [
 			"error",
@@ -114,6 +115,12 @@
 			"files": ["src/common/utils/functions/find-elements.ts"],
 			"rules": {
 				"eslint/no-restricted-properties": "off"
+			}
+		},
+		{
+			"files": ["src/common/utils/functions/logger.ts", "tools/**"],
+			"rules": {
+				"eslint/no-console": "off"
 			}
 		}
 	]

@@ -11,6 +11,7 @@ import {
 	setCacheEntries as idbSetCacheEntries,
 } from "@common/utils/data/idb-cache";
 import { TornToolsStorage } from "@common/utils/data/storage";
+import { logger } from "@common/utils/functions/logger";
 import { SCRIPT_TYPE } from "@common/utils/functions/utilities";
 import { browser } from "wxt/browser";
 import { BACKGROUND_SERVICE } from "@/services/proxy-services";
@@ -127,8 +128,8 @@ export class TTExtensionStorage extends TornToolsStorage {
 			await this.set(getDefaultStorage(DEFAULT_STORAGE));
 			await this.change({ api: { torn: { key: apiKey } } });
 
-			console.log("Storage cleared");
-			console.log("New storage", await this.get());
+			logger.info("Storage cleared");
+			logger.info("New storage", await this.get());
 		}
 	}
 

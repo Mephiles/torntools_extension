@@ -6,6 +6,7 @@ import { buildFetchRequest, fetchData, mergeOptions } from "@common/utils/functi
 import type { FetchOptions, FetchRequest } from "@common/utils/functions/api-fetcher";
 import { setBadge } from "@common/utils/functions/extension";
 import { applyPlural, capitalizeText, formatTime } from "@common/utils/functions/formatting";
+import { logger } from "@common/utils/functions/logger";
 import { getNextChainBonus, hasFinishedEducation, LINKS, MAX_MISSIONS } from "@common/utils/functions/torn";
 import { getUTCTodayAtTime, hasTimePassed, TO_MILLIS } from "@common/utils/functions/utilities";
 import { showIconBars } from "@extension/entrypoints/background/updates/icon-bars";
@@ -204,29 +205,29 @@ export async function updateUserdata(forceUpdate = false) {
 		newUserdata.events = [];
 	}
 
-	await processUserdata().catch((error) => console.error("Error while processing userdata.", error));
-	await checkAttacks().catch((error) => console.error("Error while checking personal stats for attack changes.", error));
+	await processUserdata().catch((error) => logger.error("Error while processing userdata.", error));
+	await checkAttacks().catch((error) => logger.error("Error while checking personal stats for attack changes.", error));
 
 	setUserdata(newUserdata);
 	await ttStorage.set({ userdata: newUserdata });
 
-	await showIconBars().catch((error) => console.error("Error while updating the icon bars.", error));
+	await showIconBars().catch((error) => logger.error("Error while updating the icon bars.", error));
 	if (updateEssential) {
-		await notifyEventMessages().catch((error) => console.error("Error while sending event and message notifications.", error));
-		await notifyTravelLanding().catch((error) => console.error("Error while sending travel landing notifications.", error));
-		await notifyBars().catch((error) => console.error("Error while sending bar notification.", error));
-		await notifyOffline().catch((error) => console.error("Error while sending offline notification.", error));
-		await notifyChain().catch((error) => console.error("Error while sending chain notifications.", error));
-		await notifyTraveling().catch((error) => console.error("Error while sending traveling notifications.", error));
-		await notifyMissions().catch((error) => console.error("Error while sending mission notifications.", error));
-		await notifyRefills().catch((error) => console.error("Error while sending refill notifications.", error));
+		await notifyEventMessages().catch((error) => logger.error("Error while sending event and message notifications.", error));
+		await notifyTravelLanding().catch((error) => logger.error("Error while sending travel landing notifications.", error));
+		await notifyBars().catch((error) => logger.error("Error while sending bar notification.", error));
+		await notifyOffline().catch((error) => logger.error("Error while sending offline notification.", error));
+		await notifyChain().catch((error) => logger.error("Error while sending chain notifications.", error));
+		await notifyTraveling().catch((error) => logger.error("Error while sending traveling notifications.", error));
+		await notifyMissions().catch((error) => logger.error("Error while sending mission notifications.", error));
+		await notifyRefills().catch((error) => logger.error("Error while sending refill notifications.", error));
 	}
-	await notifyStatusChange().catch((error) => console.error("Error while sending status change notifications.", error));
-	await notifyCooldownOver().catch((error) => console.error("Error while sending cooldown notifications.", error));
-	await notifyEducation().catch((error) => console.error("Error while sending education notifications.", error));
-	await notifyNewDay().catch((error) => console.error("Error while sending new day notification.", error));
-	await notifyHospital().catch((error) => console.error("Error while sending hospital notifications.", error));
-	await notifySpecificCooldowns().catch((error) => console.error("Error while sending specific cooldown notifications.", error));
+	await notifyStatusChange().catch((error) => logger.error("Error while sending status change notifications.", error));
+	await notifyCooldownOver().catch((error) => logger.error("Error while sending cooldown notifications.", error));
+	await notifyEducation().catch((error) => logger.error("Error while sending education notifications.", error));
+	await notifyNewDay().catch((error) => logger.error("Error while sending new day notification.", error));
+	await notifyHospital().catch((error) => logger.error("Error while sending hospital notifications.", error));
+	await notifySpecificCooldowns().catch((error) => logger.error("Error while sending specific cooldown notifications.", error));
 
 	return { updated: true, types: updatedTypes, selections: [...selections, ...selectionsV2] };
 

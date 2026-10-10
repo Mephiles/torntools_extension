@@ -10,6 +10,7 @@ import { elementBuilder, findParent, mobile, tablet } from "@common/utils/functi
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener, addXHRListener } from "@common/utils/functions/listeners";
+import { logger } from "@common/utils/functions/logger";
 import { requireContent, requireItemsLoaded } from "@common/utils/functions/requires";
 import {
 	extractXIDFromDOM,
@@ -146,7 +147,7 @@ async function useQuickItem({ id }: QuickItem, context: UseContext) {
 			.catch((cause) => {
 				responseWrap.textContent = "";
 				customError(responseWrap, "We were missing information for this item, but something went wrong when getting that information. Try again.");
-				console.error(cause);
+				logger.error(cause);
 			});
 		return;
 	}

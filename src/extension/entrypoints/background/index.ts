@@ -2,6 +2,7 @@ import { ttStorage } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { initializeDatabase, loadDatabase, migrateDatabase, storageListeners, version } from "@common/utils/data/database";
 import type { Database, RecursivePartial, Writable } from "@common/utils/data/database";
+import { logger } from "@common/utils/functions/logger";
 import { exposeDebugObjects } from "@common/utils/functions/pages-debug";
 import { cleanupNotifications, initializeBackoff } from "@extension/entrypoints/background/notifications";
 import type { NotificationRelation } from "@extension/entrypoints/background/notifications";
@@ -58,7 +59,7 @@ async function checkUpdate() {
 
 	const change: RecursivePartial<Writable<Database>> = { version: { oldVersion: newVersion } };
 	if (oldVersion !== newVersion) {
-		console.log("New version detected!", newVersion);
+		logger.info("New version detected!", newVersion);
 		change.version!.showNotice = true;
 	}
 
@@ -102,7 +103,7 @@ async function onAlarm(alarm: Alarm) {
 			await timedUpdates();
 			break;
 		default:
-			console.warn(`TT - Unknown alarm: ${alarm.name}`);
+			logger.warn(`Unknown alarm: ${alarm.name}`);
 	}
 }
 
@@ -110,10 +111,10 @@ function clearCache() {
 	ttCache
 		.refresh()
 		.catch(() => {
-			console.warn("TT - Failed to properly refresh the cache, moving over to clearing it entirely.");
+			logger.warn("Failed to properly refresh the cache, moving over to clearing it entirely.");
 			return ttCache.clear();
 		})
-		.catch((error) => console.error("Error while refreshing and clearing cache.", error));
+		.catch((error) => logger.error("Error while refreshing and clearing cache.", error));
 }
 
 export async function resetAlarms() {

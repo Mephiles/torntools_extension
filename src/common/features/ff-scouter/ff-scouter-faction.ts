@@ -4,6 +4,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, getUsername } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -45,7 +46,7 @@ async function showFF(force: boolean) {
 			fillFF(list, Object.values(scouts));
 		})
 		.catch((reason) => {
-			console.error("TT - Failed to scout ff for the faction.", reason);
+			logger.error("Failed to scout ff for the faction.", reason);
 		});
 }
 

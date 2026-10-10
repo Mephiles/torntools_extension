@@ -5,6 +5,7 @@ import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -41,7 +42,7 @@ async function addItemValues() {
 					const nameRegex = entry.match(/(?<=x ).*/);
 					const quantityRegex = entry.match(/\d+(?=x)/g);
 					if (!nameRegex || !quantityRegex) {
-						console.log("TT - (Trade Values) Ignoring item because it doesn't match anything.", entry);
+						logger.info("(Trade Values) Ignoring item because it doesn't match anything.", entry);
 						continue;
 					}
 

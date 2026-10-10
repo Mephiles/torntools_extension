@@ -4,6 +4,7 @@ import { settings } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { FFScouterResult } from "@common/utils/functions/api.types";
+import { logger } from "@common/utils/functions/logger";
 import { NON_ATTACKABLE_ACCOUNT_IDS } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 
@@ -115,7 +116,7 @@ class FFScouterService extends ScouterService {
 	async __fetch(targets: number[]): Promise<ScouterResult[]> {
 		const data = await fetchData<FFScouterResult>("ffscouter", { section: "get-stats", includeKey: true, relay: true, params: { targets } });
 		if ("error" in data) {
-			console.error("TT - Failed to scout FF for the following players:", targets, data.error);
+			logger.error("Failed to scout FF for the following players:", targets, data.error);
 			return targets.map<ScouterResult>((target) => ({
 				player_id: target,
 				message: `Failed to scout: ${data.error}`,

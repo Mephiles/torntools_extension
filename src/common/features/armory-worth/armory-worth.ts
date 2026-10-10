@@ -18,6 +18,7 @@ import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
@@ -54,7 +55,7 @@ async function addWorth() {
 				ttCache.set({ [data.basic.id]: data }, TO_MILLIS.SECONDS * 30, "armory");
 			})
 			.catch((err) => {
-				console.log("Error fetching armory data: ", err);
+				logger.info("Error fetching armory data: ", err);
 				moneyLi.classList.add("tt-modified");
 				moneyLi.appendChild(
 					elementBuilder({

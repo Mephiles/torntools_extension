@@ -2,6 +2,7 @@ import { ttStorage } from "@common/utils/context";
 import { loadDatabase, notifications, settings, stakeouts } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import { dropDecimals } from "@common/utils/functions/formatting";
+import { logger } from "@common/utils/functions/logger";
 import { getHospitalizationReason } from "@common/utils/functions/torn";
 import { hasTimePassed, TO_MILLIS } from "@common/utils/functions/utilities";
 import type { UserProfileResponse } from "tornapi-typescript";
@@ -28,14 +29,14 @@ export async function updateStakeouts(forceUpdate = false) {
 		try {
 			data = await fetchData<UserProfileResponse>("tornv2", { section: "user", selections: ["profile"], id, silent: true });
 			if (!data) {
-				console.log("Unexpected result during stakeout updating.");
+				logger.info("Unexpected result during stakeout updating.");
 				failed++;
 				continue;
 			}
 
 			success++;
 		} catch (e) {
-			console.log("STAKEOUT error", e);
+			logger.info("STAKEOUT error", e);
 			failed++;
 			continue;
 		}

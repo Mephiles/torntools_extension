@@ -1,3 +1,4 @@
+import { logger } from "@common/utils/functions/logger";
 import { SourceMapConsumer } from "source-map";
 import type { BasicSourceMapConsumer, NullableMappedPosition, RawSourceMap } from "source-map";
 
@@ -19,7 +20,7 @@ export class SourceService {
 	private sourceMapConsumer: BasicSourceMapConsumer | null = null;
 
 	constructor() {
-		this.initializeSourceMap().catch((err) => console.error(err));
+		this.initializeSourceMap().catch(logger.error);
 	}
 
 	private async initializeSourceMap() {

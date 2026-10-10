@@ -1,4 +1,5 @@
 import { ttStorage } from "@common/utils/context";
+import { logger } from "@common/utils/functions/logger";
 
 export type DatabaseCache = { [key: string]: any };
 
@@ -183,7 +184,7 @@ class TornToolsCache {
 
 		this.persistTimer = setTimeout(() => {
 			this.persistTimer = null;
-			this.persist().catch((err) => console.error("Failed to persist cache.", err));
+			this.persist().catch((err) => logger.error("Failed to persist cache.", err));
 		}, 500);
 	}
 

@@ -5,6 +5,7 @@ import { fetchData } from "@common/utils/functions/api-fetcher";
 import { getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findElement } from "@common/utils/functions/find-elements";
+import { logger } from "@common/utils/functions/logger";
 import { Feature } from "@features/feature";
 
 function initialise() {
@@ -33,7 +34,7 @@ async function startFeature() {
 		await sellProperty(propertyId)
 			.then((result) => {
 				if (!result.success) {
-					console.warn("Failed to sell your property in a single click.", result);
+					logger.warn("Failed to sell your property in a single click.", result);
 					displayAlert({ type: "error", title: "Property Sell", text: result.text });
 					return;
 				}
@@ -51,7 +52,7 @@ async function startFeature() {
 				`;
 			})
 			.catch((cause) => {
-				console.error("Failed to sell your property in a single click.", cause);
+				logger.error("Failed to sell your property in a single click.", cause);
 				displayAlert({ type: "error", title: "Property Sell", text: "Something went wrong" });
 			});
 	});

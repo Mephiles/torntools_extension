@@ -1,6 +1,7 @@
 import { settings } from "@common/utils/data/database";
 import { isElement } from "@common/utils/functions/dom";
 import { findAllElements } from "@common/utils/functions/find-elements";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { ExecutionTiming, Feature } from "@features/feature";
@@ -15,7 +16,7 @@ async function addObserver() {
 		observer = new MutationObserver((mutations) => {
 			mutations.forEach((mutation) => {
 				if (mutation.addedNodes?.length && Array.from(mutation.addedNodes)?.some((node) => isElement(node) && node.matches("[class*='defender__']"))) {
-					removeObserver().catch(console.error);
+					removeObserver().catch(logger.error);
 
 					findAllElements("button", defenderDiv).forEach((button) => {
 						if (settings.pages.attack.hideAttackButtons.includes(button.textContent.trim())) button.classList.add("tt-hidden");

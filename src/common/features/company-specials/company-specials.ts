@@ -7,6 +7,7 @@ import { elementBuilder } from "@common/utils/functions/dom";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
@@ -22,8 +23,8 @@ function initialiseCompanySpecials() {
 		const { page, json } = detail;
 
 		if (page === "companies" && json?.result?.msg) {
-			if (json.result.msg.money) showMuggableCash(json).catch((error) => console.error("Couldn't show the muggable cash.", error));
-			if (json.result.msg.total) calculateSpies(json).catch((error) => console.error("Couldn't help with the spies.", error));
+			if (json.result.msg.money) showMuggableCash(json).catch((error) => logger.error("Couldn't show the muggable cash.", error));
+			if (json.result.msg.total) calculateSpies(json).catch((error) => logger.error("Couldn't help with the spies.", error));
 		}
 	});
 }
@@ -126,7 +127,7 @@ async function calculateSpies(json: any) {
 	}
 	data[user] = result;
 
-	console.log("TT - Detected stat spy: ", result, { missing, remembered });
+	logger.info("Detected stat spy: ", result, { missing, remembered });
 
 	if (settings.external.tornstats) {
 		specialContext.classList.add("tt-modified");
@@ -185,7 +186,7 @@ async function calculateSpies(json: any) {
 								}
 							})
 							.catch((error) => {
-								console.error("Couldn't store your spy to TornStats.", error);
+								logger.error("Couldn't store your spy to TornStats.", error);
 								specialContext.appendChild(
 									elementBuilder({
 										type: "div",

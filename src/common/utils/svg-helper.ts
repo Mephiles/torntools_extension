@@ -1,4 +1,5 @@
 import { elementBuilder, isSVGElement } from "@common/utils/functions/dom";
+import { logger } from "@common/utils/functions/logger";
 
 export interface SvgAttributes {
 	[key: string]: string | number | boolean;
@@ -18,7 +19,7 @@ export function svgImport(svgImport: string): SVGFactory {
 		try {
 			svgContent = decodeURIComponent(encodedData);
 		} catch (error) {
-			console.error("Failed to decode SVG data URL", error);
+			logger.error("Failed to decode SVG data URL", error);
 			return (attributes: SvgAttributes = {}) => createFallbackElement(attributes);
 		}
 

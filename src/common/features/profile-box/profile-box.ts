@@ -13,6 +13,7 @@ import { elementBuilder, isHTMLElement, showLoadingPlaceholder } from "@common/u
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isOwnProfile, millisToNewDay } from "@common/utils/functions/torn";
 import { PHBoldArrowClockwise, PHFillArrowsOutCardinal, PHFillGear } from "@common/utils/icons/phosphor-icons";
@@ -106,8 +107,8 @@ async function showBox() {
 
 	if (settings.pages.profile.boxFetch) {
 		showRelative();
-		buildStats().catch((error) => console.log("TT - Couldn't build the stats part of the profile box.", error));
-		buildSpy(false).catch((error) => console.log("TT - Couldn't build the spy part of the profile box.", error));
+		buildStats().catch((error) => logger.info("Couldn't build the stats part of the profile box.", error));
+		buildSpy(false).catch((error) => logger.info("Couldn't build the spy part of the profile box.", error));
 	} else {
 		const button = elementBuilder({
 			type: "button",
@@ -122,10 +123,10 @@ async function showBox() {
 
 					showRelative();
 					buildStats()
-						.catch((error) => console.log("TT - Couldn't build the stats part of the profile box.", error))
+						.catch((error) => logger.info("Couldn't build the stats part of the profile box.", error))
 						.then(handleBuild);
 					buildSpy(false)
-						.catch((error) => console.log("TT - Couldn't build the spy part of the profile box.", error))
+						.catch((error) => logger.info("Couldn't build the spy part of the profile box.", error))
 						.then(handleBuild);
 
 					function handleBuild() {
@@ -153,8 +154,8 @@ async function showBox() {
 		content.appendChild(section);
 	}
 
-	buildStakeouts().catch((error) => console.log("TT - Couldn't build the stakeout part of the profile box.", error));
-	buildAttackHistory().catch((error) => console.log("TT - Couldn't build the attack history part of the profile box.", error));
+	buildStakeouts().catch((error) => logger.info("Couldn't build the stakeout part of the profile box.", error));
+	buildAttackHistory().catch((error) => logger.info("Couldn't build the attack history part of the profile box.", error));
 
 	function showRelative() {
 		const relativeValue = createCheckbox({ description: "Relative values" });
@@ -200,7 +201,7 @@ async function showBox() {
 
 				ttCache.set({ [id]: data }, millisToNewDay(), "personal-stats");
 			} catch (error) {
-				console.log("TT - Couldn't fetch users stats.", error);
+				logger.info("Couldn't fetch users stats.", error);
 				section.appendChild(elementBuilder({ type: "div", class: "stats-error-message", text: "Failed to fetch data." }));
 				showLoadingPlaceholder(section, false);
 				return;

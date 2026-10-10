@@ -6,6 +6,7 @@ import { getHashParameters, getSearchParameters, isElement } from "@common/utils
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener, addXHRListener } from "@common/utils/functions/listeners";
+import { logger } from "@common/utils/functions/logger";
 import { requireDOMContentLoaded, requireElement, requireElementOptionally } from "@common/utils/functions/requires";
 import { isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
 import type { UserFactionResponse } from "tornapi-typescript";
@@ -22,7 +23,7 @@ export async function setupFactionsPage() {
 				const step = params.get("step");
 
 				if (step === "crimes") {
-					loadCrimes().catch((err) => console.warn(err));
+					loadCrimes().catch(logger.warn);
 				} else if (step === "upgradeConfirm") {
 					if (findElement(".faction-tabs .ui-tabs-active").dataset.case !== "upgrades") return;
 					triggerCustomListener(EVENT_CHANNELS.FACTION_UPGRADE_INFO);
@@ -35,11 +36,11 @@ export async function setupFactionsPage() {
 				const sid = params.get("sid");
 
 				if (sid === "factionsProfile") {
-					loadInfo().catch((err) => console.warn(err));
+					loadInfo().catch(logger.warn);
 				} else if (sid === "factionsNews") {
-					loadMain().catch((err) => console.warn(err));
+					loadMain().catch(logger.warn);
 				} else if (sid === "factionsControlMembers") {
-					loadArmory().catch((err) => console.warn(err));
+					loadArmory().catch(logger.warn);
 				} else if (sid === "factionsGiveToUserInitData") {
 					requireElement("#faction-give-to-user-root [class*='money___']").then(() => {
 						triggerCustomListener(EVENT_CHANNELS.FACTION_GIVE_TO_USER_PAGE);
@@ -56,19 +57,19 @@ export async function setupFactionsPage() {
 
 		switch (getFactionSubpage()) {
 			case "main":
-				loadMain().catch((err) => console.warn(err));
+				loadMain().catch(logger.warn);
 				break;
 			case "info":
-				loadInfo().catch((err) => console.warn(err));
+				loadInfo().catch(logger.warn);
 				break;
 			case "crimes":
-				loadCrimes().catch((err) => console.warn(err));
+				loadCrimes().catch(logger.warn);
 				break;
 			case "armoury":
-				loadArmory().catch((err) => console.warn(err));
+				loadArmory().catch(logger.warn);
 				break;
 			case "controls":
-				loadControls().catch((err) => console.warn(err));
+				loadControls().catch(logger.warn);
 				break;
 			default:
 				break;

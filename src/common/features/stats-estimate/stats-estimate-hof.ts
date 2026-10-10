@@ -3,6 +3,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
 import { addXHRListener } from "@common/utils/functions/listeners";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -23,7 +24,7 @@ function registerListeners() {
 
 		await requireElement(".players-list .ajax-placeholder", { invert: true });
 
-		showEstimates().catch(() => console.error(`Failed to load stats estimate for the '${type}' list.`));
+		showEstimates().catch(() => logger.error(`Failed to load stats estimate for the '${type}' list.`));
 	});
 }
 

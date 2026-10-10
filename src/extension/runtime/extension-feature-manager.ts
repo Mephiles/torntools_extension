@@ -2,6 +2,7 @@ import { factiondata, filters, loadDatabase, localdata, npcs, settings, storageL
 import { checkDevice, elementBuilder } from "@common/utils/functions/dom";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
+import { logger as _logger } from "@common/utils/functions/logger";
 import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requireElement } from "@common/utils/functions/requires";
 import { arraysEquals, objectsEquals, toClipboard } from "@common/utils/functions/utilities";
 import { PHBoldCheck, PHBoldCopy, PHBoldSpinnerGap, PHQuestion, PHXCircle } from "@common/utils/icons/phosphor-icons";
@@ -10,6 +11,8 @@ import { ExecutionTiming } from "@features/feature";
 import type { Feature } from "@features/feature";
 import "./extension-feature-manager.css";
 import type { FeatureManager } from "@features/feature-manager";
+
+const logger = _logger.withSection("FeatureManager");
 
 type FeatureSingleFn = (() => void) | (() => Promise<void>) | null;
 
@@ -22,7 +25,6 @@ interface ResultOptions {
 }
 
 export class ExtensionFeatureManager implements FeatureManager {
-	private readonly logPadding: string;
 	private readonly containerID: string;
 	private container: null | HTMLElement;
 	private features: Feature[];
@@ -34,7 +36,6 @@ export class ExtensionFeatureManager implements FeatureManager {
 	private loadedFeatures: string[];
 
 	constructor() {
-		this.logPadding = "[TornTools] FeatureManager - ";
 		this.containerID = "tt-page-status";
 		this.container = null;
 		this.features = [];
@@ -65,27 +66,12 @@ export class ExtensionFeatureManager implements FeatureManager {
 			this.logError("Uncaught promise rejection:", e.reason);
 		});
 
-		loadDatabase().then(() => {
-			if (settings.developer) return;
-
-			console.log(
-				"%cTorn%cTools %cis running.",
-				"font-size: 30px; font-weight: 600; color: green;",
-				"font-size: 30px; font-weight: 600; color: #000;",
-				"font-size: 30px;",
-			);
-		});
-	}
-
-	private logInfo(...params: any[]) {
-		if (!settings) {
-			loadDatabase().then(() => this.logInfo(...params));
-			return;
-		}
-		if (!settings.developer) return;
-
-		params[0] = this.logPadding + params[0];
-		console.log(...params);
+		logger.force.info(
+			"%cTorn%cTools %cis running.",
+			"font-size: 30px; font-weight: 600; color: green;",
+			"font-size: 30px; font-weight: 600; color: #000;",
+			"font-size: 30px;",
+		);
 	}
 
 	private logError(info: string | string[], error: any) {
@@ -104,40 +90,37 @@ export class ExtensionFeatureManager implements FeatureManager {
 		}
 
 		this.generateErrorMessage(info, error)
-			.then((message) => console.error(...message))
+			.then((message) => logger.error(...message))
 			.catch(() => {});
 
 		if (!this.container) {
 			this.earlyErrors.push(error);
 		} else if (this.errorCount <= 25) {
 			this.container.dataset.errorCount = this.errorCount.toString();
-			this.addErrorToPopup(error).catch((err) => console.error(err));
+			this.addErrorToPopup(error).catch((err) => logger.error(err));
 		} else {
 			this.container.dataset.errorCount = "25+";
 		}
 	}
 
 	private async generateErrorMessage(info: string | string[], error: any): Promise<string[]> {
-		if (Array.isArray(info)) {
-			info[0] = this.logPadding + info[0];
-		} else {
-			info = [this.logPadding + info];
-		}
+		const infoMessages: string[] = Array.isArray(info) ? info : [info];
+
 		if (error) {
 			if (typeof error === "object") {
 				if (error instanceof Error) {
-					info.push(await SOURCE_SERVICE.mappedStack(error.stack));
+					infoMessages.push(await SOURCE_SERVICE.mappedStack(error.stack));
 				} else if (error instanceof ErrorEvent) {
 					const location = await SOURCE_SERVICE.fromSource(error.lineno, error.colno);
 					const formattedLocation = location ? `${location.file}:${location.line}` : `${error.filename}:${error.lineno}`;
-					info.push(`${error.message} @ ${formattedLocation}`);
+					infoMessages.push(`${error.message} @ ${formattedLocation}`);
 				}
 			} else {
-				info.push(error);
+				infoMessages.push(error);
 			}
 		}
 
-		return info;
+		return infoMessages;
 	}
 
 	private async addErrorToPopup(error: any) {
@@ -217,7 +200,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 			return;
 		}
 
-		this.logInfo("Registered new feature.", feature);
+		logger.info("Registered new feature.", feature);
 		this.features.push(feature);
 		this.showResult(feature, "registered", { message: "Loaded. Starting feature." });
 
@@ -233,7 +216,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 		await Promise.all([loadDatabase(), feature.requiresScreenInformation() ? checkDevice() : Promise.resolve()]);
 		try {
 			if (feature.isEnabled()) {
-				this.logInfo("Starting feature.", feature);
+				logger.info("Starting feature.", feature);
 
 				const requirements = await feature.requirements();
 				if (typeof requirements === "string") {
@@ -266,7 +249,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 		if (!feature.isEnabled()) return;
 
 		try {
-			this.logInfo("Reload feature.", feature);
+			logger.info("Reload feature.", feature);
 
 			await this.executeFunction(feature.reload);
 
