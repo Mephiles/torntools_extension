@@ -39,7 +39,7 @@
 </script>
 
 <Field.Field {orientation} class="border-border bg-background/60 rounded-md border p-2">
-	<Field.Content>
+	<Field.Content class="flex-none">
 		<Field.Label for={id}>{label}</Field.Label>
 		{#if description}
 			<Field.Description class="text-xs">{description}</Field.Description>

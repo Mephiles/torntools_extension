@@ -2,6 +2,7 @@
 	import { settingsStore } from "../../../stores/database-store.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
+	import StorageNumber from "../StorageNumber.svelte";
 	import StorageSwitch from "../StorageSwitch.svelte";
 	import NotificationListInput from "./NotificationListInput.svelte";
 	import NotificationNpcAlerts from "./NotificationNpcAlerts.svelte";
@@ -117,21 +118,30 @@
 				</StorageSwitch>
 			</PreferenceSettingGroup>
 
-			<PreferenceSettingGroup title="Faction" contentClass="grid gap-1 md:grid-cols-2">
-				<StorageSwitch path="settings.notifications.types.chainTimerEnabled" label="Chain timer" disabled={notificationsDisabled}>
-					<NotificationListInput
-						typeKey="chainTimer"
-						label="Seconds before expiry"
-						disabled={notificationsDisabled || !$settingsStore.notifications.types.chainTimerEnabled}
-					/>
-				</StorageSwitch>
-				<StorageSwitch path="settings.notifications.types.chainBonusEnabled" label="Chain bonus" disabled={notificationsDisabled}>
-					<NotificationListInput
-						typeKey="chainBonus"
-						label="Hits before threshold"
-						disabled={notificationsDisabled || !$settingsStore.notifications.types.chainBonusEnabled}
-					/>
-				</StorageSwitch>
+			<PreferenceSettingGroup title="Faction" contentClass="grid gap-1">
+				<StorageNumber
+					path="settings.notifications.types.chainMinimum"
+					label="Minimum chain size"
+					min={10}
+					disabled={notificationsDisabled ||
+						(!$settingsStore.notifications.types.chainTimerEnabled && !$settingsStore.notifications.types.chainBonusEnabled)}
+				/>
+				<div class="grid gap-1 md:grid-cols-2">
+					<StorageSwitch path="settings.notifications.types.chainTimerEnabled" label="Chain timer" disabled={notificationsDisabled}>
+						<NotificationListInput
+							typeKey="chainTimer"
+							label="Seconds before expiry"
+							disabled={notificationsDisabled || !$settingsStore.notifications.types.chainTimerEnabled}
+						/>
+					</StorageSwitch>
+					<StorageSwitch path="settings.notifications.types.chainBonusEnabled" label="Chain bonus" disabled={notificationsDisabled}>
+						<NotificationListInput
+							typeKey="chainBonus"
+							label="Hits before threshold"
+							disabled={notificationsDisabled || !$settingsStore.notifications.types.chainBonusEnabled}
+						/>
+					</StorageSwitch>
+				</div>
 			</PreferenceSettingGroup>
 		</div>
 	</PreferenceSectionCard>

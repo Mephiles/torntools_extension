@@ -106,6 +106,7 @@ export const DEFAULT_STORAGE = {
 				cooldownMedicalEnabled: new DefaultSetting("boolean", true),
 				chainTimer: new DefaultSetting<number[]>("array", []),
 				chainBonus: new DefaultSetting<number[]>("array", []),
+				chainMinimum: new DefaultSetting("number", 10),
 				leavingHospital: new DefaultSetting<number[]>("array", []),
 				landing: new DefaultSetting<number[]>("array", []),
 				cooldownDrug: new DefaultSetting<number[]>("array", []),

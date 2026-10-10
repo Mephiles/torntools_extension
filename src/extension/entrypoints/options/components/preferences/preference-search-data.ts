@@ -67,6 +67,13 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.notifications.types.missionsExpireEnabled", label: "Notification: Missions expiry", group: "internal", section: "notifications" },
 	{ path: "settings.notifications.types.missionsLimitEnabled", label: "Notification: Missions limit", group: "internal", section: "notifications" },
 	{
+		path: "settings.notifications.types.chainMinimum",
+		label: "Notification: Minimum chain size",
+		group: "internal",
+		section: "notifications",
+		keywords: ["faction"],
+	},
+	{
 		path: "settings.notifications.types.chainTimerEnabled",
 		label: "Notification: Chain timer",
 		group: "internal",

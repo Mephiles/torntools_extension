@@ -6,7 +6,8 @@
 		"logs": {
 			"features": [
 				{ "message": "Recommend lease prices on for your rental properties.", "contributor": "Murfy" },
-				{ "message": "Hold vendor sell prices into account with 'Travel Table'.", "contributor": "DeKleineKobini" }
+				{ "message": "Hold vendor sell prices into account with 'Travel Table'.", "contributor": "DeKleineKobini" },
+				{ "message": "Set a minimum chain size for chain notifications.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Revert a visual change to 'Stocks Money Input' for mobile layouts.", "contributor": "DeKleineKobini" },

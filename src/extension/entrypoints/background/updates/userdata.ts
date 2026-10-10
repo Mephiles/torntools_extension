@@ -579,12 +579,14 @@ export async function updateUserdata(forceUpdate = false) {
 	async function notifyChain() {
 		if (!settings.apiUsage.user.bars || !settings.notifications.types.global) return;
 
+		const minimum = Math.max(10, settings.notifications.types.chainMinimum);
+
 		if (
 			settings.notifications.types.chainTimerEnabled &&
 			settings.notifications.types.chainTimer.length > 0 &&
 			newUserdata.bars?.chain &&
 			newUserdata.bars.chain.timeout !== 0 &&
-			newUserdata.bars.chain.current >= 10
+			newUserdata.bars.chain.current >= minimum
 		) {
 			const timeout = newUserdata.bars.chain.timeout * 1000 - (now - newUserdata.timestamp * 1000); // ms
 			const count = newUserdata.bars.chain.current;
@@ -611,7 +613,7 @@ export async function updateUserdata(forceUpdate = false) {
 			settings.notifications.types.chainBonus.length > 0 &&
 			newUserdata.bars?.chain &&
 			newUserdata.bars.chain.timeout !== 0 &&
-			newUserdata.bars.chain.current >= 10
+			newUserdata.bars.chain.current >= minimum
 		) {
 			const count = newUserdata.bars.chain.current;
 			const nextBonus = getNextChainBonus(count);
