@@ -25,7 +25,10 @@
 				}
 			],
 			"removed": [],
-			"technical": [{ "message": "Use nested CSS in 'Travel Table'.", "contributor": "DeKleineKobini" }]
+			"technical": [
+				{ "message": "Use nested CSS in 'Travel Table'.", "contributor": "DeKleineKobini" },
+				{ "message": "Use modular CSS in 'Settings Link'.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{

@@ -1,4 +1,3 @@
-import "./settings-link.css";
 import { settings } from "@common/utils/data/database";
 import { checkDevice, elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
@@ -8,10 +7,11 @@ import { isPageWithSidebar } from "@common/utils/functions/torn";
 import { PHBoldArrowBendUpLeft } from "@common/utils/icons/phosphor-icons";
 import { torntools } from "@common/utils/icons/torntools";
 import { Feature } from "@features/feature";
+import styles from "./settings-link.module.css";
 
 function initialiseLink() {
 	addCustomListener(EVENT_CHANNELS.STATE_CHANGED, () => {
-		const setting = findElement(".tt-settings", true);
+		const setting = findElement(`.${styles.settings}`, true);
 		if (!setting) return;
 
 		new MutationObserver((_mutations, observer) => {
@@ -27,7 +27,7 @@ async function addLink() {
 	findElement(".areasWrapper [class*='toggle-content__'], #sidebar [class*='areas___']").appendChild(
 		elementBuilder({
 			type: "div",
-			class: ["tt-settings", "pill"],
+			class: [styles.settings, "pill"],
 			children: [torntools(), elementBuilder({ type: "span", text: "TornTools Settings" })],
 			dataset: { icon: "" },
 			events: {
@@ -38,7 +38,7 @@ async function addLink() {
 }
 
 function generateFrame() {
-	if (findElement("#tt-settings-iframe", true)) return;
+	if (findElement(`.${styles.settingsFrame}`, true)) return;
 
 	const theme =
 		settings.themes.pages === "default"
@@ -51,24 +51,24 @@ function generateFrame() {
 
 	const ttSettingsIframe = elementBuilder({
 		type: "iframe",
-		id: "tt-settings-iframe",
+		class: styles.settingsFrame,
 		attributes: { src: browser.runtime.getURL("/options.html") },
 	});
 
 	const returnToTorn = elementBuilder({
 		type: "div",
-		class: "tt-back",
+		class: styles.backButton,
 		children: [PHBoldArrowBendUpLeft(), elementBuilder({ type: "span", id: "back", text: "Back to TORN" })],
 		dataset: { internalTheme: theme },
 	});
 
 	document.body.append(returnToTorn, ttSettingsIframe);
-	document.body.classList.add("tt-iframe-open");
+	document.body.classList.add(styles.ttSettingsOpen);
 
 	returnToTorn.addEventListener("click", () => {
 		returnToTorn.remove();
 		ttSettingsIframe.remove();
-		document.body.classList.remove("tt-iframe-open");
+		document.body.classList.remove(styles.ttSettingsOpen);
 	});
 }
 
