@@ -125,6 +125,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.competitions.easterEggs", label: "Highlight Easter Eggs", group: "global", section: "global", keywords: ["event"] },
 	{ path: "settings.pages.competitions.easterEggsAlert", label: "Highlight Easter Eggs alert", group: "global", section: "global" },
 	{ path: "settings.pages.global.reviveProvider", label: "Revive Provider", group: "global", section: "global" },
+	{ path: "settings.userAlias", label: "User Alias", group: "global", section: "global" },
 
 	// Section: sidebar
 	{ path: "settings.pages.sidebar.notes", label: "Sidebar notes", group: "global", section: "sidebar" },
