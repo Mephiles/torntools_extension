@@ -14,7 +14,7 @@
 			border-radius: 5px;
 		}
 
-		:global(.enlist) {
+		:global(.enlist:not(:has(.enlisted-btn-wrap))) {
 			display: none;
 		}
 	}

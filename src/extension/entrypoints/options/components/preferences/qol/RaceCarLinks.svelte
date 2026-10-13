@@ -1,16 +1,18 @@
 <script lang="ts">
 	import { TRACKS } from "@common/pages/racing-page.ts";
 	import { ttStorage } from "@common/utils/context";
+	import { countOwnedModelBuilds } from "@features/race-car-selector/car-ranking";
+	import { formatGearbox, getGuideSetup, getRecommendation } from "@features/race-car-selector/racing-recommendations";
 	import { settingsStore, userdataStore } from "../../../stores/database-store.svelte";
 	import ItemSelect from "../ItemSelect.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
-	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
 	import StorageSwitch from "../StorageSwitch.svelte";
 
 	const enlistedCars = $derived(($userdataStore?.enlistedcars ?? []).filter((car) => !car.is_removed));
 
 	const carItems = $derived([
-		{ value: "", label: "No car" },
+		{ value: "", label: "Auto (recommended)" },
+		{ value: "0", label: "No car (never auto-select)" },
 		...enlistedCars.map((car) => ({
 			value: String(car.id),
 			label: car.car_name ? `(${car.id}) ${car.car_item_name}: ${car.car_name}` : `(${car.id}) ${car.car_item_name}`,
@@ -22,12 +24,22 @@
 	}
 
 	async function setTrackCar(trackId: number, value: string) {
-		const trackCars = { ...$settingsStore.pages.racing.trackCars };
+		await ttStorage.update("settings", (settings) => {
+			if (value === "") delete settings.pages.racing.trackCars[trackId];
+			else settings.pages.racing.trackCars[trackId] = parseInt(value);
+		});
+	}
 
-		if (value === "") delete trackCars[trackId];
-		else trackCars[trackId] = parseInt(value);
+	function getAutoHint(trackName: string) {
+		const recommendation = getRecommendation(trackName);
+		if (!recommendation) return "";
 
-		await ttStorage.change({ settings: { pages: { racing: { trackCars } } } });
+		const setup = getGuideSetup(trackName);
+		const setupText = [formatGearbox(setup.gearbox), setup.turbo.toUpperCase()].filter(Boolean).join(" ");
+		const car = setupText ? `${recommendation.car} (${setupText})` : recommendation.car;
+		const owned = countOwnedModelBuilds(enlistedCars, recommendation);
+
+		return `Auto: ${car} - ${owned > 0 ? "in your garage" : "not in your garage"}`;
 	}
 </script>
 
@@ -42,11 +54,12 @@
 						<span class="text-sm">{track.name}</span>
 						<ItemSelect
 							items={carItems}
-							placeholder="Select a car"
+							placeholder="Auto (recommended)"
 							value={getTrackCar(track.id)}
 							onValueChange={(value) => void setTrackCar(track.id, value)}
 						/>
 					</div>
+					<p class="text-muted-foreground mt-1 text-xs">{getAutoHint(track.name)}</p>
 				</div>
 			{/each}
 		</div>

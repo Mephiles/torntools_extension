@@ -8,6 +8,9 @@ import { findElement } from "@common/utils/functions/find-elements";
 import { getPageStatus, getRFC } from "@common/utils/functions/torn";
 import { PHFillCaretDown, PHFillCaretRight } from "@common/utils/icons/phosphor-icons.ts";
 import { Feature } from "@features/feature";
+import { findRecommendedCar, findTrackNamedCar, getRecommendedModelCars } from "@features/race-car-selector/car-ranking";
+import { getUpgradeCatalog } from "@features/race-car-selector/racing-catalog";
+import type { UserRaceCarDetails } from "tornapi-typescript";
 import styles from "./race-car-selector.module.css";
 
 const CUSTOM_RACES: Record<number, string> = {};
@@ -55,16 +58,38 @@ function initialiseListeners() {
 	});
 }
 
+async function pickRecommendedCar(cars: UserRaceCarDetails[], trackName: string): Promise<UserRaceCarDetails | undefined> {
+	if (getRecommendedModelCars(cars, trackName).length) {
+		const catalog = await getUpgradeCatalog();
+		const recommended = findRecommendedCar(cars, trackName, catalog);
+		if (recommended) return recommended;
+	}
+
+	return findTrackNamedCar(cars, trackName);
+}
+
 async function selectCar(track: TrackData | undefined) {
 	findElement(`.${styles.preferredCar}`, true)?.remove();
 
 	if (!track) return;
 
-	const carId = settings.pages.racing.trackCars[track.id];
-	if (!carId) return;
+	const carId: number | undefined = settings.pages.racing.trackCars[track.id];
+	if (carId === 0) return; // never auto-select for this track
 
-	const car = userdata.enlistedcars?.find(({ id }) => id === carId);
-	if (!car) return;
+	const activeCars = (userdata.enlistedcars ?? []).filter((car) => !car.is_removed);
+
+	const preferredCar = carId === undefined ? undefined : activeCars.find(({ id }) => id === carId);
+
+	let car = preferredCar;
+	let label = "Use your preferred car for this race";
+
+	if (!car) {
+		const recommended = await pickRecommendedCar(activeCars, track.name);
+		if (!recommended) return;
+
+		car = recommended;
+		label = "Use recommended car for this race";
+	}
 
 	let url: string;
 	const joinAction = findElement<HTMLAnchorElement>(".btn-action-joinRace", true);
@@ -72,16 +97,17 @@ async function selectCar(track: TrackData | undefined) {
 		url = `/page.php?sid=racing&tab=customrace&section=getInRace&step=getInRace&id=${new URL(joinAction.href).searchParams.get("id")}&carID=${car.id}&rfcv=${getRFC()}`;
 	else url = `/page.php?sid=racing&tab=cars&section=changeRacingCar&step=changeRacingCar&id=${car.id}`;
 
-	findElement(".enlist-wrap").insertAdjacentElement(
-		"afterbegin",
-		elementBuilder({
-			type: "a",
-			text: "Use your preferred car for this race",
-			class: [styles.preferredCar, "btn-action-joinRace"],
-			href: url,
-		}),
-	);
-	hideEnlistedCars();
+	const preferredButton = elementBuilder({
+		type: "a",
+		text: label,
+		class: [styles.preferredCar, "btn-action-joinRace"],
+		href: url,
+	});
+
+	findElement(".enlist-wrap").insertAdjacentElement("afterbegin", preferredButton);
+	preferredButton.scrollIntoView({ behavior: "smooth", block: "center" });
+
+	if (preferredCar) hideEnlistedCars();
 }
 
 function hideEnlistedCars() {

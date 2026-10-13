@@ -16,7 +16,8 @@
 				{ "message": "Searching for a setting returned way too many results.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid an error in 'Travel Fill Max'.", "contributor": "DeKleineKobini" },
 				{ "message": "Make sure there is always only a single settings link.", "contributor": "DeKleineKobini" },
-				{ "message": "Add missing 'User Alias' in the preferences search.", "contributor": "DeKleineKobini" }
+				{ "message": "Add missing 'User Alias' in the preferences search.", "contributor": "DeKleineKobini" },
+				{ "message": "Don't hide the track name when 'Race Car Selector' collapses the car list.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Don't require the 'essential' data update for the other update cycles.", "contributor": "DeKleineKobini" },
@@ -26,7 +27,8 @@
 					"message": "Put an error boundary around the stakeout list in the popup so errors in there don't block out the entire dashboard.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Include selling to the vendor in the mission hint for Sellout Slayer.", "contributor": "DeKleineKobini" }
+				{ "message": "Include selling to the vendor in the mission hint for Sellout Slayer.", "contributor": "DeKleineKobini" },
+				{ "message": "Use a recommended car when no preferred car has been selected for 'Race Car Selector'.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [
