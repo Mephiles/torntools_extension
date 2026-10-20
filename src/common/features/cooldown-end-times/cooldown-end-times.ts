@@ -40,7 +40,7 @@ const tooltipObserver = new MutationObserver((mutations: MutationRecord[]) => {
 
 			const timeElement =
 				findElement("[class*='static-width___']", tooltipElement, true)?.firstChild ?? // For cooldown icon tooltips.
-				findElement("p[class*='bar-descr__']", tooltipElement, true)?.lastChild ?? // For energy, nerve, happy, and life bar tooltips.
+				findElement("p[class*='bar-descr__'], p[class*='barDescr___']", tooltipElement, true)?.lastChild ?? // For energy, nerve, happy, and life bar tooltips.
 				findElement("p:not([class])", tooltipElement, true);
 			if (!timeElement) return;
 

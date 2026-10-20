@@ -18,7 +18,8 @@
 				{ "message": "Make sure there is always only a single settings link.", "contributor": "DeKleineKobini" },
 				{ "message": "Add missing 'User Alias' in the preferences search.", "contributor": "DeKleineKobini" },
 				{ "message": "Don't hide the track name when 'Race Car Selector' collapses the car list.", "contributor": "DeKleineKobini" },
-				{ "message": "Don't show the OC reminder when you are a recruit.", "contributor": "DeKleineKobini" }
+				{ "message": "Don't show the OC reminder when you are a recruit.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix 'Cooldown End Times' on the fly out bar.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Don't require the 'essential' data update for the other update cycles.", "contributor": "DeKleineKobini" },
