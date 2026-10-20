@@ -76,7 +76,7 @@ export const REMINDERS: Reminder[] = [
 		name: "OC",
 		group: "oc",
 		url: LINKS.organizedCrimes,
-		enabled: () => !!userdata.faction && settings.scripts.reminders.types.oc,
+		enabled: () => !!userdata.faction && settings.scripts.reminders.types.oc && userdata.faction.position !== "Recruit",
 		finished: () => userdata.organizedCrime !== null && "id" in userdata.organizedCrime,
 	},
 	{
