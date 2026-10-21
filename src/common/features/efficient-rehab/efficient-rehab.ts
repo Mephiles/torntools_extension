@@ -70,6 +70,9 @@ async function showInformation() {
 	findElement(".rehab-desc").insertAdjacentElement("afterend", informationElement);
 }
 
+/*
+ * Based on https://www.torn.com/forums.php#/p=threads&f=61&t=16326392
+ */
 function calculateSafeRehabs() {
 	const rehabsDone = userdata.personalstats.drugs.rehabilitations.amount;
 

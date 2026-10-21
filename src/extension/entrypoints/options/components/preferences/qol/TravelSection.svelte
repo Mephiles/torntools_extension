@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ArrowSquareOutIcon from "phosphor-svelte/lib/ArrowSquareOutIcon";
 	import PriorityServiceConfiguration from "@/entrypoints/options/components/preferences/PriorityServiceConfiguration.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
@@ -60,6 +61,15 @@
 				<StorageSwitch path="settings.pages.travel.autoFillMax" label="Automatically fill max amount of stock" />
 			</StorageSwitch>
 			<StorageSwitch path="settings.pages.travel.efficientRehab" label="Efficiently rehab to not waste any natural decay">
+				<a
+					href="https://www.torn.com/forums.php#/p=threads&amp;f=61&amp;t=16326392"
+					target="_blank"
+					rel="noreferrer"
+					class="text-primary flex items-center gap-1 text-xs hover:underline"
+				>
+					Rehab formula
+					<ArrowSquareOutIcon aria-hidden="true" />
+				</a>
 				<StorageSwitch path="settings.pages.travel.efficientRehabSelect" label="Automatically set the slider to the current amount" />
 			</StorageSwitch>
 			<StorageSwitch path="settings.pages.travel.fastHunting" label="Faster hunting" />
