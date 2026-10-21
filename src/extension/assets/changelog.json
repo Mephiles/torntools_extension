@@ -39,7 +39,8 @@
 			"technical": [
 				{ "message": "Use nested CSS in 'Travel Table'.", "contributor": "DeKleineKobini" },
 				{ "message": "Use modular CSS in 'Settings Link'.", "contributor": "DeKleineKobini" },
-				{ "message": "Refactor the logging system being used.", "contributor": "DeKleineKobini" }
+				{ "message": "Refactor the logging system being used.", "contributor": "DeKleineKobini" },
+				{ "message": "Use nested CSS in 'Travel Cooldown'.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
