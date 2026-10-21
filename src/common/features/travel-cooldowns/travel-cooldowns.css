@@ -1,52 +1,63 @@
+body:not(.dark-mode) {
+	--cd-color: #333;
+	--cd-background-color: whitesmoke;
+	--cd-wrapper-background-color: #ededed;
+	--cd-wrapper-shadow: inset 0 1px #dcdcdc, inset 0 -1px #c7c7c7;
+	--cd-separator-border-left-color: #cbcbcb;
+	--cd-separator-border-right-color: #e8e8e8;
+}
+
+body.dark-mode {
+	--cd-color: white;
+	--cd-background-color: #2e2e2e;
+	--cd-wrapper-background-color: #262626;
+	--cd-wrapper-shadow: inset 0 1px #151515, inset 0 -1px #404040;
+	--cd-separator-border-left-color: #3d3d3d;
+	--cd-separator-border-right-color: #111111;
+}
+
 .tt-cooldowns {
-	background: #2e2e2e;
-	color: white;
+	color: var(--cd-color);
+	background: var(--cd-background-color);
 	padding: 10px;
-}
 
-.tt-cooldowns .travel-wrap {
-	display: flex;
-	background: url("https://www.torn.com/images/v2/travel_agency/pattern.gif") repeat;
-	border-radius: 5px;
-	box-shadow:
-		inset 0 1px #151515,
-		inset 0 -1px #404040;
-}
+	.travel-wrap {
+		display: flex;
+		border-radius: 5px;
+		box-shadow: var(--cd-wrapper-shadow);
+		background: var(--cd-wrapper-background-color);
+	}
 
-.tt-cooldowns .cooldown {
-	flex: 1 0 0;
-	line-height: 60px;
-	text-align: center;
-}
+	.cooldown {
+		flex: 1 0 0;
+		line-height: 60px;
+		text-align: center;
 
-.tt-mobile .tt-cooldowns .travel-wrap,
-.tt-tablet .tt-cooldowns .travel-wrap {
-	/*	padding-bottom: 0 !important;*/
-}
+		&:first-child {
+			border-right: 1px solid var(--cd-separator-border-right-color);
+		}
 
-.tt-cooldowns .cooldown:first-child {
-	border-right: 1px solid rgb(17, 17, 17);
-}
+		&:last-child {
+			border-left: 1px solid var(--cd-separator-border-left-color);
+		}
 
-.tt-cooldowns .cooldown:last-child {
-	border-left: 1px solid rgb(61, 61, 61);
-}
+		&:not(:first-child):not(:last-child) {
+			border-right: 1px solid var(--cd-separator-border-right-color);
+			border-left: 1px solid var(--cd-separator-border-left-color);
+		}
+	}
 
-.tt-cooldowns .cooldown:not(:first-child):not(:last-child) {
-	border-right: 1px solid rgb(17, 17, 17);
-	border-left: 1px solid rgb(61, 61, 61);
-}
+	.waste,
+	& ~ .cooldown.waste {
+		display: block;
+		color: red;
+	}
 
-.tt-cooldowns .waste,
-.tt-cooldowns ~ .cooldown.waste {
-	display: block;
-	color: red;
-}
-
-.tt-cooldowns ~ .cooldown {
-	display: none;
-	text-shadow: none;
-	color: white;
-	padding: 2px 12px;
-	background: rgb(46, 46, 46);
+	& ~ .cooldown {
+		display: none;
+		text-shadow: none;
+		color: white;
+		padding: 2px 12px 5px;
+		background: var(--cd-background-color);
+	}
 }

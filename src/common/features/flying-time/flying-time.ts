@@ -1,36 +1,21 @@
 import "./flying-time.css";
+import { getTravelDuration } from "@common/pages/travel-home-page.ts";
 import { settings } from "@common/utils/data/database";
-import { elementBuilder, mobile, tabletVertical } from "@common/utils/functions/dom";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findElement } from "@common/utils/functions/find-elements";
-import { formatDate, formatTime, textToTime } from "@common/utils/functions/formatting";
-import { requireElement } from "@common/utils/functions/requires";
+import { formatDate, formatTime } from "@common/utils/functions/formatting";
 import { getPageStatus, isAbroad, isFlying } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 async function initialise() {
-	if (mobile || tabletVertical) {
-		addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, showTime);
-		addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, showTime);
-	} else {
-		addCustomListener(EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE, showTime);
-	}
+	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, showTime);
+	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, showTime);
 }
 
 async function showTime() {
-	const container = await requireElement(
-		mobile || tabletVertical ? "[class*='destinationList___'] .expanded[class*='destination___']" : "[class*='destinationPanel___']",
-	);
-	if (!container) return;
-
-	const durationText = findElement(
-		["[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]", "[class*='confirmPanel___'] p:nth-child(2) [class*='emphasis___']"].join(", "),
-		container,
-		true,
-	)?.textContent;
-	if (!durationText) return;
-
-	const duration = textToTime(durationText);
+	const duration = getTravelDuration();
+	if (!duration) return;
 
 	const now = new Date();
 	const arrivalTime = new Date(now.getTime() + duration);

@@ -3,6 +3,7 @@ import type { CRIMES2 } from "@common/pages/crimes2-page";
 import type { PropertiesRoute } from "@common/pages/properties-page";
 import type { AbroadItem } from "@common/pages/travel-abroad-page";
 import { EVENT_HANDLER } from "@common/utils/context";
+import type { TravelCountry, TravelType } from "@common/utils/functions/torn.ts";
 import { isTabFocused } from "@common/utils/functions/utilities";
 import type { UserPersonalStatsFull } from "tornapi-typescript";
 
@@ -40,7 +41,6 @@ export enum EVENT_CHANNELS {
 	USERLIST_SWITCH_PAGE = "userlist-switch-page",
 	TRAVEL_SELECT_TYPE = "travel-select-type",
 	TRAVEL_SELECT_COUNTRY = "travel-select-country",
-	TRAVEL_DESTINATION_UPDATE = "travel-destination-update",
 	TRAVEL_ABROAD__SHOP_LOAD = "TRAVEL_ABROAD__SHOP_LOAD",
 	TRAVEL_ABROAD__SHOP_REFRESH = "TRAVEL_ABROAD__SHOP_REFRESH",
 	TRAVEL_ABROAD__ITEM_BOUGHT = "TRAVEL_ABROAD__ITEM_BOUGHT",
@@ -119,9 +119,8 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE]: never;
 	[EVENT_CHANNELS.JAIL_SWITCH_PAGE]: never;
 	[EVENT_CHANNELS.USERLIST_SWITCH_PAGE]: never;
-	[EVENT_CHANNELS.TRAVEL_SELECT_TYPE]: { type: string };
-	[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY]: { country: string };
-	[EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE]: never;
+	[EVENT_CHANNELS.TRAVEL_SELECT_TYPE]: { type: TravelType };
+	[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY]: { country: TravelCountry };
 	[EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD]: { country: string; items: AbroadItem[] };
 	[EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH]: never;
 	[EVENT_CHANNELS.TRAVEL_ABROAD__ITEM_BOUGHT]: { item: number; amount: number };

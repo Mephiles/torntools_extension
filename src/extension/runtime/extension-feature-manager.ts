@@ -314,7 +314,9 @@ export class ExtensionFeatureManager implements FeatureManager {
 	}
 
 	async executeFunction(func: FeatureFn) {
-		await func?.();
+		if (!func) return Promise.resolve();
+
+		return func();
 	}
 
 	showResult(feature: Feature, status: FeatureStatus, options: ResultOptions = {}) {

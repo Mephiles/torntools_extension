@@ -2862,3 +2862,18 @@ export function getEquipPosition(_id: number, category: string) {
 			return false;
 	}
 }
+
+export type TravelType = "standard" | "airstrip" | "private" | "business";
+
+export type TravelCountry =
+	| "argentina"
+	| "canada"
+	| "cayman_islands"
+	| "china"
+	| "hawaii"
+	| "japan"
+	| "mexico"
+	| "south_africa"
+	| "switzerland"
+	| "uae"
+	| "united_kingdom";

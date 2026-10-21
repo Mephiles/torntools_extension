@@ -1,37 +1,25 @@
 import "./travel-cooldowns.css";
+import { getTravelDuration } from "@common/pages/travel-home-page.ts";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { elementBuilder, mobile, tabletVertical } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findElement } from "@common/utils/functions/find-elements";
-import { textToTime } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, hasFinishedEducation, isAbroad, isFlying } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	if (mobile || tabletVertical) {
-		addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, showWarnings);
-		addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, showWarnings);
-	} else {
-		addCustomListener(EVENT_CHANNELS.TRAVEL_DESTINATION_UPDATE, showWarnings);
-	}
+	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, showWarnings);
+	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, showWarnings);
 }
 
 async function showWarnings() {
-	const container = await requireElement(
-		mobile || tabletVertical ? "[class*='destinationList___'] .expanded[class*='destination___']" : "[class*='destinationPanel___']",
-	);
-	if (!container) return;
+	const container = await requireElement("[class*='departPanel___']");
 
-	const durationText = findElement(
-		["[class*='flightDetailsGrid'] > :nth-child(2) span[aria-hidden]", "[class*='confirmPanel___'] p:nth-child(2) [class*='emphasis___']"].join(", "),
-		container,
-		true,
-	)?.textContent;
-	if (!durationText) return;
+	const duration = getTravelDuration();
+	if (!duration) return;
 
-	const duration = textToTime(durationText) * 2;
 	let cooldowns = findElement(".tt-cooldowns", container.parentElement!, true);
 	if (!cooldowns) {
 		cooldowns = elementBuilder({
@@ -115,13 +103,13 @@ async function showWarnings() {
 	}
 
 	function getDurationClass(time: number) {
-		return time * 1000 < duration ? "waste" : "";
+		return time * 1000 < duration! ? "waste" : "";
 	}
 
 	function handleClass(element: HTMLElement | null, time: number) {
 		if (!element) return;
 
-		const isWasted = time * 1000 < duration;
+		const isWasted = time * 1000 < duration!;
 
 		if (isWasted !== element.classList.contains("waste")) element.classList.toggle("waste");
 	}

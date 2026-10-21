@@ -30,7 +30,10 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Include selling to the vendor in the mission hint for Sellout Slayer.", "contributor": "DeKleineKobini" },
-				{ "message": "Use a recommended car when no preferred car has been selected for 'Race Car Selector'.", "contributor": "DeKleineKobini" }
+				{ "message": "Use a recommended car when no preferred car has been selected for 'Race Car Selector'.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'Travel Cooldown' to travel 2.0 phase 3.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'Flying Time' to travel 2.0 phase 3.", "contributor": "DeKleineKobini" },
+				{ "message": "Adapt 'Travel Table' to travel 2.0 phase 3.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
 			"technical": [

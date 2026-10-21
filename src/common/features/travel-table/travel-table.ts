@@ -10,6 +10,7 @@ import { convertToNumber, dropDecimals, formatNumber, formatTime } from "@common
 import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { createTTTopLinks, getPage, isAbroad, isCaptcha, isFlying, TAX_RATES } from "@common/utils/functions/torn";
+import type { TravelCountry, TravelType } from "@common/utils/functions/torn";
 import { toCorrectType } from "@common/utils/functions/utilities";
 import { PHFillAirplane, PHFillCaretDown, PHFillCaretRight } from "@common/utils/icons/phosphor-icons";
 import { Feature } from "@features/feature";
@@ -20,7 +21,7 @@ import type { TornItemTypeEnum, TornItemWeaponTypeEnum } from "tornapi-typescrip
 interface CountryInformation {
 	name: string;
 	image: string;
-	tag: string;
+	country: TravelCountry;
 	cost: number;
 	time: number;
 }
@@ -28,17 +29,17 @@ interface CountryInformation {
 type TableCategory = "plushie" | "flower" | "drug" | "temporary" | "weapon" | "defensive" | "other";
 
 const COUNTRIES: { [name: string]: CountryInformation } = {
-	arg: { name: "Argentina", image: "argentina", tag: "argentina", cost: 17850, time: 158 },
-	can: { name: "Canada", image: "canada", tag: "canada", cost: 7650, time: 39 },
-	cay: { name: "Cayman Islands", image: "cayman", tag: "cayman_islands", cost: 8500, time: 33 },
-	chi: { name: "China", image: "china", tag: "china", cost: 29750, time: 229 },
-	haw: { name: "Hawaii", image: "hawaii", tag: "hawaii", cost: 9350, time: 127 },
-	jap: { name: "Japan", image: "japan", tag: "japan", cost: 27200, time: 213 },
-	mex: { name: "Mexico", image: "mexico", tag: "mexico", cost: 5525, time: 24 },
-	sou: { name: "South Africa", image: "south_africa", tag: "south_africa", cost: 34000, time: 282 },
-	swi: { name: "Switzerland", image: "switzerland", tag: "switzerland", cost: 22950, time: 166 },
-	uae: { name: "UAE", image: "uae", tag: "uae", cost: 27200, time: 257 },
-	uni: { name: "United Kingdom", image: "uk", tag: "united_kingdom", cost: 15300, time: 151 },
+	arg: { name: "Argentina", image: "argentina", country: "argentina", cost: 17850, time: 158 },
+	can: { name: "Canada", image: "canada", country: "canada", cost: 7650, time: 39 },
+	cay: { name: "Cayman Islands", image: "cayman", country: "cayman_islands", cost: 8500, time: 33 },
+	chi: { name: "China", image: "china", country: "china", cost: 29750, time: 229 },
+	haw: { name: "Hawaii", image: "hawaii", country: "hawaii", cost: 9350, time: 127 },
+	jap: { name: "Japan", image: "japan", country: "japan", cost: 27200, time: 213 },
+	mex: { name: "Mexico", image: "mexico", country: "mexico", cost: 5525, time: 24 },
+	sou: { name: "South Africa", image: "south_africa", country: "south_africa", cost: 34000, time: 282 },
+	swi: { name: "Switzerland", image: "switzerland", country: "switzerland", cost: 22950, time: 166 },
+	uae: { name: "UAE", image: "uae", country: "uae", cost: 27200, time: 257 },
+	uni: { name: "United Kingdom", image: "uk", country: "united_kingdom", cost: 15300, time: 151 },
 };
 
 const SALES_TAX = TAX_RATES.salesTaxPercentage;
@@ -46,7 +47,7 @@ const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
 
 function initialise() {
 	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, ({ type }) => {
-		findElement<HTMLInputElement>("#travel-items").value = getTravelCount(type as TravelType).toString();
+		findElement<HTMLInputElement>("#travel-items").value = getTravelCount(type).toString();
 		updateValues();
 	});
 	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, ({ country }) => {
@@ -663,7 +664,7 @@ async function startTable() {
 						</div>
 					`,
 				dataset: {
-					country: country.tag,
+					country: country.country,
 					category,
 					marketValue,
 					sellValue: sellValue ?? 0,
@@ -883,7 +884,7 @@ function getTimeModifier(type: TravelType) {
 	}
 }
 
-function getTravelType() {
+function getTravelType(): TravelType {
 	if (getPage() === "travel") {
 		const element = findElement<HTMLInputElement>("input[name='travelType'][aria-checked='true']", true);
 
@@ -893,7 +894,7 @@ function getTravelType() {
 		return hasAPIData() ? getAPIType() : "standard";
 	}
 
-	function getAPIType() {
+	function getAPIType(): TravelType {
 		if (!hasAPIData() || !settings.apiUsage.user.travel) return "standard";
 
 		return toCorrectMethod(userdata.travel.method?.toLowerCase() ?? null);
@@ -919,8 +920,6 @@ function getTravelType() {
 		}
 	}
 }
-
-type TravelType = ReturnType<typeof getTravelType>;
 
 export default class TravelTableFeature extends Feature {
 	constructor() {
