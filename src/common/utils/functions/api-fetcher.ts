@@ -200,7 +200,7 @@ function buildUrl(location: FetchLocation, options: FetchOptions): string {
 			break;
 	}
 
-	if (options.includeKey) {
+	if (options.includeKey && location !== "tornw3b" && location !== "tornv2") {
 		params.append("key", options.key || key || api.torn.key || "");
 	}
 
@@ -218,6 +218,10 @@ function buildHeaders(location: FetchLocation, options: FetchOptions): Record<st
 
 	if (location === "tornv2") {
 		headers["Authorization"] = `ApiKey ${options.key || api.torn.key}`;
+	}
+
+	if (location === "tornw3b" && options.includeKey) {
+		headers["X-API-Key"] = options.key || api.tornw3b.key || api.torn.key || "";
 	}
 
 	if (options.method === "POST") {

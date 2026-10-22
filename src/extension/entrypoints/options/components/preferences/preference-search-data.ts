@@ -567,6 +567,8 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.external.prometheus", label: "Enable Prometheus", group: "connections", section: "services" },
 	{ path: "settings.external.lzpt", label: "Enable LZPT", group: "connections", section: "services" },
 	{ path: "settings.external.tornw3b", label: "Enable TornW3B", group: "connections", section: "services" },
+	{ path: "settings.external.tornw3bSendKey", label: "Send API key to TornW3B", group: "connections", section: "services" },
+	{ path: "api.tornw3b.key", label: "TornW3B API key", group: "connections", section: "services" },
 	{ path: "settings.external.ffScouter", label: "Enable FFScouter", group: "connections", section: "services", keywords: ["ff scouter", "ff-scouter"] },
 	{ path: "api.ffScouter.key", label: "FFScouter API key", group: "connections", section: "services" },
 	{ path: "settings.external.tornintel", label: "Enable Torn Intel", group: "connections", section: "services" },

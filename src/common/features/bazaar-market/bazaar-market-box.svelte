@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { fetchData } from "@common/utils/functions/api-fetcher.ts";
 	import type { TornW3BResult } from "@common/utils/functions/api.types.ts";
+	import { fetchTornW3B } from "@common/utils/functions/external-fetcher.ts";
 	import { formatNumber } from "@common/utils/functions/formatting.ts";
 	import { readableErrorMessage } from "@common/utils/functions/utilities.ts";
 	import type { StaticItem } from "@common/utils/torn-api/items.types.ts";
@@ -28,7 +28,7 @@
 		if (maxPrice) params.maxPrice = maxPrice;
 		if (resultLimit) params.limit = resultLimit;
 
-		return fetchData<TornW3BResult>("tornw3b", { relay: true, section: `marketplace/${item.id}`, params }).then<TornW3BResult>((result) => ({
+		return fetchTornW3B<TornW3BResult>({ relay: true, section: `marketplace/${item.id}`, params }).then<TornW3BResult>((result) => ({
 			...result,
 			listings: result.listings.filter((listing) => (!minQuantity || listing.quantity >= minQuantity) && (!maxPrice || listing.price <= maxPrice)),
 		}));

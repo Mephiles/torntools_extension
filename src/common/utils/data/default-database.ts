@@ -47,6 +47,9 @@ export const DEFAULT_STORAGE = {
 		tornstats: {
 			key: new DefaultSetting<string | null>("string"),
 		},
+		tornw3b: {
+			key: new DefaultSetting<string | null>("string"),
+		},
 		yata: {
 			key: new DefaultSetting<string | null>("string"),
 		},
@@ -581,6 +584,7 @@ export const DEFAULT_STORAGE = {
 			prometheus: new DefaultSetting("boolean", false),
 			lzpt: new DefaultSetting("boolean", false),
 			tornw3b: new DefaultSetting("boolean", false),
+			tornw3bSendKey: new DefaultSetting("boolean", false),
 			ffScouter: new DefaultSetting("boolean", false),
 			tornintel: new DefaultSetting("boolean", false),
 			tornprobability: new DefaultSetting("boolean", false),

@@ -2,9 +2,10 @@
 	import { ttCache } from "@common/utils/data/cache";
 	import { FETCH_PLATFORMS, fetchData } from "@common/utils/functions/api-fetcher";
 	import type { TornW3BResult } from "@common/utils/functions/api.types";
+	import { fetchTornW3B } from "@common/utils/functions/external-fetcher";
 	import { formatNumber } from "@common/utils/functions/formatting";
 	import { isSellable } from "@common/utils/functions/torn";
-	import { TO_MILLIS } from "@common/utils/functions/utilities";
+	import { readableErrorMessage, TO_MILLIS } from "@common/utils/functions/utilities";
 	import MarketPrice from "@extension/entrypoints/popup/components/market/MarketPrice.svelte";
 	import { Alert, AlertDescription, AlertTitle } from "@svelte/components/ui/alert";
 	import { Badge } from "@svelte/components/ui/badge";
@@ -22,6 +23,7 @@
 
 	let loading = $state(false);
 	let error = $state("");
+	let tornW3bError = $state("");
 	let itemMarket = $state<MarketItemMarketResponse | null>(null);
 	let tornW3bMarket = $state<TornW3BResult | null>(null);
 
@@ -37,6 +39,7 @@
 
 	$effect(() => {
 		error = "";
+		tornW3bError = "";
 		itemMarket = null;
 		tornW3bMarket = null;
 
@@ -44,13 +47,22 @@
 
 		loading = true;
 
-		Promise.all([loadTornMarket(selectedItem.id), showExternalMarket ? loadTornW3bMarket(selectedItem.id) : Promise.resolve<TornW3BResult | null>(null)])
+		Promise.allSettled([
+			loadTornMarket(selectedItem.id),
+			showExternalMarket ? loadTornW3bMarket(selectedItem.id) : Promise.resolve<TornW3BResult | null>(null),
+		])
 			.then(([tornResult, tornW3bResult]) => {
-				itemMarket = tornResult ?? null;
-				tornW3bMarket = tornW3bResult ?? null;
-			})
-			.catch((err: Error) => {
-				error = err.message ?? "Unable to load market prices.";
+				if (tornResult.status === "fulfilled") {
+					itemMarket = tornResult?.value ?? null;
+				} else {
+					error = readableErrorMessage(tornResult.reason) || "Unable to load market prices.";
+				}
+
+				if (tornW3bResult.status === "fulfilled") {
+					tornW3bMarket = tornW3bResult.value ?? null;
+				} else {
+					tornW3bError = readableErrorMessage(tornW3bResult.reason);
+				}
 			})
 			.finally(() => {
 				loading = false;
@@ -77,7 +89,7 @@
 			return ttCache.get<TornW3BResult>("tornw3bPrice", itemId);
 		}
 
-		const result = await fetchData<TornW3BResult>("tornw3b", { section: `marketplace/${itemId}` });
+		const result = await fetchTornW3B<TornW3BResult>({ section: `marketplace/${itemId}` });
 		ttCache.set({ [itemId]: result }, TO_MILLIS.SECONDS * 60, "tornw3bPrice");
 		return result;
 	}
@@ -141,11 +153,18 @@
 					/>
 
 					{#if showExternalMarket}
-						<MarketPrice
-							title="TornW3B Bazaars"
-							href={tornW3bUrl}
-							listings={tornW3bListings.map((listing) => ({ amount: listing.quantity, price: listing.price }))}
-						/>
+						{#if tornW3bError}
+							<Alert variant="destructive">
+								<AlertTitle>TornW3B lookup failed</AlertTitle>
+								<AlertDescription>{tornW3bError}</AlertDescription>
+							</Alert>
+						{:else}
+							<MarketPrice
+								title="TornW3B Bazaars"
+								href={tornW3bUrl}
+								listings={tornW3bListings.map((listing) => ({ amount: listing.quantity, price: listing.price }))}
+							/>
+						{/if}
 					{/if}
 				</div>
 			{/if}

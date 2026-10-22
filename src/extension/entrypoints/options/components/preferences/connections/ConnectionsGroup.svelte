@@ -54,7 +54,7 @@
 
 	<ExternalServiceCard
 		title="TornW3B"
-		description="Your API key is not used to authenticate at this time, but it will be in the future as additional functionality is added."
+		description="Your API key is optional and explicitly opt-in. Sending it raises TornW3B's rate limit."
 		path="settings.external.tornw3b"
 		enableLabel="Enable TornW3B"
 		origin={"tornw3b"}
@@ -62,7 +62,17 @@
 			{ label: "Website", href: "https://weav3r.dev" },
 			{ label: "Terms of Service", href: "https://weav3r.dev/terms-of-service" },
 		]}
-	/>
+		keyPath="api.tornw3b.key"
+		keyDescription="Only used for TornW3B when key sending is enabled. Leave empty to use your TornTools key."
+	>
+		{#snippet children()}
+			<StorageSwitch
+				path="settings.external.tornw3bSendKey"
+				label="Send API key to TornW3B"
+				description="Optional. Sends your API key to TornW3B, raising rate-limits. The key must already be registered with TornW3B."
+			/>
+		{/snippet}
+	</ExternalServiceCard>
 
 	<ExternalServiceCard
 		title="FFScouter"

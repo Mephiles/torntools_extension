@@ -36,6 +36,8 @@
 		popupDescription?: string;
 		/** Arbitrary content (e.g. recommended settings or an API key field) rendered in the confirmation popup. */
 		popupContent?: Snippet;
+		/** Extra content rendered beneath the alternative API key field. */
+		children?: Snippet;
 	}
 
 	let {
@@ -50,6 +52,7 @@
 		popupTitle,
 		popupDescription,
 		popupContent,
+		children,
 	}: ExternalServiceCardProps = $props();
 
 	let requestingPermission = $state(false);
@@ -139,6 +142,8 @@
 		{#if keyPath}
 			<StorageText path={keyPath} label="Alternative API key" description={keyDescription} />
 		{/if}
+
+		{@render children?.()}
 	</div>
 
 	<AlertDialog.Root bind:open={dialogOpen}>
