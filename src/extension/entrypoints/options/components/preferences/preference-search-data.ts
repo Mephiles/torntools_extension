@@ -582,7 +582,7 @@ export function getPreferenceSearchKeywords(item: SearchablePreference): string[
 }
 
 function condense(value: string): string {
-	return value.toLowerCase().replace(WORD_JOIN, "");
+	return value.toLowerCase().replaceAll(WORD_JOIN, "");
 }
 
 function singular(word: string): string {

@@ -201,13 +201,13 @@ async function showPosts() {
 
 										// Replace emoticons
 										const emoticonRegex = /\[img].*?emotions\/(\w+).*?\[\/img]/gs;
-										postContent = postContent.replace(emoticonRegex, ":$1:");
-										quotesContent = quotesContent.replace(emoticonRegex, ":$1:");
+										postContent = postContent.replaceAll(emoticonRegex, ":$1:");
+										quotesContent = quotesContent.replaceAll(emoticonRegex, ":$1:");
 
 										// Remove images
 										const imageRegex = /\[url=(.*?)]\[img(?:\s?\w*=[^\]]*)*]\1\[\/img]\[\/url]|\[img(?:\s?\w*=[^\]]*)*].*?\[\/img]/gs;
-										postContent = postContent.replace(imageRegex, "[img]");
-										quotesContent = quotesContent.replace(imageRegex, "[img]");
+										postContent = postContent.replaceAll(imageRegex, "[img]");
+										quotesContent = quotesContent.replaceAll(imageRegex, "[img]");
 
 										// Replace urls
 										const urls: string[] = [];
@@ -224,8 +224,8 @@ async function showPosts() {
 
 											return `[${content.trim()}][${place}]`;
 										};
-										quotesContent = quotesContent.replace(urlRegex, urlCallback);
-										postContent = postContent.replace(urlRegex, urlCallback);
+										quotesContent = quotesContent.replaceAll(urlRegex, urlCallback);
+										postContent = postContent.replaceAll(urlRegex, urlCallback);
 
 										// Trim content
 										quotesContent = quotesContent.trim();
@@ -245,14 +245,14 @@ async function showPosts() {
 										// Remove bbcode
 										const bbcodeRegex = /\[(\w+)(?:\s?\w*=[^\]]*)*](.*?)\[\/\1]/gs;
 										// oxlint-disable-next-line no-cond-assign — pre-migration
-										while (postContent !== (postContent = postContent.replace(bbcodeRegex, "$2"))) {}
+										while (postContent !== (postContent = postContent.replaceAll(bbcodeRegex, "$2"))) {}
 										// oxlint-disable-next-line no-cond-assign — pre-migration
-										while (quotesContent !== (quotesContent = quotesContent.replace(bbcodeRegex, "$2"))) {}
+										while (quotesContent !== (quotesContent = quotesContent.replaceAll(bbcodeRegex, "$2"))) {}
 
 										// Remove 3+ newlines
 										const newlineRegex = /\n{3,}/gs;
-										postContent = postContent.replace(newlineRegex, "\n\n");
-										quotesContent = quotesContent.replace(newlineRegex, "\n\n");
+										postContent = postContent.replaceAll(newlineRegex, "\n\n");
+										quotesContent = quotesContent.replaceAll(newlineRegex, "\n\n");
 
 										// Discord max length = 2000 + 18 = Placeholder, Subtract current length & newline count, to avoid problems with LF <> CRLF
 										const maxLength =
