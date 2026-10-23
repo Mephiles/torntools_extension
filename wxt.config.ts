@@ -38,7 +38,6 @@ export default defineConfig({
 		"@extension": resolve("./src/extension"),
 		"@public": resolve("./src/extension/public"),
 		"@svelte": resolve("./src/extension/svelte"),
-		"@vendor": resolve("./src/extension/utils/vendor"),
 		"@userscripts": resolve("./src/userscripts"),
 	},
 	dev: {

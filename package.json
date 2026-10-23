@@ -31,7 +31,6 @@
 	},
 	"dependencies": {
 		"@phosphor-icons/core": "^2.1.1",
-		"@phosphor-icons/web": "^2.1.2",
 		"@tailwindcss/vite": "^4.3.3",
 		"@tanstack/svelte-table": "^9.3.1",
 		"@webext-core/proxy-service": "^3.0.2",
