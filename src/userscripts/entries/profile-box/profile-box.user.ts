@@ -22,7 +22,6 @@ import type { UserPersonalStatsFull, UserWorkStatsResponse } from "tornapi-types
 	createOverlay();
 
 	await ttStorage.change({
-		api: { torn: { key } },
 		settings: {
 			pages: {
 				profile: {

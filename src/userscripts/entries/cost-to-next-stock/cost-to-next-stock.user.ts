@@ -1,4 +1,4 @@
-import { FEATURE_MANAGER, ttStorage } from "@common/utils/context";
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { setStockdata, setUserdata, stockdata, userdata } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
@@ -17,8 +17,6 @@ import type { TornStocksResponse, UserStocksResponse } from "tornapi-typescript"
 
 	const key = await requiresAPIKey();
 	await Promise.all([fetchUserStocks(key), fetchTornStocks(key)]);
-
-	await ttStorage.change({ api: { torn: { key } } });
 
 	FEATURE_MANAGER.registerFeature(new CostToNextStockFeature());
 })();
