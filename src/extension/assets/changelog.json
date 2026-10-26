@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [{ "message": "Stop the import dialog from growing beyond the screen.", "contributor": "xhang98" }],
 			"changes": [],
 			"removed": [],
 			"technical": [{ "message": "Cleanup old code for icons.", "contributor": "DeKleineKobini" }]
