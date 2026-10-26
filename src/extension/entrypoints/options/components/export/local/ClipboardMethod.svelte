@@ -20,8 +20,12 @@
 	}
 
 	async function importData() {
-		const data = parseImportText(importText);
-		await handleImportData(data);
+		try {
+			const data = parseImportText(importText);
+			await handleImportData(data);
+		} catch (error) {
+			toast.error(error instanceof Error ? error.message : "Couldn't read the imported data.");
+		}
 	}
 
 	async function handleImportData(data: ExportData) {
@@ -42,6 +46,6 @@
 	onImport={importData}
 >
 	{#snippet extraImportInput()}
-		<Textarea bind:value={importText} rows={6} class="text-xs" placeholder="Paste your exported JSON here." />
+		<Textarea bind:value={importText} rows={6} class="field-sizing-fixed text-xs" placeholder="Paste your exported JSON here." />
 	{/snippet}
 </ExportMethod>
