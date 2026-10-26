@@ -158,7 +158,7 @@ export async function loadDatabase(force = false): Promise<Omit<Database, "time"
 }
 
 // oxlint-disable-next-line no-unused-vars — might only be temporary unused
-export async function migrateDatabase(force = false): Promise<void> {
+export async function migrateDatabase(force = false, options: { skipSharedSettings?: boolean } = {}): Promise<void> {
 	try {
 		const loadedStorage = await ttStorage.get();
 
@@ -185,7 +185,13 @@ export async function migrateDatabase(force = false): Promise<void> {
 
 		migratedStorage.version.current = currentVersion;
 
-		await ttStorage.set(migratedStorage);
+		const toWrite: Partial<Database> = { ...migratedStorage };
+		if (options.skipSharedSettings) {
+			delete toWrite.settings;
+			delete toWrite.api;
+		}
+
+		await ttStorage.set(toWrite);
 
 		populateDatabaseVariables(migratedStorage);
 

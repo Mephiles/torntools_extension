@@ -4,10 +4,11 @@ import { registerCoreUserscriptContext } from "@userscripts/runtime/context/scri
 import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
 import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context.ts";
 import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver.ts";
+import settingsManifest from "./settings-manifest.ts";
 
 (async () => {
 	registerCoreUserscriptContext();
-	await registerDatabaseUserscriptContext("tt_rwv");
+	await registerDatabaseUserscriptContext("tt_rwv", settingsManifest);
 	registerNetworkUserscriptContext();
 	await ScriptItemResolver.loadItems();
 

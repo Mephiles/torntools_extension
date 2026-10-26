@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Mini Profile Last Action",
 	description: "Display the last action in the mini profile.",
-	version: "1.0.5",
+	version: "1.1.0",
 	matches: ["https://*.torn.com/*"],
 	runAt: "document-end",
 };

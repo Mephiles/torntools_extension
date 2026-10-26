@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { getPreferenceValue, updatePreferenceValue } from "@common/utils/data/preference-storage";
+	import type { StringPreferenceStoragePath } from "@common/utils/data/preference-storage";
 	import * as Field from "@svelte/components/ui/field";
 	import { Input } from "@svelte/components/ui/input";
 	import { apiStore, settingsStore } from "../../stores/database-store.svelte";
-	import { getPreferenceValue, updatePreferenceValue } from "./preference-storage";
-	import type { StringPreferenceStoragePath } from "./preference-storage";
 
 	interface StorageTextProps {
 		path: StringPreferenceStoragePath;

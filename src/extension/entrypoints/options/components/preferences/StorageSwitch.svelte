@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getPreferenceValue, updatePreferenceValue } from "@common/utils/data/preference-storage";
+	import type { BooleanPreferenceStoragePath } from "@common/utils/data/preference-storage";
 	import * as Field from "@svelte/components/ui/field";
 	import { Switch } from "@svelte/components/ui/switch";
 	import { cn } from "@svelte/utils";
@@ -6,8 +8,6 @@
 	import { apiStore, settingsStore } from "../../stores/database-store.svelte";
 	import type { ExternalService } from "./external-service-requirement";
 	import ExternalServiceRequirement from "./ExternalServiceRequirement.svelte";
-	import { getPreferenceValue, updatePreferenceValue } from "./preference-storage";
-	import type { BooleanPreferenceStoragePath } from "./preference-storage";
 
 	interface StorageSwitchProps {
 		path: BooleanPreferenceStoragePath;

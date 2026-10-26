@@ -1,11 +1,11 @@
 <script lang="ts">
+	import type { BooleanPreferenceStoragePath, NumberPreferenceStoragePath } from "@common/utils/data/preference-storage";
+	import { getPreferenceValue, updatePreferenceValue } from "@common/utils/data/preference-storage";
 	import { Button } from "@svelte/components/ui/button";
 	import * as Dialog from "@svelte/components/ui/dialog";
 	import { Input } from "@svelte/components/ui/input";
 	import { Switch } from "@svelte/components/ui/switch";
 	import GearSixIcon from "phosphor-svelte/lib/GearSixIcon";
-	import type { BooleanPreferenceStoragePath, NumberPreferenceStoragePath } from "@/entrypoints/options/components/preferences/preference-storage";
-	import { getPreferenceValue, updatePreferenceValue } from "@/entrypoints/options/components/preferences/preference-storage";
 	import { apiStore, settingsStore } from "@/entrypoints/options/stores/database-store.svelte";
 
 	interface ServiceDef {

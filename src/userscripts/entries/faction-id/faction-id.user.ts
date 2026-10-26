@@ -4,10 +4,11 @@ import FactionIDFeature from "@features/faction-id/faction-id.ts";
 import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
 import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";
 import { registerInjectorUserscriptContext } from "@userscripts/runtime/context/script-injector-context";
+import settingsManifest from "./settings-manifest.ts";
 
 (async () => {
 	registerCoreUserscriptContext();
-	await registerDatabaseUserscriptContext("tt_fi");
+	await registerDatabaseUserscriptContext("tt_fi", settingsManifest);
 	registerInjectorUserscriptContext();
 
 	await setupFactionsPage();

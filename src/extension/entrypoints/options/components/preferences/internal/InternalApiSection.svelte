@@ -1,6 +1,6 @@
 <script lang="ts">
+	import type { BooleanPreferenceStoragePath } from "@common/utils/data/preference-storage";
 	import { MAX_DELAY_ESSENTIAL } from "@/entrypoints/background/updates/userdata.ts";
-	import type { BooleanPreferenceStoragePath } from "../preference-storage";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
 	import StorageNumber from "../StorageNumber.svelte";

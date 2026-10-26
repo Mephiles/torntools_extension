@@ -12,12 +12,13 @@ import { registerInjectorUserscriptContext } from "@userscripts/runtime/context/
 import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context";
 import { requiresAPIKey } from "@userscripts/runtime/script-fetch";
 import type { TornEducationResponse, UserBarsResponse, UserCooldownsResponse, UserEducationResponse, UserMoneyResponse } from "tornapi-typescript";
+import settingsManifest from "./settings-manifest.ts";
 
 (async () => {
 	if (isFlying() || isAbroad()) return;
 
 	registerCoreUserscriptContext();
-	await registerDatabaseUserscriptContext("tt_tc");
+	await registerDatabaseUserscriptContext("tt_tc", settingsManifest);
 	registerNetworkUserscriptContext();
 	registerInjectorUserscriptContext();
 

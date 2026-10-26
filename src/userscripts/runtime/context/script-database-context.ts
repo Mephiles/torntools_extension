@@ -5,14 +5,20 @@ import { initializeDatabaseListener, migrateDatabase, setFilters, setLocaldata }
 import type { DatabaseFilters, DatabaseLocaldata } from "@common/utils/data/database";
 import { DEFAULT_STORAGE, getDefaultStorage } from "@common/utils/data/default-database";
 import type { RuntimeStorage, StorageChangeCallback } from "@common/utils/functions/context-interfaces";
-import { PDAScriptStorage, TTScriptStorage } from "@userscripts/runtime/script-storage";
+import { PDAScriptStorage, SharedSettingsScriptStorage, TTScriptStorage } from "@userscripts/runtime/script-storage";
+import type { SettingsManifest } from "@userscripts/settings/settings-manifest";
+import { registerScript } from "@userscripts/settings/shared-settings";
 import { isPDA } from "@userscripts/utils/script-utils";
 
-export async function registerDatabaseUserscriptContext(storagePrefix: string) {
-	setTTStorage(isPDA() ? new PDAScriptStorage() : new TTScriptStorage(storagePrefix));
+export async function registerDatabaseUserscriptContext(storagePrefix: string, manifest?: SettingsManifest) {
+	const base = isPDA() ? new PDAScriptStorage() : new TTScriptStorage(storagePrefix);
+
+	setTTStorage(new SharedSettingsScriptStorage(base, manifest));
 	setRuntimeStorage(UserscriptRuntimeStorage);
 
-	await migrateDatabase(true);
+	if (manifest) registerScript(storagePrefix, manifest);
+
+	await migrateDatabase(true, { skipSharedSettings: true });
 	initializeDatabaseListener();
 	const [localdata, filters, cache] = await ttStorage.get(["localdata", "filters", "cache"]);
 

@@ -1,10 +1,10 @@
 <script lang="ts">
+	import { getPreferenceValue, updatePreferenceValue } from "@common/utils/data/preference-storage";
+	import type { NumberPreferenceStoragePath } from "@common/utils/data/preference-storage";
 	import * as Field from "@svelte/components/ui/field";
 	import type { FieldOrientation } from "@svelte/components/ui/field/helper.ts";
 	import { Input } from "@svelte/components/ui/input";
 	import { apiStore, settingsStore } from "../../stores/database-store.svelte";
-	import { getPreferenceValue, updatePreferenceValue } from "./preference-storage";
-	import type { NumberPreferenceStoragePath } from "./preference-storage";
 
 	interface StorageNumberProps {
 		path: NumberPreferenceStoragePath;

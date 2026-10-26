@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Blackjack Strategy",
 	description: "Display the best strategic option in blackjack.",
-	version: "1.0.5",
+	version: "1.1.0",
 	matches: ["https://*.torn.com/page.php?sid=blackjack*"],
 	runAt: "document-end",
 };

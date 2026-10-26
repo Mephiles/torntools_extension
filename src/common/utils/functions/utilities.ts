@@ -29,6 +29,8 @@ export function arraysEquals(a1: unknown[], a2: unknown[]) {
 }
 
 export function objectsEquals(o1: object, o2: object) {
+	if (Object.is(o1, o2)) return true;
+
 	const entries1 = new Map(Object.entries(o1));
 	const entries2 = new Map(Object.entries(o2));
 	if (entries1.size !== entries2.size) return false;
@@ -45,7 +47,7 @@ export function objectsEquals(o1: object, o2: object) {
 	return true;
 }
 
-function valueEquals(x1: unknown, x2: unknown) {
+export function valueEquals(x1: unknown, x2: unknown) {
 	if (typeof x1 !== typeof x2) return false;
 
 	if (Array.isArray(x1) && Array.isArray(x2)) {

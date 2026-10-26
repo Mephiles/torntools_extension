@@ -7,10 +7,11 @@ import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/
 import { registerInjectorUserscriptContext } from "@userscripts/runtime/context/script-injector-context.ts";
 import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context.ts";
 import { ScriptItemResolver } from "@userscripts/runtime/script-item-resolver.ts";
+import settingsManifest from "./settings-manifest.ts";
 
 (async () => {
 	registerCoreUserscriptContext();
-	await registerDatabaseUserscriptContext("tt_fqi");
+	await registerDatabaseUserscriptContext("tt_fqi", settingsManifest);
 	registerNetworkUserscriptContext();
 	registerInjectorUserscriptContext();
 	await ScriptItemResolver.loadItems();

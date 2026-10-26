@@ -3,8 +3,8 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Bazaar Market",
 	description: "Additionally display bazaar entries in the item market.",
-	version: "1.1.1",
-	matches: ["https://*.torn.com/page.php?sid=ItemMarket*"],
+	version: "1.2.0",
+	matches: ["https://*.torn.com/page.php?sid=ItemMarket*", "https://*.torn.com/bazaar.php*"],
 	runAt: "document-end",
 	connect: ["weav3r.dev", "torntools.tornplayground.eu"],
 };

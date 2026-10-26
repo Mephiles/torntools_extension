@@ -1,8 +1,10 @@
 import type { CacheEntry, DatabaseCache } from "@common/utils/data/cache";
-import type { Database, DatabaseKey } from "@common/utils/data/database";
+import type { Database, DatabaseApi, DatabaseKey, DatabaseSettings, RecursivePartial, Writable } from "@common/utils/data/database";
 import { DEFAULT_STORAGE } from "@common/utils/data/default-database";
 import { TornToolsStorage } from "@common/utils/data/storage";
 import { UserscriptRuntimeStorage } from "@userscripts/runtime/context/script-database-context";
+import type { SettingsManifest } from "@userscripts/settings/settings-manifest.ts";
+import { applyApiPatch, applySettingsPatch, getEffectiveApi, getEffectiveSettings } from "@userscripts/settings/shared-settings";
 
 export class TTScriptStorage extends TornToolsStorage {
 	constructor(private readonly prefix: string) {
@@ -162,5 +164,97 @@ export class PDAScriptStorage extends TornToolsStorage {
 
 	override async getSize(): Promise<number> {
 		return (await PDA_storage.usage()).used;
+	}
+}
+
+export class SharedSettingsScriptStorage extends TornToolsStorage {
+	constructor(
+		private readonly base: TornToolsStorage,
+		private readonly manifest?: SettingsManifest,
+	) {
+		super();
+	}
+
+	override get(): Promise<Database>;
+	override get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
+	override get<K extends readonly DatabaseKey[]>(keys: K): Promise<{ [I in keyof K]: K[I] extends DatabaseKey ? Database[K[I]] : never }>;
+	override async get(key?: DatabaseKey | DatabaseKey[]) {
+		if (Array.isArray(key)) {
+			return await Promise.all(key.map((entry) => this.get(entry)));
+		} else if (key === "settings") {
+			return await this.getSettings();
+		} else if (key === "api") {
+			return await this.getApi();
+		} else if (key) {
+			return await this.base.get(key);
+		}
+
+		const database = await this.base.get();
+		database.settings = await this.getSettings();
+		database.api = await this.getApi();
+		return database;
+	}
+
+	override async set(object: { [p: string]: any }): Promise<void> {
+		const { settings, api, ...rest } = object;
+
+		if (settings !== undefined) throw new Error("Whole settings writes are not supported. Use change() with a partial patch.");
+		if (api !== undefined) throw new Error("Whole api writes are not supported. Use change() with a partial patch.");
+
+		if (Object.keys(rest).length > 0) await this.base.set(rest);
+	}
+
+	override async update<K extends DatabaseKey>(key: K, fn: (database: Database[K]) => void): Promise<void> {
+		if (key === "settings" || key === "api") throw new Error(`Whole ${key} writes are not supported. Use change() with a partial patch.`);
+
+		await this.base.update(key, fn);
+	}
+
+	override async change(object: RecursivePartial<Writable<Database>>): Promise<void> {
+		const { settings, api, ...rest } = object;
+
+		if (settings !== undefined) {
+			await applySettingsPatch(settings);
+			UserscriptRuntimeStorage.callback({ settings: { newValue: await this.getSettings(), oldValue: null } }, "local");
+		}
+		if (api !== undefined) {
+			await applyApiPatch(api);
+			UserscriptRuntimeStorage.callback({ api: { newValue: await this.getApi(), oldValue: null } }, "local");
+		}
+		if (Object.keys(rest).length > 0) await this.base.change(rest as RecursivePartial<Writable<Database>>);
+	}
+
+	override remove(key: string | string[]): Promise<void> {
+		return this.base.remove(key);
+	}
+
+	override clear(): Promise<void> {
+		return this.base.clear();
+	}
+
+	override reset(): Promise<void>;
+	override reset(key: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void>;
+	override reset(key?: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void> {
+		return key ? this.base.reset(key) : this.base.reset();
+	}
+
+	override setCacheEntries(entries: CacheEntry[]): Promise<void> {
+		return this.base.setCacheEntries(entries);
+	}
+
+	override clearCache(section?: string): Promise<void> {
+		return this.base.clearCache(section);
+	}
+
+	override getSize(): Promise<number> {
+		return this.base.getSize();
+	}
+
+	private async getSettings(): Promise<DatabaseSettings> {
+		return getEffectiveSettings(this.manifest);
+	}
+
+	private async getApi(): Promise<DatabaseApi> {
+		return getEffectiveApi(this.manifest);
 	}
 }

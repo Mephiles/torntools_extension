@@ -1,4 +1,6 @@
 <script lang="ts">
+	import type { BooleanPreferenceStoragePath, StringPreferenceStoragePath } from "@common/utils/data/preference-storage";
+	import { getPreferenceValue, updatePreferenceValue } from "@common/utils/data/preference-storage";
 	import { getPermissionOrigin } from "@common/utils/functions/api-fetcher.ts";
 	import type { FetchLocation } from "@common/utils/functions/api-fetcher.ts";
 	import * as AlertDialog from "@svelte/components/ui/alert-dialog";
@@ -11,8 +13,6 @@
 	import { browser } from "wxt/browser";
 	import { cantRequestPermissionsToast } from "@/entrypoints/options/utilities/toast-helper.ts";
 	import { apiStore, settingsStore } from "../../../stores/database-store.svelte";
-	import type { BooleanPreferenceStoragePath, StringPreferenceStoragePath } from "../preference-storage";
-	import { getPreferenceValue, updatePreferenceValue } from "../preference-storage";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import StorageText from "../StorageText.svelte";
 

@@ -11,10 +11,11 @@ import { registerInjectorUserscriptContext } from "@userscripts/runtime/context/
 import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context";
 import { requiresAPIKey } from "@userscripts/runtime/script-fetch";
 import type { UserPerksResponse } from "tornapi-typescript";
+import settingsManifest from "./settings-manifest.ts";
 
 (async () => {
 	registerCoreUserscriptContext();
-	await registerDatabaseUserscriptContext("tt_gs");
+	await registerDatabaseUserscriptContext("tt_gs", settingsManifest);
 	registerNetworkUserscriptContext();
 	registerInjectorUserscriptContext();
 

@@ -16,6 +16,8 @@ export async function requiresAPIKey() {
 		return PDA_KEY;
 	}
 
+	if (api.torn.key) return api.torn.key;
+
 	const storageKey = localStorage.getItem(STORAGE_LOCATION);
 	if (storageKey) {
 		await setKey(storageKey);

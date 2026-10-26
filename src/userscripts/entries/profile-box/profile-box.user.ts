@@ -10,10 +10,11 @@ import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/
 import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context";
 import { requiresAPIKey } from "@userscripts/runtime/script-fetch";
 import type { UserPersonalStatsFull, UserWorkStatsResponse } from "tornapi-typescript";
+import settingsManifest from "./settings-manifest.ts";
 
 (async () => {
 	registerCoreUserscriptContext();
-	await registerDatabaseUserscriptContext("tt_pb");
+	await registerDatabaseUserscriptContext("tt_pb", settingsManifest);
 	registerNetworkUserscriptContext();
 
 	const key = await requiresAPIKey();

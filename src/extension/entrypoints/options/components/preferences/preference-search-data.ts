@@ -1,4 +1,4 @@
-import type { PreferenceStoragePath } from "@/entrypoints/options/components/preferences/preference-storage";
+import type { PreferenceStoragePath } from "@common/utils/data/preference-storage";
 import type { PreferenceGroupId } from "./configuration";
 
 export interface SearchablePreference {

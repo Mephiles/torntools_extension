@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Bar Links",
 	description: "Make the bars clickable.",
-	version: "1.0.5",
+	version: "1.1.0",
 	matches: ["https://*.torn.com/*"],
 	runAt: "document-end",
 };
