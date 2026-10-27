@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Add a minimum level filter to Bounty Filter.", "contributor": "Deviyl" }],
 			"fixes": [{ "message": "Stop the import dialog from growing beyond the screen.", "contributor": "xhang98" }],
 			"changes": [],
 			"removed": [],
