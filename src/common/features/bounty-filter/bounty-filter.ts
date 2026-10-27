@@ -25,6 +25,14 @@ async function addFilter() {
 		onlyHeader: true,
 		applyRounding: false,
 	});
+	const minLevelInput = elementBuilder({
+		type: "input",
+		attributes: {
+			type: "number",
+			min: "1",
+			max: "100",
+		},
+	});
 	const maxLevelInput = elementBuilder({
 		type: "input",
 		attributes: {
@@ -35,6 +43,13 @@ async function addFilter() {
 	});
 	const cbHideUnavailable = createCheckbox({ description: "Hide Unavailable" });
 	options.appendChild(cbHideUnavailable.element);
+	options.appendChild(minLevelInput);
+	options.appendChild(
+		elementBuilder({
+			type: "span",
+			text: "Min Level",
+		}),
+	);
 	options.appendChild(maxLevelInput);
 	options.appendChild(
 		elementBuilder({
@@ -49,15 +64,21 @@ async function addFilter() {
 	}
 
 	// Setup saved filters
+	minLevelInput.value = filters.bounties.minLevel.toString();
 	maxLevelInput.value = filters.bounties.maxLevel.toString();
 	cbHideUnavailable.setChecked(filters.bounties.hideUnavailable);
 
+	minLevelInput.addEventListener("input", filterListing);
 	maxLevelInput.addEventListener("input", filterListing);
 	cbHideUnavailable.onChange(filterListing);
 	await filterListing();
 
 	async function filterListing() {
 		// Get the set filters
+		const tempMinLevel = parseInt(minLevelInput.value);
+		const minLevel = tempMinLevel >= 1 && tempMinLevel <= 100 ? tempMinLevel : 1;
+		minLevelInput.value = minLevelInput.value === "" ? "" : minLevel.toString();
+
 		const tempMaxLevel = parseInt(maxLevelInput.value);
 		const maxLevel = tempMaxLevel < 100 && tempMaxLevel > 0 ? tempMaxLevel : 100;
 		maxLevelInput.value = maxLevelInput.value === "" ? "" : maxLevel.toString();
@@ -67,6 +88,7 @@ async function addFilter() {
 		await ttStorage.change({
 			filters: {
 				bounties: {
+					minLevel,
 					maxLevel,
 					hideUnavailable,
 				},
@@ -75,13 +97,21 @@ async function addFilter() {
 
 		const list = findElement(".bounties-list");
 		for (const bounty of findAllElements(":scope > li[data-id]", list)) {
-			if (maxLevel > 0 && parseInt(findElement(".level", bounty).lastChild!.textContent!) > maxLevel) {
+			const level = parseInt(findElement(".level", bounty).lastChild!.textContent!);
+			if (minLevel > 1 && level < minLevel) {
 				hideBounty(bounty);
 				continue;
-			} else showBounty(bounty);
+			}
+			if (maxLevel > 0 && level > maxLevel) {
+				hideBounty(bounty);
+				continue;
+			}
 			if (hideUnavailable && findElement(".user-red-status, .user-blue-status", bounty, true)) {
 				hideBounty(bounty);
-			} else showBounty(bounty);
+				continue;
+			}
+			
+			showBounty(bounty);
 		}
 
 		list.classList.add("tt-filtered");
