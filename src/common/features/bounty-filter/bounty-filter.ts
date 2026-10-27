@@ -110,7 +110,7 @@ async function addFilter() {
 				hideBounty(bounty);
 				continue;
 			}
-			
+
 			showBounty(bounty);
 		}
 
