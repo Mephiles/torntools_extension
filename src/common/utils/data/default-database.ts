@@ -500,12 +500,18 @@ export const DEFAULT_STORAGE = {
 			},
 			enemies: {
 				filter: new DefaultSetting("boolean", true),
+				nativeFilter: new DefaultSetting("boolean", false),
 			},
 			friends: {
 				filter: new DefaultSetting("boolean", true),
+				nativeFilter: new DefaultSetting("boolean", false),
 			},
 			targets: {
 				filter: new DefaultSetting("boolean", true),
+				nativeFilter: new DefaultSetting("boolean", false),
+			},
+			customLinks: {
+				nativeFilter: new DefaultSetting("boolean", false),
 			},
 			crimes2: {
 				value: new DefaultSetting("boolean", true),
@@ -914,6 +920,11 @@ export const DEFAULT_STORAGE = {
 	},
 	factiondata: new DefaultSetting<StoredFactiondata>("object", {} as StoredFactiondata),
 	localdata: {
+		nativeFilters: {
+			friends: new DefaultSetting("string", ""),
+			enemies: new DefaultSetting("string", ""),
+			targets: new DefaultSetting("string", ""),
+		},
 		tradeMessage: new DefaultSetting("number", 0),
 		popup: {
 			calculatorItems: new DefaultSetting<{ id: string; amount: number }[]>("array", []),

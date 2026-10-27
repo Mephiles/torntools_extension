@@ -122,4 +122,28 @@
 			/>
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
+	<PreferenceSectionCard title="Lists">
+		<PreferenceSettingGroup>
+			<StorageSwitch
+				path="settings.pages.friends.nativeFilter"
+				label="Remember Friends sort and filter"
+				description="Remember Torn's native sort and status filter and apply it when opening the friends list from the sidebar."
+			/>
+			<StorageSwitch
+				path="settings.pages.enemies.nativeFilter"
+				label="Remember Enemies sort and filter"
+				description="Remember Torn's native sort and status filter and apply it when opening the enemies list from the sidebar."
+			/>
+			<StorageSwitch
+				path="settings.pages.targets.nativeFilter"
+				label="Remember Targets sort and filter"
+				description="Remember Torn's native sort and status filter and apply it when opening the targets list from the sidebar."
+			/>
+			<StorageSwitch
+				path="settings.pages.customLinks.nativeFilter"
+				label="Also apply to custom links"
+				description="Add the remembered sort and filter to custom links that point at these lists. A hash you added to a custom link yourself is left alone."
+			/>
+		</PreferenceSettingGroup>
+	</PreferenceSectionCard>
 </div>

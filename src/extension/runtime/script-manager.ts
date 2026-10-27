@@ -185,6 +185,7 @@ import OnlyNewFeedFeature from "@features/only-new-feed/only-new-feed";
 import OpenOCFeature from "@features/open-oc/open-oc";
 import OpenedSupplyPackValueFeature from "@features/opened-supply-pack-value/opened-supply-pack-value";
 import PageTitleFeature from "@features/page-title/page-title";
+import PersistentListFilterFeature from "@features/persistent-list-filter/persistent-list-filter";
 import PointsValueFeature from "@features/points-value/points-value";
 import PreferenceSettingsFeature from "@features/preference-settings/preference-settings";
 import ProfileBoxFeature from "@features/profile-box/profile-box";
@@ -308,6 +309,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new OC2TimeFeature());
 		FEATURE_MANAGER.registerFeature(new BarLinksFeature());
 		FEATURE_MANAGER.registerFeature(new SettingsLinkFeature());
+		FEATURE_MANAGER.registerFeature(new PersistentListFilterFeature());
 		FEATURE_MANAGER.registerFeature(new SidebarNotesFeature());
 		FEATURE_MANAGER.registerFeature(new StackingModeFeature());
 		FEATURE_MANAGER.registerFeature(new UpdateNoticeFeature());
