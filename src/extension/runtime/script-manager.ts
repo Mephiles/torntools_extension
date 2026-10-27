@@ -121,6 +121,7 @@ import GymDisableStatsFeature from "@features/gym-disable-stats/gym-disable-stat
 import GymGraphFeature from "@features/gym-graph/gym-graph";
 import GymProgressFeature from "@features/gym-progress/gym-progress";
 import GymSteadfastFeature from "@features/gym-steadfast/gym-steadfast";
+import GymTitlesFeature from "@features/gym-titles/gym-titles";
 import HideAttackButtonsFeature from "@features/hide-attack-buttons/hide-attack-buttons";
 import HideCasinoGamesFeature from "@features/hide-casino-games/hide-casino-games";
 import HideChatFeature from "@features/hide-chat/hide-chat";
@@ -459,6 +460,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new GymGraphFeature());
 		FEATURE_MANAGER.registerFeature(new GymProgressFeature());
 		FEATURE_MANAGER.registerFeature(new GymSteadfastFeature());
+		FEATURE_MANAGER.registerFeature(new GymTitlesFeature());
 		FEATURE_MANAGER.registerFeature(new SpecialistGymsFeature());
 	} else if (page === "hospital") {
 		setupHospitalPage();

@@ -539,6 +539,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.gym.disableStats", label: "Allow stats to be disabled in gym", group: "qol", section: "gym" },
 	{ path: "settings.pages.gym.steadfast", label: "Show current steadfast bonus for each stat", group: "qol", section: "gym" },
 	{ path: "settings.pages.gym.progress", label: "Display estimated gym energy progress", group: "qol", section: "gym" },
+	{ path: "settings.pages.gym.titles", label: "Show gym details for locked gyms", group: "qol", section: "gym" },
 	{ path: "settings.pages.gym.graph", label: "Display gym stat graph", group: "qol", section: "gym" },
 
 	// Section: speed

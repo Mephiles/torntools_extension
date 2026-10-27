@@ -10,6 +10,7 @@
 		<StorageSwitch path="settings.pages.gym.disableStats" label="Allow stats to be disabled" />
 		<StorageSwitch path="settings.pages.gym.steadfast" label="Show current steadfast bonus for each stat" />
 		<StorageSwitch path="settings.pages.gym.progress" label="Display estimated gym energy progress" />
+		<StorageSwitch path="settings.pages.gym.titles" label="Show gym details for locked gyms" />
 		<StorageSwitch path="settings.pages.gym.graph" label="Display stat graph" externalServices={["tornstats"]} />
 	</PreferenceSettingGroup>
 </PreferenceSectionCard>

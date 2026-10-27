@@ -454,6 +454,7 @@ export const DEFAULT_STORAGE = {
 				graph: new DefaultSetting("boolean", true),
 				steadfast: new DefaultSetting("boolean", true),
 				progress: new DefaultSetting("boolean", true),
+				titles: new DefaultSetting("boolean", true),
 			},
 			missions: {
 				hints: new DefaultSetting("boolean", true),

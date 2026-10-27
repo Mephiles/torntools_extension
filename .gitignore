@@ -41,6 +41,7 @@ web-ext.config.ts
 .env.submit*
 
 wip/
+.scratch/
 docs/.astro
 
 # AI Tools
