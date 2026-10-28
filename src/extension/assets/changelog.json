@@ -13,7 +13,8 @@
 			"removed": [],
 			"technical": [
 				{ "message": "Cleanup old code for icons.", "contributor": "DeKleineKobini" },
-				{ "message": "Migrate to the V2 version of torn/stats.", "contributor": "DeKleineKobini" }
+				{ "message": "Migrate to the V2 version of torn/stats.", "contributor": "DeKleineKobini" },
+				{ "message": "Rework the internal data type for 'Highlight Cheap Items'.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

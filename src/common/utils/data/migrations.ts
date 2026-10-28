@@ -275,6 +275,16 @@ export const MIGRATIONS: MigrationScript[] = [
 			flags.updateTorndata = true;
 		},
 	},
+	{
+		id: "9f2e7b2c-c345-4e56-92a2-d26452a3b04f",
+		version: "9.3.3",
+		execute(database, _flags, oldStorage) {
+			const threshold = oldStorage?.settings?.pages?.itemmarket?.highlightCheapItems;
+			if (typeof threshold !== "number" || !Number.isFinite(threshold)) {
+				database.settings.pages.itemmarket.highlightCheapItems = null;
+			}
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {

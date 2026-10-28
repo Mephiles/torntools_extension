@@ -16,7 +16,7 @@ import type { StoredResizableChats } from "@features/resizable-chat/resizable-ch
 import type { UserAlias } from "@features/user-alias/alias";
 import type { TornItem, TornStock, UserLastActionStatusEnum } from "tornapi-typescript";
 
-type SettingType = "string" | "boolean" | "number" | "number|empty" | "object" | "array";
+type SettingType = "string" | "boolean" | "number" | "object" | "array";
 
 export class DefaultSetting<T = never> {
 	readonly type: SettingType;
@@ -483,7 +483,7 @@ export const DEFAULT_STORAGE = {
 				filter: new DefaultSetting("boolean", true),
 			},
 			itemmarket: {
-				highlightCheapItems: new DefaultSetting<number | "">("number|empty", ""), // TODO - Rework this one.
+				highlightCheapItems: new DefaultSetting<number | null>("number", null),
 				highlightCheapItemsSound: new DefaultSetting("boolean", false),
 				leftBar: new DefaultSetting("boolean", false),
 				fillMax: new DefaultSetting("boolean", true),
