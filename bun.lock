@@ -39,7 +39,7 @@
         "svelte-check": "^4.7.7",
         "svelte-sonner": "^1.2.2",
         "tailwind-variants": "^3.3.1",
-        "tornapi-typescript": "^6.13.9",
+        "tornapi-typescript": "^6.14.0",
         "tw-animate-css": "^1.4.0",
         "typescript": "~6.0.3",
         "user-agent-data-types": "^0.4.3",
@@ -1226,7 +1226,7 @@
 
     "tinyps": ["tinyps@0.5.0", "", {}, "sha512-Llu7nEtVOGHh7jok32l6+udlu+4Np5vsYVB7zeTK614coSsro2qjwte7MFt/ouLM/h4kXqbGXktSMMvMsttSDw=="],
 
-    "tornapi-typescript": ["tornapi-typescript@6.13.9", "", {}, "sha512-IGEvLgkWI5p+HYhL6x+zagb4cHbUXoIgQxThIqI0i5Rj2zXKigOtujxoKTsIGno7rF6d2+yTf3zJPzJP/zjV/g=="],
+    "tornapi-typescript": ["tornapi-typescript@6.14.0", "", {}, "sha512-1WYdxm/GEEL1xtOxf2f6luduBeKeEpa8rUQgfJkECjWnRXAzEN679c3mFqeU4Edy3Py07lxBn2NwT/kdmTxExw=="],
 
     "tree-kill": ["tree-kill@1.2.2", "", { "bin": { "tree-kill": "cli.js" } }, "sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A=="],
 
