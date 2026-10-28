@@ -8,7 +8,10 @@
 				{ "message": "Show gym details for locked gyms on hover.", "contributor": "DeKleineKobini" },
 				{ "message": "Remember the native sort and filter of the friends, enemies and targets lists.", "contributor": "DeKleineKobini" }
 			],
-			"fixes": [{ "message": "Stop the import dialog from growing beyond the screen.", "contributor": "xhang98" }],
+			"fixes": [
+				{ "message": "Stop the import dialog from growing beyond the screen.", "contributor": "xhang98" },
+				{ "message": "Avoid issues with the dual slider in certain situations.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": [],
 			"technical": [
