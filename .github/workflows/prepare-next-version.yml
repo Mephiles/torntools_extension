@@ -42,6 +42,10 @@ jobs:
                   export newVersion
                   echo "newVersion=$newVersion" >> "$GITHUB_ENV"
 
+                  jq -j 'del(.[].title | select(. == "Beta"))' "${changelogPath}" | sponge "${changelogPath}"
+                  jq -j ".[0].date |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" | sponge "${changelogPath}"
+                  jq -j '. as $all | $all[0].logs | delpaths([keys_unsorted[] | select(($all[0].logs[.] | length) == 0) | [.]]) | . as $new | $all | .[0].logs |= $new' "${changelogPath}" | sponge "${changelogPath}"
+
                   # Add beta changelog entry
                   jq -r --indent 0 "
                     . |=
