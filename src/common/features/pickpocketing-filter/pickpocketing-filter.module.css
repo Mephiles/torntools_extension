@@ -1,0 +1,9 @@
+.body {
+	:global([class*="virtualItem__"]) {
+		--transition-duration: 0ms !important;
+	}
+
+	:global(.crime-root [class*="virtualItemsBackdrop__"]) {
+		display: none;
+	}
+}

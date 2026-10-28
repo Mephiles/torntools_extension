@@ -120,6 +120,7 @@
 				label="Elimination"
 				description="Warning: due to the way the elimination page works, this might have significant performance impact."
 			/>
+			<StorageSwitch path="settings.pages.crimes2.pickpocketingFilter" label="Pickpocketing" />
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 	<PreferenceSectionCard title="Lists">

@@ -186,6 +186,7 @@ import OpenOCFeature from "@features/open-oc/open-oc";
 import OpenedSupplyPackValueFeature from "@features/opened-supply-pack-value/opened-supply-pack-value";
 import PageTitleFeature from "@features/page-title/page-title";
 import PersistentListFilterFeature from "@features/persistent-list-filter/persistent-list-filter";
+import PickpocketingFilterFeature from "@features/pickpocketing-filter/pickpocketing-filter";
 import PointsValueFeature from "@features/points-value/points-value";
 import PreferenceSettingsFeature from "@features/preference-settings/preference-settings";
 import ProfileBoxFeature from "@features/profile-box/profile-box";
@@ -409,6 +410,7 @@ export function scriptManager() {
 	} else if (page === "crimes-v2") {
 		setupCrimesV2Page();
 		FEATURE_MANAGER.registerFeature(new CrimeValueFeature());
+		FEATURE_MANAGER.registerFeature(new PickpocketingFilterFeature());
 	} else if (page === "factions") {
 		setupFactionsPage().catch(logger.debug);
 		FEATURE_MANAGER.registerFeature(new AbroadEnergyWarningFeature());
