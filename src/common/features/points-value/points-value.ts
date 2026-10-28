@@ -11,7 +11,7 @@ import { Feature } from "@features/feature";
 
 function setTitleAttributes() {
 	findAllElements(".tt-points-value > span").forEach((element) => {
-		const value = torndata.stats.points_averagecost;
+		const value = torndata.stats.currency.points_average_cost;
 		const points = convertToNumber(findElement("span[class*='value___']", element.parentElement!).textContent);
 
 		element.setAttribute(

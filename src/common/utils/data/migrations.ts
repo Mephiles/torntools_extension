@@ -268,6 +268,13 @@ export const MIGRATIONS: MigrationScript[] = [
 			flags.updateFactiondata = true;
 		},
 	},
+	{
+		id: "de7c4d19-3361-4c1f-be03-282127739831",
+		version: "9.3.3",
+		execute(_database, flags, _oldStorage) {
+			flags.updateTorndata = true;
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {

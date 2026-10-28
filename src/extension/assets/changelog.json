@@ -11,7 +11,10 @@
 			"fixes": [{ "message": "Stop the import dialog from growing beyond the screen.", "contributor": "xhang98" }],
 			"changes": [],
 			"removed": [],
-			"technical": [{ "message": "Cleanup old code for icons.", "contributor": "DeKleineKobini" }]
+			"technical": [
+				{ "message": "Cleanup old code for icons.", "contributor": "DeKleineKobini" },
+				{ "message": "Migrate to the V2 version of torn/stats.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{
