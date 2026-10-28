@@ -16,6 +16,12 @@
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 
+	<PreferenceSectionCard title="Crimes">
+		<PreferenceSettingGroup>
+			<StorageSwitch path="settings.pages.crimes2.flavourTextControls" label="Show a button to hide crime flavour text on success" />
+		</PreferenceSettingGroup>
+	</PreferenceSectionCard>
+
 	<PreferenceSectionCard title="Last Action">
 		<PreferenceSettingGroup>
 			<StorageSwitch path="settings.scripts.lastAction.factionMember" label="Faction members" />

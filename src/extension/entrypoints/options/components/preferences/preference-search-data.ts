@@ -293,6 +293,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.home.effectiveStats", label: "Show effective battle stats on the homepage", group: "qol", section: "information" },
 	{ path: "settings.pages.city.items", label: "Highlight items on the city map", group: "qol", section: "information" },
 	{ path: "settings.pages.city.combineDuplicates", label: "Combine duplicate city map items", group: "qol", section: "information" },
+	{ path: "settings.pages.crimes2.flavourTextControls", label: "Show a button to hide crime flavour text on success", group: "qol", section: "information" },
 	{ path: "settings.scripts.lastAction.factionMember", label: "Last action: Faction members", group: "qol", section: "information" },
 	{ path: "settings.scripts.lastAction.companyOwn", label: "Last action: Own company employees", group: "qol", section: "information" },
 	{ path: "settings.scripts.lastAction.companyOther", label: "Last action: Other company employees", group: "qol", section: "information" },

@@ -7,7 +7,8 @@
 			"features": [
 				{ "message": "Show gym details for locked gyms on hover.", "contributor": "DeKleineKobini" },
 				{ "message": "Remember the native sort and filter of the friends, enemies and targets lists.", "contributor": "DeKleineKobini" },
-				{ "message": "Filter pickpocketing targets.", "contributor": "DeKleineKobini" }
+				{ "message": "Filter pickpocketing targets.", "contributor": "DeKleineKobini" },
+				{ "message": "Hide the flavour text of successful crimes 2 outcomes.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Stop the import dialog from growing beyond the screen.", "contributor": "xhang98" },
