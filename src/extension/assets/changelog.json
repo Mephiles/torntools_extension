@@ -16,8 +16,7 @@
 	},
 	{
 		"version": { "major": 9, "minor": 3, "build": 3 },
-		"title": "Beta",
-		"date": false,
+		"date": "2026/10/22",
 		"logs": {
 			"features": [
 				{ "message": "Recommend lease prices on for your rental properties.", "contributor": "Murfy" },
@@ -51,7 +50,6 @@
 				{ "message": "Adapt 'Flying Time' to travel 2.0 phase 3.", "contributor": "DeKleineKobini" },
 				{ "message": "Adapt 'Travel Table' to travel 2.0 phase 3.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
 			"technical": [
 				{ "message": "Use nested CSS in 'Travel Table'.", "contributor": "DeKleineKobini" },
 				{ "message": "Use modular CSS in 'Settings Link'.", "contributor": "DeKleineKobini" },
@@ -62,25 +60,19 @@
 	},
 	{
 		"version": { "major": 9, "minor": 3, "build": 2 },
-		"title": "Beta",
-		"date": false,
+		"date": "2026/10/03",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{
 					"message": "Remove some debugging code from 'Live Networth', which always resulted in no changes being shown.",
 					"contributor": "DeKleineKobini"
 				}
-			],
-			"changes": [],
-			"removed": [],
-			"technical": []
+			]
 		}
 	},
 	{
 		"version": { "major": 9, "minor": 3, "build": 1 },
-		"title": "Beta",
-		"date": false,
+		"date": "2026/10/02",
 		"logs": {
 			"features": [
 				{ "message": "Show the OC2 role weight (requires the 'Torn Probability' connection).", "contributor": "DeKleineKobini" },
