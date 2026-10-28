@@ -856,7 +856,6 @@ function getTravelCount(type?: TravelType) {
 			.filter((perk) => perk.includes("travel") && perk.includes("capacity"))
 			.map((result) => convertToNumber(result))
 			.reduce((a, b) => a + b, 0);
-		// CHECK - Improve book perk checking.
 		count += userdata.perks.book
 			.filter((perk) => perk.includes("travel capacity"))
 			.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))

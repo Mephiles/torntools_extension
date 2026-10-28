@@ -2857,7 +2857,7 @@ export function getEquipPosition(_id: number, category: string) {
 		case "Temporary":
 			return 5;
 		case "Defensive":
-			return -1; // CHECKME - Get right position;
+			return -1;
 		default:
 			return false;
 	}
