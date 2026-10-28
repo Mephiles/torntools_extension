@@ -121,18 +121,18 @@ export async function drainStartupQueue(): Promise<void> {
 }
 
 export async function cleanupNotifications() {
-	const notifications = await ttStorage.get("notifications");
-	for (const notifs of Object.values(notifications)) {
-		for (const key in notifs) {
-			const notification: TTNotification = notifs[key];
-			if ("combined" in notification) continue;
+	await ttStorage.update("notifications", (notifications) => {
+		for (const notifs of Object.values(notifications)) {
+			for (const key in notifs) {
+				const notification: TTNotification = notifs[key];
+				if ("combined" in notification) continue;
 
-			if (Date.now() - notification.date > 3 * TO_MILLIS.DAYS) {
-				delete notifs[key];
+				if (Date.now() - notification.date > 3 * TO_MILLIS.DAYS) {
+					delete notifs[key];
+				}
 			}
 		}
-	}
-	await ttStorage.set({ notifications });
+	});
 }
 
 async function notifyUser(title: string, message: string, url?: string) {

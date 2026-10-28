@@ -10,14 +10,16 @@
 			],
 			"fixes": [
 				{ "message": "Stop the import dialog from growing beyond the screen.", "contributor": "xhang98" },
-				{ "message": "Avoid issues with the dual slider in certain situations.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid issues with the dual slider in certain situations.", "contributor": "DeKleineKobini" },
+				{ "message": "Hopefully avoid duplicate notifications.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],
 			"technical": [
 				{ "message": "Cleanup old code for icons.", "contributor": "DeKleineKobini" },
 				{ "message": "Migrate to the V2 version of torn/stats.", "contributor": "DeKleineKobini" },
-				{ "message": "Rework the internal data type for 'Highlight Cheap Items'.", "contributor": "DeKleineKobini" }
+				{ "message": "Rework the internal data type for 'Highlight Cheap Items'.", "contributor": "DeKleineKobini" },
+				{ "message": "Write changes to the storage with a lock, avoiding overwritten information.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
