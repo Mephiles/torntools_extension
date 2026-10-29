@@ -1,0 +1,58 @@
+name: Build PR release artifact
+
+on:
+    pull_request:
+    workflow_dispatch:
+        inputs:
+            pull_request_number:
+                description: Upstream pull request number to associate with this build
+                required: true
+                type: number
+
+permissions:
+    contents: read
+
+concurrency:
+    group: pr-release-artifact-${{ github.event.pull_request.number || inputs.pull_request_number }}
+    cancel-in-progress: true
+
+jobs:
+    build:
+        if: ${{ github.event_name == 'workflow_dispatch' || contains(fromJSON('["COLLABORATOR","MEMBER","OWNER"]'), github.event.pull_request.author_association) }}
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v6
+
+            - uses: oven-sh/setup-bun@v2
+
+            - name: Install dependencies
+              run: bun install --frozen-lockfile
+
+            - name: Build and package extension
+              run: bun run zip
+
+            - name: Record pull request metadata
+              env:
+                  PULL_REQUEST_NUMBER: ${{ github.event.pull_request.number || inputs.pull_request_number }}
+                  PULL_REQUEST_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+              run: |
+                  mkdir -p artifact-metadata
+                  head_sha="${PULL_REQUEST_HEAD_SHA:-$(git rev-parse HEAD)}"
+                  printf '{"pullRequestNumber": %s, "headSha": "%s"}\n' "$PULL_REQUEST_NUMBER" "$head_sha" > artifact-metadata/pr-metadata.json
+
+            - name: Upload release artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: torntools-extension
+                  path: .output/*.zip
+                  if-no-files-found: error
+                  retention-days: 7
+
+            - name: Upload pull request metadata
+              uses: actions/upload-artifact@v4
+              with:
+                  name: pr-metadata
+                  path: artifact-metadata/pr-metadata.json
+                  if-no-files-found: error
+                  retention-days: 1

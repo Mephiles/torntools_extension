@@ -1,0 +1,86 @@
+name: Comment on PR release artifact
+
+on:
+    workflow_run:
+        workflows:
+            - Build PR release artifact
+        types:
+            - completed
+
+permissions:
+    actions: read
+    issues: write
+    pull-requests: read
+
+jobs:
+    comment:
+        if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.repository.full_name == 'Mephiles/torntools_extension' && github.repository == 'Mephiles/torntools_extension' }}
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Download pull request metadata
+              uses: actions/download-artifact@v4
+              with:
+                  name: pr-metadata
+                  path: pr-metadata
+                  run-id: ${{ github.event.workflow_run.id }}
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Post artifact link on the pull request
+              uses: actions/github-script@v8
+              with:
+                  script: |
+                      const fs = require("fs");
+                      const metadata = JSON.parse(fs.readFileSync("pr-metadata/pr-metadata.json", "utf8"));
+                      if (!Number.isInteger(metadata.pullRequestNumber) || !/^[0-9a-f]{40}$/i.test(metadata.headSha)) {
+                        core.setFailed("Pull request metadata is invalid.");
+                        return;
+                      }
+
+                      const { owner, repo } = context.repo;
+                      const { data: pullRequest } = await github.rest.pulls.get({
+                        owner,
+                        repo,
+                        pull_number: metadata.pullRequestNumber,
+                      });
+                      if (
+                        pullRequest.state !== "open" ||
+                        pullRequest.head.sha !== metadata.headSha ||
+                        pullRequest.base.repo.full_name !== `${owner}/${repo}`
+                      ) {
+                        core.info("The pull request is closed or has changed since this artifact was built.");
+                        return;
+                      }
+
+                      const marker = "<!-- pr-release-artifact -->";
+                      const run = context.payload.workflow_run;
+                      const body = [
+                        marker,
+                        "The release artifact for this pull request is ready.",
+                        `Download it from the [workflow run artifacts](${run.html_url}).`,
+                        "The artifact is retained for 7 days from upload.",
+                      ].join("\n\n");
+
+                      const { data: comments } = await github.rest.issues.listComments({
+                        owner,
+                        repo,
+                        issue_number: pullRequest.number,
+                        per_page: 100,
+                      });
+                      const existingComment = comments.find((comment) => comment.body.includes(marker));
+
+                      if (existingComment) {
+                        await github.rest.issues.updateComment({
+                          owner,
+                          repo,
+                          comment_id: existingComment.id,
+                          body,
+                        });
+                      } else {
+                        await github.rest.issues.createComment({
+                          owner,
+                          repo,
+                          issue_number: pullRequest.number,
+                          body,
+                        });
+                      }

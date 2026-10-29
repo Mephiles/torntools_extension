@@ -19,7 +19,8 @@
 				{ "message": "Cleanup old code for icons.", "contributor": "DeKleineKobini" },
 				{ "message": "Migrate to the V2 version of torn/stats.", "contributor": "DeKleineKobini" },
 				{ "message": "Rework the internal data type for 'Highlight Cheap Items'.", "contributor": "DeKleineKobini" },
-				{ "message": "Write changes to the storage with a lock, avoiding overwritten information.", "contributor": "DeKleineKobini" }
+				{ "message": "Write changes to the storage with a lock, avoiding overwritten information.", "contributor": "DeKleineKobini" },
+				{ "message": "Build and publish PR release artifacts, with fork builds available through workflow dispatch.", "contributor": "mystify-321" }
 			]
 		}
 	},

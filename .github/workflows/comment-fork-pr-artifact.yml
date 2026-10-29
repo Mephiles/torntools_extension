@@ -1,0 +1,57 @@
+name: Comment on fork PR artifact instructions
+
+on:
+    pull_request_target:
+        types:
+            - opened
+            - reopened
+
+permissions:
+    issues: write
+    pull-requests: read
+
+jobs:
+    comment:
+        if: ${{ github.event.pull_request.head.repo.full_name != github.repository && !contains(fromJSON('["COLLABORATOR","MEMBER","OWNER"]'), github.event.pull_request.author_association) }}
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Explain how to build the artifact from the fork
+              uses: actions/github-script@v8
+              with:
+                  script: |
+                      const pullRequest = context.payload.pull_request;
+                      const { owner, repo } = context.repo;
+                      const forkRepository = pullRequest.head.repo.full_name;
+                      const marker = "<!-- fork-pr-artifact-instructions -->";
+                      const workflowUrl = `https://github.com/${forkRepository}/actions/workflows/pr-release-artifact.yml`;
+                      const body = [
+                        marker,
+                        "No release artifact was built automatically because the PR author is not a collaborator on this repository.",
+                        `To build one, [open the workflow in your fork](${workflowUrl}), select the PR branch, and enter upstream PR #${pullRequest.number}. The artifact will be available from that run for 7 days.`,
+                        "If the workflow is not listed in your fork yet, sync your fork's default branch after this change is merged. The fork's workflow cannot post a completion comment to this upstream PR, so download the artifact from the fork's Actions run.",
+                      ].join("\n\n");
+
+                      const { data: comments } = await github.rest.issues.listComments({
+                        owner,
+                        repo,
+                        issue_number: pullRequest.number,
+                        per_page: 100,
+                      });
+                      const existingComment = comments.find((comment) => comment.body.includes(marker));
+
+                      if (existingComment) {
+                        await github.rest.issues.updateComment({
+                          owner,
+                          repo,
+                          comment_id: existingComment.id,
+                          body,
+                        });
+                      } else {
+                        await github.rest.issues.createComment({
+                          owner,
+                          repo,
+                          issue_number: pullRequest.number,
+                          body,
+                        });
+                      }
