@@ -1,0 +1,8 @@
+.disabled {
+	cursor: not-allowed;
+
+	button {
+		pointer-events: none;
+		opacity: 0.45;
+	}
+}

@@ -127,6 +127,11 @@
 				description="Warning: due to the way the elimination page works, this might have significant performance impact."
 			/>
 			<StorageSwitch path="settings.pages.crimes2.pickpocketingFilter" label="Pickpocketing" />
+			<StorageSwitch
+				path="settings.pages.crimes2.searchForCashChanceFilter"
+				label="Search for Cash"
+				description="Disable the places below a minimum success chance."
+			/>
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 	<PreferenceSectionCard title="Lists">

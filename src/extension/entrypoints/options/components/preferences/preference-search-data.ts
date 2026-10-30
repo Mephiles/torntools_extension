@@ -361,6 +361,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.property.filter", label: "Filter: Properties", group: "qol", section: "information" },
 	{ path: "settings.pages.elimination.filter", label: "Filter: Elimination", group: "qol", section: "information" },
 	{ path: "settings.pages.crimes2.pickpocketingFilter", label: "Filter: Pickpocketing", group: "qol", section: "information", keywords: ["crime"] },
+	{ path: "settings.pages.crimes2.searchForCashChanceFilter", label: "Filter: Search for Cash", group: "qol", section: "information", keywords: ["crime"] },
 
 	// Section: combat
 	{

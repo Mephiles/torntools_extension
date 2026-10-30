@@ -518,6 +518,7 @@ export const DEFAULT_STORAGE = {
 				pickpocketingFilter: new DefaultSetting("boolean", true),
 				flavourTextControls: new DefaultSetting("boolean", true),
 				hideFlavourText: new DefaultSetting("boolean", false),
+				searchForCashChanceFilter: new DefaultSetting("boolean", true),
 			},
 			elimination: {
 				filter: new DefaultSetting("boolean", false),
@@ -918,6 +919,9 @@ export const DEFAULT_STORAGE = {
 			enabled: new DefaultSetting("boolean", true),
 			tiers: new DefaultSetting<string[]>("array", []),
 			builds: new DefaultSetting<string[]>("array", []),
+		},
+		searchForCash: {
+			minChance: new DefaultSetting("number", 0),
 		},
 	},
 	userdata: new DefaultSetting<StoredUserdata>("object", { date: -1 } as StoredUserdata),

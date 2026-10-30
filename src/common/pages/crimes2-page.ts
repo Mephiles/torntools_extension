@@ -29,6 +29,9 @@ export function setupCrimesV2Page() {
 				// If any new crime needs a filter, add it here.
 				const CRIMES_MAPPING: Record<string, (typeof CRIMES2)[keyof typeof CRIMES2]> = {
 					pickpocketing: "pickpocketing",
+					// Search for Cash is reached as #/searchforcash, but accept the dashed form too.
+					searchforcash: "searchforcash",
+					"search-for-cash": "searchforcash",
 				};
 
 				const crime =
@@ -55,6 +58,7 @@ export const CRIMES2 = {
 	__UNKNOWN__: "__UNKNOWN__",
 	BURGLARY: "burglary",
 	PICKPOCKETING: "pickpocketing",
+	SEARCH_FOR_CASH: "searchforcash",
 } as const;
 
 export type TornInternalAttemptCrimeDB = {
