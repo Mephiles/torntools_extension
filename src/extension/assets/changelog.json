@@ -14,7 +14,8 @@
 			"fixes": [
 				{ "message": "Stop the import dialog from growing beyond the screen.", "contributor": "xhang98" },
 				{ "message": "Avoid issues with the dual slider in certain situations.", "contributor": "DeKleineKobini" },
-				{ "message": "Hopefully avoid duplicate notifications.", "contributor": "DeKleineKobini" }
+				{ "message": "Hopefully avoid duplicate notifications.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix incorrect converting of timers on the travel page.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [],
 			"removed": [],

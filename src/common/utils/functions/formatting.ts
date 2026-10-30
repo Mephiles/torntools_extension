@@ -75,7 +75,7 @@ export function textToTime(time: string, partialOptions: Partial<TimeTextOptions
 		if (group) {
 			millis += parseInt(group[1]) * TO_MILLIS.HOURS;
 		}
-		group = time.match(/(\d+) ?min/i);
+		group = time.match(/(\d+) ?min/i) ?? time.match(/(\d+) ?m/i);
 		if (group) {
 			millis += parseInt(group[1]) * TO_MILLIS.MINUTES;
 		}

@@ -17,7 +17,7 @@ function initialiseListeners() {
 async function showWarnings() {
 	const container = await requireElement("[class*='departPanel___']");
 
-	const duration = getTravelDuration();
+	const duration = await getTravelDuration();
 	if (!duration) return;
 
 	let cooldowns = findElement(".tt-cooldowns", container.parentElement!, true);

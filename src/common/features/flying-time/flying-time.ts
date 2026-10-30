@@ -14,7 +14,7 @@ async function initialise() {
 }
 
 async function showTime() {
-	const duration = getTravelDuration();
+	const duration = await getTravelDuration();
 	if (!duration) return;
 
 	const now = new Date();
