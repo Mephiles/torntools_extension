@@ -32,5 +32,5 @@ export async function getTravelDuration() {
 
 	const durationText = durationElement.textContent;
 
-	return textToTime(durationText) * 2;
+	return textToTime(durationText);
 }
