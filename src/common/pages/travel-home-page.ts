@@ -15,14 +15,14 @@ export async function setupTravelHomePage() {
 		new MutationObserver(() => {
 			const country: TravelCountry = destinationElement.textContent.toLowerCase().replaceAll(" ", "_") as TravelCountry;
 
-			triggerCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, { country });
+			triggerCustomListener(EVENT_CHANNELS.TRAVEL_HOME__SELECT_COUNTRY, { country });
 		}).observe(destinationElement, { characterData: true, subtree: true });
 	});
 	requireElement("[class*='flightTypeOption___'] [class*='label___']").then((flightTypeElement) => {
 		new MutationObserver(() => {
 			const type: TravelType = flightTypeElement.textContent.toLowerCase() as TravelType;
 
-			triggerCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, { type });
+			triggerCustomListener(EVENT_CHANNELS.TRAVEL_HOME__SELECT_TYPE, { type });
 		}).observe(flightTypeElement, { characterData: true, subtree: true });
 	});
 }

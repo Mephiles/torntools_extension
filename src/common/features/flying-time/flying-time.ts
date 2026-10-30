@@ -9,8 +9,8 @@ import { getPageStatus, isAbroad, isFlying } from "@common/utils/functions/torn"
 import { Feature } from "@features/feature";
 
 async function initialise() {
-	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, showTime);
-	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, showTime);
+	addCustomListener(EVENT_CHANNELS.TRAVEL_HOME__SELECT_COUNTRY, showTime);
+	addCustomListener(EVENT_CHANNELS.TRAVEL_HOME__SELECT_TYPE, showTime);
 }
 
 async function showTime() {

@@ -10,8 +10,8 @@ import { getPageStatus, hasFinishedEducation, isAbroad, isFlying } from "@common
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, showWarnings);
-	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, showWarnings);
+	addCustomListener(EVENT_CHANNELS.TRAVEL_HOME__SELECT_COUNTRY, showWarnings);
+	addCustomListener(EVENT_CHANNELS.TRAVEL_HOME__SELECT_TYPE, showWarnings);
 }
 
 async function showWarnings() {
