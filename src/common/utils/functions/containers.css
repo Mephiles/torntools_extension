@@ -105,6 +105,7 @@ body.tt-tablet #sidebarroot .tt-container .title {
 }
 
 .tt-container.reset-styles {
+	font-size: 12px !important;
 	font-family: Arial, serif !important;
 	color: var(--default-color) !important;
 	letter-spacing: 0;

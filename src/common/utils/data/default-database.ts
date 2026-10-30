@@ -515,6 +515,7 @@ export const DEFAULT_STORAGE = {
 			},
 			crimes2: {
 				value: new DefaultSetting("boolean", true),
+				pickpocketingFilter: new DefaultSetting("boolean", true),
 			},
 			elimination: {
 				filter: new DefaultSetting("boolean", false),
@@ -910,6 +911,11 @@ export const DEFAULT_STORAGE = {
 			enabled: new DefaultSetting("boolean", true),
 			difficulty: new DefaultSetting<number[]>("array", []),
 			status: new DefaultSetting<string[]>("array", []),
+		},
+		pickpocketing: {
+			enabled: new DefaultSetting("boolean", true),
+			tiers: new DefaultSetting<string[]>("array", []),
+			builds: new DefaultSetting<string[]>("array", []),
 		},
 	},
 	userdata: new DefaultSetting<StoredUserdata>("object", { date: -1 } as StoredUserdata),

@@ -53,7 +53,6 @@ export enum EVENT_CHANNELS {
 	CRIMES_LOADED = "crimes-loaded",
 	CRIMES_CRIME = "crimes-crime",
 	CRIMES2_HOME_LOADED = "crimes2-home-loaded",
-	CRIMES2_BURGLARY_LOADED = "crimes2-burglary-loaded",
 	CRIMES2_CRIME_LOADED = "crimes2-crime-loaded",
 	MISSION_LOAD = "mission-load",
 	MISSION_REWARDS = "mission-rewards",
@@ -134,7 +133,6 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.CRIMES_LOADED]: never;
 	[EVENT_CHANNELS.CRIMES_CRIME]: never;
 	[EVENT_CHANNELS.CRIMES2_HOME_LOADED]: never;
-	[EVENT_CHANNELS.CRIMES2_BURGLARY_LOADED]: never;
 	[EVENT_CHANNELS.CRIMES2_CRIME_LOADED]: {
 		crime: (typeof CRIMES2)[keyof typeof CRIMES2];
 		crimeRoot: Element;
