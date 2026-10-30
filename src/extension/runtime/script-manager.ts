@@ -209,6 +209,7 @@ import ResizableChatFeature from "@features/resizable-chat/resizable-chat";
 import ReviveRequestFeature from "@features/revive-request/revive-request";
 import RWTimerFeature from "@features/rw-timer/rw-timer";
 import SearchChatFeature from "@features/search-chat/search-chat";
+import SearchForCashChanceFilterFeature from "@features/search-for-cash-chance-filter/search-for-cash-chance-filter";
 import SettingsLinkFeature from "@features/settings-link/settings-link";
 import ShopFiltersFeature from "@features/shop-filters/shop-filters";
 import ShopProfitsFeature from "@features/shop-profits/shop-profits";
@@ -413,6 +414,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new CrimeValueFeature());
 		FEATURE_MANAGER.registerFeature(new PickpocketingFilterFeature());
 		FEATURE_MANAGER.registerFeature(new HideCrimeFlavourTextFeature());
+		FEATURE_MANAGER.registerFeature(new SearchForCashChanceFilterFeature());
 	} else if (page === "factions") {
 		setupFactionsPage().catch(logger.debug);
 		FEATURE_MANAGER.registerFeature(new AbroadEnergyWarningFeature());
