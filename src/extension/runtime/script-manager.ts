@@ -125,6 +125,7 @@ import GymTitlesFeature from "@features/gym-titles/gym-titles";
 import HideAttackButtonsFeature from "@features/hide-attack-buttons/hide-attack-buttons";
 import HideCasinoGamesFeature from "@features/hide-casino-games/hide-casino-games";
 import HideChatFeature from "@features/hide-chat/hide-chat";
+import HideCrimeFlavourTextFeature from "@features/hide-crime-flavour-text/hide-crime-flavour-text";
 import HideGymHighlightFeature from "@features/hide-gym-highlight/hide-gym-highlight";
 import HideIconsFeature from "@features/hide-icons/hide-icons";
 import HideLeaveButtonsFeature from "@features/hide-leave-buttons/hide-leave-buttons";
@@ -411,6 +412,7 @@ export function scriptManager() {
 		setupCrimesV2Page();
 		FEATURE_MANAGER.registerFeature(new CrimeValueFeature());
 		FEATURE_MANAGER.registerFeature(new PickpocketingFilterFeature());
+		FEATURE_MANAGER.registerFeature(new HideCrimeFlavourTextFeature());
 	} else if (page === "factions") {
 		setupFactionsPage().catch(logger.debug);
 		FEATURE_MANAGER.registerFeature(new AbroadEnergyWarningFeature());

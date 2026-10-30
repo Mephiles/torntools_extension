@@ -516,6 +516,8 @@ export const DEFAULT_STORAGE = {
 			crimes2: {
 				value: new DefaultSetting("boolean", true),
 				pickpocketingFilter: new DefaultSetting("boolean", true),
+				flavourTextControls: new DefaultSetting("boolean", true),
+				hideFlavourText: new DefaultSetting("boolean", false),
 			},
 			elimination: {
 				filter: new DefaultSetting("boolean", false),
