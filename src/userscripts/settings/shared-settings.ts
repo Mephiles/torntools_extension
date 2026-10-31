@@ -85,6 +85,13 @@ export async function applySettingsPatch(patch: RecursivePartial<DatabaseSetting
 	writeSharedSettings(data);
 }
 
+/** Seeds settings the user has never touched, so a script can ship enabled without locking the setting. */
+export async function applySettingsDefaults(defaults: RecursivePartial<DatabaseSettings>): Promise<void> {
+	const data = readSharedSettings();
+	data.settings = mergeDefaults(defaults, data.settings);
+	writeSharedSettings(data);
+}
+
 export async function applyApiPatch(patch: RecursivePartial<DatabaseApi>): Promise<void> {
 	const data = readSharedSettings();
 	data.api = mergeDefaults(data.api, patch);

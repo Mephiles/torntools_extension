@@ -2067,7 +2067,7 @@ export function getRewardValue(reward: string) {
 						.map((price) => price * 0.75);
 					break;
 				case "points":
-					value = torndata.stats.points_averagecost * 100;
+					value = torndata.stats.currency.points_average_cost * 100;
 					break;
 				case "happiness":
 				case "energy":
@@ -2857,7 +2857,7 @@ export function getEquipPosition(_id: number, category: string) {
 		case "Temporary":
 			return 5;
 		case "Defensive":
-			return -1; // CHECKME - Get right position;
+			return -1;
 		default:
 			return false;
 	}

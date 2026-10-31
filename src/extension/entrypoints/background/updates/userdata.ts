@@ -106,7 +106,6 @@ export async function updateUserdata(forceUpdate = false) {
 	const selections: string[] = [];
 	const selectionsV2: string[] = [];
 	if (updateEssential) {
-		// TODO - Move some of those behind a setting.
 		selectionsV2.push("profile", "faction", "job", "timestamp", "notifications");
 		// Notifications have a 100K count limit from being fetched via the Torn API
 		// Use "newevents" selection only when the old events count > new events count

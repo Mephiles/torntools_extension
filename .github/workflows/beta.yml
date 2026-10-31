@@ -10,14 +10,25 @@ on:
             - "src/extension/**"
             - "package.json"
             - "wxt.config.*"
+    pull_request_target:
+        paths:
+            - "public/**"
+            - "src/common/**"
+            - "src/extension/**"
+            - "package.json"
+            - "wxt.config.*"
     workflow_dispatch:
+        inputs:
+            pr:
+                description: "PR number to build"
+                required: false
 
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number || inputs.pr || github.ref }}
     cancel-in-progress: true
 
 jobs:
-    beta:
+    build:
         runs-on: ubuntu-latest
 
         permissions:
@@ -25,6 +36,8 @@ jobs:
 
         steps:
             - uses: actions/checkout@v7
+              with:
+                  ref: ${{ github.event.pull_request.head.sha || inputs.pr && format('refs/pull/{0}/head', inputs.pr) || github.sha }}
 
             - uses: oven-sh/setup-bun@v2
 
@@ -37,12 +50,35 @@ jobs:
                   mv .output/torntools-extension-*-chrome.zip torntools-chrome.zip
                   mv .output/torntools-extension-*-firefox.zip torntools-firefox.zip
 
-            - name: Set Environment Variables
-              run: |
-                  echo "SAFE_BRANCH=$(echo "${{ github.ref_name }}" | tr '/' '-')" >> $GITHUB_ENV
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: beta-zips
+                  path: |
+                      torntools-chrome.zip
+                      torntools-firefox.zip
+                  if-no-files-found: error
+
+    upload:
+        needs: build
+        runs-on: ubuntu-latest
+
+        permissions:
+            contents: read
+
+        steps:
+            - uses: actions/download-artifact@v4
+              with:
+                  name: beta-zips
 
             - name: Upload Betas
               env:
                   PG_TT_TOKEN: ${{ secrets.PG_TT_TOKEN }}
+                  BRANCH: ${{ github.ref_name }}
+                  PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr }}
               run: |
+                  SAFE_BRANCH="$(echo "$BRANCH" | tr '/' '-')"
+                  if [ -n "$PR_NUMBER" ]; then
+                      SAFE_BRANCH="pr-$PR_NUMBER"
+                  fi
+
                   curl --fail -X POST -H "X-API-TOKEN: $PG_TT_TOKEN" -F "branch=$SAFE_BRANCH" -F "editions=chrome" -F "files=@torntools-chrome.zip;type=application/zip" -F "editions=firefox" -F "files=@torntools-firefox.zip;type=application/zip" https://torntools.tornplayground.eu/api/beta-versions

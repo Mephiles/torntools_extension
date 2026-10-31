@@ -133,7 +133,10 @@ function highlightSellers(item: number, list: Element, includeModified: boolean)
  * Should highlight the given item based on the price?
  */
 function shouldHighlight(id: number, price: number) {
-	const percentage = 1 - (settings.pages.itemmarket.highlightCheapItems as number) / 100;
+	const threshold = settings.pages.itemmarket.highlightCheapItems;
+	if (threshold == null) return false;
+
+	const percentage = 1 - threshold / 100;
 
 	const value = ITEM_RESOLVER.getFullItem(id)?.value?.market_price;
 	if (!value) return false;
@@ -188,7 +191,7 @@ export default class HighlightCheapItemsFeature extends Feature {
 	}
 
 	override isEnabled() {
-		return settings.pages.itemmarket.highlightCheapItems !== "";
+		return settings.pages.itemmarket.highlightCheapItems !== null;
 	}
 
 	override initialise() {

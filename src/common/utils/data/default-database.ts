@@ -16,7 +16,7 @@ import type { StoredResizableChats } from "@features/resizable-chat/resizable-ch
 import type { UserAlias } from "@features/user-alias/alias";
 import type { TornItem, TornStock, UserLastActionStatusEnum } from "tornapi-typescript";
 
-type SettingType = "string" | "boolean" | "number" | "number|empty" | "object" | "array";
+type SettingType = "string" | "boolean" | "number" | "object" | "array";
 
 export class DefaultSetting<T = never> {
 	readonly type: SettingType;
@@ -454,6 +454,7 @@ export const DEFAULT_STORAGE = {
 				graph: new DefaultSetting("boolean", true),
 				steadfast: new DefaultSetting("boolean", true),
 				progress: new DefaultSetting("boolean", true),
+				titles: new DefaultSetting("boolean", true),
 			},
 			missions: {
 				hints: new DefaultSetting("boolean", true),
@@ -482,7 +483,7 @@ export const DEFAULT_STORAGE = {
 				filter: new DefaultSetting("boolean", true),
 			},
 			itemmarket: {
-				highlightCheapItems: new DefaultSetting<number | "">("number|empty", ""), // TODO - Rework this one.
+				highlightCheapItems: new DefaultSetting<number | null>("number", null),
 				highlightCheapItemsSound: new DefaultSetting("boolean", false),
 				leftBar: new DefaultSetting("boolean", false),
 				fillMax: new DefaultSetting("boolean", true),
@@ -499,15 +500,25 @@ export const DEFAULT_STORAGE = {
 			},
 			enemies: {
 				filter: new DefaultSetting("boolean", true),
+				nativeFilter: new DefaultSetting("boolean", false),
 			},
 			friends: {
 				filter: new DefaultSetting("boolean", true),
+				nativeFilter: new DefaultSetting("boolean", false),
 			},
 			targets: {
 				filter: new DefaultSetting("boolean", true),
+				nativeFilter: new DefaultSetting("boolean", false),
+			},
+			customLinks: {
+				nativeFilter: new DefaultSetting("boolean", false),
 			},
 			crimes2: {
 				value: new DefaultSetting("boolean", true),
+				pickpocketingFilter: new DefaultSetting("boolean", true),
+				flavourTextControls: new DefaultSetting("boolean", true),
+				hideFlavourText: new DefaultSetting("boolean", false),
+				searchForCashChanceFilter: new DefaultSetting("boolean", true),
 			},
 			elimination: {
 				filter: new DefaultSetting("boolean", false),
@@ -905,6 +916,14 @@ export const DEFAULT_STORAGE = {
 			difficulty: new DefaultSetting<number[]>("array", []),
 			status: new DefaultSetting<string[]>("array", []),
 		},
+		pickpocketing: {
+			enabled: new DefaultSetting("boolean", true),
+			tiers: new DefaultSetting<string[]>("array", []),
+			builds: new DefaultSetting<string[]>("array", []),
+		},
+		searchForCash: {
+			minChance: new DefaultSetting("number", 0),
+		},
 	},
 	userdata: new DefaultSetting<StoredUserdata>("object", { date: -1 } as StoredUserdata),
 	torndata: new DefaultSetting<StoredTorndata>("object", { date: -2 } as StoredTorndata),
@@ -914,6 +933,11 @@ export const DEFAULT_STORAGE = {
 	},
 	factiondata: new DefaultSetting<StoredFactiondata>("object", {} as StoredFactiondata),
 	localdata: {
+		nativeFilters: {
+			friends: new DefaultSetting("string", ""),
+			enemies: new DefaultSetting("string", ""),
+			targets: new DefaultSetting("string", ""),
+		},
 		tradeMessage: new DefaultSetting("number", 0),
 		popup: {
 			calculatorItems: new DefaultSetting<{ id: string; amount: number }[]>("array", []),

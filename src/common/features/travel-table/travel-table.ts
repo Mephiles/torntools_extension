@@ -46,11 +46,11 @@ const SALES_TAX = TAX_RATES.salesTaxPercentage;
 const ANONYMOUS_TAX = TAX_RATES.sellAnonymouslyPercentage;
 
 function initialise() {
-	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, ({ type }) => {
+	addCustomListener(EVENT_CHANNELS.TRAVEL_HOME__SELECT_TYPE, ({ type }) => {
 		findElement<HTMLInputElement>("#travel-items").value = getTravelCount(type).toString();
 		updateValues();
 	});
-	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, ({ country }) => {
+	addCustomListener(EVENT_CHANNELS.TRAVEL_HOME__SELECT_COUNTRY, ({ country }) => {
 		if (!settings.pages.travel.autoTravelTableCountry) return;
 
 		const content = findContainer("Travel Destinations", { selector: ":scope > main" })!;
@@ -856,7 +856,6 @@ function getTravelCount(type?: TravelType) {
 			.filter((perk) => perk.includes("travel") && perk.includes("capacity"))
 			.map((result) => convertToNumber(result))
 			.reduce((a, b) => a + b, 0);
-		// CHECK - Improve book perk checking.
 		count += userdata.perks.book
 			.filter((perk) => perk.includes("travel capacity"))
 			.map((perk) => parseInt(perk.replace("+ ", "").split(" ")[0]))

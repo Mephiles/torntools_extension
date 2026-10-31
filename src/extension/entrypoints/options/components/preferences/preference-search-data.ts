@@ -293,6 +293,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.home.effectiveStats", label: "Show effective battle stats on the homepage", group: "qol", section: "information" },
 	{ path: "settings.pages.city.items", label: "Highlight items on the city map", group: "qol", section: "information" },
 	{ path: "settings.pages.city.combineDuplicates", label: "Combine duplicate city map items", group: "qol", section: "information" },
+	{ path: "settings.pages.crimes2.flavourTextControls", label: "Show a button to hide crime flavour text on success", group: "qol", section: "information" },
 	{ path: "settings.scripts.lastAction.factionMember", label: "Last action: Faction members", group: "qol", section: "information" },
 	{ path: "settings.scripts.lastAction.companyOwn", label: "Last action: Own company employees", group: "qol", section: "information" },
 	{ path: "settings.scripts.lastAction.companyOther", label: "Last action: Other company employees", group: "qol", section: "information" },
@@ -344,8 +345,12 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.faction.oc2Filter", label: "Filter: OC2", group: "qol", section: "information", keywords: ["faction"] },
 	{ path: "settings.pages.competition.filter", label: "Filter: Competition", group: "qol", section: "information" },
 	{ path: "settings.pages.friends.filter", label: "Filter: Friends", group: "qol", section: "information" },
+	{ path: "settings.pages.friends.nativeFilter", label: "Remember: Friends sort and filter", group: "qol", section: "information" },
 	{ path: "settings.pages.enemies.filter", label: "Filter: Enemies", group: "qol", section: "information" },
+	{ path: "settings.pages.enemies.nativeFilter", label: "Remember: Enemies sort and filter", group: "qol", section: "information" },
 	{ path: "settings.pages.targets.filter", label: "Filter: Targets", group: "qol", section: "information" },
+	{ path: "settings.pages.targets.nativeFilter", label: "Remember: Targets sort and filter", group: "qol", section: "information" },
+	{ path: "settings.pages.customLinks.nativeFilter", label: "Remember: custom links", group: "qol", section: "information" },
 	{ path: "settings.pages.hospital.filter", label: "Filter: Hospital", group: "qol", section: "information" },
 	{ path: "settings.pages.jail.filter", label: "Filter: Jail", group: "qol", section: "information" },
 	{ path: "settings.pages.racing.filter", label: "Filter: Custom Races", group: "qol", section: "information", keywords: ["racing"] },
@@ -355,6 +360,8 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.userlist.filter", label: "Filter: Userlist", group: "qol", section: "information" },
 	{ path: "settings.pages.property.filter", label: "Filter: Properties", group: "qol", section: "information" },
 	{ path: "settings.pages.elimination.filter", label: "Filter: Elimination", group: "qol", section: "information" },
+	{ path: "settings.pages.crimes2.pickpocketingFilter", label: "Filter: Pickpocketing", group: "qol", section: "information", keywords: ["crime"] },
+	{ path: "settings.pages.crimes2.searchForCashChanceFilter", label: "Filter: Search for Cash", group: "qol", section: "information", keywords: ["crime"] },
 
 	// Section: combat
 	{
@@ -539,6 +546,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.gym.disableStats", label: "Allow stats to be disabled in gym", group: "qol", section: "gym" },
 	{ path: "settings.pages.gym.steadfast", label: "Show current steadfast bonus for each stat", group: "qol", section: "gym" },
 	{ path: "settings.pages.gym.progress", label: "Display estimated gym energy progress", group: "qol", section: "gym" },
+	{ path: "settings.pages.gym.titles", label: "Show gym details for locked gyms", group: "qol", section: "gym" },
 	{ path: "settings.pages.gym.graph", label: "Display gym stat graph", group: "qol", section: "gym" },
 
 	// Section: speed

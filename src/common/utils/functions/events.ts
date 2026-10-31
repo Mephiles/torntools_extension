@@ -39,8 +39,8 @@ export enum EVENT_CHANNELS {
 	HOSPITAL_SWITCH_PAGE = "hospital-switch-page",
 	JAIL_SWITCH_PAGE = "jail-switch-page",
 	USERLIST_SWITCH_PAGE = "userlist-switch-page",
-	TRAVEL_SELECT_TYPE = "travel-select-type",
-	TRAVEL_SELECT_COUNTRY = "travel-select-country",
+	TRAVEL_HOME__SELECT_COUNTRY = "TRAVEL_HOME__SELECT_COUNTRY",
+	TRAVEL_HOME__SELECT_TYPE = "TRAVEL_HOME__SELECT_TYPE",
 	TRAVEL_ABROAD__SHOP_LOAD = "TRAVEL_ABROAD__SHOP_LOAD",
 	TRAVEL_ABROAD__SHOP_REFRESH = "TRAVEL_ABROAD__SHOP_REFRESH",
 	TRAVEL_ABROAD__ITEM_BOUGHT = "TRAVEL_ABROAD__ITEM_BOUGHT",
@@ -53,7 +53,6 @@ export enum EVENT_CHANNELS {
 	CRIMES_LOADED = "crimes-loaded",
 	CRIMES_CRIME = "crimes-crime",
 	CRIMES2_HOME_LOADED = "crimes2-home-loaded",
-	CRIMES2_BURGLARY_LOADED = "crimes2-burglary-loaded",
 	CRIMES2_CRIME_LOADED = "crimes2-crime-loaded",
 	MISSION_LOAD = "mission-load",
 	MISSION_REWARDS = "mission-rewards",
@@ -119,8 +118,8 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.HOSPITAL_SWITCH_PAGE]: never;
 	[EVENT_CHANNELS.JAIL_SWITCH_PAGE]: never;
 	[EVENT_CHANNELS.USERLIST_SWITCH_PAGE]: never;
-	[EVENT_CHANNELS.TRAVEL_SELECT_TYPE]: { type: TravelType };
-	[EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY]: { country: TravelCountry };
+	[EVENT_CHANNELS.TRAVEL_HOME__SELECT_TYPE]: { type: TravelType };
+	[EVENT_CHANNELS.TRAVEL_HOME__SELECT_COUNTRY]: { country: TravelCountry };
 	[EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_LOAD]: { country: string; items: AbroadItem[] };
 	[EVENT_CHANNELS.TRAVEL_ABROAD__SHOP_REFRESH]: never;
 	[EVENT_CHANNELS.TRAVEL_ABROAD__ITEM_BOUGHT]: { item: number; amount: number };
@@ -134,7 +133,6 @@ export interface EventPayloads {
 	[EVENT_CHANNELS.CRIMES_LOADED]: never;
 	[EVENT_CHANNELS.CRIMES_CRIME]: never;
 	[EVENT_CHANNELS.CRIMES2_HOME_LOADED]: never;
-	[EVENT_CHANNELS.CRIMES2_BURGLARY_LOADED]: never;
 	[EVENT_CHANNELS.CRIMES2_CRIME_LOADED]: {
 		crime: (typeof CRIMES2)[keyof typeof CRIMES2];
 		crimeRoot: Element;

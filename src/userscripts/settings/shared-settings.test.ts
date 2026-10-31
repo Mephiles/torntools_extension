@@ -3,6 +3,7 @@ import type { SettingsManifest } from "./settings-manifest";
 import {
 	applyApiPatch,
 	applyManifestOverrides,
+	applySettingsDefaults,
 	applySettingsPatch,
 	forgetScript,
 	getEffectiveApi,
@@ -76,6 +77,15 @@ describe("shared settings", () => {
 			settings: { pages: { itemmarket: { bazaarItemHighlight: false } } },
 			api: {},
 		});
+	});
+
+	it("seeds a script's defaults without touching values the user changed", async () => {
+		await applySettingsDefaults({ pages: { targets: { nativeFilter: true }, friends: { nativeFilter: true } } });
+		await applySettingsPatch({ pages: { friends: { nativeFilter: false } } });
+		await applySettingsDefaults({ pages: { targets: { nativeFilter: true }, friends: { nativeFilter: true } } });
+
+		expect(getEffectiveSettings().pages.targets.nativeFilter).toBe(true);
+		expect(getEffectiveSettings().pages.friends.nativeFilter).toBe(false);
 	});
 
 	it("lets a script override a stored value without changing the stored value", async () => {

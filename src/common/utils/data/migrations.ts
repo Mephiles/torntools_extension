@@ -268,6 +268,23 @@ export const MIGRATIONS: MigrationScript[] = [
 			flags.updateFactiondata = true;
 		},
 	},
+	{
+		id: "de7c4d19-3361-4c1f-be03-282127739831",
+		version: "9.3.3",
+		execute(_database, flags, _oldStorage) {
+			flags.updateTorndata = true;
+		},
+	},
+	{
+		id: "9f2e7b2c-c345-4e56-92a2-d26452a3b04f",
+		version: "9.3.3",
+		execute(database, _flags, oldStorage) {
+			const threshold = oldStorage?.settings?.pages?.itemmarket?.highlightCheapItems;
+			if (typeof threshold !== "number" || !Number.isFinite(threshold)) {
+				database.settings.pages.itemmarket.highlightCheapItems = null;
+			}
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {

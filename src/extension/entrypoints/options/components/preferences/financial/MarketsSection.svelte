@@ -10,8 +10,8 @@
 	const cheapItemThreshold = $derived(String($settingsStore.pages.itemmarket.highlightCheapItems ?? ""));
 
 	async function updateCheapItemThreshold(value: string) {
-		const trimmedValue = value.trim();
-		const nextValue = trimmedValue === "" ? "" : Number(trimmedValue);
+		const parsedValue = value.trim() === "" ? null : Number(value);
+		const nextValue = parsedValue === null || !Number.isFinite(parsedValue) ? null : parsedValue;
 
 		await ttStorage.change({ settings: { pages: { itemmarket: { highlightCheapItems: nextValue } } } });
 	}

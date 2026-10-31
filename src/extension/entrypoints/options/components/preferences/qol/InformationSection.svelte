@@ -16,6 +16,12 @@
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 
+	<PreferenceSectionCard title="Crimes">
+		<PreferenceSettingGroup>
+			<StorageSwitch path="settings.pages.crimes2.flavourTextControls" label="Show a button to hide crime flavour text on success" />
+		</PreferenceSettingGroup>
+	</PreferenceSectionCard>
+
 	<PreferenceSectionCard title="Last Action">
 		<PreferenceSettingGroup>
 			<StorageSwitch path="settings.scripts.lastAction.factionMember" label="Faction members" />
@@ -120,6 +126,20 @@
 				label="Elimination"
 				description="Warning: due to the way the elimination page works, this might have significant performance impact."
 			/>
+			<StorageSwitch path="settings.pages.crimes2.pickpocketingFilter" label="Pickpocketing" />
+			<StorageSwitch
+				path="settings.pages.crimes2.searchForCashChanceFilter"
+				label="Search for Cash"
+				description="Disable the places below a minimum success chance."
+			/>
+		</PreferenceSettingGroup>
+	</PreferenceSectionCard>
+	<PreferenceSectionCard title="Lists">
+		<PreferenceSettingGroup>
+			<StorageSwitch path="settings.pages.friends.nativeFilter" label="Remember Friends sort and filter" />
+			<StorageSwitch path="settings.pages.enemies.nativeFilter" label="Remember Enemies sort and filter" />
+			<StorageSwitch path="settings.pages.targets.nativeFilter" label="Remember Targets sort and filter" />
+			<StorageSwitch path="settings.pages.customLinks.nativeFilter" label="Also apply to custom links" />
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 </div>

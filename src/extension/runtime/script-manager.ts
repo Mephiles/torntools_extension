@@ -121,9 +121,11 @@ import GymDisableStatsFeature from "@features/gym-disable-stats/gym-disable-stat
 import GymGraphFeature from "@features/gym-graph/gym-graph";
 import GymProgressFeature from "@features/gym-progress/gym-progress";
 import GymSteadfastFeature from "@features/gym-steadfast/gym-steadfast";
+import GymTitlesFeature from "@features/gym-titles/gym-titles";
 import HideAttackButtonsFeature from "@features/hide-attack-buttons/hide-attack-buttons";
 import HideCasinoGamesFeature from "@features/hide-casino-games/hide-casino-games";
 import HideChatFeature from "@features/hide-chat/hide-chat";
+import HideCrimeFlavourTextFeature from "@features/hide-crime-flavour-text/hide-crime-flavour-text";
 import HideGymHighlightFeature from "@features/hide-gym-highlight/hide-gym-highlight";
 import HideIconsFeature from "@features/hide-icons/hide-icons";
 import HideLeaveButtonsFeature from "@features/hide-leave-buttons/hide-leave-buttons";
@@ -184,6 +186,8 @@ import OnlyNewFeedFeature from "@features/only-new-feed/only-new-feed";
 import OpenOCFeature from "@features/open-oc/open-oc";
 import OpenedSupplyPackValueFeature from "@features/opened-supply-pack-value/opened-supply-pack-value";
 import PageTitleFeature from "@features/page-title/page-title";
+import PersistentListFilterFeature from "@features/persistent-list-filter/persistent-list-filter";
+import PickpocketingFilterFeature from "@features/pickpocketing-filter/pickpocketing-filter";
 import PointsValueFeature from "@features/points-value/points-value";
 import PreferenceSettingsFeature from "@features/preference-settings/preference-settings";
 import ProfileBoxFeature from "@features/profile-box/profile-box";
@@ -205,6 +209,7 @@ import ResizableChatFeature from "@features/resizable-chat/resizable-chat";
 import ReviveRequestFeature from "@features/revive-request/revive-request";
 import RWTimerFeature from "@features/rw-timer/rw-timer";
 import SearchChatFeature from "@features/search-chat/search-chat";
+import SearchForCashChanceFilterFeature from "@features/search-for-cash-chance-filter/search-for-cash-chance-filter";
 import SettingsLinkFeature from "@features/settings-link/settings-link";
 import ShopFiltersFeature from "@features/shop-filters/shop-filters";
 import ShopProfitsFeature from "@features/shop-profits/shop-profits";
@@ -307,6 +312,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new OC2TimeFeature());
 		FEATURE_MANAGER.registerFeature(new BarLinksFeature());
 		FEATURE_MANAGER.registerFeature(new SettingsLinkFeature());
+		FEATURE_MANAGER.registerFeature(new PersistentListFilterFeature());
 		FEATURE_MANAGER.registerFeature(new SidebarNotesFeature());
 		FEATURE_MANAGER.registerFeature(new StackingModeFeature());
 		FEATURE_MANAGER.registerFeature(new UpdateNoticeFeature());
@@ -406,6 +412,9 @@ export function scriptManager() {
 	} else if (page === "crimes-v2") {
 		setupCrimesV2Page();
 		FEATURE_MANAGER.registerFeature(new CrimeValueFeature());
+		FEATURE_MANAGER.registerFeature(new PickpocketingFilterFeature());
+		FEATURE_MANAGER.registerFeature(new HideCrimeFlavourTextFeature());
+		FEATURE_MANAGER.registerFeature(new SearchForCashChanceFilterFeature());
 	} else if (page === "factions") {
 		setupFactionsPage().catch(logger.debug);
 		FEATURE_MANAGER.registerFeature(new AbroadEnergyWarningFeature());
@@ -459,6 +468,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new GymGraphFeature());
 		FEATURE_MANAGER.registerFeature(new GymProgressFeature());
 		FEATURE_MANAGER.registerFeature(new GymSteadfastFeature());
+		FEATURE_MANAGER.registerFeature(new GymTitlesFeature());
 		FEATURE_MANAGER.registerFeature(new SpecialistGymsFeature());
 	} else if (page === "hospital") {
 		setupHospitalPage();

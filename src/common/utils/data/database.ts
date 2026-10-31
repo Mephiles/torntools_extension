@@ -241,8 +241,7 @@ function isValidSettingValue(value: any, setting: DefaultSetting<any>): boolean 
 		return Array.isArray(value);
 	}
 
-	const validTypes = setting.type.split("|");
-	return validTypes.some((type) => (type === "empty" && value === "") || typeof value === type);
+	return typeof value === setting.type;
 }
 
 function populateDatabaseVariables(database: Database) {

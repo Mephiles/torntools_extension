@@ -50,11 +50,7 @@ export async function timedUpdates() {
 					.catch((error) => logError("updating faction stakeouts", error)),
 			);
 
-			if (
-				!torndata ||
-				!isSameUTCDay(new Date(torndata.date), new Date()) ||
-				(hasOutdatedTornStats() && hasTimePassed(torndata.date, TO_MILLIS.MINUTES * 10))
-			) {
+			if (!torndata || !isSameUTCDay(new Date(torndata.date), new Date())) {
 				// Update once every torn day.
 				updatePromises.push(
 					updateTorndata()
@@ -126,10 +122,4 @@ async function verifyTime() {
 	}
 
 	await ttStorage.set({ time: now });
-}
-
-function hasOutdatedTornStats(): boolean {
-	const alteredStatsTimestamp = torndata.stats.timestamp * 1000 + TO_MILLIS.DAYS;
-
-	return !isSameUTCDay(alteredStatsTimestamp, torndata.date) && torndata.date > alteredStatsTimestamp;
 }

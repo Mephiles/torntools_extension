@@ -18,18 +18,36 @@ export abstract class TornToolsStorage {
 
 	abstract clearCache(section?: string): Promise<void>;
 
+	private readonly keyLocks = new Map<DatabaseKey, Promise<unknown>>();
+
+	private async withKeyLock<T>(key: DatabaseKey, fn: () => Promise<T>): Promise<T> {
+		const previous = this.keyLocks.get(key) ?? Promise.resolve();
+		const current = previous.then(fn, fn);
+
+		this.keyLocks.set(
+			key,
+			current.catch(() => {}),
+		);
+
+		return await current;
+	}
+
 	async update<K extends DatabaseKey>(key: K, fn: ChangeFunction<K>): Promise<void> {
-		const database = await this.get(key);
-		fn(database);
-		await this.set({ [key]: database });
+		await this.withKeyLock(key, async () => {
+			const database = await this.get(key);
+			fn(database);
+			await this.set({ [key]: database });
+		});
 	}
 
 	async change(object: RecursivePartial<Writable<Database>>): Promise<void> {
 		const keys = Object.keys(object) as DatabaseKey[];
 		for (const key of keys) {
-			const data = this.recursive(await this.get(key), object[key]);
+			await this.withKeyLock(key, async () => {
+				const data = this.recursive(await this.get(key), object[key]);
 
-			await this.set({ [key]: data });
+				await this.set({ [key]: data });
+			});
 		}
 	}
 

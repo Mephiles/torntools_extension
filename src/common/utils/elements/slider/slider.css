@@ -11,8 +11,6 @@
 .tt-dual-range .highlight {
 	position: absolute;
 	height: 12px;
-	width: calc(calc(var(--right) - var(--left)) + 21px);
-	left: var(--left);
 	background-color: #627e0d;
 	z-index: 1;
 	border-radius: 50px;

@@ -10,15 +10,17 @@ import { getPageStatus, hasFinishedEducation, isAbroad, isFlying } from "@common
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
-	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_COUNTRY, showWarnings);
-	addCustomListener(EVENT_CHANNELS.TRAVEL_SELECT_TYPE, showWarnings);
+	addCustomListener(EVENT_CHANNELS.TRAVEL_HOME__SELECT_COUNTRY, showWarnings);
+	addCustomListener(EVENT_CHANNELS.TRAVEL_HOME__SELECT_TYPE, showWarnings);
 }
 
 async function showWarnings() {
 	const container = await requireElement("[class*='departPanel___']");
 
-	const duration = getTravelDuration();
-	if (!duration) return;
+	const rawDuration = await getTravelDuration();
+	if (!rawDuration) return;
+
+	const duration = rawDuration * 2;
 
 	let cooldowns = findElement(".tt-cooldowns", container.parentElement!, true);
 	if (!cooldowns) {

@@ -17,6 +17,7 @@ export class DualRangeSlider {
 	private readonly uuid: string;
 	private startPos: number;
 	slider: HTMLElement | undefined;
+	private highlight: HTMLElement | undefined;
 	private activeHandle: HTMLElement | undefined;
 	private handles: HTMLElement[];
 	private readonly moveTouchListener = this.moveTouch.bind(this);
@@ -54,6 +55,7 @@ export class DualRangeSlider {
 			`,
 		});
 		this.handles = findAllElements(".handle", this.slider);
+		this.highlight = findElement(".highlight", this.slider, true) ?? undefined;
 
 		this.handles.forEach((handle) => {
 			const input = findElement(`#${handle.getAttribute("for")}`, this.slider!);
@@ -145,19 +147,16 @@ export class DualRangeSlider {
 		const low = Math.min(valueLeft, valueRight);
 		const high = Math.max(valueLeft, valueRight);
 
-		this.updateHighlight("left", low);
-		this.updateHighlight("right", high);
+		const rangeWidth = this.slider!.getBoundingClientRect().width || 150;
+		const handleWidth = this.handles[0].getBoundingClientRect().width || 21;
+		const position = (value: number) => ((value - this.options.min) / (this.options.max - this.options.min)) * rangeWidth - handleWidth / 2;
+
+		this.slider!.style.setProperty("--left", `${position(valueLeft)}px`);
+		this.slider!.style.setProperty("--right", `${position(valueRight)}px`);
+		this.highlight!.style.left = `${position(low)}px`;
+		this.highlight!.style.width = `${position(high) - position(low) + handleWidth}px`;
 
 		this.slider!.dataset.low = low.toString();
 		this.slider!.dataset.high = high.toString();
-	}
-
-	updateHighlight(side: string, value: number) {
-		const rangeWidth = this.slider!.getBoundingClientRect().width || 150;
-		const handleWidth = this.handles[0].getBoundingClientRect().width || 21;
-
-		const percentage = (value - this.options.min) / (this.options.max - this.options.min);
-
-		this.slider!.style.setProperty(`--${side}`, `${percentage * rangeWidth - handleWidth / 2}px`);
 	}
 }

@@ -4,17 +4,34 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [{ "message": "Add a minimum level filter to Bounty Filter.", "contributor": "Deviyl" }],
-			"fixes": [{ "message": "Stop the import dialog from growing beyond the screen.", "contributor": "xhang98" }],
+			"features": [
+        { "message": "Add a minimum level filter to Bounty Filter.", "contributor": "Deviyl" },
+				{ "message": "Show gym details for locked gyms on hover.", "contributor": "DeKleineKobini" },
+				{ "message": "Remember the native sort and filter of the friends, enemies and targets lists.", "contributor": "DeKleineKobini" },
+				{ "message": "Filter pickpocketing targets.", "contributor": "DeKleineKobini" },
+				{ "message": "Hide the flavour text of successful crimes 2 outcomes.", "contributor": "DeKleineKobini" },
+				{ "message": "Disable Search for Cash places below a minimum success chance.", "contributor": "DeKleineKobini" }
+			],
+			"fixes": [
+				{ "message": "Stop the import dialog from growing beyond the screen.", "contributor": "xhang98" },
+				{ "message": "Avoid issues with the dual slider in certain situations.", "contributor": "DeKleineKobini" },
+				{ "message": "Hopefully avoid duplicate notifications.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix incorrect converting of timers on the travel page.", "contributor": "DeKleineKobini" },
+				{ "message": "Fix timed travel features using double the actual time.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": [],
-			"technical": [{ "message": "Cleanup old code for icons.", "contributor": "DeKleineKobini" }]
+			"technical": [
+				{ "message": "Cleanup old code for icons.", "contributor": "DeKleineKobini" },
+				{ "message": "Migrate to the V2 version of torn/stats.", "contributor": "DeKleineKobini" },
+				{ "message": "Rework the internal data type for 'Highlight Cheap Items'.", "contributor": "DeKleineKobini" },
+				{ "message": "Write changes to the storage with a lock, avoiding overwritten information.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{
 		"version": { "major": 9, "minor": 3, "build": 3 },
-		"title": "Beta",
-		"date": false,
+		"date": "2026/10/22",
 		"logs": {
 			"features": [
 				{ "message": "Recommend lease prices on for your rental properties.", "contributor": "Murfy" },
@@ -48,7 +65,6 @@
 				{ "message": "Adapt 'Flying Time' to travel 2.0 phase 3.", "contributor": "DeKleineKobini" },
 				{ "message": "Adapt 'Travel Table' to travel 2.0 phase 3.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
 			"technical": [
 				{ "message": "Use nested CSS in 'Travel Table'.", "contributor": "DeKleineKobini" },
 				{ "message": "Use modular CSS in 'Settings Link'.", "contributor": "DeKleineKobini" },
@@ -59,25 +75,19 @@
 	},
 	{
 		"version": { "major": 9, "minor": 3, "build": 2 },
-		"title": "Beta",
-		"date": false,
+		"date": "2026/10/03",
 		"logs": {
-			"features": [],
 			"fixes": [
 				{
 					"message": "Remove some debugging code from 'Live Networth', which always resulted in no changes being shown.",
 					"contributor": "DeKleineKobini"
 				}
-			],
-			"changes": [],
-			"removed": [],
-			"technical": []
+			]
 		}
 	},
 	{
 		"version": { "major": 9, "minor": 3, "build": 1 },
-		"title": "Beta",
-		"date": false,
+		"date": "2026/10/02",
 		"logs": {
 			"features": [
 				{ "message": "Show the OC2 role weight (requires the 'Torn Probability' connection).", "contributor": "DeKleineKobini" },

@@ -1,0 +1,15 @@
+.gym-tooltip {
+	.gym-name {
+		color: var(--gym-name-font-color);
+		text-align: center;
+		font-size: 12px;
+		font-weight: 700;
+		line-height: 15px;
+	}
+
+	.gym-info {
+		color: var(--gym-description-primary-color);
+		text-align: center;
+		padding: 5px 0;
+	}
+}
