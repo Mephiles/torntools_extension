@@ -72,6 +72,7 @@ export const CONTRIBUTORS: Record<string, number | null> = {
 	Callz: 2188704,
 	Conrado: 2631918,
 	"dat-mule": 2043166,
+	Deviyl: 3722358,
 	EazzyPeazzy: 2708376,
 	Ech01337: 4270007,
 	finally: 2060206,
