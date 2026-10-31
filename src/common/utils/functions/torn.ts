@@ -198,17 +198,26 @@ export const CASINO_GAMES = [
 
 export const NON_ATTACKABLE_ACCOUNTS: { id: number; reason: "Admin" | "NPC" }[] = [
 	{ id: 1, reason: "Admin" },
-	{ id: 4, reason: "NPC" },
 	{ id: 7, reason: "NPC" },
 	{ id: 9, reason: "NPC" },
 	{ id: 10, reason: "NPC" },
-	{ id: 15, reason: "NPC" },
 	{ id: 17, reason: "NPC" },
-	{ id: 19, reason: "NPC" },
-	{ id: 20, reason: "NPC" },
-	{ id: 21, reason: "NPC" },
 ];
 export const NON_ATTACKABLE_ACCOUNT_IDS = NON_ATTACKABLE_ACCOUNTS.map(({ id }) => id);
+
+export const ATTACKABLE_NPCS = [
+	4, // Duke
+	15, // Leslie
+	19, // Jimmy
+	20, // Fernando
+	21, // Tiny
+	23, // M'aol
+	100, // Dyno'salam
+	101, // Nol'dasaym
+	102, // Asmol'yand
+	103, // Sylo'nadam
+	104, // Ladso'myna
+];
 
 export interface DrugDetail {
 	addiction: number;

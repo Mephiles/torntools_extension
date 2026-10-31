@@ -5,7 +5,7 @@ import { hasAPIData } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { FFScouterResult } from "@common/utils/functions/api.types";
 import { logger } from "@common/utils/functions/logger";
-import { NON_ATTACKABLE_ACCOUNT_IDS } from "@common/utils/functions/torn";
+import { ATTACKABLE_NPCS, NON_ATTACKABLE_ACCOUNT_IDS } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 
 export type ScouterResult =
@@ -43,7 +43,7 @@ export class ScouterService {
 	}
 
 	scoutSingle(target: number): Promise<ScouterResult> {
-		if (NON_ATTACKABLE_ACCOUNT_IDS.includes(target)) {
+		if (NON_ATTACKABLE_ACCOUNT_IDS.includes(target) || ATTACKABLE_NPCS.includes(target)) {
 			return Promise.resolve({ player_id: target, message: "", message_short: "", isError: true });
 		}
 
@@ -62,7 +62,9 @@ export class ScouterService {
 		const uniqueTargets = Array.from(new Set(targets.map((id) => parseInt(id.toString()))));
 
 		const cachedTargets = uniqueTargets.filter((target) => this.inCache(target));
-		const missingTargets = uniqueTargets.filter((target) => !this.inCache(target)).filter((target) => !NON_ATTACKABLE_ACCOUNT_IDS.includes(target));
+		const missingTargets = uniqueTargets
+			.filter((target) => !this.inCache(target))
+			.filter((target) => !NON_ATTACKABLE_ACCOUNT_IDS.includes(target) && !ATTACKABLE_NPCS.includes(target));
 
 		const results: Record<string, ScouterResult> = {};
 
