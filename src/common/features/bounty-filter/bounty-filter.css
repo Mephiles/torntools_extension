@@ -7,64 +7,73 @@
 	margin-left: 5px;
 }
 
-@media (max-width: 600px) {
+#bountyFilter .options input[type="number"] {
+	height: 20px;
+	margin: 0 6px;
+	padding-left: 5px;
+	width: 50px;
+	border-radius: 5px;
+}
+
+@media (max-width: 784px) {
 	#bountyFilter .text .statistics {
 		display: none;
 	}
-}
 
-#bountyFilter > .title {
-	height: auto;
-	min-height: 50px;
-	display: grid;
-	grid-template-columns: 1fr auto;
-	grid-template-rows: repeat(2, 25px);
-	align-items: center;
-}
+	#bountyFilter > .title {
+		height: auto;
+		min-height: 50px;
+		display: grid;
+		grid-template-columns: 1fr auto;
+		grid-template-rows: repeat(2, 25px);
+		align-items: center;
+	}
 
-#bountyFilter > .title > .text {
-	grid-column: 1;
-	grid-row: 1;
-	width: auto;
-}
+	#bountyFilter > .title > .text {
+		grid-column: 1;
+		grid-row: 1;
+		width: auto;
+	}
 
-#bountyFilter > .title > .options {
-	grid-column: 2;
-	grid-row: 1 / 3;
-	display: grid;
-	grid-template-columns: repeat(4, auto);
-	grid-template-rows: repeat(2, 25px);
-	justify-items: end;
-	align-items: center;
-	width: auto;
-	margin-right: 4px;
-	column-gap: 3px;
-}
+	#bountyFilter > .title > .options {
+		grid-column: 2;
+		grid-row: 1 / 3;
+		display: grid;
+		flex-direction: unset;
+		grid-template-columns: repeat(4, auto);
+		grid-template-rows: repeat(2, 25px);
+		justify-items: end;
+		align-items: center;
+		width: auto;
+		margin-right: 4px;
+		column-gap: 3px;
+	}
 
-#bountyFilter .options > :first-child {
-	grid-column: 1 / -1;
-	justify-self: end;
-}
+	#bountyFilter .options > :first-child {
+		grid-column: 1 / -1;
+		justify-self: end;
+	}
 
-#bountyFilter .options input[type="number"] {
-	box-sizing: border-box;
-	width: 44px;
-	min-width: 44px;
-	height: 20px;
-	margin: 0;
-	padding: 0 3px;
-	border-radius: 5px;
-	appearance: textfield;
-}
+	#bountyFilter .options input[type="number"] {
+		box-sizing: border-box;
+		width: 44px;
+		min-width: 44px;
+		height: 20px;
+		margin: 0;
+		padding: 0 3px;
+		border-radius: 5px;
+		appearance: textfield;
+	}
 
-#bountyFilter .options input[type="number"]::-webkit-inner-spin-button,
-#bountyFilter .options input[type="number"]::-webkit-outer-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
-}
+	#bountyFilter .options input[type="number"]::-webkit-inner-spin-button,
+	#bountyFilter .options input[type="number"]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
 
-#bountyFilter .options span,
-#bountyFilter .options label {
-	font-size: 11px;
-	white-space: nowrap;
+	#bountyFilter .options span,
+	#bountyFilter .options label {
+		font-size: 11px;
+		white-space: nowrap;
+	}
 }
