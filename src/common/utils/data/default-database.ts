@@ -727,6 +727,7 @@ export const DEFAULT_STORAGE = {
 			highlightItems: new DefaultSetting("boolean", true),
 		},
 		bounties: {
+			minLevel: new DefaultSetting("number", 1),
 			maxLevel: new DefaultSetting("number", 100),
 			hideUnavailable: new DefaultSetting("boolean", false),
 		},
