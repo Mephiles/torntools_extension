@@ -5,12 +5,12 @@
 		"date": false,
 		"logs": {
 			"features": [
-				{ "message": "Add a minimum level filter to Bounty Filter.", "contributor": "Deviyl" },
 				{ "message": "Show gym details for locked gyms on hover.", "contributor": "DeKleineKobini" },
 				{ "message": "Remember the native sort and filter of the friends, enemies and targets lists.", "contributor": "DeKleineKobini" },
 				{ "message": "Filter pickpocketing targets.", "contributor": "DeKleineKobini" },
 				{ "message": "Hide the flavour text of successful crimes 2 outcomes.", "contributor": "DeKleineKobini" },
-				{ "message": "Disable Search for Cash places below a minimum success chance.", "contributor": "DeKleineKobini" }
+				{ "message": "Disable Search for Cash places below a minimum success chance.", "contributor": "DeKleineKobini" },
+				{ "message": "Add a minimum level filter to Bounty Filter.", "contributor": "Deviyl" }
 			],
 			"fixes": [
 				{ "message": "Stop the import dialog from growing beyond the screen.", "contributor": "xhang98" },
