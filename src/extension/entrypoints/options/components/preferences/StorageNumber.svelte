@@ -16,6 +16,7 @@
 		step?: number;
 		disabled?: boolean;
 		orientation?: FieldOrientation;
+		nullable?: boolean;
 	}
 
 	let {
@@ -28,13 +29,14 @@
 		step = undefined,
 		disabled = false,
 		orientation = "responsive",
+		nullable = false,
 	}: StorageNumberProps = $props();
 
 	const storageSource = $derived({ settings: $settingsStore, api: $apiStore });
 	const value = $derived(String(getPreferenceValue(storageSource, path) ?? ""));
 
 	function updateValue(input: string) {
-		void updatePreferenceValue(path, input.trim() === "" ? 0 : Number(input));
+		void updatePreferenceValue(path, input.trim() === "" ? (nullable ? null : 0) : Number(input));
 	}
 </script>
 
