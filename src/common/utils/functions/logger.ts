@@ -33,6 +33,10 @@ function getContextLabel(section: string | null): string {
 }
 
 function getUserscriptName(): string | null {
+	if (typeof __TT_SCRIPT_NAME__ !== "undefined") {
+		return __TT_SCRIPT_NAME__.startsWith(USERSCRIPT_NAME_PREFIX) ? __TT_SCRIPT_NAME__.slice(USERSCRIPT_NAME_PREFIX.length) : __TT_SCRIPT_NAME__;
+	}
+
 	try {
 		if (typeof GM === "undefined") return null;
 

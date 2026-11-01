@@ -53,6 +53,9 @@ beforeEach(() => {
 afterEach(() => {
 	delete (globalThis as any).localStorage;
 	delete (globalThis as any).GM;
+	delete (globalThis as any).__TT_SCRIPT_NAME__;
+	delete (globalThis as any).__TT_SCRIPT_NAMESPACE__;
+	delete (globalThis as any).__TT_SCRIPT_VERSION__;
 });
 
 describe("shared settings", () => {
@@ -146,6 +149,17 @@ describe("shared settings", () => {
 		registerScript("tt_test", { settings: [] });
 
 		expect(getRegisteredScripts()[0]?.id).toBe("torntools.test--beta");
+	});
+
+	it("uses the build-time metadata when GM.info is empty (TornPDA)", () => {
+		(globalThis as any).GM = { info: { version: "2.2", script: {} } };
+		(globalThis as any).__TT_SCRIPT_NAME__ = "TORN: TornTools - Test Script BETA";
+		(globalThis as any).__TT_SCRIPT_NAMESPACE__ = "torntools.test--beta";
+		(globalThis as any).__TT_SCRIPT_VERSION__ = "1.2.3-beta";
+
+		registerScript("tt_test", { settings: [] });
+
+		expect(getRegisteredScripts()[0]).toMatchObject({ id: "torntools.test--beta", name: "Test Script BETA", version: "1.2.3-beta" });
 	});
 
 	it("drops registrations after the TTL", () => {

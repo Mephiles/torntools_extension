@@ -22,12 +22,20 @@ const aliases = {
 };
 
 async function buildUserscript(entryName: string, userscript: UserscriptMetadata, fileSuffix: string, beta = false, dev = false) {
+	const name = `TORN: TornTools - ${userscript.name}${beta ? " BETA" : ""}${dev ? " DEV" : ""}`;
+	const namespace = `torntools.${entryName}${beta ? "--beta" : ""}${dev ? "--dev" : ""}`;
+	const version = `${dev ? "dev-" : ""}${userscript.version}${beta ? "-beta" : ""}`;
+
 	await build({
 		root,
 		configFile: false,
 		publicDir: false,
 		define: {
 			__TT_DEV__: JSON.stringify(dev),
+			// TornPDA exposes an empty GM.info.script, so the identity is baked in instead.
+			__TT_SCRIPT_NAME__: JSON.stringify(name),
+			__TT_SCRIPT_NAMESPACE__: JSON.stringify(namespace),
+			__TT_SCRIPT_VERSION__: JSON.stringify(version),
 		},
 		resolve: { alias: aliases },
 		plugins: [
@@ -35,9 +43,9 @@ async function buildUserscript(entryName: string, userscript: UserscriptMetadata
 			monkey({
 				entry: `src/userscripts/entries/${entryName}/${entryName}.user.ts`,
 				userscript: {
-					name: `TORN: TornTools - ${userscript.name}${beta ? " BETA" : ""}${dev ? " DEV" : ""}`,
-					namespace: `torntools.${entryName}${beta ? "--beta" : ""}${dev ? "--dev" : ""}`,
-					version: `${dev ? "dev-" : ""}${userscript.version}${beta ? "-beta" : ""}`,
+					name,
+					namespace,
+					version,
 					description: userscript.description,
 					author,
 					license: "GPL-3.0-or-later",

@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Elimination Filter",
 	description: "Filter the elimination rosters.",
-	version: "1.1.1",
+	version: "1.1.2",
 	matches: ["https://*.torn.com/page.php?sid=elimination*"],
 	runAt: "document-end",
 };

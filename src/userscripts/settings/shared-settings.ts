@@ -172,6 +172,15 @@ function migrateLegacyApiKey() {
 }
 
 function getScriptInfo(): { name: string; version: string; namespace?: string } {
+	// Baked in at build time, because TornPDA exposes GM.info.script as an empty object.
+	if (typeof __TT_SCRIPT_NAME__ !== "undefined") {
+		return {
+			name: __TT_SCRIPT_NAME__.replace(/^TORN: TornTools - /, ""),
+			version: __TT_SCRIPT_VERSION__,
+			namespace: __TT_SCRIPT_NAMESPACE__,
+		};
+	}
+
 	try {
 		const info = typeof GM !== "undefined" ? GM.info : undefined;
 		const name = info?.script?.name ?? "TornTools userscript";

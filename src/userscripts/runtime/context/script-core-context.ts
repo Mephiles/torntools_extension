@@ -29,7 +29,8 @@ const UserscriptRuntimeInformation: RuntimeInformation = {
 	},
 
 	getVersion(): string {
-		return GM.info.version;
+		// TornPDA reports a hardcoded GM.info.version, so prefer the version baked in at build time.
+		return typeof __TT_SCRIPT_VERSION__ !== "undefined" ? __TT_SCRIPT_VERSION__ : GM.info.version;
 	},
 
 	isUserscript(): boolean {

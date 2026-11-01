@@ -16,6 +16,23 @@ describe("logger", () => {
 		mock.restore();
 	});
 
+	describe("context label", () => {
+		afterEach(() => {
+			delete (globalThis as any).__TT_SCRIPT_NAME__;
+			delete (globalThis as any).GM;
+		});
+
+		it("should prefer the build-time script name", () => {
+			const spies = captureConsole();
+			setLogLevel("debug");
+			(globalThis as any).__TT_SCRIPT_NAME__ = "TORN: TornTools - Test Script BETA";
+
+			logger.info("hello");
+
+			expect(spies.log).toHaveBeenCalledWith("[TornTools - Test Script BETA] hello");
+		});
+	});
+
 	describe("isLogLevel", () => {
 		it("should accept known levels", () => {
 			expect(isLogLevel("error")).toBe(true);
