@@ -556,6 +556,7 @@ export const DEFAULT_STORAGE = {
 					ocItem: new DefaultSetting("boolean", true),
 					race: new DefaultSetting("boolean", true),
 					education: new DefaultSetting("boolean", true),
+					trainsAvailable: new DefaultSetting<number | null>("number", 20),
 				},
 			},
 			lastAction: {

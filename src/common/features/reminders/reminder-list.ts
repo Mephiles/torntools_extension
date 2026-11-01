@@ -1,4 +1,5 @@
-import { api, settings, userdata } from "@common/utils/data/database";
+import { api, companydata, settings, userdata } from "@common/utils/data/database";
+import { hasCompanyAPIAccess } from "@common/utils/functions/api.ts";
 import { hasFinishedEducation, LINKS } from "@common/utils/functions/torn";
 
 export interface Reminder {
@@ -109,5 +110,15 @@ export const REMINDERS: Reminder[] = [
 		url: LINKS.education,
 		enabled: () => settings.apiUsage.user.education && settings.scripts.reminders.types.education,
 		finished: () => !!userdata.education.current || hasFinishedEducation(),
+	},
+	{
+		name: "Company Trains",
+		url: LINKS.education,
+		enabled: () => hasCompanyAPIAccess() && settings.scripts.reminders.types.trainsAvailable !== null,
+		finished: () => {
+			if (companydata?.access !== "director" || settings.scripts.reminders.types.trainsAvailable === null) return true;
+
+			return settings.scripts.reminders.types.trainsAvailable > companydata.profile.trains;
+		},
 	},
 ];

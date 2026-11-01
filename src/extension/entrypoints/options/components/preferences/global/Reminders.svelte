@@ -1,4 +1,5 @@
 <script lang="ts">
+	import StorageNumber from "@/entrypoints/options/components/preferences/StorageNumber.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
 	import StorageSwitch from "../StorageSwitch.svelte";
@@ -25,6 +26,14 @@
 			<StorageSwitch path="settings.scripts.reminders.types.ocItem" label="OC Item" />
 			<StorageSwitch path="settings.scripts.reminders.types.race" label="Race" />
 			<StorageSwitch path="settings.scripts.reminders.types.education" label="Education" />
+			<StorageNumber
+				path="settings.scripts.reminders.types.trainsAvailable"
+				label="Trains Available"
+				description="Only available for directors. Clear to disable."
+				min={0}
+				max={20}
+				nullable
+			/>
 		</PreferenceSettingGroup>
 	</div>
 </PreferenceSectionCard>
