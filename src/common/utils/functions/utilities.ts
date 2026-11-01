@@ -274,6 +274,35 @@ export function isSpeechSynthesisAvailable() {
 	return typeof SpeechSynthesisUtterance !== "undefined";
 }
 
+export async function speakText(text: string, { volume, voice, rate }: { volume: number; voice: string; rate: number }) {
+	if (!isSpeechSynthesisAvailable()) return;
+
+	const utterance = new SpeechSynthesisUtterance(text);
+	utterance.volume = volume;
+	utterance.rate = rate;
+	if (voice !== "default") utterance.voice = await getSpeechVoice(voice);
+
+	window.speechSynthesis.speak(utterance);
+}
+
+async function getSpeechVoice(name: string): Promise<SpeechSynthesisVoice | null> {
+	const matchVoice = () => window.speechSynthesis.getVoices().find((voice) => `${voice.name} (${voice.lang})` === name) ?? null;
+
+	const loaded = matchVoice();
+	if (loaded) return loaded;
+
+	return new Promise((resolve) => {
+		const resolveVoice = () => {
+			clearTimeout(timer);
+			window.speechSynthesis.removeEventListener("voiceschanged", resolveVoice);
+			resolve(matchVoice());
+		};
+		const timer = setTimeout(resolveVoice, 1000);
+
+		window.speechSynthesis.addEventListener("voiceschanged", resolveVoice);
+	});
+}
+
 export function contextSafeCustomEvent<T = never>(event: string, detail: T): CustomEvent<T> {
 	const safeDetail: T = usingFirefox() ? document.defaultView!.structuredClone(detail) : detail;
 

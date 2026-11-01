@@ -4,7 +4,7 @@ import { setNotificationHistory, settings } from "@common/utils/data/database";
 import type { TTFullNotification, TTNotification } from "@common/utils/data/default-database";
 import { hasInteractionSupport, hasSilentSupport } from "@common/utils/functions/browser";
 import { logger } from "@common/utils/functions/logger";
-import { isSpeechSynthesisAvailable, sleep, TO_MILLIS } from "@common/utils/functions/utilities";
+import { isSpeechSynthesisAvailable, sleep, speakText, TO_MILLIS } from "@common/utils/functions/utilities";
 import type { OffscreenMessage } from "@extension/entrypoints/offscreen/offscreen";
 
 class AudioPlayer {
@@ -226,15 +226,11 @@ async function notifyUser(title: string, message: string, url?: string) {
 	async function readMessage(text: string) {
 		// Has TTS
 		if (isSpeechSynthesisAvailable()) {
-			const ttsMessage = new SpeechSynthesisUtterance(text);
-			ttsMessage.volume = settings.notifications.volume / 100;
-			if (settings.notifications.ttsVoice !== "default") {
-				const matchedVoice = window.speechSynthesis.getVoices().find(({ name, lang }) => `${name} (${lang})` === settings.notifications.ttsVoice);
-
-				if (matchedVoice) ttsMessage.voice = matchedVoice;
-			}
-			ttsMessage.rate = settings.notifications.ttsRate;
-			window.speechSynthesis.speak(ttsMessage);
+			await speakText(text, {
+				volume: settings.notifications.volume / 100,
+				voice: settings.notifications.ttsVoice,
+				rate: settings.notifications.ttsRate,
+			});
 		} else {
 			// Offscreen documents
 			await setupAudioPlayerDocument();

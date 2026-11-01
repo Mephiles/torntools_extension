@@ -1,4 +1,4 @@
-import { describe, expect, it } from "bun:test";
+import { afterEach, describe, expect, it } from "bun:test";
 import {
 	arraysEquals,
 	calculateDatePeriod,
@@ -8,6 +8,7 @@ import {
 	isSameUTCDay,
 	objectsEquals,
 	readableErrorMessage,
+	speakText,
 	toCorrectType,
 	toNumericVersion,
 	toRecord,
@@ -198,6 +199,97 @@ describe("utilities", () => {
 
 		it("should report falsy errors", () => {
 			expect(readableErrorMessage(null)).toBe("Unknown error, this should be reported: null");
+		});
+	});
+
+	describe("speakText", () => {
+		class FakeSynthesis {
+			voices: any[] = [];
+			spoken: any[] = [];
+			private listeners = new Set<() => void>();
+
+			getVoices() {
+				return this.voices;
+			}
+
+			speak(utterance: any) {
+				this.spoken.push(utterance);
+			}
+
+			addEventListener(_event: string, listener: () => void) {
+				this.listeners.add(listener);
+			}
+
+			removeEventListener(_event: string, listener: () => void) {
+				this.listeners.delete(listener);
+			}
+
+			loadVoices(voices: any[]) {
+				this.voices = voices;
+				this.listeners.forEach((listener) => listener());
+			}
+		}
+
+		let synthesis: FakeSynthesis;
+
+		function setup() {
+			synthesis = new FakeSynthesis();
+			(globalThis as any).SpeechSynthesisUtterance = class {
+				voice = null;
+				volume = 1;
+				rate = 1;
+				constructor(public text: string) {}
+			};
+			(globalThis as any).window = { speechSynthesis: synthesis };
+			return synthesis;
+		}
+
+		afterEach(() => {
+			delete (globalThis as any).SpeechSynthesisUtterance;
+			delete (globalThis as any).window;
+		});
+
+		it("should speak with the matching voice when voices are already loaded", async () => {
+			const synthesis = setup();
+			synthesis.voices = [{ name: "Alex", lang: "en-US" }];
+
+			await speakText("hello", { volume: 0.5, voice: "Alex (en-US)", rate: 2 });
+
+			expect(synthesis.spoken).toHaveLength(1);
+			expect(synthesis.spoken[0].text).toBe("hello");
+			expect(synthesis.spoken[0].volume).toBe(0.5);
+			expect(synthesis.spoken[0].rate).toBe(2);
+			expect(synthesis.spoken[0].voice).toBe(synthesis.voices[0]);
+		});
+
+		it("should wait for voiceschanged when the voice list is not loaded yet", async () => {
+			const synthesis = setup();
+			const speaking = speakText("hello", { volume: 1, voice: "Alex (en-US)", rate: 1 });
+
+			expect(synthesis.spoken).toHaveLength(0);
+			synthesis.loadVoices([{ name: "Alex", lang: "en-US" }]);
+			await speaking;
+
+			expect(synthesis.spoken[0].voice).toBe(synthesis.voices[0]);
+		});
+
+		it("should fall back to the default voice when the configured voice is missing", async () => {
+			const synthesis = setup();
+			const speaking = speakText("hello", { volume: 1, voice: "Missing (en-GB)", rate: 1 });
+
+			synthesis.loadVoices([{ name: "Alex", lang: "en-US" }]);
+			await speaking;
+
+			expect(synthesis.spoken[0].voice).toBeNull();
+		});
+
+		it("should not speak when speech synthesis is unavailable", async () => {
+			const synthesis = setup();
+			delete (globalThis as any).SpeechSynthesisUtterance;
+
+			await speakText("hello", { volume: 1, voice: "default", rate: 1 });
+
+			expect(synthesis.spoken).toHaveLength(0);
 		});
 	});
 });
