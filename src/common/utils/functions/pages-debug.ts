@@ -63,6 +63,12 @@ function fullDataDump(reduction: boolean = true) {
 				// @ts-expect-error Modifying a copy of the database for debugging purposes.
 				storage.factiondata.rankedwars = `<reduced:${storage.factiondata.rankedwars?.length ?? "N/A"}>`;
 			}
+			if (storage.companydata?.access === "director") {
+				// @ts-expect-error Modifying a copy of the database for debugging purposes.
+				storage.companydata.employees = `<reduced:${storage.companydata.employees?.length ?? "N/A"}>`;
+				// @ts-expect-error Modifying a copy of the database for debugging purposes.
+				storage.companydata.stock = `<reduced:${storage.companydata.stock?.length ?? "N/A"}>`;
+			}
 			// @ts-expect-error Modifying a copy of the database for debugging purposes.
 			storage.notes.profile = `<reduced:${(storage.notes.profile ? Object.values(storage.notes.profile).length : null) ?? "N/A"}>`;
 			// @ts-expect-error Modifying a copy of the database for debugging purposes.

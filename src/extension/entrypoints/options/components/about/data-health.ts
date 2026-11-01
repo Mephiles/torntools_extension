@@ -1,4 +1,4 @@
-import type { DatabaseFactiondata, DatabaseStockdata, DatabaseTorndata, DatabaseUserdata } from "@common/utils/data/database";
+import type { DatabaseCompanydata, DatabaseFactiondata, DatabaseStockdata, DatabaseTorndata, DatabaseUserdata } from "@common/utils/data/database";
 
 export type HealthStatus = "checking" | "healthy" | "corrupted";
 
@@ -21,5 +21,9 @@ export function isStockdataHealthy(value: DatabaseStockdata) {
 }
 
 export function isFactiondataHealthy(value: DatabaseFactiondata) {
+	return typeof value === "object" && value !== null && "access" in value && typeof value.access === "string";
+}
+
+export function isCompanydataHealthy(value: DatabaseCompanydata) {
 	return typeof value === "object" && value !== null && "access" in value && typeof value.access === "string";
 }

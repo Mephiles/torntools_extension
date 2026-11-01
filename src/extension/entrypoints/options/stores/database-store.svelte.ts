@@ -2,6 +2,7 @@ import { ttStorage } from "@common/utils/context";
 import { initializeDatabase, storageListeners } from "@common/utils/data/database";
 import type {
 	DatabaseApi,
+	DatabaseCompanydata,
 	DatabaseFactiondata,
 	DatabaseNpcs,
 	DatabaseSettings,
@@ -18,6 +19,7 @@ export const userdataStore = writable<DatabaseUserdata>();
 export const torndataStore = writable<DatabaseTorndata>();
 export const stockdataStore = writable<DatabaseStockdata>();
 export const factiondataStore = writable<DatabaseFactiondata>();
+export const companydataStore = writable<DatabaseCompanydata>();
 export const npcsStore = writable<DatabaseNpcs>();
 
 export function initializeDatabaseStore() {
@@ -31,19 +33,21 @@ export function initializeDatabaseStore() {
 	storageListeners.torndata.push((_oldTorndata, newTorndata) => torndataStore.set(newTorndata));
 	storageListeners.stockdata.push((_oldStockdata, newStockdata) => stockdataStore.set(newStockdata));
 	storageListeners.factiondata.push((_oldFactiondata, newFactiondata) => factiondataStore.set(newFactiondata));
+	storageListeners.companydata.push((_oldCompanydata, newCompanydata) => companydataStore.set(newCompanydata));
 	storageListeners.npcs.push((_oldNpcs, newNpcs) => npcsStore.set(newNpcs));
 }
 
 async function loadDatabaseStores() {
 	await initializeDatabase();
 
-	const [settings, api, userdata, torndata, stockdata, factiondata, npcs] = await ttStorage.get([
+	const [settings, api, userdata, torndata, stockdata, factiondata, companydata, npcs] = await ttStorage.get([
 		"settings",
 		"api",
 		"userdata",
 		"torndata",
 		"stockdata",
 		"factiondata",
+		"companydata",
 		"npcs",
 	] as const);
 
@@ -53,6 +57,7 @@ async function loadDatabaseStores() {
 	torndataStore.set(torndata);
 	stockdataStore.set(stockdata);
 	factiondataStore.set(factiondata);
+	companydataStore.set(companydata);
 	npcsStore.set(npcs);
 }
 

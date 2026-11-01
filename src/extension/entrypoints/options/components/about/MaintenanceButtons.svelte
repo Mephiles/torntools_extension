@@ -18,6 +18,7 @@
 					<MaintenanceActionCard action="torndata" label="Torndata" />
 					<MaintenanceActionCard action="stocks" label="Stocks" />
 					<MaintenanceActionCard action="factiondata" label="Factiondata" />
+					<MaintenanceActionCard action="companydata" label="Companydata" />
 				</div>
 			{:else}
 				<p class="text-muted-foreground text-sm">Forced data fetched are not relevant without an API key configured.</p>
@@ -31,6 +32,7 @@
 				<MaintenanceActionCard action="clear-torndata" label="Clear torndata" variant="destructive" />
 				<MaintenanceActionCard action="clear-stocks" label="Clear stocks" variant="destructive" />
 				<MaintenanceActionCard action="clear-factiondata" label="Clear factiondata" variant="destructive" />
+				<MaintenanceActionCard action="clear-companydata" label="Clear companydata" variant="destructive" />
 				<MaintenanceActionCard action="clear-cache" label="Clear cache" variant="destructive" />
 			</div>
 		</section>

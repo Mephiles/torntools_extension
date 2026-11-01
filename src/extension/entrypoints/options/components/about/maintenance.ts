@@ -2,12 +2,12 @@ import { loadDatabase, migrateDatabase } from "@common/utils/data/database.ts";
 import { toast } from "svelte-sonner";
 import { BACKGROUND_SERVICE } from "@/services/proxy-services";
 
-export type ForceTarget = "userdata" | "torndata" | "stocks" | "factiondata";
+export type ForceTarget = "userdata" | "torndata" | "stocks" | "factiondata" | "companydata";
 export type ClearAction = `clear-${ForceTarget}`;
 export type MaintenanceAction = ForceTarget | ClearAction | "reinitialize-timers" | "clear-cache";
 
-const forceTargets: ForceTarget[] = ["userdata", "torndata", "stocks", "factiondata"];
-const clearActions: ClearAction[] = ["clear-userdata", "clear-torndata", "clear-stocks", "clear-factiondata"];
+const forceTargets: ForceTarget[] = ["userdata", "torndata", "stocks", "factiondata", "companydata"];
+const clearActions: ClearAction[] = ["clear-userdata", "clear-torndata", "clear-stocks", "clear-factiondata", "clear-companydata"];
 
 function isForceTarget(action: MaintenanceAction): action is ForceTarget {
 	return forceTargets.includes(action as any);

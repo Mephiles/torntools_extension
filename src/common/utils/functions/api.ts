@@ -1,10 +1,16 @@
-import { api, factiondata, userdata } from "@common/utils/data/database";
+import { api, companydata, factiondata, userdata } from "@common/utils/data/database";
 import type { ApiError } from "tornapi-typescript";
 
 export const FACTION_ACCESS = {
 	none: "none",
 	basic: "basic",
 	full_access: "full_access",
+} as const;
+
+export const COMPANY_ACCESS = {
+	none: "none",
+	basic: "basic",
+	director: "director",
 } as const;
 
 export function hasAPIData(): boolean {
@@ -19,6 +25,12 @@ export function hasFactionAPIAccess(): boolean {
 	if (!hasAPIData()) return false;
 
 	return !!userdata.faction && factiondata?.access === FACTION_ACCESS.full_access;
+}
+
+export function hasCompanyAPIAccess(): boolean {
+	if (!hasAPIData()) return false;
+
+	return !!userdata.job && userdata.job.type === "company" && companydata?.access === COMPANY_ACCESS.director;
 }
 
 export function hasOC2Data(): boolean {

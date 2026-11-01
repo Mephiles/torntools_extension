@@ -20,7 +20,12 @@
 				{ "message": "Fix timed travel features using double the actual time.", "contributor": "DeKleineKobini" },
 				{ "message": "Wait on voices to be loaded before triggering TTS.", "contributor": "DeKleineKobini" }
 			],
-			"changes": [],
+			"changes": [
+				{
+					"message": "Start storing basic information about the company you are in, in preparation for upcoming features.",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"removed": [],
 			"technical": [
 				{ "message": "Cleanup old code for icons.", "contributor": "DeKleineKobini" },

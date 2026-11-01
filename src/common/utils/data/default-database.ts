@@ -4,6 +4,7 @@ import type { StoredMigration } from "@common/utils/data/migrations";
 import type { FilterPresetsMap } from "@common/utils/functions/filter-presets.ts";
 import type { SpecialFilterValue } from "@common/utils/functions/filters";
 import type { LogLevel } from "@common/utils/functions/logger";
+import type { FetchedCompanydataBasic, FetchedCompanydataWithAccess } from "@extension/entrypoints/background/updates/companydata";
 import type { FetchedFactiondataBasic, FetchedFactiondataWithAccess } from "@extension/entrypoints/background/updates/factiondata";
 import type { FetchedTorndata } from "@extension/entrypoints/background/updates/torndata";
 import type { FetchedUserdata } from "@extension/entrypoints/background/updates/userdata";
@@ -932,6 +933,7 @@ export const DEFAULT_STORAGE = {
 		stocks: new DefaultSetting<StoredStocks>("array", []),
 	},
 	factiondata: new DefaultSetting<StoredFactiondata>("object", {} as StoredFactiondata),
+	companydata: new DefaultSetting<StoredCompanydata>("object", {} as StoredCompanydata),
 	localdata: {
 		nativeFilters: {
 			friends: new DefaultSetting("string", ""),
@@ -1113,9 +1115,14 @@ export interface FactionStakeoutEntry {
 type StoredStockNotifications = { [id: string]: { priceFalls: number; priceReaches: number } };
 
 export type StoredFactiondataNoAccess = { access: "none"; error?: any; retry?: number };
-export type StoredFactiondataBasic = { access: "basic"; retry?: number; date: number } & FetchedFactiondataBasic;
-type StoredFactiondataFullAccess = { access: "full_access"; date: number; userCrime: number } & FetchedFactiondataWithAccess;
+export type StoredFactiondataBasic = { access: "basic"; retry?: number } & FetchedFactiondataBasic;
+type StoredFactiondataFullAccess = { access: "full_access"; userCrime: number } & FetchedFactiondataWithAccess;
 export type StoredFactiondata = (StoredFactiondataNoAccess | StoredFactiondataBasic | StoredFactiondataFullAccess) & { date: number };
+
+export type StoredCompanydataNoAccess = { access: "none"; error?: any; retry?: number };
+export type StoredCompanydataBasic = { access: "basic"; retry?: number } & FetchedCompanydataBasic;
+type StoredCompanydataWithAccess = { access: "director" } & FetchedCompanydataWithAccess;
+export type StoredCompanydata = (StoredCompanydataNoAccess | StoredCompanydataBasic | StoredCompanydataWithAccess) & { date: number };
 
 export type StoredTorndata = FetchedTorndata & { itemsMap: Record<number | string, TornItem>; date: number };
 

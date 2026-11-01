@@ -1,10 +1,11 @@
 import { ttStorage } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
-import { api, factiondata, initializeDatabase, stockdata, torndata } from "@common/utils/data/database";
+import { api, companydata, factiondata, initializeDatabase, stockdata, torndata } from "@common/utils/data/database";
 import { isTornApiError } from "@common/utils/functions/api";
 import { CUSTOM_API_ERROR } from "@common/utils/functions/api-fetcher";
 import { logger } from "@common/utils/functions/logger";
 import { hasTimePassed, isSameUTCDay, TO_MILLIS } from "@common/utils/functions/utilities";
+import { updateCompanydata } from "@extension/entrypoints/background/updates/companydata";
 import { updateFactionStakeouts } from "@extension/entrypoints/background/updates/faction-stakeouts";
 import { updateFactiondata } from "@extension/entrypoints/background/updates/factiondata";
 import { updateNPCs } from "@extension/entrypoints/background/updates/npcs";
@@ -73,6 +74,13 @@ export async function timedUpdates() {
 						.then(() => logger.info("Updated factiondata."))
 						.catch((error) => logError("updating factiondata", error)),
 				);
+
+			if (!companydata || !("date" in companydata) || hasTimePassed(companydata.date, TO_MILLIS.MINUTES * 15))
+				updatePromises.push(
+					updateCompanydata()
+						.then(() => logger.info("Updated companydata."))
+						.catch((error) => logError("updating companydata", error)),
+				);
 		}
 
 		updatePromises.push(
@@ -118,7 +126,15 @@ async function verifyTime() {
 	if (savedTime != null && savedTime > Date.now()) {
 		logger.warn("Detected a desynchronized time! Resetting timed data.");
 		await ttCache.clear();
-		await Promise.all([updateUserdata(true), updateFactiondata(), updateTorndata(), updateStocks(), updateStakeouts(true), updateFactionStakeouts(true)]);
+		await Promise.all([
+			updateUserdata(true),
+			updateFactiondata(),
+			updateCompanydata(),
+			updateTorndata(),
+			updateStocks(),
+			updateStakeouts(true),
+			updateFactionStakeouts(true),
+		]);
 	}
 
 	await ttStorage.set({ time: now });

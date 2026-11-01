@@ -19,6 +19,7 @@ export type DatabaseStakeouts = Writable<DefaultStorageType["stakeouts"]>;
 export type DatabaseAttackHistory = Writable<DefaultStorageType["attackHistory"]>;
 type DatabaseNotes = Writable<DefaultStorageType["notes"]>;
 export type DatabaseFactiondata = Writable<DefaultStorageType["factiondata"]>;
+export type DatabaseCompanydata = Writable<DefaultStorageType["companydata"]>;
 type DatabaseQuick = Writable<DefaultStorageType["quick"]>;
 export type DatabaseLocaldata = Writable<DefaultStorageType["localdata"]>;
 export type DatabaseNpcs = Writable<DefaultStorageType["npcs"]>;
@@ -39,6 +40,7 @@ export interface Database {
 	attackHistory: DatabaseAttackHistory;
 	notes: DatabaseNotes;
 	factiondata: DatabaseFactiondata;
+	companydata: DatabaseCompanydata;
 	quick: DatabaseQuick;
 	localdata: DatabaseLocaldata;
 	npcs: DatabaseNpcs;
@@ -63,6 +65,7 @@ export let stakeouts: DatabaseStakeouts;
 export let attackHistory: DatabaseAttackHistory;
 export let notes: DatabaseNotes;
 export let factiondata: DatabaseFactiondata;
+export let companydata: DatabaseCompanydata;
 export let quick: DatabaseQuick;
 export let localdata: DatabaseLocaldata;
 export let npcs: DatabaseNpcs;
@@ -84,6 +87,7 @@ interface StorageListeners {
 	stakeouts: StorageListener<DatabaseStakeouts>[];
 	factionStakeouts: StorageListener<DatabaseFactionStakeouts>[];
 	factiondata: StorageListener<DatabaseFactiondata>[];
+	companydata: StorageListener<DatabaseCompanydata>[];
 	localdata: StorageListener<DatabaseLocaldata>[];
 	api: StorageListener<DatabaseApi>[];
 	npcs: StorageListener<DatabaseNpcs>[];
@@ -101,6 +105,7 @@ export const storageListeners: StorageListeners = {
 	stakeouts: [],
 	factionStakeouts: [],
 	factiondata: [],
+	companydata: [],
 	localdata: [],
 	api: [],
 	npcs: [],
@@ -122,6 +127,7 @@ export async function loadDatabase(force = false): Promise<Omit<Database, "time"
 			factionStakeouts,
 			notes,
 			factiondata,
+			companydata,
 			localdata,
 			cache: ttCache.cache,
 			api,
@@ -257,6 +263,7 @@ function populateDatabaseVariables(database: Database) {
 	attackHistory = database.attackHistory;
 	notes = database.notes;
 	factiondata = database.factiondata;
+	companydata = database.companydata;
 	quick = database.quick;
 	npcs = database.npcs;
 	stockdata = database.stockdata;
@@ -316,6 +323,9 @@ export function initializeDatabaseListener() {
 					case "factiondata":
 						factiondata = changes.factiondata.newValue as DatabaseFactiondata;
 						break;
+					case "companydata":
+						companydata = changes.companydata.newValue as DatabaseCompanydata;
+						break;
 					case "quick":
 						quick = changes.quick.newValue as DatabaseQuick;
 						break;
@@ -364,6 +374,10 @@ export function setStockdata(data: DatabaseStockdata) {
 
 export function setFactiondata(data: DatabaseFactiondata) {
 	factiondata = data;
+}
+
+export function setCompanydata(data: DatabaseCompanydata) {
+	companydata = data;
 }
 
 export function setTorndata(data: DatabaseTorndata) {

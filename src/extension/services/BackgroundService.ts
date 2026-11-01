@@ -7,6 +7,7 @@ import type { FetchLocation, FetchOptions } from "@common/utils/functions/api-fe
 import { resetAlarms } from "@extension/entrypoints/background";
 import { dispatchNotification, getNotificationSound, notificationTestPlayer } from "@extension/entrypoints/background/notifications";
 import { timedUpdates } from "@extension/entrypoints/background/updates";
+import { updateCompanydata } from "@extension/entrypoints/background/updates/companydata";
 import { updateFactiondata } from "@extension/entrypoints/background/updates/factiondata";
 import { updateStocks } from "@extension/entrypoints/background/updates/stockdata";
 import { updateTorndata } from "@extension/entrypoints/background/updates/torndata";
@@ -55,12 +56,13 @@ export class BackgroundService {
 		return fetchData<R>(location, options);
 	}
 
-	async forceUpdate(update: "torndata" | "stocks" | "factiondata" | "userdata"): Promise<ActionResponse> {
+	async forceUpdate(update: "torndata" | "stocks" | "factiondata" | "companydata" | "userdata"): Promise<ActionResponse> {
 		let updateFunction: (forceUpdate?: boolean) => Promise<void> | ReturnType<typeof updateUserdata>;
 
 		if (update === "torndata") updateFunction = updateTorndata;
 		else if (update === "stocks") updateFunction = updateStocks;
 		else if (update === "factiondata") updateFunction = updateFactiondata;
+		else if (update === "companydata") updateFunction = updateCompanydata;
 		else if (update === "userdata") updateFunction = updateUserdata;
 		else {
 			return { success: false, message: "Unknown update type." };

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { apiStore, factiondataStore, stockdataStore, torndataStore, userdataStore } from "../../stores/database-store.svelte";
-	import { getHealthStatus, isFactiondataHealthy, isStockdataHealthy, isTorndataHealthy, isUserdataHealthy } from "./data-health";
+	import { apiStore, companydataStore, factiondataStore, stockdataStore, torndataStore, userdataStore } from "../../stores/database-store.svelte";
+	import { getHealthStatus, isCompanydataHealthy, isFactiondataHealthy, isStockdataHealthy, isTorndataHealthy, isUserdataHealthy } from "./data-health";
 	import type { HealthStatus } from "./data-health";
 	import DataHealthCheck from "./DataHealthCheck.svelte";
 
@@ -25,6 +25,10 @@
 		{
 			label: "Factiondata",
 			status: getHealthStatus($factiondataStore, isFactiondataHealthy),
+		},
+		{
+			label: "Companydata",
+			status: getHealthStatus($companydataStore, isCompanydataHealthy),
 		},
 	]);
 

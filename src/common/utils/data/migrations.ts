@@ -21,6 +21,7 @@ export interface MigrationScript {
 export interface MigrationFlags {
 	updateUserdata: boolean;
 	updateFactiondata: boolean;
+	updateCompanydata: boolean;
 	updateStockdata: boolean;
 	updateTorndata: boolean;
 	clearCache: boolean;
@@ -295,6 +296,7 @@ export async function executeMigrationScripts(storage: Database, oldStorage: any
 	const flags: MigrationFlags = {
 		updateUserdata: false,
 		updateFactiondata: false,
+		updateCompanydata: false,
 		updateStockdata: false,
 		updateTorndata: false,
 		clearCache: false,
@@ -311,6 +313,7 @@ export async function executeMigrationScripts(storage: Database, oldStorage: any
 		storage.userdata.datePassive = 0;
 	}
 	if (flags.updateFactiondata) storage.factiondata.date = 0;
+	if (flags.updateCompanydata) storage.companydata.date = 0;
 	if (flags.updateStockdata) storage.stockdata.date = 0;
 	if (flags.updateTorndata) storage.torndata.date = 0;
 	if (flags.clearCache) storage.cache = {};
