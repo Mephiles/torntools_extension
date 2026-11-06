@@ -80,7 +80,6 @@
 			/>
 			<StorageSwitch path="settings.pages.api.autoFillKey" label="Automatically fill your API key" />
 			<StorageSwitch path="settings.pages.api.autoPretty" label="Automatically select pretty outputs" />
-			<StorageSwitch path="settings.pages.api.clickableSelections" label="Make API selections clickable" />
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 

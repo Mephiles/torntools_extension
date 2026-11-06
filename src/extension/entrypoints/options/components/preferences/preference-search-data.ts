@@ -335,7 +335,6 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 		group: "qol",
 		section: "information",
 	},
-	{ path: "settings.pages.api.clickableSelections", label: "Make API selections clickable", group: "qol", section: "information" },
 	{ path: "settings.pages.stocks.filter", label: "Filter: Stocks", group: "qol", section: "information" },
 	{ path: "settings.pages.auction.filter", label: "Filter: Auction House", group: "qol", section: "information" },
 	{ path: "settings.pages.bounties.filter", label: "Filter: Bounties", group: "qol", section: "information" },

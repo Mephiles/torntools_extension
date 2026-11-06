@@ -29,7 +29,9 @@
 					"contributor": "DeKleineKobini"
 				}
 			],
-			"removed": [],
+			"removed": [
+				{ "message": "Remove the 'Clickable API Selections' feature, as that is now a feature of the page itself.", "contributor": "DeKleineKobini" }
+			],
 			"technical": [
 				{ "message": "Cleanup old code for icons.", "contributor": "DeKleineKobini" },
 				{ "message": "Migrate to the V2 version of torn/stats.", "contributor": "DeKleineKobini" },
