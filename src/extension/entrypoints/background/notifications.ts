@@ -251,8 +251,6 @@ export interface NotificationRelation {
 }
 
 async function storeNotification(notification: TTNotification) {
-	const notificationHistory = await ttStorage.get("notificationHistory");
-
 	if ("combined" in notification) {
 		logger.warn("Trying to save a combined notification.", notification);
 		return;
@@ -262,10 +260,11 @@ async function storeNotification(notification: TTNotification) {
 		return;
 	}
 
-	notificationHistory.splice(0, 0, notification);
-	setNotificationHistory(notificationHistory.slice(0, 100));
-
-	await ttStorage.set({ notificationHistory });
+	await ttStorage.update("notificationHistory", (history) => {
+		history.splice(0, 0, notification);
+		history.splice(100);
+		setNotificationHistory(history);
+	});
 }
 
 export function getNotificationSound(type: string, allowDefault = false): string | null {

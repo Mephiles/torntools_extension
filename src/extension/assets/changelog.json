@@ -19,7 +19,8 @@
 				{ "message": "Hopefully avoid duplicate notifications.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix incorrect converting of timers on the travel page.", "contributor": "DeKleineKobini" },
 				{ "message": "Fix timed travel features using double the actual time.", "contributor": "DeKleineKobini" },
-				{ "message": "Wait on voices to be loaded before triggering TTS.", "contributor": "DeKleineKobini" }
+				{ "message": "Wait on voices to be loaded before triggering TTS.", "contributor": "DeKleineKobini" },
+				{ "message": "Stop the notification history from growing beyond its limit (100) in storage.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{

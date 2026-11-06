@@ -286,6 +286,13 @@ export const MIGRATIONS: MigrationScript[] = [
 			}
 		},
 	},
+	{
+		id: "e24f887f-9cc9-4c9d-a182-4fd61daac07c",
+		version: "9.3.3",
+		execute(database, _flags, _oldStorage) {
+			database.notificationHistory = database.notificationHistory.slice(0, 100);
+		},
+	},
 ];
 
 export async function executeMigrationScripts(storage: Database, oldStorage: any) {
