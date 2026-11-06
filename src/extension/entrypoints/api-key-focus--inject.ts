@@ -1,8 +1,6 @@
-import type { JQuery } from "@common/utils/type-helper";
-
-declare const $: (selector: string) => JQuery;
+import { findElement } from "@common/utils/functions/find-elements.ts";
 
 // noinspection JSUnusedGlobalSymbols
 export default defineUnlistedScript(() => {
-	$("#api_key").focusout();
+	findElement("#api-key").dispatchEvent(new Event("focusout"));
 });
