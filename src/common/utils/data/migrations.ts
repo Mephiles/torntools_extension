@@ -290,7 +290,16 @@ export const MIGRATIONS: MigrationScript[] = [
 		id: "e24f887f-9cc9-4c9d-a182-4fd61daac07c",
 		version: "9.3.3",
 		execute(database, _flags, _oldStorage) {
-			database.notificationHistory = database.notificationHistory.slice(0, 100);
+			database.notificationHistory.slice(0, 100);
+		},
+	},
+	{
+		id: "5380d85e-361d-47b1-9a10-7f3eb6128876",
+		version: "9.3.3",
+		execute(database, _flags, _oldStorage) {
+			Object.entries(database.notes.profile)
+				.filter(([, note]) => !note.text)
+				.forEach(([userId]) => delete database.notes.profile[userId]);
 		},
 	},
 ];

@@ -4,6 +4,7 @@ import { notes, settings } from "@common/utils/data/database";
 import { createContainer } from "@common/utils/functions/containers";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
+import { logger } from "@common/utils/functions/logger.ts";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -26,13 +27,19 @@ async function addNotes() {
 	}
 	content.appendChild(textarea);
 	textarea.addEventListener("input", (event) => {
-		saveNotes((event.target as HTMLInputElement).value, (event.target as HTMLInputElement).style.height);
+		saveNote(userID, (event.target as HTMLInputElement).value, (event.target as HTMLInputElement).style.height);
 	});
 
-	new MutationObserver(() => saveNotes(textarea.value, textarea.style.height)).observe(textarea, { attributes: true, attributeFilter: ["style"] });
+	new MutationObserver(() => saveNote(userID, textarea.value, textarea.style.height)).observe(textarea, { attributes: true, attributeFilter: ["style"] });
+}
 
-	function saveNotes(text: string, height: string) {
-		ttStorage.change({ notes: { profile: { [userID]: { text, height } } } });
+function saveNote(userId: string, text: string, height: string) {
+	if (!text.length) {
+		if (userId in notes.profile) {
+			ttStorage.update("notes", (notes) => delete notes.profile[userId]).catch((cause) => logger.error("Failed to remove the note.", cause));
+		}
+	} else {
+		ttStorage.change({ notes: { profile: { [userId]: { text, height } } } }).catch((cause) => logger.error("Failed to save the note.", cause));
 	}
 }
 function getUserID() {
