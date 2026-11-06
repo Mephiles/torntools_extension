@@ -27,7 +27,8 @@
 				{
 					"message": "Start storing basic information about the company you are in, in preparation for upcoming features.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Adapt 'API Demo' to the new API documentation page.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{ "message": "Remove the 'Clickable API Selections' feature, as that is now a feature of the page itself.", "contributor": "DeKleineKobini" }
