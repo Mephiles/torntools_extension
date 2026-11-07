@@ -83,7 +83,7 @@
 										rel="noreferrer">{row.info.name}</a
 									>
 								{:else}
-									<span class="text-muted-foreground">{row.isNew ? "Pending save" : "Unknown"}</span>
+									<span class="text-muted-foreground">Unknown</span>
 								{/if}
 							{:else if cell.column.id === "chain"}
 								{#if row.info && row.info.chain > 0}

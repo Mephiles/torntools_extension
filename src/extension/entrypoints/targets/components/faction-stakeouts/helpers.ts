@@ -2,15 +2,14 @@ import type { FactionStakeoutEntry, StoredFactionStakeouts } from "@common/utils
 import type { FactionStakeoutAlerts, FactionStakeoutRow } from "./columns";
 
 export function getFactionStakeoutRows(source: StoredFactionStakeouts | undefined): FactionStakeoutRow[] {
-	return [...(source?.list ?? [])].sort((a, b) => a.order - b.order).map((entry) => getFactionStakeoutRow(entry.id, entry, false));
+	return [...(source?.list ?? [])].sort((a, b) => a.order - b.order).map(getFactionStakeoutRow);
 }
 
-export function getFactionStakeoutRow(id: number, entry: FactionStakeoutEntry | null, isNew: boolean): FactionStakeoutRow {
+function getFactionStakeoutRow(entry: FactionStakeoutEntry): FactionStakeoutRow {
 	return {
-		id: id,
-		info: entry?.info ?? null,
-		alerts: getAlerts(entry?.alerts),
-		isNew,
+		id: entry.id,
+		info: entry.info,
+		alerts: getAlerts(entry.alerts),
 	};
 }
 
@@ -18,7 +17,7 @@ export function getStoredFactionStakeouts(sourceRows: FactionStakeoutRow[], curr
 	const now = Date.now();
 	return {
 		date: currentDate,
-		list: sourceRows.flatMap((row) => (row.info === null ? [] : [{ id: row.id, order: now, info: row.info, alerts: row.alerts }])),
+		list: sourceRows.map((row) => ({ id: row.id, order: now, info: row.info, alerts: row.alerts })),
 	};
 }
 

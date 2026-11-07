@@ -8,7 +8,7 @@
 	import { factionStakeoutsStore } from "../../stores/database-store.svelte";
 	import ResetAction from "../ResetAction.svelte";
 	import FactionStakeoutsTable from "./FactionStakeoutsTable.svelte";
-	import { getFactionStakeoutRow, getFactionStakeoutRows, getStoredFactionStakeouts } from "./helpers";
+	import { getAlerts } from "./helpers";
 
 	const amountOfRows = $derived($factionStakeoutsStore?.list?.length ?? 0);
 	let factionId = $state<number | null>(null);
@@ -18,21 +18,24 @@
 		toast.success("Faction stakeouts reset.");
 	}
 
-	function addFactionStakeout() {
+	async function addFactionStakeout() {
 		if (!factionId || Number.isNaN(factionId)) {
 			toast.error("Enter a valid faction ID.");
 			return;
 		}
 
-		const rows = getFactionStakeoutRows($factionStakeoutsStore);
-		if (rows.some((row) => row.id === factionId)) {
-			toast.error("This faction already has a stakeout.");
-			return;
-		}
+		const id = factionId;
+		await ttStorage
+			.update("factionStakeouts", (stakeouts) => {
+				if (stakeouts.list.some((entry) => entry.id === id)) {
+					toast.error("This faction already has a stakeout.");
+					return;
+				}
 
-		const nextStakeouts = getStoredFactionStakeouts([...rows, getFactionStakeoutRow(factionId, null, true)], $factionStakeoutsStore?.date ?? 0);
-		ttStorage.set({ factionStakeouts: nextStakeouts }).catch(logger.error);
-		factionId = null;
+				stakeouts.list.push({ id, order: Date.now(), alerts: getAlerts(), info: null });
+				factionId = null;
+			})
+			.catch(logger.error);
 	}
 </script>
 

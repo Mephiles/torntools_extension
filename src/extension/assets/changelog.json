@@ -22,7 +22,8 @@
 				{ "message": "Wait on voices to be loaded before triggering TTS.", "contributor": "DeKleineKobini" },
 				{ "message": "Stop the notification history from growing beyond its limit (100) in storage.", "contributor": "DeKleineKobini" },
 				{ "message": "Remove the stored profile note entirely when it is cleared.", "contributor": "DeKleineKobini" },
-				{ "message": "Selecting a car when joining a password protected race now works.", "contributor": "DeKleineKobini" }
+				{ "message": "Selecting a car when joining a password protected race now works.", "contributor": "DeKleineKobini" },
+				{ "message": "Resolve faction stakeouts not being able to be added through the targets page.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{
@@ -41,7 +42,8 @@
 				{ "message": "Migrate to the V2 version of torn/stats.", "contributor": "DeKleineKobini" },
 				{ "message": "Rework the internal data type for 'Highlight Cheap Items'.", "contributor": "DeKleineKobini" },
 				{ "message": "Write changes to the storage with a lock, avoiding overwritten information.", "contributor": "DeKleineKobini" },
-				{ "message": "Move notes to IndexedDB to reduce extension storage usage.", "contributor": "DeKleineKobini" }
+				{ "message": "Move notes to IndexedDB to reduce extension storage usage.", "contributor": "DeKleineKobini" },
+				{ "message": "Cleanup code for faction stakeouts.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

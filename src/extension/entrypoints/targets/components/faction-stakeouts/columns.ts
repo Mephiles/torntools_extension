@@ -29,7 +29,6 @@ export type FactionStakeoutRow = {
 	id: number;
 	info: FactionStakeoutInfo;
 	alerts: FactionStakeoutAlerts;
-	isNew: boolean;
 };
 
 const columnHelper = createColumnHelper<DataTableFeatures, FactionStakeoutRow>();
