@@ -59,55 +59,55 @@ export interface FetchDetails {
 export function injectFetchListeners() {
 	const oldFetch = RUNTIME_INFORMATION.getWindow().fetch;
 	(RUNTIME_INFORMATION.getWindow().fetch as any) = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> =>
-		new Promise((resolve, reject) => {
-			oldFetch(input, init)
-				.then(async (response: Response) => {
-					const page = response.url.slice(response.url.indexOf("torn.com/") + "torn.com/".length, response.url.indexOf(".php"));
-					let json = {};
-					try {
-						json = await response.clone().json();
-					} catch {}
+		oldFetch(input, init).then((response: Response) => {
+			const inspectable = response.clone();
 
-					let body: any = null;
-					if (init) {
-						if (typeof init.body === "string" && isJsonString(init.body)) {
-							try {
-								body = JSON.parse(init.body);
-							} catch {}
-						} else if (typeof init?.body === "object" && init.body?.constructor?.name === "FormData") {
-							const newBody: { [key: string]: any } = {};
+			void inspectFetchResponse(inspectable, input, init);
 
-							for (const [key, value] of init.body as any) {
-								if (isIntNumber(value)) newBody[key] = parseFloat(value);
-								else newBody[key] = value;
-							}
-
-							body = newBody;
-						} else {
-							body = init.body;
-						}
-					}
-
-					const url = response.url || (input as string);
-					const detail: FetchDetails = {
-						page,
-						json,
-						text: await response.clone().text(),
-						fetch: {
-							url,
-							body,
-							status: response.status,
-						},
-					};
-
-					window.dispatchEvent(new CustomEvent<FetchDetails>("tt-fetch", { detail }));
-
-					resolve(response);
-				})
-				.catch((error: any) => {
-					reject(error);
-				});
+			return response;
 		});
+}
+
+async function inspectFetchResponse(response: Response, input: RequestInfo | URL, init?: RequestInit) {
+	const page = response.url.slice(response.url.indexOf("torn.com/") + "torn.com/".length, response.url.indexOf(".php"));
+	let json = {};
+	try {
+		json = await response.clone().json();
+	} catch {}
+
+	let body: any = null;
+	if (init) {
+		if (typeof init.body === "string" && isJsonString(init.body)) {
+			try {
+				body = JSON.parse(init.body);
+			} catch {}
+		} else if (typeof init?.body === "object" && init.body?.constructor?.name === "FormData") {
+			const newBody: { [key: string]: any } = {};
+
+			for (const [key, value] of init.body as any) {
+				if (isIntNumber(value)) newBody[key] = parseFloat(value);
+				else newBody[key] = value;
+			}
+
+			body = newBody;
+		} else {
+			body = init.body;
+		}
+	}
+
+	const url = response.url || (input as string);
+	const detail: FetchDetails = {
+		page,
+		json,
+		text: await response.clone().text(),
+		fetch: {
+			url,
+			body,
+			status: response.status,
+		},
+	};
+
+	window.dispatchEvent(new CustomEvent<FetchDetails>("tt-fetch", { detail }));
 }
 
 export type XHRDetails = {

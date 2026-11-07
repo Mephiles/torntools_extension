@@ -29,7 +29,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Adapt 'API Demo' to the new API documentation page.", "contributor": "DeKleineKobini" },
-				{ "message": "Adapt 'Automatic API Key' to the new API documentation page.", "contributor": "DeKleineKobini" }
+				{ "message": "Adapt 'Automatic API Key' to the new API documentation page.", "contributor": "DeKleineKobini" },
+				{ "message": "No longer block the main flow in our fetch interceptor.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{ "message": "Remove the 'Clickable API Selections' feature, as that is now a feature of the page itself.", "contributor": "DeKleineKobini" }
