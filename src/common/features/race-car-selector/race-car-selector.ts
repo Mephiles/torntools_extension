@@ -5,7 +5,7 @@ import { hasAPIData } from "@common/utils/functions/api.ts";
 import { elementBuilder } from "@common/utils/functions/dom.ts";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events.ts";
 import { findElement } from "@common/utils/functions/find-elements";
-import { getPageStatus, getRFC } from "@common/utils/functions/torn";
+import { getPageStatus } from "@common/utils/functions/torn";
 import { PHFillCaretDown, PHFillCaretRight } from "@common/utils/icons/phosphor-icons.ts";
 import { Feature } from "@features/feature";
 import { findRecommendedCar, findTrackNamedCar, getRecommendedModelCars } from "@features/race-car-selector/car-ranking";
@@ -93,9 +93,12 @@ async function selectCar(track: TrackData | undefined) {
 
 	let url: string;
 	const joinAction = findElement<HTMLAnchorElement>(".btn-action-joinRace", true);
-	if (joinAction)
-		url = `/page.php?sid=racing&tab=customrace&section=getInRace&step=getInRace&id=${new URL(joinAction.href).searchParams.get("id")}&carID=${car.id}&rfcv=${getRFC()}`;
-	else url = `/page.php?sid=racing&tab=cars&section=changeRacingCar&step=changeRacingCar&id=${car.id}`;
+	if (joinAction) {
+		const baseLink = new URL(joinAction.href);
+		baseLink.searchParams.set("carID", String(car.id));
+
+		url = baseLink.href;
+	} else url = `/page.php?sid=racing&tab=cars&section=changeRacingCar&step=changeRacingCar&id=${car.id}`;
 
 	const preferredButton = elementBuilder({
 		type: "a",

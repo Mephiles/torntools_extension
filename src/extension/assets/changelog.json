@@ -21,7 +21,8 @@
 				{ "message": "Fix timed travel features using double the actual time.", "contributor": "DeKleineKobini" },
 				{ "message": "Wait on voices to be loaded before triggering TTS.", "contributor": "DeKleineKobini" },
 				{ "message": "Stop the notification history from growing beyond its limit (100) in storage.", "contributor": "DeKleineKobini" },
-				{ "message": "Remove the stored profile note entirely when it is cleared.", "contributor": "DeKleineKobini" }
+				{ "message": "Remove the stored profile note entirely when it is cleared.", "contributor": "DeKleineKobini" },
+				{ "message": "Selecting a car when joining a password protected race now works.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{
