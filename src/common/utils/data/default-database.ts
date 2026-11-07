@@ -1109,7 +1109,7 @@ export interface FactionStakeoutEntry {
 		rankedWar: boolean;
 		raid: boolean;
 		territoryWar: boolean;
-	};
+	} | null;
 }
 
 type StoredStockNotifications = { [id: string]: { priceFalls: number; priceReaches: number } };

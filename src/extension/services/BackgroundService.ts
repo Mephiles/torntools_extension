@@ -1,7 +1,9 @@
 import { ttStorage } from "@common/utils/context.ts";
 import { ttCache } from "@common/utils/data/cache";
 import type { CacheEntry, DatabaseCache } from "@common/utils/data/cache";
+import type { DatabaseNotes } from "@common/utils/data/database";
 import { bumpCacheVersion, getCache, removeCacheEntries, setCacheEntries } from "@common/utils/data/idb-cache";
+import { bumpNotesVersion, getNotes, removeNotes, setNotes } from "@common/utils/data/idb-notes";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { FetchLocation, FetchOptions } from "@common/utils/functions/api-fetcher";
 import { resetAlarms } from "@extension/entrypoints/background";
@@ -99,5 +101,19 @@ export class BackgroundService {
 	async cacheClearEntries(section?: string): Promise<void> {
 		await removeCacheEntries(section);
 		await bumpCacheVersion();
+	}
+
+	notesGet(): Promise<DatabaseNotes | undefined> {
+		return getNotes();
+	}
+
+	async notesSet(notes: DatabaseNotes): Promise<void> {
+		await setNotes(notes);
+		await bumpNotesVersion();
+	}
+
+	async notesClear(): Promise<void> {
+		await removeNotes();
+		await bumpNotesVersion();
 	}
 }

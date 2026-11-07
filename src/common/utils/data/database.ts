@@ -1,7 +1,7 @@
 import { RUNTIME_INFORMATION, RUNTIME_STORAGE, ttStorage } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import type { DatabaseCache } from "@common/utils/data/cache";
-import { DEFAULT_STORAGE, DefaultSetting } from "@common/utils/data/default-database";
+import { DEFAULT_STORAGE, DefaultSetting, getDefaultStorage } from "@common/utils/data/default-database";
 import type { DefaultStorageType } from "@common/utils/data/default-database";
 import { executeMigrationScripts } from "@common/utils/data/migrations";
 import { logger, setLogLevel } from "@common/utils/functions/logger";
@@ -17,7 +17,7 @@ export type DatabaseUserdata = Writable<DefaultStorageType["userdata"]>;
 export type DatabaseTorndata = Writable<DefaultStorageType["torndata"]>;
 export type DatabaseStakeouts = Writable<DefaultStorageType["stakeouts"]>;
 export type DatabaseAttackHistory = Writable<DefaultStorageType["attackHistory"]>;
-type DatabaseNotes = Writable<DefaultStorageType["notes"]>;
+export type DatabaseNotes = Writable<DefaultStorageType["notes"]>;
 export type DatabaseFactiondata = Writable<DefaultStorageType["factiondata"]>;
 export type DatabaseCompanydata = Writable<DefaultStorageType["companydata"]>;
 type DatabaseQuick = Writable<DefaultStorageType["quick"]>;
@@ -292,6 +292,11 @@ export function initializeDatabaseListener() {
 					case "cacheVersion":
 						void ttStorage.get("cache").then((cache) => ttCache.syncCache(cache ?? {}));
 						break;
+					case "notesVersion":
+						void ttStorage.get("notes").then((storedNotes) => {
+							if (storedNotes) notes = storedNotes;
+						});
+						break;
 					case "settings":
 						settings = changes.settings.newValue as DatabaseSettings;
 						setLogLevel(settings?.logLevel);
@@ -318,7 +323,7 @@ export function initializeDatabaseListener() {
 						attackHistory = changes.attackHistory.newValue as DatabaseAttackHistory;
 						break;
 					case "notes":
-						notes = changes.notes.newValue as DatabaseNotes;
+						notes = (changes.notes.newValue as DatabaseNotes | undefined) ?? (getDefaultStorage(DEFAULT_STORAGE).notes as DatabaseNotes);
 						break;
 					case "factiondata":
 						factiondata = changes.factiondata.newValue as DatabaseFactiondata;

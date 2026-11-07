@@ -1,6 +1,6 @@
 import type { CacheEntry, DatabaseCache } from "@common/utils/data/cache";
 import { api } from "@common/utils/data/database";
-import type { Database, DatabaseKey } from "@common/utils/data/database";
+import type { Database, DatabaseKey, DatabaseNotes } from "@common/utils/data/database";
 import { DEFAULT_STORAGE, getDefaultStorage } from "@common/utils/data/default-database";
 import {
 	bumpCacheVersion,
@@ -10,6 +10,7 @@ import {
 	removeCacheEntries,
 	setCacheEntries as idbSetCacheEntries,
 } from "@common/utils/data/idb-cache";
+import { bumpNotesVersion, FALLBACK_NOTES_KEY, getNotes, NOTES_VERSION_KEY, removeNotes, setNotes as idbSetNotes } from "@common/utils/data/idb-notes";
 import { TornToolsStorage } from "@common/utils/data/storage";
 import { logger } from "@common/utils/functions/logger";
 import { SCRIPT_TYPE } from "@common/utils/functions/utilities";
@@ -55,6 +56,28 @@ async function clearCacheFromStorage(section?: string): Promise<void> {
 	}
 }
 
+async function readNotes(): Promise<DatabaseNotes | undefined> {
+	return isContentScript ? BACKGROUND_SERVICE.notesGet() : getNotes();
+}
+
+async function writeNotes(notes: DatabaseNotes): Promise<void> {
+	if (isContentScript) {
+		await BACKGROUND_SERVICE.notesSet(notes);
+	} else {
+		await idbSetNotes(notes);
+		await bumpNotesVersion();
+	}
+}
+
+async function clearNotesFromStorage(): Promise<void> {
+	if (isContentScript) {
+		await BACKGROUND_SERVICE.notesClear();
+	} else {
+		await removeNotes();
+		await bumpNotesVersion();
+	}
+}
+
 export class TTExtensionStorage extends TornToolsStorage {
 	override get(): Promise<Database>;
 	override get<K extends DatabaseKey>(key: K): Promise<Database[K]>;
@@ -65,18 +88,27 @@ export class TTExtensionStorage extends TornToolsStorage {
 			if ((key as DatabaseKey[]).includes("cache")) {
 				data.cache = await readCache();
 			}
+			if ((key as DatabaseKey[]).includes("notes")) {
+				data.notes = await readNotes();
+			}
 
 			return key.map((i) => data[i]);
 		} else if (key) {
 			if (key === "cache") return await readCache();
+			if (key === "notes") return await readNotes();
 			return (await browser.storage.local.get([key]))[key];
 		} else {
 			const data = await browser.storage.local.get();
 			delete data[CACHE_VERSION_KEY];
 			delete data[FALLBACK_CACHE_KEY];
+			delete data[NOTES_VERSION_KEY];
+			delete data[FALLBACK_NOTES_KEY];
 
 			const cache = await readCache();
 			if (cache !== undefined) data.cache = cache;
+
+			const notes = await readNotes();
+			if (notes !== undefined) data.notes = notes;
 
 			return data;
 		}
@@ -84,11 +116,16 @@ export class TTExtensionStorage extends TornToolsStorage {
 
 	override async set(object: { [key: string]: any }) {
 		const cache = object.cache;
+		const notes = object.notes;
 		const rest = { ...object };
 		delete rest.cache;
+		delete rest.notes;
 
 		if (cache !== undefined) {
 			await writeCacheEntries(flattenCache(cache));
+		}
+		if (notes !== undefined) {
+			await writeNotes(notes);
 		}
 		if (Object.keys(rest).length) {
 			await browser.storage.local.set(rest);
@@ -108,7 +145,10 @@ export class TTExtensionStorage extends TornToolsStorage {
 
 		const writes: Promise<void>[] = [];
 		if (keys.includes("cache")) writes.push(clearCacheFromStorage());
-		if (keys.some((k) => k !== "cache")) writes.push(browser.storage.local.remove(keys.filter((k) => k !== "cache")));
+		if (keys.includes("notes")) writes.push(clearNotesFromStorage());
+
+		const rest = keys.filter((k) => k !== "cache" && k !== "notes");
+		if (rest.length) writes.push(browser.storage.local.remove(rest));
 
 		await Promise.all(writes);
 	}
@@ -116,6 +156,7 @@ export class TTExtensionStorage extends TornToolsStorage {
 	override async clear() {
 		await browser.storage.local.clear();
 		await clearCacheFromStorage();
+		await clearNotesFromStorage();
 	}
 
 	override async reset(key?: "attackHistory" | "stakeouts" | "factionStakeouts"): Promise<void> {
@@ -139,6 +180,7 @@ export class TTExtensionStorage extends TornToolsStorage {
 		if (browser.storage.local.getBytesInUse) {
 			size = await browser.storage.local.getBytesInUse();
 			size += JSON.stringify((await readCache()) ?? {}).length;
+			size += JSON.stringify((await readNotes()) ?? {}).length;
 		} else size = JSON.stringify(await this.get()).length;
 
 		return size;

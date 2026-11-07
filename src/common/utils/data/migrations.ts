@@ -1,5 +1,5 @@
 import { OFFLOAD_SERVICE, ttStorage } from "@common/utils/context";
-import type { Database } from "@common/utils/data/database";
+import type { Database, DatabaseNotes } from "@common/utils/data/database";
 import type { FactionStakeoutEntry, StakeoutData, StoredUserdata } from "@common/utils/data/default-database";
 import { toNumericVersion } from "@common/utils/functions/utilities";
 import type { SavedCustomLink } from "@features/custom-links/custom-links";
@@ -300,6 +300,18 @@ export const MIGRATIONS: MigrationScript[] = [
 			Object.entries(database.notes.profile)
 				.filter(([, note]) => !note.text)
 				.forEach(([userId]) => delete database.notes.profile[userId]);
+		},
+	},
+	{
+		id: "7c4f2d19-3b8e-4a5d-9f27-c6e1b0a83d54",
+		version: "9.3.3",
+		async execute(database, _flags, _oldStorage) {
+			// Read the notes from the storage directly, as otherwise it will be based on the IndexedDB storage.
+			const legacy = await browser.storage.local.get("notes");
+			if (typeof legacy?.notes !== "object" || !legacy.notes) return;
+
+			database.notes = legacy.notes as DatabaseNotes;
+			await browser.storage.local.remove("notes");
 		},
 	},
 ];

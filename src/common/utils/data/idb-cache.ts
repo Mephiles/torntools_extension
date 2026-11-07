@@ -1,9 +1,8 @@
 import type { CacheEntry, DatabaseCache } from "@common/utils/data/cache";
+import { createIndexedDBStore } from "@common/utils/data/idb";
 import { browser } from "wxt/browser";
 
-const DB_NAME = "tt-cache";
-const DB_VERSION = 2;
-const STORE_NAME = "cache";
+const store = createIndexedDBStore("tt-cache", "cache", 2);
 
 export const CACHE_VERSION_KEY = "cacheVersion";
 export const FALLBACK_CACHE_KEY = "cache-fallback";
@@ -18,72 +17,6 @@ interface StoredCacheEntry {
 	section: string;
 	key: string;
 	cacheValue: CacheEntry["cacheValue"];
-}
-
-let databasePromise: Promise<IDBDatabase> | null = null;
-let idbAvailable = true;
-
-function openDatabase(): Promise<IDBDatabase> {
-	if (databasePromise) return databasePromise;
-	if (!idbAvailable) return Promise.reject(new Error("IndexedDB is unavailable, falling back to extension storage"));
-
-	databasePromise = new Promise<IDBDatabase>((resolve, reject) => {
-		let openRequest: IDBOpenDBRequest | undefined;
-		try {
-			openRequest = indexedDB.open(DB_NAME, DB_VERSION);
-		} catch (error) {
-			idbAvailable = false;
-			databasePromise = null;
-			reject(error);
-			return;
-		}
-		const request = openRequest!;
-
-		request.onupgradeneeded = () => {
-			const database = request.result;
-			if (!database.objectStoreNames.contains(STORE_NAME)) {
-				database.createObjectStore(STORE_NAME);
-			}
-		};
-		request.addEventListener("success", () => {
-			const database = request.result;
-			database.addEventListener("close", () => {
-				databasePromise = null;
-			});
-			resolve(database);
-		});
-		request.addEventListener("error", () => {
-			idbAvailable = false;
-			databasePromise = null;
-			reject(request.error);
-		});
-	});
-
-	return databasePromise;
-}
-
-function requestToPromise<T>(request: IDBRequest<T>): Promise<T> {
-	return new Promise((resolve, reject) => {
-		request.addEventListener("success", () => resolve(request.result));
-		request.addEventListener("error", () => reject(request.error));
-	});
-}
-
-function transactionDone(transaction: IDBTransaction): Promise<void> {
-	return new Promise((resolve, reject) => {
-		transaction.addEventListener("complete", () => resolve());
-		transaction.addEventListener("error", () => reject(transaction.error));
-		transaction.addEventListener("abort", () => reject(transaction.error));
-	});
-}
-
-async function withStore<T>(mode: IDBTransactionMode, operation: (store: IDBObjectStore) => IDBRequest<T> | T): Promise<T> {
-	const database = await openDatabase();
-	const transaction = database.transaction(STORE_NAME, mode);
-	const result = operation(transaction.objectStore(STORE_NAME));
-	const value = result instanceof IDBRequest ? await requestToPromise(result) : result;
-	await transactionDone(transaction);
-	return value;
 }
 
 type StoredEntryMap = Record<string, StoredCacheEntry>;
@@ -130,10 +63,10 @@ function toCacheEntry({ section, key, cacheValue }: StoredCacheEntry): CacheEntr
 
 export async function getCacheEntries(): Promise<CacheEntry[]> {
 	try {
-		const records = await withStore("readonly", (store) => store.getAll() as IDBRequest<StoredCacheEntry[]>);
+		const records = await store.run("readonly", (cacheStore) => cacheStore.getAll() as IDBRequest<StoredCacheEntry[]>);
 		return records.map(toCacheEntry);
 	} catch (error) {
-		if (idbAvailable) throw error;
+		if (store.isAvailable) throw error;
 		return (await fallbackGetEntries()).map(toCacheEntry);
 	}
 }
@@ -157,18 +90,18 @@ export async function getCache(): Promise<DatabaseCache | undefined> {
 
 export async function setCacheEntries(entries: CacheEntry[]): Promise<void> {
 	try {
-		await withStore("readwrite", (store) => {
+		await store.run("readwrite", (cacheStore) => {
 			for (const entry of entries) {
 				const section = entry.section ?? "";
 				if (entry.deleted) {
-					store.delete([section, entry.key]);
+					cacheStore.delete([section, entry.key]);
 				} else {
-					store.put({ section, key: entry.key, cacheValue: entry.cacheValue }, [section, entry.key]);
+					cacheStore.put({ section, key: entry.key, cacheValue: entry.cacheValue }, [section, entry.key]);
 				}
 			}
 		});
 	} catch (error) {
-		if (idbAvailable) throw error;
+		if (store.isAvailable) throw error;
 		await fallbackApply(entries);
 	}
 }
@@ -176,13 +109,13 @@ export async function setCacheEntries(entries: CacheEntry[]): Promise<void> {
 export async function removeCacheEntries(section?: string): Promise<void> {
 	try {
 		if (section === undefined) {
-			await withStore("readwrite", (store) => store.clear());
+			await store.run("readwrite", (cacheStore) => cacheStore.clear());
 		} else {
-			await withStore("readwrite", (store) => store.delete(IDBKeyRange.bound([section], [section, []])));
+			await store.run("readwrite", (cacheStore) => cacheStore.delete(IDBKeyRange.bound([section], [section, []])));
 		}
 		await fallbackClear(section);
 	} catch (error) {
-		if (idbAvailable) throw error;
+		if (store.isAvailable) throw error;
 		await fallbackClear(section);
 	}
 }
