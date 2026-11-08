@@ -102,6 +102,12 @@
 	}
 }
 
+.rowStacked {
+	align-items: stretch;
+	flex-direction: column;
+	gap: 6px;
+}
+
 .copy {
 	display: grid;
 	gap: 2px;

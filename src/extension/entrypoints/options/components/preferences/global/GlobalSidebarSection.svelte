@@ -1,9 +1,7 @@
 <script lang="ts">
+	import IconPicker from "@common/utils/components/icon-picker/icon-picker.svelte";
 	import { ttStorage } from "@common/utils/context";
-	import { ALL_ICONS } from "@common/utils/functions/torn";
 	import { Badge } from "@svelte/components/ui/badge";
-	import { Button } from "@svelte/components/ui/button";
-	import * as Tooltip from "@svelte/components/ui/tooltip";
 	import Reminders from "@/entrypoints/options/components/preferences/global/Reminders.svelte";
 	import { settingsStore } from "../../../stores/database-store.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
@@ -12,7 +10,6 @@
 	import StorageSelect from "../StorageSelect.svelte";
 	import StorageSwitch from "../StorageSwitch.svelte";
 	import CustomLinks from "./CustomLinks.svelte";
-	import OfficialIcon from "./OfficialIcon.svelte";
 
 	const npcServiceOptions = [
 		{ value: "tornstats", label: "TornStats" },
@@ -24,11 +21,6 @@
 
 	async function updateHiddenIcons(nextIcons: string[]) {
 		await ttStorage.change({ settings: { hideIcons: nextIcons } });
-	}
-
-	function toggleHiddenIcon(icon: string) {
-		const current = $settingsStore.hideIcons;
-		void updateHiddenIcons(current.includes(icon) ? current.filter((entry) => entry !== icon) : [...current, icon]);
 	}
 </script>
 
@@ -96,26 +88,7 @@
 			<Badge variant={hiddenIconCount ? "secondary" : "outline"}>{hiddenIconCount} hidden</Badge>
 		{/snippet}
 
-		<div class="flex flex-wrap gap-1">
-			{#each ALL_ICONS as icon (icon.icon)}
-				<Tooltip.Root>
-					<Tooltip.Trigger>
-						{#snippet child({ props: _props })}
-							<Button
-								{..._props}
-								type="button"
-								size="icon-xs"
-								variant={$settingsStore.hideIcons.includes(icon.icon) ? "default" : "outline"}
-								onclick={() => toggleHiddenIcon(icon.icon)}
-							>
-								<OfficialIcon icon={icon.id} />
-							</Button>
-						{/snippet}
-					</Tooltip.Trigger>
-					<Tooltip.Content>{icon.description}</Tooltip.Content>
-				</Tooltip.Root>
-			{/each}
-		</div>
+		<IconPicker value={$settingsStore.hideIcons} onchange={(next) => void updateHiddenIcons(next)} />
 	</PreferenceSectionCard>
 
 	<CustomLinks />

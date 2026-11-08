@@ -1,6 +1,6 @@
 import type { PreferenceStoragePath, PreferenceStorageValue } from "@common/utils/data/preference-storage.ts";
 
-export type SettingControlType = "switch" | "number" | "text" | "select";
+export type SettingControlType = "switch" | "number" | "text" | "select" | "icons";
 
 export interface SettingsManifestOption {
 	value: string;

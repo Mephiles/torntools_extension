@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Container from "@common/utils/components/container/container.svelte";
+	import IconPicker from "@common/utils/components/icon-picker/icon-picker.svelte";
 	import type { DatabaseApi, DatabaseSettings } from "@common/utils/data/database";
 	import { getPreferenceValue } from "@common/utils/data/preference-storage";
 	import type { PreferenceStoragePath } from "@common/utils/data/preference-storage";
@@ -52,9 +53,13 @@
 	{@const type = controlType(entry, value)}
 	{@const id = entry.path.replaceAll(".", "-")}
 
-	<div class={styles.row}>
+	<div class={type === "icons" ? `${styles.row} ${styles.rowStacked}` : styles.row}>
 		<div class={styles.copy}>
-			<label class={styles.label} for={id}>{entry.label}</label>
+			{#if type === "icons"}
+				<div class={styles.label}>{entry.label}</div>
+			{:else}
+				<label class={styles.label} for={id}>{entry.label}</label>
+			{/if}
 			{#if entry.description}
 				<div class={styles.description}>{entry.description}</div>
 			{/if}
@@ -84,6 +89,8 @@
 					if (!Number.isNaN(parsed)) void setValue(entry.path, parsed);
 				}}
 			/>
+		{:else if type === "icons"}
+			<IconPicker value={Array.isArray(value) ? value : []} onchange={(next) => void setValue(entry.path, next)} />
 		{:else if type === "select"}
 			<select {id} class={styles.input} onchange={(event) => void setValue(entry.path, event.currentTarget.value)}>
 				{#each entry.options ?? [] as option (option.value)}
