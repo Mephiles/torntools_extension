@@ -13,6 +13,7 @@ import { getPageStatus } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 import type { UserCompany, UserJob, UserJobResponse } from "tornapi-typescript";
+import { calculateMissingStat, calculateMugPercentages } from "./company-specials-calculations";
 
 const data: Record<number, any> = {};
 
@@ -37,9 +38,6 @@ async function showMuggableCash(json: any) {
 
 	if (api) {
 		const masterfulLooting = userdata.merits.upgrades.find(({ id }) => id === 5)?.level ?? 0;
-		const merits = 1 + masterfulLooting * 0.05;
-		percentageMin *= merits;
-		percentageMax *= merits;
 
 		const id = json.result.user.userID;
 		let jobResult: UserJob | UserCompany | null;
@@ -51,10 +49,11 @@ async function showMuggableCash(json: any) {
 			ttCache.set({ [id]: jobResult }, TO_MILLIS.SECONDS * 30, "user-job");
 		}
 
-		if (jobResult?.type === "company" && jobResult.type_id === 5 && jobResult.rating >= 7) {
-			percentageMin /= 4;
-			percentageMax /= 4;
-		}
+		const targetReducesMug = jobResult?.type === "company" && jobResult.type_id === 5 && jobResult.rating >= 7;
+
+		const percentages = calculateMugPercentages({ masterfulLootingLevel: masterfulLooting, targetReducesMug });
+		percentageMin = percentages.min;
+		percentageMax = percentages.max;
 	}
 
 	const cash = parseInt(json.result.msg.money.replaceAll(",", ""));
@@ -106,10 +105,7 @@ async function calculateSpies(json: any) {
 	if (missing.length === 1) {
 		const missingStat = missing[0];
 
-		result[missingStat] = Object.entries(result)
-			.filter(([stat]) => missingStat !== stat)
-			.map(([stat, value]) => (stat === "total" || missingStat === "total" ? value : -value) as number)
-			.reduce((a, b) => a + b, 0);
+		result[missingStat] = calculateMissingStat(result, missingStat);
 
 		const element = findAllElements("ul.job-info > li", specialContext).find((element) => element.textContent.toLowerCase().startsWith(missingStat));
 

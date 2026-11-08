@@ -4,6 +4,7 @@ import { checkAPIPermission } from "@common/utils/functions/api-key";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
+import { noop } from "@common/utils/functions/utilities.ts";
 import { isPDA } from "@userscripts/utils/script-utils";
 import styles from "./script-fetch.module.css";
 
@@ -56,6 +57,10 @@ export async function requiresAPIKey() {
 		);
 		options.appendChild(keyInput);
 	});
+}
+
+export function optionalAPIKey() {
+	requiresAPIKey().then(noop, noop);
 }
 
 async function setKey(key: string) {

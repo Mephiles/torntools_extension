@@ -326,3 +326,5 @@ export function readableErrorMessage(error: unknown): string {
 
 	return `Unknown error, this should be reported: ${JSON.stringify(error)}`;
 }
+
+export function noop() {}
