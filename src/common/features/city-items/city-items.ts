@@ -287,7 +287,12 @@ async function showCityItemsContainer(items: CityItem[]) {
 	await requireElement("#map .leaflet-zoom-animated");
 
 	if (!contentElement || !document.contains(contentElement)) {
-		const { content, options } = createContainer("City Items", { class: "mt10", alwaysContent: true, nextElement: findElement("#tab-menu") });
+		const { content, options } = createContainer("City Items", {
+			class: "mt10",
+			// If there is value data available, we show the total value even if the container is collapsed.
+			alwaysContent: ITEM_RESOLVER.hasFullItems(),
+			nextElement: findElement("#tab-menu"),
+		});
 		contentElement = content;
 		showHighlightControl(options);
 	}
