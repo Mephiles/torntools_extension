@@ -134,7 +134,7 @@
 						{#if pda}
 							<div class={styles.description}>Provided by Torn PDA.</div>
 						{:else}
-							<div class={styles.description}>Shared by all TornTools userscripts that require an API key. Use a Limited Access key.</div>
+							<div class={styles.description}>Shared by all TornTools userscripts that use an API key. Use a Limited Access key.</div>
 						{/if}
 					</div>
 
