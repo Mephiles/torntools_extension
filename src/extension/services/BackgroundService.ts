@@ -59,7 +59,7 @@ export class BackgroundService {
 	}
 
 	async forceUpdate(update: "torndata" | "stocks" | "factiondata" | "companydata" | "userdata"): Promise<ActionResponse> {
-		let updateFunction: (forceUpdate?: boolean) => Promise<void> | ReturnType<typeof updateUserdata>;
+		let updateFunction: (forceUpdate?: boolean) => Promise<unknown>;
 
 		if (update === "torndata") updateFunction = updateTorndata;
 		else if (update === "stocks") updateFunction = updateStocks;

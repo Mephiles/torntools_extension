@@ -24,7 +24,11 @@
 				{ "message": "Remove the stored profile note entirely when it is cleared.", "contributor": "DeKleineKobini" },
 				{ "message": "Selecting a car when joining a password protected race now works.", "contributor": "DeKleineKobini" },
 				{ "message": "Resolve faction stakeouts not being able to be added through the targets page.", "contributor": "DeKleineKobini" },
-				{ "message": "Don't show an empty content body with 'City Items' when there is no value data available.", "contributor": "DeKleineKobini" }
+				{ "message": "Don't show an empty content body with 'City Items' when there is no value data available.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Skip the torn stats in the first 35 minutes of the Torn day, as Torn hasn't updated them yet, and fetch them separately once they are available.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{

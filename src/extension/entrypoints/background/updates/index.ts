@@ -4,14 +4,14 @@ import { api, companydata, factiondata, initializeDatabase, stockdata, torndata 
 import { isTornApiError } from "@common/utils/functions/api";
 import { CUSTOM_API_ERROR } from "@common/utils/functions/api-fetcher";
 import { logger } from "@common/utils/functions/logger";
-import { hasTimePassed, isSameUTCDay, TO_MILLIS } from "@common/utils/functions/utilities";
+import { hasTimePassed, TO_MILLIS } from "@common/utils/functions/utilities";
 import { updateCompanydata } from "@extension/entrypoints/background/updates/companydata";
 import { updateFactionStakeouts } from "@extension/entrypoints/background/updates/faction-stakeouts";
 import { updateFactiondata } from "@extension/entrypoints/background/updates/factiondata";
 import { updateNPCs } from "@extension/entrypoints/background/updates/npcs";
 import { updateStakeouts } from "@extension/entrypoints/background/updates/stakeouts";
 import { updateStocks } from "@extension/entrypoints/background/updates/stockdata";
-import { updateTorndata } from "@extension/entrypoints/background/updates/torndata";
+import { getTorndataUpdateMode, updateTorndata } from "@extension/entrypoints/background/updates/torndata";
 import { updateUserdata } from "@extension/entrypoints/background/updates/userdata";
 
 let lockTimedUpdates = false;
@@ -51,11 +51,15 @@ export async function timedUpdates() {
 					.catch((error) => logError("updating faction stakeouts", error)),
 			);
 
-			if (!torndata || !isSameUTCDay(new Date(torndata.date), new Date())) {
-				// Update once every torn day.
+			if (getTorndataUpdateMode(torndata) !== "none") {
+				// Update once every torn day, and retry the stats once Torn's daily cron has finished.
 				updatePromises.push(
 					updateTorndata()
-						.then(() => logger.info("Updated torndata."))
+						.then((mode) => {
+							if (mode === "partial") logger.info("Updated torndata, except for the stats (Torn hasn't updated them yet).");
+							else if (mode === "stats-only") logger.info("Updated torndata stats.");
+							else logger.info("Updated torndata.");
+						})
 						.catch((error) => logError("updating torndata", error)),
 				);
 			}

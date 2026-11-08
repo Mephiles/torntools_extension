@@ -1124,7 +1124,7 @@ export type StoredCompanydataBasic = { access: "basic"; retry?: number } & Fetch
 type StoredCompanydataWithAccess = { access: "director" } & FetchedCompanydataWithAccess;
 export type StoredCompanydata = (StoredCompanydataNoAccess | StoredCompanydataBasic | StoredCompanydataWithAccess) & { date: number };
 
-export type StoredTorndata = FetchedTorndata & { itemsMap: Record<number | string, TornItem>; date: number };
+export type StoredTorndata = FetchedTorndata & { itemsMap: Record<number | string, TornItem>; date: number; statsStale?: boolean };
 
 export type StoredStocks = TornStock[];
 export type StakeoutData = {
