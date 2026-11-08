@@ -11,7 +11,7 @@
 	function updateRows(nextRows: StakeoutRow[]) {
 		const nextStakeouts = getStoredStakeouts(nextRows);
 
-		ttStorage.set({ stakeouts: nextStakeouts });
+		ttStorage.update("stakeouts", (stakeouts) => (stakeouts.list = nextStakeouts.list));
 	}
 
 	function removeStakeout(id: number) {

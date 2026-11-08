@@ -1,22 +1,15 @@
 <script lang="ts">
 	import { ttStorage } from "@common/utils/context";
-	import type { StoredStakeouts } from "@common/utils/data/default-database";
 	import type { StakeoutRow } from "@extension/entrypoints/popup/components/dashboard/dashboard.svelte";
-	import { stakeoutsStore } from "@extension/entrypoints/popup/stores/database-store.svelte";
 	import { Button } from "@svelte/components/ui/button";
 	import TrashIcon from "phosphor-svelte/lib/TrashIcon";
 
 	const { row }: { row: StakeoutRow } = $props();
 
 	async function removeStakeout(id: number) {
-		if (!$stakeoutsStore) return;
-
-		const nextStakeouts: StoredStakeouts = {
-			...$stakeoutsStore,
-			list: ($stakeoutsStore.list ?? []).filter((e) => e.id !== id),
-		};
-
-		await ttStorage.set({ stakeouts: nextStakeouts });
+		await ttStorage.update("stakeouts", (stakeouts) => {
+			stakeouts.list = stakeouts.list.filter((e) => e.id !== id);
+		});
 	}
 
 	function clampPercent(value: number) {

@@ -18,21 +18,26 @@
 		toast.success("Faction stakeouts reset.");
 	}
 
-	async function addFactionStakeout() {
+	function addFactionStakeout() {
 		if (!factionId || Number.isNaN(factionId)) {
 			toast.error("Enter a valid faction ID.");
 			return;
 		}
 
 		const id = factionId;
-		await ttStorage
+		ttStorage
 			.update("factionStakeouts", (stakeouts) => {
 				if (stakeouts.list.some((entry) => entry.id === id)) {
 					toast.error("This faction already has a stakeout.");
 					return;
 				}
 
-				stakeouts.list.push({ id, order: Date.now(), alerts: getAlerts(), info: null });
+				stakeouts.list.push({
+					id,
+					order: Date.now(),
+					alerts: getAlerts(),
+					info: null,
+				});
 				factionId = null;
 			})
 			.catch(logger.error);

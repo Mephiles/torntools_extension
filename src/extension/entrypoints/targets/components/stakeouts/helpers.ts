@@ -2,16 +2,15 @@ import type { StakeoutData, StoredStakeouts } from "@common/utils/data/default-d
 import type { StakeoutAlerts, StakeoutRow } from "./columns";
 
 export function getStakeoutRows(source: StoredStakeouts | undefined): StakeoutRow[] {
-	return [...(source?.list ?? [])].sort((a, b) => a.order - b.order).map((entry) => getStakeoutRow(entry.id, entry, false));
+	return [...(source?.list ?? [])].sort((a, b) => a.order - b.order).map((entry) => getStakeoutRow(entry.id, entry));
 }
 
-export function getStakeoutRow(id: number, stakeout: StakeoutData | null, isNew: boolean): StakeoutRow {
+export function getStakeoutRow(id: number, stakeout: StakeoutData | null): StakeoutRow {
 	return {
 		id,
 		info: stakeout?.info ?? null,
 		label: stakeout?.label ?? "",
 		alerts: getAlerts(stakeout?.alerts),
-		isNew,
 	};
 }
 

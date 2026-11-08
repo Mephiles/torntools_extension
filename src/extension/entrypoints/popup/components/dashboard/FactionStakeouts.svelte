@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { ttStorage } from "@common/utils/context";
 	import type { DatabaseFactionStakeouts, DatabaseSettings } from "@common/utils/data/database";
-	import type { StoredFactionStakeouts } from "@common/utils/data/default-database";
 	import { factionStakeoutsStore, settingsStore } from "@extension/entrypoints/popup/stores/database-store.svelte";
 	import { Badge } from "@svelte/components/ui/badge";
 	import { Button } from "@svelte/components/ui/button";
@@ -22,14 +21,7 @@
 	const factionStakeoutRows = $derived(getFactionStakeoutRows($factionStakeoutsStore, $settingsStore));
 
 	async function removeFactionStakeout(id: number) {
-		if (!$factionStakeoutsStore) return;
-
-		const nextStakeouts: StoredFactionStakeouts = {
-			...$factionStakeoutsStore,
-			list: ($factionStakeoutsStore?.list ?? []).filter((e) => e.id !== id),
-		};
-
-		await ttStorage.set({ factionStakeouts: nextStakeouts });
+		await ttStorage.update("factionStakeouts", (factionStakeouts) => (factionStakeouts.list = factionStakeouts.list.filter((e) => e.id !== id)));
 	}
 
 	function getFactionStakeoutRows(source: DatabaseFactionStakeouts, settings: DatabaseSettings): FactionStakeoutRow[] {

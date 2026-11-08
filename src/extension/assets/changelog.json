@@ -43,7 +43,8 @@
 				{ "message": "Rework the internal data type for 'Highlight Cheap Items'.", "contributor": "DeKleineKobini" },
 				{ "message": "Write changes to the storage with a lock, avoiding overwritten information.", "contributor": "DeKleineKobini" },
 				{ "message": "Move notes to IndexedDB to reduce extension storage usage.", "contributor": "DeKleineKobini" },
-				{ "message": "Cleanup code for faction stakeouts.", "contributor": "DeKleineKobini" }
+				{ "message": "Cleanup code for faction stakeouts.", "contributor": "DeKleineKobini" },
+				{ "message": "Switch our way of updating the storage to be safer.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

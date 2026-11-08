@@ -99,7 +99,7 @@
 										>{row.info.name}</a
 									>
 								{:else}
-									<span class="text-muted-foreground">{row.isNew ? "Pending save" : "Unknown"}</span>
+									<span class="text-muted-foreground">Unknown</span>
 								{/if}
 							{:else if cell.column.id === "label"}
 								<Input value={row.label} placeholder="label..." oninput={(event) => onLabelChange(row.id, event.currentTarget.value)} />

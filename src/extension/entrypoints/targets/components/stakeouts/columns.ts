@@ -12,7 +12,6 @@ export type StakeoutRow = {
 	info: StakeoutInfo | null;
 	label: string;
 	alerts: StakeoutAlerts;
-	isNew: boolean;
 };
 
 const columnHelper = createColumnHelper<DataTableFeatures, StakeoutRow>();

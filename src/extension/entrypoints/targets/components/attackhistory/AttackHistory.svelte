@@ -10,8 +10,10 @@
 	const amountOfRows = $derived(Object.keys($attackHistoryStore?.history ?? {}).length);
 
 	async function resetHistory() {
-		const lastAttack = $attackHistoryStore.lastAttack;
-		await ttStorage.set({ attackHistory: { fetchData: true, lastAttack, history: {} } });
+		await ttStorage.update("attackHistory", (attackHistory) => {
+			attackHistory.fetchData = true;
+			attackHistory.history = {};
+		});
 
 		toast.success("Attack history reset.");
 	}

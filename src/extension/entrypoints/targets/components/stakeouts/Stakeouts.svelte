@@ -7,11 +7,11 @@
 	import { toast } from "svelte-sonner";
 	import { stakeoutsStore } from "../../stores/database-store.svelte";
 	import ResetAction from "../ResetAction.svelte";
-	import { getStakeoutRow, getStakeoutRows, getStoredStakeouts } from "./helpers";
+	import { getAlerts, getStakeoutRows } from "./helpers";
 	import StakeoutsTable from "./StakeoutsTable.svelte";
 
 	const amountOfRows = $derived($stakeoutsStore?.list?.length ?? 0);
-	let stakeoutId = $state<number | null>(null);
+	let userId = $state<number | null>(null);
 
 	async function resetStakeouts() {
 		await ttStorage.reset("stakeouts");
@@ -19,20 +19,30 @@
 	}
 
 	function addStakeout() {
-		if (!stakeoutId || Number.isNaN(stakeoutId)) {
+		if (!userId || Number.isNaN(userId)) {
 			toast.error("Enter a valid user ID.");
 			return;
 		}
 
 		const rows = getStakeoutRows($stakeoutsStore);
-		if (rows.some((row) => row.id === stakeoutId)) {
+		if (rows.some((row) => row.id === userId)) {
 			toast.error("This user already has a stakeout.");
 			return;
 		}
 
-		const nextStakeouts = getStoredStakeouts([...rows, getStakeoutRow(stakeoutId, null, true)], $stakeoutsStore?.date ?? 0);
-		ttStorage.set({ stakeouts: nextStakeouts }).catch(logger.error);
-		stakeoutId = null;
+		const id = userId;
+		ttStorage
+			.update("stakeouts", (stakeouts) => {
+				stakeouts.list.push({
+					id,
+					order: Date.now(),
+					info: null,
+					alerts: getAlerts(),
+					label: "",
+				});
+				userId = null;
+			})
+			.catch(logger.error);
 	}
 </script>
 
@@ -50,7 +60,7 @@
 				inputmode="numeric"
 				min="1"
 				placeholder="User ID"
-				bind:value={stakeoutId}
+				bind:value={userId}
 				onkeydown={(event) => event.key === "Enter" && addStakeout()}
 			/>
 			<Button onclick={addStakeout}>

@@ -9,9 +9,9 @@
 	const rows = $derived(getFactionStakeoutRows($factionStakeoutsStore));
 
 	function updateRows(nextRows: FactionStakeoutRow[]) {
-		const nextStakeouts = getStoredFactionStakeouts(nextRows, $factionStakeoutsStore?.date ?? 0);
+		const nextStakeouts = getStoredFactionStakeouts(nextRows);
 
-		ttStorage.set({ factionStakeouts: nextStakeouts });
+		ttStorage.update("factionStakeouts", (factionStakeouts) => (factionStakeouts.list = nextStakeouts.list));
 	}
 
 	function removeFactionStakeout(id: number) {
