@@ -312,6 +312,7 @@ export const MIGRATIONS: MigrationScript[] = [
 
 			database.notes = legacy.notes as DatabaseNotes;
 			await browser.storage.local.remove("notes");
+			await browser.storage.local.set({ "notes-backup": JSON.stringify(legacy.notes) });
 		},
 	},
 ];
