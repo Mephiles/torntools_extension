@@ -1,0 +1,160 @@
+import type { TornCalendarResponse } from "tornapi-typescript";
+
+export const BACKUP_CALENDAR_2026: TornCalendarResponse = {
+	calendar: {
+		competitions: [
+			{
+				title: "Elimination",
+				description:
+					"Twelve teams enter. One team survives. Be prepared to fight against friends and foes in this daily battle for survival which sees teams players eliminated one by one until a victor is crowned",
+				start: 1788609600,
+				end: 1789732800,
+				fixed_start_time: true,
+			},
+		],
+		events: [
+			{
+				title: "Awareness Awareness Week",
+				description: "Increased awareness for one week",
+				start: 1768780800,
+				end: 1769385599,
+				fixed_start_time: true,
+			},
+			{
+				title: "Weekend Road Trip",
+				description: "Double racing points & racing skill",
+				start: 1801396800,
+				end: 1770033599,
+				fixed_start_time: true,
+			},
+			{
+				title: "Valentine's Day",
+				description: "Love Juice reduces the energy cost of attacking & reviving",
+				start: 1771027200,
+				end: 1771113599,
+				fixed_start_time: false,
+			},
+			{
+				title: "Employee Appreciation Day",
+				description: "Job points received tripled & training effects tripled",
+				start: 1804248000,
+				end: 1772884799,
+				fixed_start_time: true,
+			},
+			{
+				title: "St Patrick's Day",
+				description: "Alcohol effects are doubled & Green Stout appears in city",
+				start: 1773705600,
+				end: 1773791999,
+				fixed_start_time: false,
+			},
+			{
+				title: "420 Day",
+				description: "Cannabis effects are tripled",
+				start: 1776643200,
+				end: 1776729599,
+				fixed_start_time: false,
+			},
+			{
+				title: "Museum Day",
+				description: "10% bonus to museum point rewards",
+				start: 1779062400,
+				end: 1779148799,
+				fixed_start_time: false,
+			},
+			{
+				title: "World Blood Donor Day",
+				description: "Life and cooldown penalties for drawing blood are halved",
+				start: 1781395200,
+				end: 1781481599,
+				fixed_start_time: false,
+			},
+			{
+				title: "World Population Day",
+				description: "Level and weapon EXP gained while attacking is doubled",
+				start: 1783728000,
+				end: 1783814399,
+				fixed_start_time: false,
+			},
+			{
+				title: "World Tiger Day",
+				description: "Hunting experience is increased by x5",
+				start: 1785283200,
+				end: 1785369599,
+				fixed_start_time: false,
+			},
+			{
+				title: "International Beer Day",
+				description: "Beer items are five times more effective",
+				start: 1786060800,
+				end: 1786147199,
+				fixed_start_time: false,
+			},
+			{
+				title: "Tourism Day",
+				description: "Travel capacity doubled for flights leaving during this event",
+				start: 1790467200,
+				end: 1790553599,
+				fixed_start_time: false,
+			},
+			{
+				title: "CaffeineCon 2026",
+				description: "Energy drink effects are doubled",
+				start: 1792022400,
+				end: 1792108799,
+				fixed_start_time: false,
+			},
+			{
+				title: "Trick or Treat",
+				description: "Dress up and attack others to fill your basket with treats",
+				start: 1792886400,
+				end: 1793577599,
+				fixed_start_time: false,
+			},
+			{
+				title: "World Diabetes Day",
+				description: "Candy effects are tripled",
+				start: 1794614400,
+				end: 1794700799,
+				fixed_start_time: false,
+			},
+			{
+				title: "Black Friday",
+				description: "Torn's yearly dollar sale sees many bazaars listing goods for $1",
+				start: 1795737600,
+				end: 1795823999,
+				fixed_start_time: true,
+			},
+			{
+				title: "Slash Wednesday",
+				description: "Hospital times reduced by 75%",
+				start: 1796774400,
+				end: 1796860799,
+				fixed_start_time: false,
+			},
+			{
+				title: "Torn Anniversary",
+				description: "Torn turns 22 years old",
+				start: 1794700800,
+				end: 1794787199,
+				fixed_start_time: true,
+			},
+			{
+				title: "Easter Egg Hunt",
+				description:
+					"A variety of different Easter eggs will appear at random throughout Torn. Pick them up to add them into your inventory, then consume them at your leisure to receive their powerful effects.",
+				start: 1775088000,
+				end: 1775692799,
+				fixed_start_time: false,
+			},
+			{
+				title: "Christmas town",
+				description:
+					"Torn's very own festive theme park opens its doors to the public, with citizens able to scour both official and player-created maps to search for treasure and avoid traps!",
+				start: 1797638400,
+				end: 1798761599,
+				fixed_start_time: false,
+			},
+		],
+	},
+} as const;
