@@ -25,8 +25,8 @@ export type FetchedTorndata = TornEducationResponse &
 const NON_STATS_SELECTIONS = ["education", "calendar", "properties", "honors", "medals", "items"];
 const STATS_SELECTION = "stats";
 
-// Expected duration of the daily cron for updating the stats is about 32 minutes. During this time the API will give an error when trying to fetch it.
-const STATS_BLACKOUT_MINUTES = 35;
+// Expected duration of the daily cron for updating the stats is about 35 minutes. During this time the API will give an error when trying to fetch it.
+const STATS_BLACKOUT_MINUTES = 40;
 
 export type TorndataUpdateMode = "none" | "partial" | "stats-only" | "full";
 
