@@ -13,6 +13,8 @@ const author = "DeKleineKobini [2114440] and the TornTools team";
 const icon = "https://www.google.com/s2/favicons?sz=64&domain=torn.com";
 
 const aliases = {
+	// WXT has claimed this alias, and thus is only allowed for extensions.
+	"@": "NOT_ALLOWED",
 	// Keep migrations out of userscript bundles (never executed there).
 	"@common/utils/data/migrations": resolve(root, "src/userscripts/runtime/migrations-noop.ts"),
 	"@common": resolve(root, "src/common"),
