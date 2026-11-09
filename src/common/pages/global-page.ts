@@ -18,11 +18,9 @@ import {
 
 export function handleDeviceSizeClasses() {
 	checkDevice().then(({ mobile, tablet }) => {
-		if (mobile) document.body.classList.add("tt-mobile");
-		else document.body.classList.remove("tt-mobile");
-
-		if (tablet) document.body.classList.add("tt-tablet");
-		else document.body.classList.remove("tt-tablet");
+		document.body.classList.toggle("tt-mobile", mobile);
+		document.body.classList.toggle("tt-tablet", tablet);
+		document.body.classList.toggle("tt-desktop", !mobile && !tablet);
 	});
 }
 

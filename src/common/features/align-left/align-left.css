@@ -1,16 +1,31 @@
-.tt-align-left .container {
-	margin-left: 20px !important;
-	justify-content: flex-start !important;
-}
+.tt-align-left {
+	&.tt-popout .content-wrapper[role="main"] {
+		margin-left: 0 !important;
+	}
 
-.tt-align-left.tt-popout .content-wrapper[role="main"] {
-	margin-left: 0 !important;
-}
+	.tt-desktop {
+		.container {
+			margin-left: 20px !important;
+			justify-content: flex-start !important;
+		}
 
-.tt-align-left .without-sidebar #mainContainer .content-wrapper {
-	margin-left: 20px;
-}
+		&.without-sidebar .content-wrapper {
+			margin-left: 20px;
+		}
 
-.tt-align-left .d .backdrops-container .custom-bg-desktop {
-	background-position: calc(967px + 20px) top;
+		.backdrops-container .custom-bg-desktop {
+			background-position: calc(967px + 20px) top;
+		}
+	}
+
+	.tt-mobile,
+	.tt-tablet {
+		#mainContainer {
+			align-items: start;
+		}
+
+		.content-wrapper {
+			margin-left: 20px;
+		}
+	}
 }

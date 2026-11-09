@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Align Left",
 	description: "Align the content of Torn's pages to the left.",
-	version: "1.0.0",
+	version: "1.0.1",
 	matches: ["https://*.torn.com/*"],
 	runAt: "document-start",
 };
