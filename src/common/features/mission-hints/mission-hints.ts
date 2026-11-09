@@ -250,7 +250,7 @@ async function showHints() {
 		},
 		rabbit_response: {
 			task: "Defeat 3 (P) within 30 - 10 minutes.",
-			hint: "Timer starts after attacking one of the targets, so make sure they are all out of the hospital.",
+			hint: "Timer starts after defeating one of the targets, so make sure they are all out of the hospital.",
 		},
 		reconstruction: {
 			task: "Equip kitchen knife and leather gloves, defeat (P) then dump both items.",

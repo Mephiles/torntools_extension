@@ -28,6 +28,10 @@
 				{
 					"message": "Skip the torn stats in the first 35 minutes of the Torn day, as Torn hasn't updated them yet, and fetch them separately once they are available.",
 					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Our mission hint of 'Rabbit Response' was wrong about the timer starting after the first attack, while it after the first defeat (so losing to a target does not start the timer).",
+					"contributor": "DeKleineKobini"
 				}
 			],
 			"changes": [
