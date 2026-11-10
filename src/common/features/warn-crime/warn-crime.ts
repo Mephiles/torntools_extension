@@ -5,6 +5,7 @@ import { hasOC1Data } from "@common/utils/functions/api";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { addFetchListener } from "@common/utils/functions/listeners";
+import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getUserDetails } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
@@ -49,23 +50,27 @@ function addListener() {
 				successChance: slot.successChance,
 			};
 		});
+
+		disableButtons().catch(logger.warn);
 	});
 }
 
 async function disableButtons() {
 	const list = await requireElement(".tt-oc2-list");
 	findAllElements("[class*='joinButton___']:not(.tt-warn-crime--processed)", list).forEach((button) => {
-		button.classList.add("tt-warn-crime--processed");
-
 		const scenarioElement = button.closest("[class*='contentLayer___']")!;
 		const slotElement = button.closest("[class*='wrapper___']")!;
 
 		const scenarioName = findElement("[class*='panelTitle___']", scenarioElement).textContent;
 		const position = findElement("[class*='title___']", slotElement).textContent;
 
+		const information = scenarioInformation[scenarioName]?.[position];
+		if (!information) return;
+
+		button.classList.add("tt-warn-crime--processed");
+
 		const blocked: string[] = [];
 
-		const information = scenarioInformation[scenarioName][position];
 		if (information.hasItem === false) blocked.push("item");
 
 		if (blocked.length) {
