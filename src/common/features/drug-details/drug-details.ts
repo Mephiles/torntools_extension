@@ -40,7 +40,10 @@ function initialiseDrugDetails() {
 			break;
 		case "itemmarket":
 			addCustomListener(EVENT_CHANNELS.ITEMMARKET_ITEM_DETAILS, ({ item, element }) => {
-				display(item, findElement("[class*='description___']", element));
+				showDetails(item, {
+					target: element,
+					changeListener: true,
+				}).catch(logger.error);
 			});
 			break;
 	}
@@ -138,6 +141,7 @@ async function showDetails(id: number, partialOptions: Partial<DrugDetailsOption
 	function findWrapper() {
 		return (
 			findElement(`li[itemid="${id}"] .view-item-info`, options.target, true) ||
+			(getPage() === "itemmarket" && isElement(options.target) && options.target) ||
 			findElement(
 				[
 					["item", "bazaar", "displaycase"].includes(getPage()) ? ".show-item-info" : "",
@@ -175,13 +179,6 @@ async function showDetails(id: number, partialOptions: Partial<DrugDetailsOption
 		});
 		observer.observe(element, { childList: true, attributes: true, subtree: true });
 	}
-}
-
-function display(id: number, parent: Element) {
-	const details = DRUG_INFORMATION[id];
-	if (!details) return;
-
-	show(parent, details);
 }
 
 function show(parent: Element, details: DrugDetail) {

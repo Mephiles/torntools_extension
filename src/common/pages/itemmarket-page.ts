@@ -81,7 +81,7 @@ function handleItemList(list: Element) {
 				.find((element) => element.className.includes("itemInfoWrapper___"));
 			if (!infoWrapper) return;
 
-			await requireElement(".tornPreloader", { invert: true });
+			await requireElement(".tornPreloader, [class*='preloaderWrapper___']", { parent: infoWrapper, invert: true });
 
 			const item = parseInt(
 				findElement<HTMLImageElement>("img", infoWrapper).src.match(/https:\/\/www\.torn\.com\/images\/items\/([0-9]+)\/.*\.png/)![1],
