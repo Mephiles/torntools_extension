@@ -5,6 +5,7 @@ import { settings } from "@common/utils/data/database";
 import { hasOC1Data } from "@common/utils/functions/api";
 import { fetchData } from "@common/utils/functions/api-fetcher.ts";
 import { addFetchListener } from "@common/utils/functions/listeners.ts";
+import { noop } from "@common/utils/functions/utilities";
 import { ExecutionTiming, Feature } from "@features/feature";
 
 function initialiseListeners() {
@@ -58,7 +59,7 @@ function processScenario(scenario: TornInternalCrimeData) {
 
 	submitScenarioData(scenarioData)
 		.then(() => ttCache.setIndefinite({ [scenarioId]: true }, "processed-scenarios"))
-		.catch(() => {});
+		.catch(noop);
 }
 
 function buildRoleMappings(playerSlots: TornInternalCrimePlayerSlot[]) {

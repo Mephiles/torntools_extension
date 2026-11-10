@@ -8,7 +8,7 @@ import { findAllElements, findElement } from "@common/utils/functions/find-eleme
 import { addFetchListener, addXHRListener } from "@common/utils/functions/listeners";
 import { logger } from "@common/utils/functions/logger";
 import { requireDOMContentLoaded, requireElement, requireElementOptionally } from "@common/utils/functions/requires";
-import { isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
+import { isIntNumber, noop, TO_MILLIS } from "@common/utils/functions/utilities";
 import type { UserFactionResponse } from "tornapi-typescript";
 
 export const isInternalFaction = getSearchParameters().get("step") === "your";
@@ -78,7 +78,7 @@ export async function setupFactionsPage() {
 		async function loadMain() {
 			await requireElement(".announcement")
 				.then(() => triggerCustomListener(EVENT_CHANNELS.FACTION_MAIN))
-				.catch(() => {});
+				.catch(noop);
 		}
 
 		async function loadInfo() {
@@ -97,7 +97,7 @@ export async function setupFactionsPage() {
 		async function loadCrimes() {
 			requireElement("#faction-crimes .crimes-list")
 				.then(() => triggerCustomListener(EVENT_CHANNELS.FACTION_CRIMES))
-				.catch(() => {});
+				.catch(noop);
 			requireElement("#faction-crimes-root [class*='buttonsContainer___']", { timeout: 1_000 })
 				.then(async (buttonsContainer) => {
 					const list = await requireElement("#faction-crimes-root .page-head-delimiter + div:not([class])");
@@ -118,7 +118,7 @@ export async function setupFactionsPage() {
 						}).observe(button, { attributes: true, attributeFilter: ["class"] });
 					});
 				})
-				.catch(() => {});
+				.catch(noop);
 		}
 
 		async function loadArmory() {

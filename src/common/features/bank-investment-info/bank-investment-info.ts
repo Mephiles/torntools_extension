@@ -10,6 +10,7 @@ import { elementBuilder } from "@common/utils/functions/dom";
 import { formatNumber, roundNearest } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, millisToNewDay } from "@common/utils/functions/torn";
+import { noop } from "@common/utils/functions/utilities.ts";
 import { Feature } from "@features/feature";
 import type { TornBank, TornBankResponse } from "tornapi-typescript";
 
@@ -82,7 +83,7 @@ function bankMoneyCellRenderer(bankMoneyData: MoneyInfo): BaseElement {
 
 	return {
 		element,
-		dispose: () => {},
+		dispose: noop,
 	};
 }
 

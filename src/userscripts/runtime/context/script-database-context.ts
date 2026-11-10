@@ -5,6 +5,7 @@ import { initializeDatabaseListener, migrateDatabase, setFilters, setLocaldata }
 import type { DatabaseFilters, DatabaseLocaldata } from "@common/utils/data/database";
 import { DEFAULT_STORAGE, getDefaultStorage } from "@common/utils/data/default-database";
 import type { RuntimeStorage, StorageChangeCallback } from "@common/utils/functions/context-interfaces";
+import { noop } from "@common/utils/functions/utilities";
 import { PDAScriptStorage, SharedSettingsScriptStorage, TTScriptStorage } from "@userscripts/runtime/script-storage";
 import type { SettingsManifest } from "@userscripts/settings/settings-manifest";
 import { registerScript } from "@userscripts/settings/shared-settings";
@@ -28,7 +29,7 @@ export async function registerDatabaseUserscriptContext(storagePrefix: string, m
 }
 
 export const UserscriptRuntimeStorage: RuntimeStorage & { callback: StorageChangeCallback } = {
-	callback: () => {},
+	callback: noop,
 	addChangeListener(callback: StorageChangeCallback) {
 		this.callback = callback;
 	},

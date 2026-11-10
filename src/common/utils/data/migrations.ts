@@ -1,7 +1,7 @@
 import { OFFLOAD_SERVICE, ttStorage } from "@common/utils/context";
 import type { Database, DatabaseNotes } from "@common/utils/data/database";
 import type { FactionStakeoutEntry, StakeoutData, StoredUserdata } from "@common/utils/data/default-database";
-import { toNumericVersion } from "@common/utils/functions/utilities";
+import { toNumericVersion, noop } from "@common/utils/functions/utilities";
 import type { SavedCustomLink } from "@features/custom-links/custom-links";
 import type { QuickItemId } from "@features/quick-items/shared/quick-items-common.ts";
 import { SPECIAL_MEDICAL_HOSPITAL, SPECIAL_MEDICAL_LIFE } from "@features/quick-items/shared/special-actions.ts";
@@ -173,7 +173,7 @@ export const MIGRATIONS: MigrationScript[] = [
 		id: "16d7de5c-e9ad-4060-966e-49b4252301c5",
 		version: "9.0.7",
 		execute(_database, _flags, _oldStorage) {
-			OFFLOAD_SERVICE.reinitializeTimers().catch(() => {});
+			OFFLOAD_SERVICE.reinitializeTimers().catch(noop);
 		},
 	},
 	{
@@ -190,7 +190,7 @@ export const MIGRATIONS: MigrationScript[] = [
 		id: "8a88db28-d02c-4b08-a672-bb73394b5ae4",
 		version: "9.0.12",
 		execute(_database, _flags, _oldStorage) {
-			OFFLOAD_SERVICE.reinitializeTimers().catch(() => {});
+			OFFLOAD_SERVICE.reinitializeTimers().catch(noop);
 		},
 	},
 	{

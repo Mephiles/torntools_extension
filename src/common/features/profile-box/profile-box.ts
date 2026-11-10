@@ -16,6 +16,7 @@ import { formatNumber } from "@common/utils/functions/formatting";
 import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isOwnProfile, millisToNewDay } from "@common/utils/functions/torn";
+import { noop } from "@common/utils/functions/utilities";
 import { PHBoldArrowClockwise, PHFillArrowsOutCardinal, PHFillGear } from "@common/utils/icons/phosphor-icons";
 import { Feature } from "@features/feature";
 import { STATS } from "@features/profile-box/stats-list";
@@ -44,7 +45,7 @@ function numberCellRenderer(value: StatValue | { relative: StatValue; value: Sta
 
 	return {
 		element: node,
-		dispose: () => {},
+		dispose: noop,
 	};
 }
 
@@ -69,7 +70,7 @@ function currencyCellRenderer(data: StatValue | { relative: StatValue; value: St
 
 	return {
 		element: node,
-		dispose: () => {},
+		dispose: noop,
 	};
 }
 
@@ -747,7 +748,7 @@ async function showBox() {
 
 				return {
 					element: document.createTextNode(respect),
-					dispose: () => {},
+					dispose: noop,
 				};
 			}
 
@@ -758,7 +759,7 @@ async function showBox() {
 
 				return {
 					element: document.createTextNode(ff),
-					dispose: () => {},
+					dispose: noop,
 				};
 			}
 

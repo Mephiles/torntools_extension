@@ -4,7 +4,7 @@ import { setNotificationHistory, settings } from "@common/utils/data/database";
 import type { TTFullNotification, TTNotification } from "@common/utils/data/default-database";
 import { hasInteractionSupport, hasSilentSupport } from "@common/utils/functions/browser";
 import { logger } from "@common/utils/functions/logger";
-import { isSpeechSynthesisAvailable, sleep, speakText, TO_MILLIS } from "@common/utils/functions/utilities";
+import { isSpeechSynthesisAvailable, sleep, speakText, TO_MILLIS, noop } from "@common/utils/functions/utilities";
 import type { OffscreenMessage } from "@extension/entrypoints/offscreen/offscreen";
 
 class AudioPlayer {
@@ -144,7 +144,7 @@ async function notifyUser(title: string, message: string, url?: string) {
 
 	if (settings.notifications.tts) {
 		readMessage(title + message)
-			.then(() => {})
+			.then(noop)
 			.catch(logger.error);
 	}
 

@@ -5,6 +5,7 @@ import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
+import { noop } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 import type { PersonalStatsCrimesV1, PersonalStatsCrimesV2 } from "tornapi-typescript";
 import { StatsEstimate } from "./stats-estimate";
@@ -23,7 +24,7 @@ async function showEstimate() {
 		statsEstimate
 			.fetchEstimate(id)
 			.then((estimate) => createElement(estimate, true, "defender"))
-			.catch(() => {});
+			.catch(noop);
 	}
 
 	function handleAttacker() {

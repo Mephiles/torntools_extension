@@ -4,7 +4,7 @@ import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/e
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { logger as _logger } from "@common/utils/functions/logger";
 import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requireElement } from "@common/utils/functions/requires";
-import { arraysEquals, objectsEquals, toClipboard } from "@common/utils/functions/utilities";
+import { arraysEquals, noop, objectsEquals, toClipboard } from "@common/utils/functions/utilities";
 import { PHBoldCheck, PHBoldCopy, PHBoldSpinnerGap, PHQuestion, PHXCircle } from "@common/utils/icons/phosphor-icons";
 import { SOURCE_SERVICE } from "@extension/services/proxy-services";
 import { ExecutionTiming } from "@features/feature";
@@ -91,7 +91,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 
 		this.generateErrorMessage(info, error)
 			.then((message) => logger.error(...message))
-			.catch(() => {});
+			.catch(noop);
 
 		if (!this.container) {
 			this.earlyErrors.push(error);

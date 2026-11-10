@@ -11,7 +11,7 @@ import { logger } from "@common/utils/functions/logger";
 import { requireElement, requireItemsLoaded } from "@common/utils/functions/requires";
 import type { XHRDetails } from "@common/utils/functions/script-injector";
 import { getPage, getPageStatus, getUserDetails } from "@common/utils/functions/torn";
-import { sleep } from "@common/utils/functions/utilities";
+import { noop, sleep } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 
 const page = getPage();
@@ -113,7 +113,7 @@ async function showInventoryList(type: string | null, items: any[], partialOptio
 						} else parent.insertAdjacentElement("afterend", priceElement);
 					}
 				})
-				.catch(() => {});
+				.catch(noop);
 		}
 	} else {
 		for (const price of findAllElements(".tt-item-price, #category-wrap .tt-ignore")) {

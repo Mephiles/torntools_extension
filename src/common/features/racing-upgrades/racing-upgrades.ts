@@ -6,6 +6,7 @@ import { applyPlural } from "@common/utils/functions/formatting";
 import { addXHRListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
+import { noop } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 
 function initialise() {
@@ -161,9 +162,9 @@ function cleanUpgrade(unlockElement: HTMLElement, part: string | null) {
 	findElement(".status", unlockElement).style.setProperty("background-color", "");
 	findElement(".status", unlockElement).classList.remove("tt-modified");
 	// oxlint-disable-next-line prefer-add-event-listener -- assignment resets (replaces) the previous handler
-	unlockElement.onmouseenter = () => {};
+	unlockElement.onmouseenter = noop;
 	// oxlint-disable-next-line prefer-add-event-listener -- assignment resets (replaces) the previous handler
-	unlockElement.onmouseleave = () => {};
+	unlockElement.onmouseleave = noop;
 
 	for (const item of findAllElements(".pm-items .unlock")) {
 		if (item.getAttribute("data-part") === part || part === null) {

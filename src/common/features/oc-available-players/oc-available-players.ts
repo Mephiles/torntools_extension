@@ -4,6 +4,7 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { applyPlural } from "@common/utils/functions/formatting";
 import { createMessageBox, getPageStatus } from "@common/utils/functions/torn";
+import { noop } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 
 function initialiseListeners() {
@@ -18,16 +19,16 @@ function startFeature() {
 
 function showAvailable() {
 	if (findElement("div.plans-list.p10", true)) {
-		displayAvailable(0).then(() => {});
+		displayAvailable(0).then(noop);
 	} else {
 		const list = findElement("ul.plans-list", true);
 		if (!list) {
-			displayAvailable(-1).then(() => {});
+			displayAvailable(-1).then(noop);
 			return;
 		}
 		const members = findAllElements(".item", list).length;
 
-		displayAvailable(members).then(() => {});
+		displayAvailable(members).then(noop);
 	}
 
 	async function displayAvailable(amount: number) {

@@ -1,6 +1,6 @@
 import type { BaseElement } from "@common/utils/elements/base-element";
 import { elementBuilder } from "@common/utils/functions/dom";
-import { getTypedKeyOf, groupBy } from "@common/utils/functions/utilities";
+import { getTypedKeyOf, groupBy, noop } from "@common/utils/functions/utilities";
 import type { TypedKeyOf } from "@common/utils/functions/utilities";
 import "./table.css";
 import { PHFillCaretDown, PHFillCaretUp } from "@common/utils/icons/phosphor-icons";
@@ -41,7 +41,7 @@ export function stringCellRenderer(value: string | number): BaseElement<Node> {
 
 	return {
 		element,
-		dispose: () => {},
+		dispose: noop,
 	};
 }
 

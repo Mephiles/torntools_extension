@@ -1,5 +1,6 @@
 import type { CacheEntry } from "@common/utils/data/cache";
 import type { Database, DatabaseKey, RecursivePartial, Writable } from "@common/utils/data/database";
+import { noop } from "@common/utils/functions/utilities";
 
 type ChangeFunction<K extends DatabaseKey> = (database: Database[K]) => void;
 
@@ -24,10 +25,7 @@ export abstract class TornToolsStorage {
 		const previous = this.keyLocks.get(key) ?? Promise.resolve();
 		const current = previous.then(fn, fn);
 
-		this.keyLocks.set(
-			key,
-			current.catch(() => {}),
-		);
+		this.keyLocks.set(key, current.catch(noop));
 
 		return await current;
 	}

@@ -7,6 +7,7 @@ import { logger } from "@common/utils/functions/logger";
 import { requireChatsLoaded, requireCondition, requireContent } from "@common/utils/functions/requires";
 import { updateTimers } from "@common/utils/functions/timers";
 import { getPage } from "@common/utils/functions/torn";
+import { noop } from "@common/utils/functions/utilities.ts";
 import {
 	SELECTOR_CHAT_ROOT,
 	SELECTOR_CHAT_V3__BOX,
@@ -145,7 +146,7 @@ export function runGlobalPageScripts() {
 	SCRIPT_INJECTOR.injectFetch();
 	SCRIPT_INJECTOR.injectXHR();
 	requireCondition(() => document.body).then(() => {
-		handleTheme().catch(() => {});
+		handleTheme().catch(noop);
 		createOverlay();
 		observeChat().catch(logger.error);
 		observeBody().catch(logger.error);

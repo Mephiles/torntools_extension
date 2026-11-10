@@ -1,12 +1,13 @@
 import { afterEach, describe, expect, it, mock, spyOn } from "bun:test";
+import { noop } from "@common/utils/functions/utilities.ts";
 import { getLogLevel, isLogLevel, logger, setLogLevel } from "./logger";
 
 function captureConsole() {
 	return {
-		log: spyOn(console, "log").mockImplementation(() => {}),
-		warn: spyOn(console, "warn").mockImplementation(() => {}),
-		error: spyOn(console, "error").mockImplementation(() => {}),
-		debug: spyOn(console, "debug").mockImplementation(() => {}),
+		log: spyOn(console, "log").mockImplementation(noop),
+		warn: spyOn(console, "warn").mockImplementation(noop),
+		error: spyOn(console, "error").mockImplementation(noop),
+		debug: spyOn(console, "debug").mockImplementation(noop),
 	};
 }
 

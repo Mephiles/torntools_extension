@@ -134,7 +134,7 @@ export function toCorrectType(object: { [key: string]: any }) {
 
 export function toClipboard(text: string) {
 	if (navigator?.clipboard?.writeText) {
-		navigator.clipboard.writeText(text).then(() => {});
+		navigator.clipboard.writeText(text).then(noop);
 		return true;
 	} else {
 		const textarea = elementBuilder({ type: "textarea", value: text, style: { position: "absolute", left: "-9999px" }, attributes: { readonly: "" } });

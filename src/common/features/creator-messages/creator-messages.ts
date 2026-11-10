@@ -2,6 +2,7 @@ import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
+import { noop } from "@common/utils/functions/utilities.ts";
 import { CORE_TEAM } from "@common/utils/team";
 import { Feature } from "@features/feature";
 import styles from "./creator-messages.module.css";
@@ -10,7 +11,7 @@ function initialiseListeners() {
 	window.addEventListener("hashchange", () => {
 		if (getHashParameters().get("p") !== "compose") return;
 
-		startCreatorMessage().then(() => {});
+		startCreatorMessage().then(noop);
 	});
 }
 

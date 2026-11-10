@@ -11,7 +11,7 @@ mock.module("@common/utils/data/database", () => ({
 }));
 
 mock.module("@common/utils/context", () => ({
-	ttStorage: { set: async () => {} },
+	ttStorage: { set: Promise.resolve() },
 }));
 
 mock.module("@common/utils/functions/api-fetcher", () => ({

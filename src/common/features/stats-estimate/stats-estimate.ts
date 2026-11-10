@@ -6,7 +6,7 @@ import { elementBuilder, showLoadingPlaceholder } from "@common/utils/functions/
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
 import { findAllElements } from "@common/utils/functions/find-elements";
 import { RANK_TRIGGERS, RANKS } from "@common/utils/functions/torn";
-import { sleep, TO_MILLIS } from "@common/utils/functions/utilities";
+import { sleep, TO_MILLIS, noop } from "@common/utils/functions/utilities";
 import type { UserPersonalStatsPopular, UserProfileResponse } from "tornapi-typescript";
 
 const ESTIMATE_INSTANCES: { [name: string]: StatsEstimate } = {};
@@ -103,7 +103,7 @@ export class StatsEstimate {
 				} else this.queue.push({ row, section: field, id, hasFilter: options.hasFilter });
 			});
 
-		this.runQueue().then(() => {});
+		this.runQueue().then(noop);
 	}
 
 	async runQueue() {
