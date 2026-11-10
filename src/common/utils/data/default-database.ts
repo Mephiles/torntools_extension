@@ -206,6 +206,8 @@ export const DEFAULT_STORAGE = {
 				showAllyWarning: new DefaultSetting("boolean", true),
 				ageToWords: new DefaultSetting("boolean", true),
 				disableAllyAttacks: new DefaultSetting("boolean", true),
+				preventJoinAttacks: new DefaultSetting("boolean", true),
+				preventJoinAttacksSkipNpcs: new DefaultSetting("boolean", true),
 				box: new DefaultSetting("boolean", true),
 				boxStats: new DefaultSetting("boolean", true),
 				boxSpy: new DefaultSetting("boolean", true),

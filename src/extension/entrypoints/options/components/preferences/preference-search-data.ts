@@ -415,6 +415,8 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 		section: "combat",
 		keywords: ["friendly fire"],
 	},
+	{ path: "settings.pages.profile.preventJoinAttacks", label: "Show a warning when joining an attack", group: "qol", section: "combat" },
+	{ path: "settings.pages.profile.preventJoinAttacksSkipNpcs", label: "Skip the warning for attackable NPCs", group: "qol", section: "combat" },
 	{ path: "settings.scripts.statsEstimate.global", label: "Stats Estimate", group: "qol", section: "combat" },
 	{ path: "settings.scripts.statsEstimate.maxLevel", label: "Stats Estimate: max level", group: "qol", section: "combat" },
 	{ path: "settings.scripts.statsEstimate.delay", label: "Stats Estimate: delay requests", group: "qol", section: "combat" },

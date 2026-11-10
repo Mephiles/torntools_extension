@@ -42,6 +42,9 @@
 				<StorageSwitch path="settings.pages.attack.timeoutWarning" label="Play a sound when the time on your attack drops below 30 seconds" />
 				<StorageSwitch path="settings.pages.attack.fairAttack" label="Show FF modifier" description="Requires attack history to be kept." />
 				<StorageSwitch path="settings.pages.attack.bonusInformation" label="Show information about weapon bonuses in the attack log" />
+				<StorageSwitch path="settings.pages.profile.preventJoinAttacks" label="Show a warning when joining an attack">
+					<StorageSwitch path="settings.pages.profile.preventJoinAttacksSkipNpcs" label="Skip the warning for attackable NPCs" />
+				</StorageSwitch>
 			</PreferenceSettingGroup>
 
 			<PreferenceSettingGroup title="Hide Attack Options" contentClass="grid gap-1 grid-cols-2 sm:grid-cols-3">

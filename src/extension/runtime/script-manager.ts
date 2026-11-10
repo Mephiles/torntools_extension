@@ -190,6 +190,7 @@ import PersistentListFilterFeature from "@features/persistent-list-filter/persis
 import PickpocketingFilterFeature from "@features/pickpocketing-filter/pickpocketing-filter";
 import PointsValueFeature from "@features/points-value/points-value";
 import PreferenceSettingsFeature from "@features/preference-settings/preference-settings";
+import PreventJoinAttacksFeature from "@features/prevent-join-attacks/prevent-join-attacks.ts";
 import ProfileBoxFeature from "@features/profile-box/profile-box";
 import ProfileIDFeature from "@features/profile-id/profile-id";
 import ProfileNotesFeature from "@features/profile-notes/profile-notes";
@@ -522,6 +523,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new HideAttackButtonsFeature());
 		FEATURE_MANAGER.registerFeature(new AttackTimeoutWarningFeature());
 		FEATURE_MANAGER.registerFeature(new DisableAllyAttacksLoaderFeature());
+		FEATURE_MANAGER.registerFeature(new PreventJoinAttacksFeature());
 		FEATURE_MANAGER.registerFeature(new FairAttackFeature());
 		FEATURE_MANAGER.registerFeature(new FFScouterAttackFeature());
 		FEATURE_MANAGER.registerFeature(new PageTitleFeature());

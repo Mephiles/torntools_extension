@@ -11,7 +11,8 @@
 				{ "message": "Hide the flavour text of successful crimes 2 outcomes.", "contributor": "DeKleineKobini" },
 				{ "message": "Disable Search for Cash places below a minimum success chance.", "contributor": "DeKleineKobini" },
 				{ "message": "Add a minimum level filter to Bounty Filter.", "contributor": "Deviyl" },
-				{ "message": "Reminder for company trains, for directors.", "contributor": "DeKleineKobini" }
+				{ "message": "Reminder for company trains, for directors.", "contributor": "DeKleineKobini" },
+				{ "message": "Show a warning before joining an attack instead of starting one.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Stop the import dialog from growing beyond the screen.", "contributor": "xhang98" },
