@@ -14,7 +14,8 @@
 				{ "message": "Reminder for company trains, for directors.", "contributor": "DeKleineKobini" },
 				{ "message": "Show a warning before joining an attack instead of starting one.", "contributor": "DeKleineKobini" },
 				{ "message": "Show the current chance of winning each lottery.", "contributor": "AwesomeOddEven" },
-				{ "message": "Suggest listing prices on the item market.", "contributor": "AwesomeOddEven" }
+				{ "message": "Suggest listing prices on the item market.", "contributor": "AwesomeOddEven" },
+				{ "message": "Show estimated gym gains.", "contributor": "AwesomeOddEven" }
 			],
 			"fixes": [
 				{ "message": "Stop the import dialog from growing beyond the screen.", "contributor": "xhang98" },
