@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { lotteryChance } from "./lottery-chance-calculation";
+import { lotteryChance, lotteryTickets } from "./lottery-chance-calculation";
 
 describe("lotteryChance", () => {
 	it("calculates the percentage of tickets owned", () => {
@@ -17,5 +17,28 @@ describe("lotteryChance", () => {
 		]) {
 			expect(lotteryChance(owned, total)).toBeNull();
 		}
+	});
+});
+
+describe("lotteryTickets", () => {
+	it("matches ticket totals using the lottery identity", () => {
+		const data = {
+			DB: {
+				runningLotteries: [
+					{ templateClass: "daily-dime", totalTickets: 1000 },
+					{ templateClass: "lucky-shot", totalTickets: 500 },
+				],
+				currentUserStats: { 2: [{ templateClass: "lucky-shot", totalTickets: 5 }], 1: [{ templateClass: "daily-dime", totalTickets: 25 }] },
+			},
+		};
+		expect(lotteryTickets(data)).toEqual([
+			{ id: "daily-dime", owned: 25, total: 1000 },
+			{ id: "lucky-shot", owned: 5, total: 500 },
+		]);
+	});
+
+	it("ignores incomplete responses", () => {
+		expect(lotteryTickets({})).toEqual([]);
+		expect(lotteryTickets({ DB: { runningLotteries: [{ templateClass: "daily-dime", totalTickets: 100 }], currentUserStats: {} } })).toEqual([]);
 	});
 });
