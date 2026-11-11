@@ -34,10 +34,10 @@ import AlignLeftFeature from "@features/align-left/align-left";
 import ArmoryFilterFeature from "@features/armory-filter/armory-filter";
 import ArmoryWorthFeature from "@features/armory-worth/armory-worth";
 import AttackTimeoutWarningFeature from "@features/attack-timeout-warning/attack-timeout-warning";
-import "@common/utils/global/globalStyle.css";
-import "@common/utils/global/globalVariables.css";
 import AuctionHouseFilterFeature from "@features/auction-house-filter/auction-house-filter";
 import AuctionHouseMovePaginationFeature from "@features/auction-house-move-pagination/auction-house-move-pagination";
+import "@common/utils/global/globalStyle.css";
+import "@common/utils/global/globalVariables.css";
 import AveragePersonalStatFeature from "@features/average-personal-stat/average-personal-stat";
 import BalanceWarningFeature from "@features/balance-warning/balance-warning.ts";
 import BankInvestmentDueTimeFeature from "@features/bank-investment-due-time/bank-investment-due-time";
@@ -145,6 +145,7 @@ import HighlightOCFeature from "@features/highlight-oc/highlight-oc";
 import HighlightPropertiesFeature from "@features/highlight-properties/highlight-properties";
 import HospitalFilterFeature from "@features/hospital-filter/hospital-filter";
 import ItemMarketLeftBarFeature from "@features/item-market-left-bar/item-market-left-bar";
+import ItemMarketPriceSuggestionFeature from "@features/item-market-price-suggestion/item-market-price-suggestion";
 import ItemValuesFeature from "@features/item-values/item-values";
 import JailFilterFeature from "@features/jail-filter/jail-filter";
 import JobSpecialsFeature from "@features/job-specials/job-specials";
@@ -480,6 +481,7 @@ export function scriptManager() {
 		setupItemMarketPage().catch(logger.debug);
 		FEATURE_MANAGER.registerFeature(new HighlightCheapItemsFeature());
 		FEATURE_MANAGER.registerFeature(new ItemMarketFillMaxFeature());
+		FEATURE_MANAGER.registerFeature(new ItemMarketPriceSuggestionFeature());
 		FEATURE_MANAGER.registerFeature(new ItemMarketLeftBarFeature());
 		FEATURE_MANAGER.registerFeature(new BazaarMarketFeature());
 	} else if (page === "jail") {

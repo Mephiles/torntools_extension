@@ -7,6 +7,14 @@
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
 	import StorageSwitch from "../StorageSwitch.svelte";
 
+	const priceSuggestionOffset = $derived(String($settingsStore.pages.itemmarket.priceSuggestionOffset));
+
+	async function updatePriceSuggestionOffset(value: string) {
+		const amount = Number(value);
+		if (!Number.isSafeInteger(amount) || amount < 0) return;
+		await ttStorage.change({ settings: { pages: { itemmarket: { priceSuggestionOffset: amount } } } });
+	}
+
 	const cheapItemThreshold = $derived(String($settingsStore.pages.itemmarket.highlightCheapItems ?? ""));
 
 	async function updateCheapItemThreshold(value: string) {
@@ -62,6 +70,23 @@
 			<StorageSwitch path="settings.pages.itemmarket.highlightCheapItemsSound" label="Play a sound when highlighting cheap items" />
 			<StorageSwitch path="settings.pages.itemmarket.leftBar" label="Move the market bar to the left" />
 			<StorageSwitch path="settings.pages.itemmarket.fillMax" label="Fill Max" />
+			<StorageSwitch
+				path="settings.pages.itemmarket.priceSuggestion"
+				label="Suggest item market listing prices"
+				description="Uses the lowest market listing minus the selected offset when requested."
+			>
+				<Field.Field orientation="responsive">
+					<Field.Label for="price-suggestion-offset">Amount below lowest listing</Field.Label>
+					<Input
+						id="price-suggestion-offset"
+						type="number"
+						min="0"
+						step="1"
+						value={priceSuggestionOffset}
+						oninput={(event) => updatePriceSuggestionOffset(event.currentTarget.value)}
+					/>
+				</Field.Field>
+			</StorageSwitch>
 			<StorageSwitch path="settings.pages.itemmarket.bazaars" label="Bazaar entries" externalServices={["tornw3b"]}>
 				<StorageSwitch path="settings.pages.itemmarket.bazaarItemHighlight" label="Highlight the opened item" />
 				<StorageSwitch path="settings.pages.itemmarket.bazaarItemHighlightScroll" label="Scroll to the highlighted item" />

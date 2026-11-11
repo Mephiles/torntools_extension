@@ -5,7 +5,6 @@
 		"date": false,
 		"logs": {
 			"features": [
-				{ "message": "Show the current chance of winning each lottery.", "contributor": "AwesomeOddEven" },
 				{ "message": "Show gym details for locked gyms on hover.", "contributor": "DeKleineKobini" },
 				{ "message": "Remember the native sort and filter of the friends, enemies and targets lists.", "contributor": "DeKleineKobini" },
 				{ "message": "Filter pickpocketing targets.", "contributor": "DeKleineKobini" },
@@ -13,7 +12,9 @@
 				{ "message": "Disable Search for Cash places below a minimum success chance.", "contributor": "DeKleineKobini" },
 				{ "message": "Add a minimum level filter to Bounty Filter.", "contributor": "Deviyl" },
 				{ "message": "Reminder for company trains, for directors.", "contributor": "DeKleineKobini" },
-				{ "message": "Show a warning before joining an attack instead of starting one.", "contributor": "DeKleineKobini" }
+				{ "message": "Show a warning before joining an attack instead of starting one.", "contributor": "DeKleineKobini" },
+				{ "message": "Show the current chance of winning each lottery.", "contributor": "AwesomeOddEven" },
+				{ "message": "Suggest listing prices on the item market.", "contributor": "AwesomeOddEven" }
 			],
 			"fixes": [
 				{ "message": "Stop the import dialog from growing beyond the screen.", "contributor": "xhang98" },
