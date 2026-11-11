@@ -258,6 +258,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 		keywords: ["item market"],
 	},
 	{ path: "settings.pages.itemmarket.leftBar", label: "Move the market bar to the left", group: "financial", section: "markets", keywords: ["item market"] },
+	{ path: "settings.pages.itemmarket.priceSuggestion", label: "Suggest item market listing prices", group: "financial", section: "markets" },
 	{ path: "settings.pages.itemmarket.fillMax", label: "Item Market Fill Max", group: "financial", section: "markets" },
 	{ path: "settings.pages.itemmarket.bazaars", label: "Bazaar entries", group: "financial", section: "markets", keywords: ["tornw3b"] },
 	{ path: "settings.pages.itemmarket.bazaarItemHighlight", label: "Highlight the opened item", group: "financial", section: "markets" },

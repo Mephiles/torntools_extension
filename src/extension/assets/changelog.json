@@ -8,7 +8,12 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [
+				{
+					"message": "Suggest listing prices on the item market.",
+					"contributor": "AwesomeOddEven"
+				}
+			],
 			"fixes": [],
 			"changes": [],
 			"removed": [],
