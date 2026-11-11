@@ -1,4 +1,3 @@
-import "./disable-ally-attacks.css";
 import { isAttackData } from "@common/pages/attack-loader-page";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
@@ -8,6 +7,7 @@ import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus, isOwnProfile } from "@common/utils/functions/torn";
 import { ExecutionTiming, Feature } from "@features/feature";
+import styles from "./disable-ally-attacks.module.css";
 
 let closedOption = false;
 
@@ -27,28 +27,24 @@ async function startListener() {
 
 async function disableAttackButton(factionID: number | null) {
 	if (!factionID) return;
-	if (findElement(".tt-disable-ally-attack", true)) return;
-
-	const selector =
-		mobile || tablet
-			? "[class*='playerArea__'] [class*='modal__'][class*='defender___']"
-			: "[class*='player___']:has([class*='rose___']) [class*='modal__']";
+	if (findElement(`.${styles.disableAllyAttack}`, true)) return;
 
 	if (!((hasAPIData() && userdata.faction?.id === factionID) || settings.alliedFactions.some((ally) => ally === factionID))) {
 		return;
 	}
 
+	const selector =
+		mobile || tablet
+			? "[class*='playerArea__'] [class*='modal__'][class*='defender___']"
+			: "[class*='player___']:has([class*='rose___']) [class*='modal__']";
 	const node = await requireElement(selector);
 
 	const warning = elementBuilder({
 		type: "div",
-		class: "tt-disable-ally-attack",
+		class: styles.disableAllyAttack,
 		text: "Blocked by TornTools. This player is an ally. Click here if you are sure to attack.",
 	});
 	warning.addEventListener("click", (event) => {
-		event.preventDefault();
-		event.stopImmediatePropagation();
-
 		if (confirm("Are you sure you want to attack this ally?")) {
 			closedOption = true;
 			(event.currentTarget as Element).remove();

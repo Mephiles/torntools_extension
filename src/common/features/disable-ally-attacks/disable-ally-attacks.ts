@@ -1,4 +1,3 @@
-import "./disable-ally-attacks.css";
 import { settings, userdata } from "@common/utils/data/database";
 import { hasAPIData } from "@common/utils/functions/api";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
@@ -8,6 +7,7 @@ import { getPageStatus, isOwnProfile } from "@common/utils/functions/torn";
 import { isIntNumber } from "@common/utils/functions/utilities";
 import { PHX } from "@common/utils/icons/phosphor-icons.ts";
 import { Feature } from "@features/feature";
+import styles from "./disable-ally-attacks.module.css";
 
 async function startObserver() {
 	new MutationObserver(() => disableAttackButton()).observe(await requireElement(".profile-container"), { childList: true });
@@ -42,14 +42,14 @@ async function disableAttackButton() {
 		if (!attackButton || attackButton.classList.contains("cross")) return;
 
 		const crossSvgNode = PHX();
-		crossSvgNode.classList.add("tt-disable-ally");
+		crossSvgNode.classList.add(styles.disableAlly);
 		attackButton.insertAdjacentElement("beforeend", crossSvgNode);
 		crossSvgNode.addEventListener("click", listenerFunction, { capture: true });
 	}
 }
 
 function enableButton() {
-	findAllElements("#profileroot .tt-disable-ally").forEach((x) => x.remove());
+	findAllElements(`.${styles.disableAlly}`).forEach((x) => x.remove());
 }
 
 export default class DisableAllyAttacksFeature extends Feature {

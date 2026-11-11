@@ -1,11 +1,11 @@
-.tt-disable-ally {
+.disable-ally {
 	width: 48px;
 	height: 48px;
 	position: absolute;
 	color: var(--tt-color-item-text);
 }
 
-.tt-disable-ally-attack {
+.disable-ally-attack {
 	display: flex;
 	align-items: center;
 	justify-content: center;
