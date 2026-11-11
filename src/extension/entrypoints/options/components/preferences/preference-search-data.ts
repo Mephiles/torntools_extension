@@ -317,6 +317,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	},
 	{ path: "settings.pages.education.greyOut", label: "Grey out completed education categories", group: "qol", section: "information" },
 	{ path: "settings.pages.education.finishTime", label: "Show education course finish time", group: "qol", section: "information" },
+	{ path: "settings.pages.lottery.chance", label: "Show current lottery chances", group: "qol", section: "information" },
 	{ path: "settings.pages.missions.hints", label: "Mission hints", group: "qol", section: "information", keywords: ["missions"] },
 	{ path: "settings.pages.missions.rewards", label: "Mission reward information", group: "qol", section: "information", keywords: ["missions"] },
 	{ path: "settings.pages.museum.autoFill", label: "Autofill number of sets in museum", group: "qol", section: "information" },

@@ -33,9 +33,9 @@ import AlcoholNerveFeature from "@features/alcohol-nerve/alcohol-nerve";
 import AlignLeftFeature from "@features/align-left/align-left";
 import ArmoryFilterFeature from "@features/armory-filter/armory-filter";
 import ArmoryWorthFeature from "@features/armory-worth/armory-worth";
+import AttackTimeoutWarningFeature from "@features/attack-timeout-warning/attack-timeout-warning";
 import "@common/utils/global/globalStyle.css";
 import "@common/utils/global/globalVariables.css";
-import AttackTimeoutWarningFeature from "@features/attack-timeout-warning/attack-timeout-warning";
 import AuctionHouseFilterFeature from "@features/auction-house-filter/auction-house-filter";
 import AuctionHouseMovePaginationFeature from "@features/auction-house-move-pagination/auction-house-move-pagination";
 import AveragePersonalStatFeature from "@features/average-personal-stat/average-personal-stat";
@@ -154,6 +154,7 @@ import LastActionCompanyFeature from "@features/last-action/last-action-company"
 import LastActionFactionFeature from "@features/last-action/last-action-faction";
 import LeasePriceRecommendationFeature from "@features/lease-price-recommendation/lease-price-recommendation";
 import LiveNetworthFeature from "@features/live-networth/live-networth";
+import LotteryChanceFeature from "@features/lottery-chance/lottery-chance";
 import MarketIconsFeature from "@features/market-icons/market-icons";
 import MedicalLifeFeature from "@features/medical-life/medical-life";
 import MemberInactivityWarningFeature from "@features/member-inactivity-warning/member-inactivity-warning";
@@ -485,6 +486,8 @@ export function scriptManager() {
 		setupJailPage();
 		FEATURE_MANAGER.registerFeature(new JailFilterFeature());
 		FEATURE_MANAGER.registerFeature(new UserAliasUserlistFeature());
+	} else if (page === "lottery") {
+		FEATURE_MANAGER.registerFeature(new LotteryChanceFeature());
 	} else if (page === "missions") {
 		setupMissionsPage();
 		FEATURE_MANAGER.registerFeature(new MissionHintsFeature());

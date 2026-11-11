@@ -57,6 +57,12 @@
 		</PreferenceSettingGroup>
 	</PreferenceSectionCard>
 
+	<PreferenceSectionCard title="Lottery">
+		<PreferenceSettingGroup>
+			<StorageSwitch path="settings.pages.lottery.chance" label="Show current lottery chances" />
+		</PreferenceSettingGroup>
+	</PreferenceSectionCard>
+
 	<PreferenceSectionCard title="Missions">
 		<PreferenceSettingGroup>
 			<StorageSwitch path="settings.pages.missions.hints" label="Mission hints" />

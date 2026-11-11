@@ -68,6 +68,7 @@ export const CONTRIBUTORS: Record<string, number | null> = {
 	aHunterGatherer: 2657909,
 	Aida: 4294353,
 	AllMight: 1878147,
+	AwesomeOddEven: 4312834,
 	Anti0815: 2793691,
 	Callz: 2188704,
 	Conrado: 2631918,
