@@ -9,6 +9,11 @@
 		<StorageSwitch path="settings.pages.gym.specialist" label="Show specialist gym requirements" />
 		<StorageSwitch path="settings.pages.gym.disableStats" label="Allow stats to be disabled" />
 		<StorageSwitch path="settings.pages.gym.steadfast" label="Show current steadfast bonus for each stat" />
+		<StorageSwitch
+			path="settings.pages.gym.gainEstimate"
+			label="Show estimated gym gains"
+			description="Includes recognized perks when available; other bonuses may be missing."
+		/>
 		<StorageSwitch path="settings.pages.gym.progress" label="Display estimated gym energy progress" />
 		<StorageSwitch path="settings.pages.gym.titles" label="Show gym details for locked gyms" />
 		<StorageSwitch path="settings.pages.gym.graph" label="Display stat graph" externalServices={["tornstats"]} />

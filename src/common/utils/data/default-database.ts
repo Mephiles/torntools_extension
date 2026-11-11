@@ -455,6 +455,7 @@ export const DEFAULT_STORAGE = {
 				disableStats: new DefaultSetting("boolean", true),
 				graph: new DefaultSetting("boolean", true),
 				steadfast: new DefaultSetting("boolean", true),
+				gainEstimate: new DefaultSetting("boolean", false),
 				progress: new DefaultSetting("boolean", true),
 				titles: new DefaultSetting("boolean", true),
 			},
