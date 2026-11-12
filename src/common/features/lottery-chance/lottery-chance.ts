@@ -36,7 +36,7 @@ function updateChances(data?: { id: string; owned: number; total: number }[]) {
 			display.className = styles.lotteryChance;
 			description.appendChild(display);
 		}
-		const text = `Current chance: ${chance.toFixed(6)}%`;
+		const text = `Current Chance: ${chance.toFixed(6)}%`;
 		if (display.textContent !== text) display.textContent = text;
 	}
 }
