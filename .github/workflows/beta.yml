@@ -10,13 +10,6 @@ on:
             - "src/extension/**"
             - "package.json"
             - "wxt.config.*"
-    pull_request_target:
-        paths:
-            - "public/**"
-            - "src/common/**"
-            - "src/extension/**"
-            - "package.json"
-            - "wxt.config.*"
     workflow_dispatch:
         inputs:
             pr:
@@ -24,7 +17,7 @@ on:
                 required: false
 
 concurrency:
-    group: ${{ github.workflow }}-${{ github.event.pull_request.number || inputs.pr || github.ref }}
+    group: ${{ github.workflow }}-${{ inputs.pr || github.ref }}
     cancel-in-progress: true
 
 jobs:
@@ -37,7 +30,7 @@ jobs:
         steps:
             - uses: actions/checkout@v7
               with:
-                  ref: ${{ github.event.pull_request.head.sha || inputs.pr && format('refs/pull/{0}/head', inputs.pr) || github.sha }}
+                  ref: ${{ inputs.pr && format('refs/pull/{0}/head', inputs.pr) || github.sha }}
 
             - uses: oven-sh/setup-bun@v2
 
@@ -74,7 +67,7 @@ jobs:
               env:
                   PG_TT_TOKEN: ${{ secrets.PG_TT_TOKEN }}
                   BRANCH: ${{ github.ref_name }}
-                  PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr }}
+                  PR_NUMBER: ${{ inputs.pr }}
               run: |
                   SAFE_BRANCH="$(echo "$BRANCH" | tr '/' '-')"
                   if [ -n "$PR_NUMBER" ]; then

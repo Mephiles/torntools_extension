@@ -1,0 +1,50 @@
+---
+name: Build Beta for Pull Request
+
+on:
+    pull_request:
+        paths:
+            - "public/**"
+            - "src/common/**"
+            - "src/extension/**"
+            - "package.json"
+            - "wxt.config.*"
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+    cancel-in-progress: true
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        permissions:
+            contents: read
+
+        steps:
+            - uses: actions/checkout@v7
+              with:
+                  ref: ${{ github.event.pull_request.head.sha }}
+
+            - uses: oven-sh/setup-bun@v2
+
+            - name: Install dependencies
+              run: bun install --frozen-lockfile
+
+            - name: Build and package extension
+              run: |
+                  bun run zip
+                  mv .output/torntools-extension-*-chrome.zip torntools-chrome.zip
+                  mv .output/torntools-extension-*-firefox.zip torntools-firefox.zip
+
+            - name: Record PR number
+              run: echo "${{ github.event.pull_request.number }}" > pr.txt
+
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: beta-zips
+                  path: |
+                      torntools-chrome.zip
+                      torntools-firefox.zip
+                      pr.txt
+                  if-no-files-found: error
