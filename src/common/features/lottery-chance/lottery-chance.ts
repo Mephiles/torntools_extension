@@ -1,3 +1,4 @@
+import { isLotteryData } from "@common/pages/lottery-page.ts";
 import { settings } from "@common/utils/data/database";
 import { findElement } from "@common/utils/functions/find-elements";
 import { addXHRListener } from "@common/utils/functions/listeners";
@@ -7,13 +8,24 @@ import styles from "./lottery-chance.module.css";
 
 const LOTTERIES = ["daily-dime", "lucky-shot", "holy-grail"];
 
+function initialize() {
+	addXHRListener(({ detail: { page, xhr, json } }) => {
+		if (page !== "page") return;
+
+		const sid = new URL(xhr.responseURL).searchParams.get("sid");
+		if (!isLotteryData(sid, json)) return;
+
+		updateChances(lotteryTickets(json));
+	});
+}
+
 function readTickets(element: Element | null, suffix = ""): number | null {
 	const text = element?.textContent?.trim().replace(suffix, "").trim().replaceAll(",", "");
 	if (!text || !/^\d+$/.test(text)) return null;
 	return Number(text);
 }
 
-function updateChances(data?: { id: string; owned: number; total: number }[]) {
+function updateChances(data: { id: string; owned: number; total: number }[]) {
 	for (const id of LOTTERIES) {
 		const lottery = findElement(`#${id}`, true);
 		const description = lottery ? findElement(".desc", lottery, true) : null;
@@ -55,13 +67,6 @@ export default class LotteryChanceFeature extends Feature {
 	}
 
 	override initialise() {
-		addXHRListener(({ detail: { page, xhr, json } }) => {
-			if (!settings.pages.lottery.chance || page !== "page" || new URL(xhr.responseURL).searchParams.get("sid") !== "lotteryData") return;
-			updateChances(lotteryTickets(json));
-		});
-	}
-
-	override execute() {
-		updateChances();
+		initialize();
 	}
 }
