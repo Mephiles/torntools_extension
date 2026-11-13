@@ -458,6 +458,9 @@ export const DEFAULT_STORAGE = {
 				progress: new DefaultSetting("boolean", true),
 				titles: new DefaultSetting("boolean", true),
 			},
+			lottery: {
+				chance: new DefaultSetting("boolean", true),
+			},
 			missions: {
 				hints: new DefaultSetting("boolean", true),
 				rewards: new DefaultSetting("boolean", true),
