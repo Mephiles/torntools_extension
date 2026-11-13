@@ -12,7 +12,7 @@ import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
 import { getUserDetails } from "@common/utils/functions/torn";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
-import { ExecutionTiming, Feature } from "@features/feature";
+import { DisabledUntilNoticeFeature, ExecutionTiming } from "@features/feature";
 
 interface BazaarFetchItem {
 	amount: number;
@@ -111,7 +111,7 @@ async function addWorth(list: BazaarFetchItem[] | null = null) {
 	}
 }
 
-export default class BazaarWorthFeature extends Feature {
+export default class BazaarWorthFeature extends DisabledUntilNoticeFeature {
 	constructor() {
 		super("Bazaar Worth", "bazaar", ExecutionTiming.IMMEDIATELY);
 	}

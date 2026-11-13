@@ -50,7 +50,11 @@
 				{ "message": "Slightly change the look of the 'Back to Torn' on our on-page settings.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
-				{ "message": "Remove the 'Clickable API Selections' feature, as that is now a feature of the page itself.", "contributor": "DeKleineKobini" }
+				{ "message": "Remove the 'Clickable API Selections' feature, as that is now a feature of the page itself.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Disable the 'Bazaar Worth' feature (temporarily), due to the bazaar data no longer being part of the API.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"technical": [
 				{ "message": "Cleanup old code for icons.", "contributor": "DeKleineKobini" },
