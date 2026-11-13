@@ -1,4 +1,5 @@
 .lottery-chance {
+	color: var(--tt-color-green);
 	margin-top: 5px;
 	font-weight: bold;
 }
