@@ -12,7 +12,7 @@
 				{ "message": "Improve accessibility on our internal pages..", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
-			"technical": []
+			"technical": [{ "message": "Refactor 'Lottery Chance' to be easier to maintain.", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{
