@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { BooleanPreferenceStoragePath, NumberPreferenceStoragePath } from "@common/utils/data/preference-storage";
 	import { getPreferenceValue, updatePreferenceValue } from "@common/utils/data/preference-storage";
-	import { Button } from "@svelte/components/ui/button";
+	import { buttonVariants } from "@svelte/components/ui/button";
 	import * as Dialog from "@svelte/components/ui/dialog";
 	import { Input } from "@svelte/components/ui/input";
 	import { Switch } from "@svelte/components/ui/switch";
@@ -40,10 +40,8 @@
 </script>
 
 <Dialog.Root bind:open>
-	<Dialog.Trigger>
-		<Button variant="ghost" size="icon-sm" aria-label="Configure {title} services">
-			<GearSixIcon />
-		</Button>
+	<Dialog.Trigger class={buttonVariants({ variant: "ghost", size: "icon-sm" })} aria-label="Configure {title} services">
+		<GearSixIcon />
 	</Dialog.Trigger>
 	<Dialog.Content class="sm:max-w-sm md:max-w-md">
 		<Dialog.Header>

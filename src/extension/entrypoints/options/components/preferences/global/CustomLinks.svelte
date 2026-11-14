@@ -94,7 +94,7 @@
 
 <PreferenceSectionCard title="Custom Links">
 	{#snippet action()}
-		<Button type="button" size="icon-xs" variant="outline" onclick={addCustomLink}>
+		<Button type="button" size="icon-xs" variant="outline" aria-label="Add custom link" onclick={addCustomLink}>
 			<PlusIcon />
 		</Button>
 	{/snippet}
@@ -105,6 +105,7 @@
 				<div class="border-border bg-background/60 rounded-md border p-2">
 					<div class="grid gap-2 lg:grid-cols-[12rem_15rem_1fr]">
 						<ItemSelect
+							id={`custom-link-${index}-location`}
 							items={locationOptions}
 							placeholder="Location"
 							value={link.location}
@@ -112,6 +113,7 @@
 						/>
 
 						<ItemSelect
+							id={`custom-link-${index}-preset`}
 							items={presetOptions}
 							placeholder="Preset"
 							value={"preset" in link ? link.preset : "custom"}
@@ -148,7 +150,13 @@
 						>
 							<ArrowDownIcon />
 						</Button>
-						<Button type="button" size="icon-xs" variant="destructive" onclick={() => removeCustomLink(index)}>
+						<Button
+							type="button"
+							size="icon-xs"
+							variant="destructive"
+							aria-label={`Remove ${link.name.trim() || "custom link"}`}
+							onclick={() => removeCustomLink(index)}
+						>
 							<TrashIcon />
 						</Button>
 

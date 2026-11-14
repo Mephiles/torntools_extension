@@ -43,7 +43,7 @@
 
 <PreferenceSectionCard title="Colored Chats">
 	{#snippet action()}
-		<Button type="button" size="icon-xs" variant="outline" onclick={addColoredChat}>
+		<Button type="button" size="icon-xs" variant="outline" aria-label="Add colored chat" onclick={addColoredChat}>
 			<PlusIcon />
 		</Button>
 	{/snippet}
@@ -61,13 +61,20 @@
 						/>
 
 						<ItemSelect
+							id={`colored-chat-${index}-color`}
 							items={colorOptions}
 							placeholder="Color"
 							value={highlight.color}
 							onValueChange={(nextValue) => void updateColoredChatField(index, "color", nextValue)}
 						/>
 
-						<Button type="button" size="icon-sm" variant="destructive" onclick={() => removeColoredChat(index)}>
+						<Button
+							type="button"
+							size="icon-sm"
+							variant="destructive"
+							aria-label={`Remove ${highlight.title.trim() || "colored chat"}`}
+							onclick={() => removeColoredChat(index)}
+						>
 							<TrashIcon />
 						</Button>
 					</div>

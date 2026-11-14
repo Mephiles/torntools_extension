@@ -53,6 +53,7 @@
 					<div class="grid items-center gap-2 md:grid-cols-[8rem_1fr]">
 						<span class="text-sm">{track.name}</span>
 						<ItemSelect
+							id={`race-car-track-${track.id}`}
 							items={carItems}
 							placeholder="Auto (recommended)"
 							value={getTrackCar(track.id)}

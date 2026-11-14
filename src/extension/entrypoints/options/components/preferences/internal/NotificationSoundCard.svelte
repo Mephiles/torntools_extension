@@ -102,6 +102,7 @@
 			</Field.Content>
 
 			<ItemSelect
+				id="notification-sound"
 				items={soundOptions}
 				placeholder="Select sound"
 				value={$settingsStore.notifications.sound}
@@ -161,6 +162,7 @@
 					</Field.Content>
 
 					<ItemSelect
+						id="notification-tts-voice"
 						items={voices}
 						placeholder="Select voice"
 						value={$settingsStore.notifications.ttsVoice}

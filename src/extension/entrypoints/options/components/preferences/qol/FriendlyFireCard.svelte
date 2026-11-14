@@ -70,7 +70,7 @@
 
 <PreferenceSectionCard title="Friendly Fire">
 	{#snippet action()}
-		<Button type="button" size="icon-xs" variant="outline" onclick={addAlliedFaction}>
+		<Button type="button" size="icon-xs" variant="outline" aria-label="Add allied faction" onclick={addAlliedFaction}>
 			<PlusIcon />
 		</Button>
 	{/snippet}
@@ -89,7 +89,13 @@
 						placeholder="Ally faction name or ID"
 						oninput={(event) => updateAlliedFaction(index, event.currentTarget.value)}
 					/>
-					<Button type="button" size="icon" variant="destructive" onclick={() => removeAlliedFaction(index)}>
+					<Button
+						type="button"
+						size="icon"
+						variant="destructive"
+						aria-label={`Remove ${String(ally).trim() || "allied faction"}`}
+						onclick={() => removeAlliedFaction(index)}
+					>
 						<TrashIcon />
 					</Button>
 				</div>
@@ -108,7 +114,13 @@
 							if (event.key === "Enter") savePendingAlly(pendingAlly);
 						}}
 					/>
-					<Button type="button" size="icon" variant="destructive" onclick={() => removePendingAlly(pendingAlly.rowId)}>
+					<Button
+						type="button"
+						size="icon"
+						variant="destructive"
+						aria-label={`Remove ${pendingAlly.value.trim() || "allied faction"}`}
+						onclick={() => removePendingAlly(pendingAlly.rowId)}
+					>
 						<TrashIcon />
 					</Button>
 				</div>

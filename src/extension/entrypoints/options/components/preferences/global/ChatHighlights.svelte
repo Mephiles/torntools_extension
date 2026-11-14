@@ -37,7 +37,7 @@
 
 <PreferenceSectionCard title="Highlights">
 	{#snippet action()}
-		<Button type="button" size="icon-xs" variant="outline" onclick={addHighlight}>
+		<Button type="button" size="icon-xs" variant="outline" aria-label="Add chat highlight" onclick={addHighlight}>
 			<PlusIcon />
 		</Button>
 	{/snippet}
@@ -72,7 +72,13 @@
 							oninput={(event) => updateHighlightField(index, "color", event.currentTarget.value)}
 						/>
 
-						<Button type="button" size="icon-sm" variant="destructive" onclick={() => removeHighlight(index)}>
+						<Button
+							type="button"
+							size="icon-sm"
+							variant="destructive"
+							aria-label={`Remove ${highlight.name.trim() || "chat highlight"}`}
+							onclick={() => removeHighlight(index)}
+						>
 							<TrashIcon />
 						</Button>
 					</div>
