@@ -25,46 +25,13 @@ jobs:
             - name: Prepare next version metadata
               run: |
                   set -euo pipefail
-                  sudo apt-get update
-                  sudo apt-get install -y jq moreutils
-
-                  # Setup variables
-                  changelogPath="./src/extension/assets/changelog.json"
-
-                  version="$(jq -j ".version" "./package.json")"
-
-                  newVersionMajor="$(echo -n "\"${version}\"" | jq -j "split(\".\")[0] | tonumber | .")"
-                  newVersionMinor="$(echo -n "\"${version}\"" | jq -j "split(\".\")[1] | tonumber | .")"
-                  newVersionBuild="$(echo -n "\"${version}\"" | jq -j "split(\".\")[2] | tonumber | . + 1")"
-                  newVersion="${newVersionMajor}.${newVersionMinor}.${newVersionBuild}"
+                  newVersion="$(bun tools/prepare-changelog.ts)"
 
                   # Export version for future tasks
-                  export newVersion
                   echo "newVersion=$newVersion" >> "$GITHUB_ENV"
 
-                  jq -j 'del(.[].title | select(. == "Beta"))' "${changelogPath}" | sponge "${changelogPath}"
-                  jq -j ".[0].date |= \"$(date +"%Y/%m/%d")\"" "${changelogPath}" | sponge "${changelogPath}"
-                  jq -j '. as $all | $all[0].logs | delpaths([keys_unsorted[] | select(($all[0].logs[.] | length) == 0) | [.]]) | . as $new | $all | .[0].logs |= $new' "${changelogPath}" | sponge "${changelogPath}"
-
-                  # Add beta changelog entry
-                  jq -r --indent 0 "
-                    . |=
-                      [{
-                          \"version\": { \"major\": ${newVersionMajor}, \"minor\": ${newVersionMinor}, \"build\": ${newVersionBuild} },
-                          \"title\": \"Beta\",
-                          \"date\": false,
-                          \"logs\": {
-                              \"features\": [],
-                              \"fixes\": [],
-                              \"changes\": [],
-                              \"removed\": [],
-                              \"technical\": []
-                          }
-                      }] +
-                      ." "${changelogPath}" | sponge "${changelogPath}"
-
                   # Change package to next version
-                  bun pm version $newVersion --force --no-git-tag-version
+                  bun pm version "$newVersion" --force --no-git-tag-version
 
             - name: Run Oxfmt
               run: bun oxfmt
