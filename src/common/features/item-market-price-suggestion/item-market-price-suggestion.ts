@@ -9,6 +9,7 @@ import styles from "./item-market-price-suggestion.module.css";
 type MarketResponse = { itemmarket?: { listings?: { price: number }[] } };
 const ROW_SELECTOR = "div[class*='itemRowWrapper']";
 const INPUT_SELECTOR = "div[class*='priceInputWrapper'] input.input-money:not([type='hidden'])";
+const DEFAULT_BUTTON_TITLE = "Fill the lowest market price minus your configured offset";
 
 function addButtons() {
 	for (const row of findAllElements(ROW_SELECTOR)) {
@@ -21,7 +22,7 @@ function addButtons() {
 		button.type = "button";
 		button.className = styles.priceButton;
 		button.textContent = "Suggest price";
-		button.title = "Fill the lowest market price minus your configured offset";
+		button.title = DEFAULT_BUTTON_TITLE;
 		button.addEventListener("click", async () => {
 			if (input.value.trim()) {
 				button.title = "Clear the price first to use a suggestion.";
@@ -46,6 +47,7 @@ function addButtons() {
 					updateReactInput(input, Math.max(1, Math.min(...prices) - offset));
 				}
 				button.textContent = "Suggest price";
+				button.title = DEFAULT_BUTTON_TITLE;
 			} catch {
 				button.textContent = "Price unavailable";
 				button.title = "Could not load market prices. Click to retry.";
