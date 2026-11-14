@@ -1,3 +1,7 @@
-.hide-flavour-text [class*="crimes-outcome-success"] [class*="story___"] {
-	display: none;
+.hide-flavour-text {
+	:global(.outcome-content:not(.crimes-outcome-failure):not(.crimes-outcome-error):not(.crimes-outcome-criticalFailure)) {
+		[class*="story___"] {
+			display: none;
+		}
+	}
 }
