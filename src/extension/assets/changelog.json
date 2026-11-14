@@ -8,7 +8,12 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [
+				{
+					"message": "Show estimated gym gains.",
+					"contributor": "AwesomeOddEven"
+				}
+			],
 			"fixes": [],
 			"changes": [],
 			"removed": [],
