@@ -34,7 +34,6 @@ function updateChances(data: { id: string; owned: number; total: number }[]) {
 
 		const display = findElement(`.${styles.lotteryChance}`, description, true);
 		if (display) {
-			display.textContent;
 			if (display.textContent !== text) display.textContent = text;
 		} else {
 			description.appendChild(
