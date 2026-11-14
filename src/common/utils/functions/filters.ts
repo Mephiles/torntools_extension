@@ -312,7 +312,7 @@ interface CheckboxesSectionOptions {
 	key: string;
 	title: string;
 	priority?: number;
-	items: { id: string; description: string }[];
+	items: { id: string; description: string; info?: string }[];
 	defaults: string[];
 	test: (row: HTMLElement, selections: string[]) => boolean;
 	orientation?: "column" | "row";

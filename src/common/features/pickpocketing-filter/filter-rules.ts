@@ -57,6 +57,12 @@ export function getMarkTier(markName: string | null | undefined): PickpocketingT
 	return MARK_TIERS[(markName ?? "").trim().toLowerCase()] ?? null;
 }
 
+export function marksForTier(tier: PickpocketingTier): string[] {
+	return Object.entries(MARK_TIERS)
+		.filter(([, markTier]) => markTier === tier)
+		.map(([markName]) => markName);
+}
+
 /**
  * Extracts the build type based on the entire build text, e.g. "Average 5'4" 171 lbs" becomes 'average'.
  * @param physicalProps raw build type text
