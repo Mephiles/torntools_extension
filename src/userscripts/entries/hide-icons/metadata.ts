@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "Hide Icons",
 	description: "Hide selected icons in Torn's sidebar.",
-	version: "1.0.0",
+	version: "1.0.1",
 	matches: ["https://*.torn.com/*"],
 	runAt: "document-end",
 };

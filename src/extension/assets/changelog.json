@@ -5,7 +5,7 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [{ "message": "'Hide Icons' now hides the fading on mobile if scrolling no longer is an option.", "contributor": "DeKleineKobini" }],
 			"changes": [{ "message": "'Hide Crime Flavour Text' now also hides neutral stories.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": []
