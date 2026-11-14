@@ -488,6 +488,8 @@ export const DEFAULT_STORAGE = {
 				filter: new DefaultSetting("boolean", true),
 			},
 			itemmarket: {
+				priceSuggestion: new DefaultSetting("boolean", false),
+				priceSuggestionOffset: new DefaultSetting("number", 5),
 				highlightCheapItems: new DefaultSetting<number | null>("number", null),
 				highlightCheapItemsSound: new DefaultSetting("boolean", false),
 				leftBar: new DefaultSetting("boolean", false),

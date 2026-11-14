@@ -145,6 +145,7 @@ import HighlightOCFeature from "@features/highlight-oc/highlight-oc";
 import HighlightPropertiesFeature from "@features/highlight-properties/highlight-properties";
 import HospitalFilterFeature from "@features/hospital-filter/hospital-filter";
 import ItemMarketLeftBarFeature from "@features/item-market-left-bar/item-market-left-bar";
+import ItemMarketPriceSuggestionFeature from "@features/item-market-price-suggestion/item-market-price-suggestion";
 import ItemValuesFeature from "@features/item-values/item-values";
 import JailFilterFeature from "@features/jail-filter/jail-filter";
 import JobSpecialsFeature from "@features/job-specials/job-specials";
@@ -480,6 +481,7 @@ export function scriptManager() {
 		setupItemMarketPage().catch(logger.debug);
 		FEATURE_MANAGER.registerFeature(new HighlightCheapItemsFeature());
 		FEATURE_MANAGER.registerFeature(new ItemMarketFillMaxFeature());
+		FEATURE_MANAGER.registerFeature(new ItemMarketPriceSuggestionFeature());
 		FEATURE_MANAGER.registerFeature(new ItemMarketLeftBarFeature());
 		FEATURE_MANAGER.registerFeature(new BazaarMarketFeature());
 	} else if (page === "jail") {
