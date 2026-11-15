@@ -5,7 +5,7 @@ import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addFetchListener } from "@common/utils/functions/listeners";
 import { requireElement } from "@common/utils/functions/requires";
-import { getPageStatus } from "@common/utils/functions/torn";
+import { getPageStatus, getUserBar } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 import { estimateGymGains, gymPerkMultiplier } from "./gym-gain-calculation";
 import styles from "./gym-gain-estimate.module.css";
@@ -22,11 +22,11 @@ async function refresh() {
 	const logo = await requireElement<HTMLImageElement>("#gymroot img[class*='logo_']");
 	const gym = torndata.gyms?.find((item) => item.name === logo.alt);
 	if (!gym) return;
-	const energyText = findElement("#sidebarroot [class*='energy_'] [class*='barValue_']").textContent;
-	const happyText = findElement("#sidebarroot [class*='happy_'] [class*='barValue_']").textContent;
-	const energy = Number(energyText.split("/")[0].replaceAll(",", ""));
-	const happy = Number(happyText.split("/")[0].replaceAll(",", ""));
+
+	const [energy] = getUserBar("energy");
+	const [happy] = getUserBar("happy");
 	const trains = Math.floor(energy / gym.energy_cost);
+
 	for (const stat of STATS) {
 		const row = findElement(`#gymroot ul[class*='properties_'] li[class*='${stat}_']`);
 		const description = findElement("[class*='description_']", row);
