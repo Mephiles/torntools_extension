@@ -39,7 +39,7 @@ async function refresh() {
 			display = elementBuilder({ type: "div", class: styles.gainEstimate });
 			description.appendChild(display);
 		}
-		display.textContent = `Est. ${perksAvailable ? "" : "base "}gain: +${formatNumber(estimate.one, { decimals: 2 })} / train\n+${formatNumber(estimate.total, { decimals: 2 })} for ${trains} trains`;
+		display.textContent = `Est. ${perksAvailable ? "" : "base "}gain: +${formatNumber(estimate.one, { decimals: 2 })} / train\n+${formatNumber(estimate.total, { decimals: 2 })} for ${trains} ${trains === 1 ? "train" : "trains"}`;
 		display.title = "Approximate gain. Some bonuses may be missing; happiness loss varies between trains.";
 	}
 }
