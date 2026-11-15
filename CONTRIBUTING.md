@@ -1,4 +1,4 @@
-# Contribution
+# Contributing to TornTools
 
 Thanks for taking the time to contribute, or at least consider it.
 
@@ -6,6 +6,37 @@ Here are some important resources:
 
 - [Discord](https://discord.com/invite/ukyK6f6) is where we all chat with each other.
 - [WXT Documentation](https://wxt.dev) is the official documentation for WXT, our used framework.
+
+## Suggesting features
+
+For non-trivial features, pitch the idea first on [Discord](https://discord.com/invite/ukyK6f6) or in an issue, before
+writing code. This avoids wasted work on features we won't accept, and lets us think along about how it fits the extension.
+
+Features that rely on an external service must follow our [guidelines for external services](#guidelines-for-external-services).
+
+## Getting started
+
+You need [Bun](https://bun.sh) installed.
+
+```sh
+git clone https://github.com/Mephiles/torntools_extension.git
+cd torntools_extension
+bun install
+```
+
+Useful commands:
+
+- `bun run dev:chrome` / `bun run dev:firefox`: start a development build with watch mode.
+- `bun run build`: build the extension for both Chrome and Firefox, includes type-checking.
+- `bun test`: run the automated tests.
+- `bun run lint` / `bun run format`: check linting and formatting.
+- `bun run check:fix`: automatically fix lint and formatting issues.
+
+Load the build output (`.output/chrome-mv3` or `.output/firefox-mv3` after building) into your
+browser:
+
+- Chrome: [load an unpacked extension](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)
+- Firefox: [install a temporary extension](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/)
 
 ## Submitting changes
 
@@ -17,25 +48,30 @@ When opening a Pull Request, you must use our [pull request template](.github/pu
 Pull Requests that don't use the template are **closed automatically without review** by our
 [PR template check](.github/workflows/pr-template-check.yml). You can fix the description and reopen the PR afterward.
 
+Keep contributions concise and focused. If the PR claims to target X, and is also touching unrelated Y and Z, it will
+be rejected. For bigger changes, discuss your plans first (see [Suggesting features](#suggesting-features)) to make
+sure the approach is one we can accept.
+
 Always write a clear log message for your commits. One-line messages are fine for small changes, but bigger changes
-should contain more information about the changes.
+should contain more information about the changes. Release notes are maintained separately in `changelog.json` (see below),
+so commit messages only need to describe the change itself.
 
 ## Coding conventions
 
 Start reading our code and you'll get the hang of it. We optimize for readability:
 We have Oxfmt formatting and Oxlint linting to help you follow our coding conventions.
 
-- All have to be written in **TypeScript**.
+- All code has to be written in **TypeScript**.
 - We follow a certain pattern for our files.
     - Each feature has its own file, and those are placed in the `src/common/features` folder, in a folder based
       on the name of it.
     - Both the feature's CSS and JS scripts should reside in the same directory.
         - Don't include empty CSS files.
     - The loading of the features is defined in `script-manager.ts`.
-- All features should be its own class which extends `Feature`, in the files as specified above.
+- All features should be their own class which extends `Feature`, in the files as specified above.
     - Only implement functions that you need. Most of them should be self-explanatory.
-    - `precondition` is for features that have requirements other than just the url
-        - Example: feature runs on the travel page, but only when actually flying
+    - `precondition` is for features that have requirements other than just the url.
+        - Example: feature runs on the travel page, but only when actually flying.
 - We also release userscripts of a subset of our features. To make sure those are kept in line, update the version of impacted userscripts as well.
 - Don't use any of Torn's CSS classes, they are always subject to change.
     - It's fine to rely on them as selectors.
@@ -46,23 +82,19 @@ We have Oxfmt formatting and Oxlint linting to help you follow our coding conven
     - We have some preset color variables set inside `src/common/utils/global/globalVariables.css`. These should be
       used where possible.
 - All code should be formatted using Oxfmt and linted using Oxlint.
-    - We indent using tabs with a width of 4.
-    - Spaces follow operators (= + - \* /) and commas.
-    - Statements end with a semicolon.
-    - Strings are surrounded by `"`'s.
+    - Please note that HTML inside `.ts` files won't get automatically formatted. Please format it manually.
     - Although we have automated code formatting via GitHub Actions, maintain readable code in PRs.
-        - Please note that HTML inside `.ts` files, won't get automatically formatted. Please format them
-          manually.
 - We also use some standard naming conventions.
     - Identifier names (variables and functions) start with a letter and use camelCase.
         - If they are global constants, use UPPERCASE.
 - All code should work on as many browsers as possible.
-    - Optional Chaining isn't supported by Kiwi Browser.
 - Any changes should be added in the `src/extension/assets/changelog.json` file under the first unreleased version.
     - New entries should be added to the end of the correct section, so entries in each section are ordered from first implemented to last.
     - First contributions should also credit you in `src/common/utils/team.ts`, see [Adding yourself as a contributor](#adding-yourself-as-a-contributor).
 - Prefer using modular stylesheets for new features.
 - Wherever possible use nested selectors for an easier overview in the stylesheets.
+- Visual elements should keep the feel of TornTools intact. UI that clashes with the rest of the extension will need
+  changes before it can be merged.
 
 ## Adding yourself as a contributor
 
@@ -89,16 +121,20 @@ External services are welcome to be introduced, but need to follow our guideline
 
 - Without any exceptions, it's opt-in.
 - While services are allowed to benefit from our users, there has to be a mutual benefit, in favor of our users.
-- Requiring authentication is fine (although preferable not, how fewer keys we need to share the better), but requiring an active paid subscription is not. Active paid subscriptions may enhance the experience, but the free version still needs to be sufficiently beneficial.
+- Requiring authentication is fine (although preferable not, how fewer keys we need to share the better), but requiring
+  an active paid subscription is not. Active paid subscriptions may enhance the experience, but the free version still
+  needs to be sufficiently beneficial.
 
 ## AI Policy
 
-We do not actively encourage or discourage AI contributions. There won't be any accommodations for AI tools, except for extending the .gitignore file to make it easier to have a local-only setup.
+We do not actively encourage or discourage AI contributions. There won't be any accommodations for AI tools, except for
+extending the .gitignore file to make it easier to have a local-only setup.
 There are also a couple of guidelines to follow, alongside the other guidelines in this file already.
 
 ### Guidelines
 
 1. LLM output is **expressly prohibited** for any direct communications (like issues and pull requests, and comments on them).
     - An exception will be made for LLM-assisted translations if you are having trouble communicating in English. Please explicitly note this ("I have translated this from <original language> with an LLM") and, if possible, post in your original language as well.
-2. Contributions should be concise and focused. If the PR claims to target X, and is also touching unrelated Y and Z, it will be rejected.
-3. Visual elements should keep the feel of TornTools intact. UI elements generated by LLMs often have a very 'AI feel'. This 'AI feel' is not compatible with the extension, and will result in the PR being rejected.
+2. All other contribution rules apply in full to AI-assisted work — in particular the requirements
+   for [focused pull requests](#submitting-changes) and [visual consistency](#submitting-changes).
+   PRs with an obvious 'AI feel', in code or UI, will be rejected.
