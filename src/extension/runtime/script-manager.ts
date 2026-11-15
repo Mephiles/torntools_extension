@@ -118,6 +118,7 @@ import FriendlyFireFeature from "@features/friendly-fire/friendly-fire";
 import FullFactionInfoboxFeature from "@features/full-faction-infobox/full-faction-infobox";
 import GreyCompletedCoursesFeature from "@features/grey-completed-courses/grey-completed-courses";
 import GymDisableStatsFeature from "@features/gym-disable-stats/gym-disable-stats";
+import GymGainEstimateFeature from "@features/gym-gain-estimate/gym-gain-estimate";
 import GymGraphFeature from "@features/gym-graph/gym-graph";
 import GymProgressFeature from "@features/gym-progress/gym-progress";
 import GymSteadfastFeature from "@features/gym-steadfast/gym-steadfast";
@@ -470,6 +471,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new GymGraphFeature());
 		FEATURE_MANAGER.registerFeature(new GymProgressFeature());
 		FEATURE_MANAGER.registerFeature(new GymSteadfastFeature());
+		FEATURE_MANAGER.registerFeature(new GymGainEstimateFeature());
 		FEATURE_MANAGER.registerFeature(new GymTitlesFeature());
 		FEATURE_MANAGER.registerFeature(new SpecialistGymsFeature());
 	} else if (page === "hospital") {

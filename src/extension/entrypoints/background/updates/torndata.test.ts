@@ -36,6 +36,7 @@ function previous(overrides: any = {}) {
 		statsStale: false,
 		items: [{ id: 1 }],
 		itemsMap: { 1: { id: 1 } },
+		gyms: [],
 		education: { courses: [1] },
 		...overrides,
 	} as any;
@@ -73,7 +74,7 @@ describe("updateTorndata", () => {
 
 		expect(await updateTorndata(false, undefined, BLACKOUT)).toBe("partial");
 
-		expect(state.selections).toEqual(["education", "calendar", "properties", "honors", "medals", "items"]);
+		expect(state.selections).toEqual(["education", "calendar", "properties", "honors", "medals", "items", "gyms"]);
 		expect(state.stored.stats.currency.points_average_cost).toBe(30_000);
 		expect(state.stored.stats.users.total).toBe(-1);
 		expect(state.stored.statsStale).toBe(true);
@@ -109,7 +110,7 @@ describe("updateTorndata", () => {
 
 		expect(await updateTorndata(false, previous({ date: YESTERDAY }), AFTER_BLACKOUT)).toBe("full");
 
-		expect(state.selections).toEqual(["education", "calendar", "properties", "honors", "medals", "items", "stats"]);
+		expect(state.selections).toEqual(["education", "calendar", "properties", "honors", "medals", "items", "gyms", "stats"]);
 		expect(state.stored.stats).toEqual(FRESH_STATS);
 		expect(state.stored.statsStale).toBe(false);
 	});

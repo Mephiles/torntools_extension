@@ -4,7 +4,7 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [{ "message": "Show estimated gym gains.", "contributor": "AwesomeOddEven" }],
 			"fixes": [{ "message": "'Hide Icons' now hides the fading on mobile if scrolling no longer is an option.", "contributor": "DeKleineKobini" }],
 			"changes": [
 				{ "message": "'Hide Crime Flavour Text' now also hides neutral stories.", "contributor": "DeKleineKobini" },
