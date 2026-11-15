@@ -1,4 +1,4 @@
-import { settings, storageListeners, torndata, userdata } from "@common/utils/data/database";
+import { settings, torndata, userdata } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findElement } from "@common/utils/functions/find-elements";
@@ -58,7 +58,6 @@ export default class GymGainEstimateFeature extends Feature {
 	}
 
 	override initialise() {
-		storageListeners.torndata.push(scheduleRefresh);
 		addCustomListener(EVENT_CHANNELS.GYM_LOAD, scheduleRefresh);
 		addCustomListener(EVENT_CHANNELS.GYM_TRAIN, scheduleRefresh);
 		addFetchListener(({ detail }) => {
