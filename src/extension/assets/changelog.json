@@ -10,7 +10,8 @@
 				{
 					"message": "Correctly show the World Diabetes Day event tripling the provided happy instead of doubling in 'Candy Happy'.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Make sure the 'Race Car Selector' doesn't appear twice.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "'Hide Crime Flavour Text' now also hides neutral stories.", "contributor": "DeKleineKobini" },

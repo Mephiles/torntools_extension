@@ -68,6 +68,8 @@ async function pickRecommendedCar(cars: UserRaceCarDetails[], trackName: string)
 	return findTrackNamedCar(cars, trackName);
 }
 
+let lockId = 0;
+
 async function selectCar(track: TrackData | undefined) {
 	findElement(`.${styles.preferredCar}`, true)?.remove();
 
@@ -76,8 +78,9 @@ async function selectCar(track: TrackData | undefined) {
 	const carId: number | undefined = settings.pages.racing.trackCars[track.id];
 	if (carId === 0) return; // never auto-select for this track
 
-	const activeCars = (userdata.enlistedcars ?? []).filter((car) => !car.is_removed);
+	const currentLockId = ++lockId;
 
+	const activeCars = (userdata.enlistedcars ?? []).filter((car) => !car.is_removed);
 	const preferredCar = carId === undefined ? undefined : activeCars.find(({ id }) => id === carId);
 
 	let car = preferredCar;
@@ -99,6 +102,8 @@ async function selectCar(track: TrackData | undefined) {
 
 		url = baseLink.href;
 	} else url = `/page.php?sid=racing&tab=cars&section=changeRacingCar&step=changeRacingCar&id=${car.id}`;
+
+	if (lockId !== currentLockId) return;
 
 	const preferredButton = elementBuilder({
 		type: "a",
