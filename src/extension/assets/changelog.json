@@ -12,7 +12,10 @@
 				{ "message": "Improve accessibility on our internal pages..", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
-			"technical": [{ "message": "Refactor 'Lottery Chance' to be easier to maintain.", "contributor": "DeKleineKobini" }]
+			"technical": [
+				{ "message": "Refactor 'Lottery Chance' to be easier to maintain.", "contributor": "DeKleineKobini" },
+				{ "message": "Combine functions to get the current bar values on-page.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{

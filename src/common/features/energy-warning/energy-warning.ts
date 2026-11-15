@@ -4,7 +4,7 @@ import { settings } from "@common/utils/data/database";
 import { elementBuilder, isElement } from "@common/utils/functions/dom";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElementOptionally } from "@common/utils/functions/requires";
-import { getItemEnergy, getPage, getPageStatus, getUserEnergy } from "@common/utils/functions/torn";
+import { getItemEnergy, getPage, getPageStatus, getUserBar } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
 
 function initialiseListener() {
@@ -34,7 +34,7 @@ async function addWarning(item: HTMLElement) {
 	const received = getItemEnergy(parseInt(factionPage ? findElement(".img-wrap", item).dataset.itemid! : item.dataset.item!));
 	if (!received) return;
 
-	const [current] = getUserEnergy();
+	const [current] = getUserBar("energy");
 	if (received + current <= 1000) return;
 
 	const warning = elementBuilder({

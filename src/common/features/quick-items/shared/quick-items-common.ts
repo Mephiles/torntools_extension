@@ -5,7 +5,7 @@ import { elementBuilder, findParent, isElement, isHTMLElement, mobile, tablet } 
 import { findAllElements, findElement } from "@common/utils/functions/find-elements.ts";
 import { formatTime } from "@common/utils/functions/formatting.ts";
 import { createSwipeSafeClickEvents } from "@common/utils/functions/gestures.ts";
-import { ALLOWED_BLOOD, getBloodType, getEquipPosition, getItemEnergy, getUserEnergy, isEquipable } from "@common/utils/functions/torn.ts";
+import { ALLOWED_BLOOD, getBloodType, getEquipPosition, getItemEnergy, getUserBar, isEquipable } from "@common/utils/functions/torn.ts";
 import { PHEye, PHPlus, PHX } from "@common/utils/icons/phosphor-icons.ts";
 import { getSpecialAction, isSpecialAction, toggleSpecialQuickOptions } from "@features/quick-items/shared/special-actions.ts";
 import "@features/highlight-blood-bags/highlight-blood-bags.css";
@@ -281,7 +281,7 @@ export function createQuickItemsController(options: QuickItemsControllerOptions)
 					) {
 						const received = getItemEnergy(id);
 						if (received) {
-							const [current, max] = getUserEnergy();
+							const [current, max] = getUserBar("energy");
 							if (current > max && received + current > 1000 && !confirm("Are you sure to use this item ? It will get you to more than 1000E."))
 								return;
 						}
