@@ -1,19 +1,16 @@
-import { settings, userdata } from "@common/utils/data/database";
-import { hasAPIData } from "@common/utils/functions/api";
-import { fetchData } from "@common/utils/functions/api-fetcher";
+import { settings, storageListeners, torndata, userdata } from "@common/utils/data/database";
+import { elementBuilder } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findElement } from "@common/utils/functions/find-elements";
 import { formatNumber } from "@common/utils/functions/formatting";
 import { addFetchListener } from "@common/utils/functions/listeners";
+import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
-import type { TornGymsResponse, UserBarsResponse, UserGymResponse } from "tornapi-typescript";
 import { estimateGymGains, gymPerkMultiplier } from "./gym-gain-calculation";
 import styles from "./gym-gain-estimate.module.css";
 
 const STATS = ["strength", "defense", "speed", "dexterity"] as const;
-let gyms: TornGymsResponse["gyms"] | undefined;
-let requestId = 0;
 let timer: ReturnType<typeof setTimeout> | undefined;
 
 function scheduleRefresh() {
@@ -22,47 +19,28 @@ function scheduleRefresh() {
 }
 
 async function refresh() {
-	if (!settings.pages.gym.gainEstimate) return;
-	const request = ++requestId;
-	try {
-		const [user, gymData] = await Promise.all([
-			fetchData<UserBarsResponse & UserGymResponse>("tornv2", { section: "user", selections: ["bars", "gym"], relay: true, silent: true }),
-			gyms ? Promise.resolve({ gyms }) : fetchData<TornGymsResponse>("tornv2", { section: "torn", selections: ["gyms"], relay: true, silent: true }),
-		]);
-		if (request !== requestId || !settings.pages.gym.gainEstimate) return;
-		gyms = gymData.gyms;
-		const gym = gyms.find((item) => item.id === user.gym.id);
-		if (!gym || !user.bars?.happy || !user.bars?.energy) return;
-		for (const stat of STATS) {
-			const row = findElement(`#gymroot ul[class*='properties_'] li[class*='${stat}_']`, true);
-			const statValue = row && findElement("[class*='propertyValue_']", row, true);
-			if (!row || !statValue) continue;
-			const value = Number(statValue.textContent.replaceAll(",", "").trim());
-			const dots = gym.modifiers[stat] / 10;
-			const trains = Math.floor(user.bars.energy.current / gym.energy_cost);
-			const perksAvailable = settings.apiUsage.user.perks && userdata.perks;
-			const multiplier = perksAvailable ? gymPerkMultiplier(Object.values(userdata.perks).flat(), stat) : 1;
-			const one = estimateGymGains(value, user.bars.happy.current, dots, gym.energy_cost, 1, multiplier);
-			const total = estimateGymGains(value, user.bars.happy.current, dots, gym.energy_cost, trains, multiplier);
-			let display = findElement(`.${styles.gainEstimate}`, row, true);
-			if (one === null || total === null) {
-				display?.remove();
-				continue;
-			}
-			if (!display) {
-				display = document.createElement("div");
-				display.className = styles.gainEstimate;
-				row.appendChild(display);
-			}
-			display.textContent = `Estimated ${perksAvailable ? "" : "base "}gain: ${formatNumber(one)} / train; ${formatNumber(total)} for ${trains} trains`;
-			display.title = perksAvailable
-				? "Approximate gains include recognized gym perks; other bonuses may be missing. Happiness decreases between trains."
-				: "Approximate base gains before perks and other bonuses. Happiness decreases between trains.";
+	const logo = await requireElement<HTMLImageElement>("#gymroot img[class*='logo_']");
+	const gym = torndata.gyms?.find((item) => item.name === logo.alt);
+	if (!gym) return;
+	const energyText = findElement("#sidebarroot [class*='energy_'] [class*='barValue_']").textContent;
+	const happyText = findElement("#sidebarroot [class*='happy_'] [class*='barValue_']").textContent;
+	const energy = Number(energyText.split("/")[0].replaceAll(",", ""));
+	const happy = Number(happyText.split("/")[0].replaceAll(",", ""));
+	const trains = Math.floor(energy / gym.energy_cost);
+	for (const stat of STATS) {
+		const row = findElement(`#gymroot ul[class*='properties_'] li[class*='${stat}_']`);
+		const title = findElement("[class*='propertyTitle_']", row);
+		const value = Number(findElement("[class*='propertyValue_']", row).textContent.replaceAll(",", "").trim());
+		const perksAvailable = settings.apiUsage.user.perks && userdata.perks;
+		const multiplier = perksAvailable ? gymPerkMultiplier(Object.values(userdata.perks).flat(), stat) : 1;
+		const estimate = estimateGymGains(value, happy, gym.modifiers[stat] / 10, gym.energy_cost, trains, multiplier, stat);
+		let display = findElement(`.${styles.gainEstimate}`, title, true);
+		if (!display) {
+			display = elementBuilder({ type: "div", class: styles.gainEstimate });
+			title.appendChild(display);
 		}
-	} catch {
-		if (request !== requestId) return;
-		// API access may be unavailable; do not display stale estimates.
-		for (const stat of STATS) findElement(`#gymroot li[class*='${stat}_'] .${styles.gainEstimate}`, true)?.remove();
+		display.textContent = `Estimated ${perksAvailable ? "" : "base "}gain: ${formatNumber(estimate.one)} / train; ${formatNumber(estimate.total)} for ${trains} trains`;
+		display.title = "Approximate gain. Some bonuses may be missing; happiness loss varies between trains.";
 	}
 }
 
@@ -75,15 +53,12 @@ export default class GymGainEstimateFeature extends Feature {
 		return settings.pages.gym.gainEstimate;
 	}
 
-	override requirements() {
-		return hasAPIData() || "No API access.";
-	}
-
 	override precondition() {
 		return getPageStatus().access;
 	}
 
 	override initialise() {
+		storageListeners.torndata.push(scheduleRefresh);
 		addCustomListener(EVENT_CHANNELS.GYM_LOAD, scheduleRefresh);
 		addCustomListener(EVENT_CHANNELS.GYM_TRAIN, scheduleRefresh);
 		addFetchListener(({ detail }) => {

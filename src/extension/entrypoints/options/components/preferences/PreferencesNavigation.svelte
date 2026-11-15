@@ -35,6 +35,7 @@
 				<a
 					use:link
 					href={getPreferenceGroupRoute(group.id)}
+					aria-current={group.id === activeGroup ? "page" : undefined}
 					class={`block rounded-md px-3 py-2 text-sm ${
 						group.id === activeGroup
 							? "bg-accent text-accent-foreground"

@@ -18,6 +18,7 @@
 			<a
 				use:link
 				href={getPreferenceSectionRoute(groupId, section.id)}
+				aria-current={section.id === activeSection ? "page" : undefined}
 				class={`rounded-md border px-3 py-2 text-sm transition-colors ${
 					section.id === activeSection
 						? "border-gray-300 bg-gray-100 text-gray-900 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100"

@@ -14,10 +14,37 @@
 					"contributor": "AwesomeOddEven"
 				}
 			],
-			"fixes": [],
-			"changes": [],
+			"fixes": [
+				{
+					"message": "'Hide Icons' now hides the fading on mobile if scrolling no longer is an option.",
+					"contributor": "DeKleineKobini"
+				}
+			],
+			"changes": [
+				{
+					"message": "'Hide Crime Flavour Text' now also hides neutral stories.",
+					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Show which targets each target tier includes in 'Pickpocketing Tier'.",
+					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Improve accessibility on our internal pages..",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"removed": [],
-			"technical": []
+			"technical": [
+				{
+					"message": "Refactor 'Lottery Chance' to be easier to maintain.",
+					"contributor": "DeKleineKobini"
+				},
+				{
+					"message": "Combine functions to get the current bar values on-page.",
+					"contributor": "DeKleineKobini"
+				}
+			]
 		}
 	},
 	{

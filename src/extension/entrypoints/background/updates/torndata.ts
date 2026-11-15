@@ -9,12 +9,14 @@ import type {
 	TornCityStatsResponse,
 	TornEducationResponse,
 	TornHonorsResponse,
+	TornGymsResponse,
 	TornItemsResponse,
 	TornMedalsResponse,
 	TornProperties,
 } from "tornapi-typescript";
 
-export type FetchedTorndata = TornEducationResponse &
+export type FetchedTorndata = TornGymsResponse &
+	TornEducationResponse &
 	TornCalendarResponse &
 	TornProperties &
 	TornHonorsResponse &
@@ -22,7 +24,7 @@ export type FetchedTorndata = TornEducationResponse &
 	TornItemsResponse &
 	TornCityStatsResponse;
 
-const NON_STATS_SELECTIONS = ["education", "calendar", "properties", "honors", "medals", "items"];
+const NON_STATS_SELECTIONS = ["education", "calendar", "properties", "honors", "medals", "items", "gyms"];
 const STATS_SELECTION = "stats";
 
 // Expected duration of the daily cron for updating the stats is about 35 minutes. During this time the API will give an error when trying to fetch it.
@@ -35,7 +37,7 @@ export function isStatsBlackout(now = new Date()): boolean {
 }
 
 export function getTorndataUpdateMode(previous: StoredTorndata | undefined, now = new Date()): TorndataUpdateMode {
-	if (!previous || !isSameUTCDay(previous.date, now)) {
+	if (!previous?.gyms || !isSameUTCDay(previous.date, now)) {
 		return isStatsBlackout(now) ? "partial" : "full";
 	}
 

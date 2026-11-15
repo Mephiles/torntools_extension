@@ -64,7 +64,7 @@
 
 <PreferenceSectionCard title="NPC Alerts">
 	{#snippet action()}
-		<Button type="button" size="icon-xs" variant="outline" disabled={!canAddNpc} onclick={addNpcAlert}>
+		<Button type="button" size="icon-xs" variant="outline" aria-label="Add NPC alert" disabled={!canAddNpc} onclick={addNpcAlert}>
 			<PlusIcon />
 		</Button>
 	{/snippet}
@@ -78,6 +78,7 @@
 					{#each $settingsStore.notifications.types.npcs as alert, index (alert.id)}
 						<div class="border-border bg-background/60 grid gap-2 rounded-md border p-2 md:grid-cols-[minmax(0,1fr)_5rem_6rem_auto]">
 							<ItemSelect
+								id={`npc-alert-${index}-npc`}
 								items={npcOptions}
 								placeholder="NPC"
 								value={String(alert.id)}
@@ -109,7 +110,14 @@
 								oninput={(event) => updateNumberField(index, "minutes", event.currentTarget.value)}
 							/>
 
-							<Button type="button" size="icon" variant="destructive" {disabled} onclick={() => removeNpcAlert(index)}>
+							<Button
+								type="button"
+								size="icon"
+								variant="destructive"
+								aria-label={`Remove ${npcChoices.find((npc) => npc.id === alert.id)?.name ?? "NPC"} alert`}
+								{disabled}
+								onclick={() => removeNpcAlert(index)}
+							>
 								<TrashIcon />
 							</Button>
 						</div>

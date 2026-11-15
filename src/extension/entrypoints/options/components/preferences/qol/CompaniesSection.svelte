@@ -69,7 +69,7 @@
 
 	<PreferenceSectionCard title="Employee Inactivity Warning" description="Requires last action to be enabled.">
 		{#snippet action()}
-			<Button type="button" size="icon-xs" variant="outline" onclick={addEmployeeInactivityWarning}>
+			<Button type="button" size="icon-xs" variant="outline" aria-label="Add employee inactivity warning" onclick={addEmployeeInactivityWarning}>
 				<PlusIcon />
 			</Button>
 		{/snippet}
@@ -93,7 +93,13 @@
 							value={warning.color}
 							oninput={(event) => updateEmployeeInactivityWarningField(index, "color", event.currentTarget.value)}
 						/>
-						<Button type="button" size="icon" variant="destructive" onclick={() => removeEmployeeInactivityWarning(index)}>
+						<Button
+							type="button"
+							size="icon"
+							variant="destructive"
+							aria-label={`Remove ${warning.days === null ? "employee inactivity warning" : `${warning.days} day employee inactivity warning`}`}
+							onclick={() => removeEmployeeInactivityWarning(index)}
+						>
 							<TrashIcon />
 						</Button>
 					</div>

@@ -6,12 +6,12 @@ import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/event
 import { checkboxesSection, createFilter } from "@common/utils/functions/filters";
 import type { FilterController } from "@common/utils/functions/filters";
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
-import { convertToNumber } from "@common/utils/functions/formatting";
+import { capitalizeText, convertToNumber } from "@common/utils/functions/formatting";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
-import { BUILD_LABELS, hidesMark, PICKPOCKETING_BUILDS, PICKPOCKETING_TIERS, TIER_LABELS } from "./filter-rules";
-import type { PickpocketingSelection } from "./filter-rules";
+import { BUILD_LABELS, hidesMark, marksForTier, PICKPOCKETING_BUILDS, PICKPOCKETING_TIERS, TIER_LABELS } from "./filter-rules";
+import type { PickpocketingSelection, PickpocketingTier } from "./filter-rules";
 import styles from "./pickpocketing-filter.module.css";
 
 const ROWS = ".crime-root [class*='virtualList__'] > [class*='virtualItem__']";
@@ -40,6 +40,18 @@ function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.CRIMES2_HOME_LOADED, () => removeFilter());
 }
 
+function tierItems(tier: string) {
+	const description = TIER_LABELS[tier as PickpocketingTier];
+	const marks = marksForTier(tier as PickpocketingTier);
+	if (marks.length === 0) return { id: tier, description };
+
+	return {
+		id: tier,
+		description,
+		info: `<strong>Includes</strong>: ${marks.map((mark) => capitalizeText(mark)).join(", ")}`,
+	};
+}
+
 async function addFilterContainer(crimeRoot: Element | null) {
 	if (!filter) {
 		filter = createFilter<PickpocketingFilterState>({
@@ -56,7 +68,7 @@ async function addFilterContainer(crimeRoot: Element | null) {
 				checkboxesSection({
 					key: "tiers",
 					title: "Target Tier",
-					items: PICKPOCKETING_TIERS.map((tier) => ({ id: tier, description: TIER_LABELS[tier] })),
+					items: PICKPOCKETING_TIERS.map(tierItems),
 					defaults: filters.pickpocketing.tiers,
 					test: (row, tiers) => !isHidden(row, { tiers, builds: [] }),
 				}),

@@ -3,7 +3,7 @@ import { userdata } from "@common/utils/data/database.ts";
 import { hasAPIData } from "@common/utils/functions/api.ts";
 import { elementBuilder } from "@common/utils/functions/dom.ts";
 import { findElement } from "@common/utils/functions/find-elements.ts";
-import { ALLOWED_BLOOD, getBloodType, getHospitalTime, getMedicalCooldown, getUserLife } from "@common/utils/functions/torn.ts";
+import { ALLOWED_BLOOD, getBloodType, getHospitalTime, getMedicalCooldown, getUserBar } from "@common/utils/functions/torn.ts";
 import type { BloodType } from "@common/utils/functions/torn.ts";
 import { TO_MILLIS } from "@common/utils/functions/utilities.ts";
 import { isFullItem } from "@common/utils/torn-api/items.types.ts";
@@ -160,7 +160,7 @@ async function executeMedicalHospitalAction(options: MedicalActionOptions) {
 }
 
 async function executeMedicalLifeAction(options: MedicalActionOptions) {
-	const [life, maxLife] = getUserLife();
+	const [life, maxLife] = getUserBar("life");
 	if (life >= maxLife) {
 		customError(options.responseWrap, "You are already at full life.");
 		return;

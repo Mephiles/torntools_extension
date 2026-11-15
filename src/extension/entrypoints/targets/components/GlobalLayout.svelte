@@ -44,7 +44,7 @@
 <Tooltip.Provider>
 	<div class="flex min-h-screen flex-col">
 		<header class="flex items-center justify-center gap-5 px-5 py-2">
-			<nav>
+			<nav aria-label="Primary">
 				<ul class="flex gap-4">
 					{#each navigation as item (item.path)}
 						<li>
@@ -61,7 +61,7 @@
 				</ul>
 			</nav>
 			<div class="h-6 w-px bg-gray-300 dark:bg-gray-600"></div>
-			<nav>
+			<nav aria-label="Related pages">
 				<ul class="flex gap-4">
 					<li>
 						<a

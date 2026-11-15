@@ -1,17 +1,37 @@
-/** Approximation based on Vladar's published gym formula: https://www.torn.com/forums.php?p=threads&f=61&t=16003284 */
-export function estimateGymGains(stat: number, happy: number, dots: number, energyPerTrain: number, trains: number, multiplier = 1): number | null {
-	if (![stat, happy, dots, energyPerTrain, trains, multiplier].every(Number.isFinite)) return null;
-	if (stat < 0 || happy < 0 || dots <= 0 || energyPerTrain <= 0 || multiplier <= 0 || !Number.isInteger(trains) || trains < 0 || trains > 1000) return null;
-	let total = 0;
-	for (let i = 0; i < trains; i++) {
-		const gain = multiplier * dots * energyPerTrain * ((3.48e-7 * Math.log(happy + 250) + 3.09e-6) * (stat + total) + 6.83e-5 * (happy + 250) - 0.03);
-		total += Math.max(0, gain);
-		happy = Math.max(0, happy - Math.round(energyPerTrain / 2));
-	}
-	return total;
+type GymStat = "strength" | "defense" | "speed" | "dexterity";
+const CONSTANTS: Record<GymStat, [number, number, number]> = {
+	strength: [1600, 1700, 700],
+	defense: [2100, -600, 1500],
+	speed: [1600, 2000, 1350],
+	dexterity: [1800, 1500, 1000],
+};
+
+function round4(value: number) {
+	return Math.round(value * 10_000) / 10_000;
 }
 
-export function gymPerkMultiplier(perks: string[], stat: "strength" | "defense" | "speed" | "dexterity"): number {
+/** Vladar's spreadsheet, including the post-50m adjustment and happy-loss range. */
+export function estimateGymGains(stat: number, happy: number, dots: number, energy: number, trains: number, multiplier: number, type: GymStat) {
+	const [a, b, error] = CONSTANTS[type];
+	const gain = (value: number, happiness: number, adjustment = 0) => {
+		const effectiveStat = value < 50_000_000 ? value : 50_000_000 + (value - 50_000_000) / (8.77635 * Math.log10(value));
+		const happyMultiplier = round4(1 + 0.07 * round4(Math.log(1 + happiness / 250)));
+		return (
+			((effectiveStat * happyMultiplier + 8 * happiness ** 1.05 + a * (1 - (happiness / 99999) ** 2) + b + adjustment) * dots * energy * multiplier) /
+			200_000
+		);
+	};
+	const one = gain(stat, happy);
+	let low = 0;
+	let high = 0;
+	for (let i = 0; i < trains; i++) {
+		low += gain(stat + low, Math.max(0, happy - i * energy * 0.6), -error);
+		high += gain(stat + high, Math.max(0, happy - i * energy * 0.4), error);
+	}
+	return { one, total: trains === 1 ? one : (low + high) / 2 };
+}
+
+export function gymPerkMultiplier(perks: string[], stat: GymStat): number {
 	let multiplier = 1;
 	for (const perk of perks) {
 		const text = perk.toLowerCase();

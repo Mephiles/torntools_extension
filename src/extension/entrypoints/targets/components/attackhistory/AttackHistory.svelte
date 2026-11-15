@@ -26,8 +26,8 @@
 			<p class="text-muted-foreground text-sm">{amountOfRows} stored {amountOfRows === 1 ? "target" : "targets"}</p>
 		</div>
 		<div class="flex items-center gap-2">
-			<label class="flex items-center gap-2 text-sm">
-				<Switch size="sm" bind:checked={showPercentages} />
+			<label class="flex items-center gap-2 text-sm" for="show-percentages">
+				<Switch id="show-percentages" size="sm" bind:checked={showPercentages} />
 				<span>Show percentages</span>
 			</label>
 			<ResetAction title="Reset attack history" description="Are you sure you want to delete the attack history?" onConfirm={resetHistory} />

@@ -2,19 +2,20 @@
 	import * as Select from "@svelte/components/ui/select";
 
 	interface ItemSelectProps {
+		id: string;
 		items: { value: string; label: string; disabled?: boolean }[];
 		placeholder: string;
 		value: string;
 		onValueChange: (value: string) => void;
 	}
 
-	let { items, placeholder, value, onValueChange }: ItemSelectProps = $props();
+	let { id, items, placeholder, value, onValueChange }: ItemSelectProps = $props();
 
 	const triggerContent = $derived(items.find((i) => i.value === value)?.label ?? placeholder);
 </script>
 
 <Select.Root type="single" {value} {onValueChange}>
-	<Select.Trigger size="sm" class="w-full">
+	<Select.Trigger size="sm" class="w-full" {id}>
 		{triggerContent}
 	</Select.Trigger>
 	<Select.Content class="max-h-60">

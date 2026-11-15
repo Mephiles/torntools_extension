@@ -34,5 +34,5 @@
 		{/if}
 	</Field.Content>
 
-	<ItemSelect {items} placeholder="Select a value" {value} onValueChange={(nextValue) => void updateValue(nextValue)} />
+	<ItemSelect {id} {items} placeholder="Select a value" {value} onValueChange={(nextValue) => void updateValue(nextValue)} />
 </Field.Field>

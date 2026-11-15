@@ -34,6 +34,7 @@ function moveIcons() {
 
 		icon.parentElement!.appendChild(icon);
 	}
+	findElement("[class*='swiperWrapper___']", true)?.dispatchEvent(new Event("scroll"));
 }
 
 export default class HideIconsFeature extends Feature {

@@ -97,7 +97,7 @@
 
 <PreferenceSectionCard title="User Aliases">
 	{#snippet action()}
-		<Button type="button" size="icon-xs" variant="outline" onclick={addAlias}>
+		<Button type="button" size="icon-xs" variant="outline" aria-label="Add user alias" onclick={addAlias}>
 			<PlusIcon />
 		</Button>
 	{/snippet}
@@ -126,7 +126,13 @@
 							placeholder="Alias"
 							oninput={(event) => updateAliasField(index, "alias", event.currentTarget.value)}
 						/>
-						<Button type="button" size="icon-sm" variant="destructive" onclick={() => removeAlias(index)}>
+						<Button
+							type="button"
+							size="icon-sm"
+							variant="destructive"
+							aria-label={`Remove ${alias.alias.trim() || "user alias"}`}
+							onclick={() => removeAlias(index)}
+						>
 							<TrashIcon />
 						</Button>
 					</div>
@@ -156,7 +162,13 @@
 							placeholder="Alias"
 							oninput={(event) => updatePendingAlias(pendingAlias.rowId, "alias", event.currentTarget.value)}
 						/>
-						<Button type="button" size="icon-sm" variant="destructive" onclick={() => removePendingAlias(pendingAlias.rowId)}>
+						<Button
+							type="button"
+							size="icon-sm"
+							variant="destructive"
+							aria-label={`Remove ${pendingAlias.alias.trim() || "user alias"}`}
+							onclick={() => removePendingAlias(pendingAlias.rowId)}
+						>
 							<TrashIcon />
 						</Button>
 					</div>

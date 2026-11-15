@@ -1,10 +1,11 @@
 import "./checkbox-list.css";
 import { createCheckbox } from "@common/utils/elements/checkbox/checkbox";
 import type { CheckboxObject } from "@common/utils/elements/checkbox/checkbox";
+import { createInfoIcon } from "@common/utils/elements/info-icon/info-icon.ts";
 import { elementBuilder } from "@common/utils/functions/dom";
 
 interface CheckboxListOptions {
-	items: { id: string | number; description: string }[];
+	items: { id: string | number; description: string; info?: string }[];
 	orientation: "column" | "row";
 	reverseLabel: boolean;
 	useId: boolean;
@@ -24,9 +25,15 @@ export function createCheckboxList(partialOptions: Partial<CheckboxListOptions>)
 	let selectionChangeCallback: (() => void) | undefined;
 
 	for (const item of options.items) {
+		const tooltip = item.info ? createInfoIcon({ description: item.info, class: "checkbox-information" }) : undefined;
+
 		const checkbox = options.useId
-			? createCheckbox({ description: item.description, reverseLabel: options.reverseLabel, id: item.id.toString() })
-			: createCheckbox({ description: item.description, reverseLabel: options.reverseLabel });
+			? createCheckbox({ description: item.description, reverseLabel: options.reverseLabel, id: item.id.toString(), describedBy: tooltip?.id })
+			: createCheckbox({ description: item.description, reverseLabel: options.reverseLabel, describedBy: tooltip?.id });
+
+		if (tooltip) {
+			checkbox.element.appendChild(tooltip.element);
+		}
 
 		checkbox.onChange(() => {
 			if (checkbox.isChecked()) {

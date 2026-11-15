@@ -2061,12 +2061,6 @@ export function isOwnProfile() {
 	return (params.has("XID") && parseInt(params.get("XID")!) === id) || (params.has("NID") && params.get("NID") === name);
 }
 
-export function getUserEnergy() {
-	return findElement("[class*='bar__'][class*='energy__'] [class*='bar-value___'], [class*='bar__'][class*='energy__'] [class*='barValue___']")
-		.textContent.split("/")
-		.map((x) => parseInt(x));
-}
-
 export function getItemEnergy(id: number) {
 	const effect = ITEM_RESOLVER.getStaticItem(id)?.effect;
 	if (!effect) return false;
@@ -2079,8 +2073,8 @@ export function getItemEnergy(id: number) {
 	return !Number.isNaN(parseInt(value)) ? parseInt(value) : false;
 }
 
-export function getUserLife() {
-	return findElement("[class*='bar__'][class*='life__'] :is([class*='bar-value___'], [class*='barValue___'])")
+export function getUserBar(stat: "energy" | "nerve" | "happy" | "life") {
+	return findElement(`[class*='bar__'][class*='${stat}__'] :is([class*='bar-value___'], [class*='barValue___'])`)
 		.textContent.split("/")
 		.map((x) => parseInt(x));
 }

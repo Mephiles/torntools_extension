@@ -13,3 +13,7 @@
 .tt-checkbox-list-wrapper.tt-checkbox-list-row > .tt-checkbox-wrapper:not(:first-child) {
 	margin-left: 10px;
 }
+
+.checkbox-information {
+	margin-left: 2px;
+}

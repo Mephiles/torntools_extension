@@ -7,6 +7,8 @@ interface CheckboxOptions {
 	isHTML: boolean;
 	reverseLabel: boolean;
 	id: string;
+	/** ID of the element describing this checkbox, for `aria-describedby`. */
+	describedBy: string;
 	class: string;
 }
 
@@ -24,6 +26,7 @@ export function createCheckbox(partialOptions: Partial<CheckboxOptions> = {}): C
 		isHTML: false,
 		reverseLabel: false,
 		id: getUUID(),
+		describedBy: "",
 		class: "",
 		...partialOptions,
 	};
@@ -41,6 +44,8 @@ export function createCheckbox(partialOptions: Partial<CheckboxOptions> = {}): C
 			[options.isHTML ? "html" : "text"]: options.description,
 		});
 	}
+
+	if (options.describedBy) checkbox.setAttribute("aria-describedby", options.describedBy);
 
 	label.insertAdjacentElement("afterbegin", checkbox);
 

@@ -31,6 +31,11 @@
 			{
 				"property": "getElementsByTagName",
 				"message": "Use findElement(selector, parent?, optional?) from @common/utils/functions/find-elements instead."
+			},
+			{
+				"property": "createElement",
+				"object": "document",
+				"message": "Use elementBuilder(tagName)/elementBuilder(options) from @common/utils/functions/dom instead."
 			}
 		],
 		"eslint/no-shadow": "off",
@@ -113,7 +118,7 @@
 	},
 	"overrides": [
 		{
-			"files": ["src/common/utils/functions/find-elements.ts"],
+			"files": ["src/common/utils/functions/find-elements.ts", "src/common/utils/functions/dom.ts"],
 			"rules": {
 				"eslint/no-restricted-properties": "off"
 			}

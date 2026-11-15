@@ -469,9 +469,9 @@ export function scriptManager() {
 		setupGymPage().catch(logger.debug);
 		FEATURE_MANAGER.registerFeature(new GymDisableStatsFeature());
 		FEATURE_MANAGER.registerFeature(new GymGraphFeature());
-		FEATURE_MANAGER.registerFeature(new GymGainEstimateFeature());
 		FEATURE_MANAGER.registerFeature(new GymProgressFeature());
 		FEATURE_MANAGER.registerFeature(new GymSteadfastFeature());
+		FEATURE_MANAGER.registerFeature(new GymGainEstimateFeature());
 		FEATURE_MANAGER.registerFeature(new GymTitlesFeature());
 		FEATURE_MANAGER.registerFeature(new SpecialistGymsFeature());
 	} else if (page === "hospital") {
