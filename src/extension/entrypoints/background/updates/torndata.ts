@@ -37,7 +37,7 @@ export function isStatsBlackout(now = new Date()): boolean {
 }
 
 export function getTorndataUpdateMode(previous: StoredTorndata | undefined, now = new Date()): TorndataUpdateMode {
-	if (!previous?.gyms || !isSameUTCDay(previous.date, now)) {
+	if (!previous || !isSameUTCDay(previous.date, now)) {
 		return isStatsBlackout(now) ? "partial" : "full";
 	}
 

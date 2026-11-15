@@ -270,13 +270,6 @@ export const MIGRATIONS: MigrationScript[] = [
 		},
 	},
 	{
-		id: "de7c4d19-3361-4c1f-be03-282127739831",
-		version: "9.3.3",
-		execute(_database, flags, _oldStorage) {
-			flags.updateTorndata = true;
-		},
-	},
-	{
 		id: "9f2e7b2c-c345-4e56-92a2-d26452a3b04f",
 		version: "9.3.3",
 		execute(database, _flags, oldStorage) {
@@ -313,6 +306,13 @@ export const MIGRATIONS: MigrationScript[] = [
 			database.notes = legacy.notes as DatabaseNotes;
 			await browser.storage.local.remove("notes");
 			await browser.storage.local.set({ "notes-backup": JSON.stringify(legacy.notes) });
+		},
+	},
+	{
+		id: "f0d594dc-0b03-4756-a5b9-5933d5603044",
+		version: "9.4.0",
+		execute(_database, flags, _oldStorage) {
+			flags.updateTorndata = true;
 		},
 	},
 ];

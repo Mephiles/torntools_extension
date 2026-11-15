@@ -43,9 +43,6 @@ function previous(overrides: any = {}) {
 }
 
 describe("getTorndataUpdateMode", () => {
-	it("refreshes an older cache without gyms", () => {
-		expect(getTorndataUpdateMode(previous({ gyms: undefined }), AFTER_BLACKOUT)).toBe("full");
-	});
 	it("should update without stats during the blackout when there is no torndata yet", () => {
 		expect(getTorndataUpdateMode(undefined, BLACKOUT)).toBe("partial");
 	});
