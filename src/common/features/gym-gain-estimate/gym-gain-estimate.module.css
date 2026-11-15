@@ -4,4 +4,5 @@
 	line-height: 1.4;
 	text-align: center;
 	white-space: pre-line;
+	color: var(--tt-color-green);
 }
