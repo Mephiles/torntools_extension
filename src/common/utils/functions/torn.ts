@@ -2074,7 +2074,7 @@ export function getItemEnergy(id: number) {
 }
 
 export function getUserBar(stat: "energy" | "nerve" | "happy" | "life") {
-	return findElement("[class*='bar__'][class*='happy__'] :is([class*='bar-value___'], [class*='barValue___'])")
+	return findElement(`[class*='bar__'][class*='${stat}__'] :is([class*='bar-value___'], [class*='barValue___'])`)
 		.textContent.split("/")
 		.map((x) => parseInt(x));
 }
