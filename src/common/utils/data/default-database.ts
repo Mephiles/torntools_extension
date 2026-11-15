@@ -43,6 +43,7 @@ export const DEFAULT_STORAGE = {
 			key: new DefaultSetting<string | null>("string"),
 			online: new DefaultSetting("boolean", true),
 			error: new DefaultSetting<string | null>("string"),
+			errorCode: new DefaultSetting<number | null>("number"),
 			owner: new DefaultSetting<number | null>("number"),
 		},
 		tornstats: {

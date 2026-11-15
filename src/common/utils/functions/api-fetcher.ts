@@ -278,11 +278,11 @@ async function handleTimeoutError(location: FetchLocation, options: FetchOptions
 	throw { error, isLocal: false, code: CUSTOM_API_ERROR.CANCELLED };
 }
 
-async function handleTornApiState(location: FetchLocation, options: FetchOptions, error?: string, online = false) {
+async function handleTornApiState(location: FetchLocation, options: FetchOptions, error?: string, online = false, errorCode: number | null = null) {
 	if (!TORN_API_PLATFORMS.includes(location) || options.silent || SCRIPT_TYPE !== "BACKGROUND") return;
 
 	if (error) {
-		await ttStorage.change({ api: { torn: { online, error } } });
+		await ttStorage.change({ api: { torn: { online, error, errorCode } } });
 		await setBadge("error");
 	} else {
 		await getBadgeText()
@@ -291,7 +291,7 @@ async function handleTornApiState(location: FetchLocation, options: FetchOptions
 			})
 			.catch(() => logger.error("Couldn't get the badge text."));
 
-		await ttStorage.change({ api: { torn: { online: true, error: "" } } });
+		await ttStorage.change({ api: { torn: { online: true, error: "", errorCode: null } } });
 	}
 }
 
@@ -322,19 +322,17 @@ async function hasOrigins(...locations: FetchLocation[]): Promise<boolean> {
 
 async function handleApiError(location: FetchLocation, options: FetchOptions, result: any): Promise<never> {
 	if (TORN_API_PLATFORMS.includes(location)) {
-		let error: string, online: boolean;
-
 		if (result.error instanceof HTTPException) {
-			error = result.error.toString();
-			online = false;
-		} else {
-			error = result.error.error;
-			online = result.error.code !== 9 && !(result instanceof HTTPException);
+			const error = result.error.asObject();
+
+			await handleTornApiState(location, options, result.error.toString(), false, error.code);
+
+			throw error;
 		}
 
-		await handleTornApiState(location, options, error, online);
+		await handleTornApiState(location, options, result.error.error, result.error.code !== 9, result.error.code);
 
-		throw result.error instanceof HTTPException ? result.error.asObject() : result.error;
+		throw result.error;
 	}
 
 	throw { error: result.error };

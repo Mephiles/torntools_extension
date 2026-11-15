@@ -1,7 +1,7 @@
 import { ttStorage } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { api, companydata, factiondata, initializeDatabase, stockdata, torndata } from "@common/utils/data/database";
-import { isTornApiError } from "@common/utils/functions/api";
+import { isTemporaryTornApiError, isTornApiError } from "@common/utils/functions/api";
 import { CUSTOM_API_ERROR } from "@common/utils/functions/api-fetcher";
 import { logger } from "@common/utils/functions/logger";
 import { hasTimePassed, TO_MILLIS } from "@common/utils/functions/utilities";
@@ -110,10 +110,8 @@ export async function timedUpdates() {
 		} else if (error.code === CUSTOM_API_ERROR.CANCELLED) {
 			logger.warn(`Error due to requests taking too long while ${message}.`);
 		} else if (isTornApiError(error)) {
-			if (error.code === 9) {
-				logger.info(`Torn's API is temporary disabled while ${message}.`);
-			} else if (error.code === 17) {
-				logger.info(`Torn's API is having backend issues while ${message}.`);
+			if (isTemporaryTornApiError(error.code)) {
+				logger.info(`Torn's API is temporarily unavailable while ${message}.`, error);
 			} else {
 				logger.error(`Error while ${message}.`, error);
 			}

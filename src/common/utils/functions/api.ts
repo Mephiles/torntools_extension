@@ -13,9 +13,21 @@ export const COMPANY_ACCESS = {
 	director: "director",
 } as const;
 
+const TEMPORARY_TORN_API_ERROR_CODES = [
+	5, // Too many requests
+	9, // API disabled
+	15, // Temporary error
+	17, // Backend error occurred, please try again
+	24, // Closed temporarily
+];
+
+export function isTemporaryTornApiError(code: number | null | undefined): boolean {
+	return typeof code === "number" && TEMPORARY_TORN_API_ERROR_CODES.includes(code);
+}
+
 export function hasAPIData(): boolean {
 	const hasKey = !!api?.torn?.key;
-	const hasError = !!api?.torn?.error && !api.torn.error.includes("Backend error") && api.torn.error !== "Network issues";
+	const hasError = !!api?.torn?.error && !isTemporaryTornApiError(api.torn.errorCode) && api.torn.error !== "Network issues";
 	const hasUserdata = !!(userdata && Object.keys(userdata).length);
 
 	return hasKey && !hasError && hasUserdata;
