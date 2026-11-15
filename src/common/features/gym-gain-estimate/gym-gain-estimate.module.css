@@ -1,4 +1,7 @@
 .gain-estimate {
 	font-size: 11px;
 	margin-top: 4px;
+	line-height: 1.4;
+	text-align: center;
+	white-space: pre-line;
 }

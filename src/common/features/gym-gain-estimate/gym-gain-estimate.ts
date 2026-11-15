@@ -29,17 +29,17 @@ async function refresh() {
 	const trains = Math.floor(energy / gym.energy_cost);
 	for (const stat of STATS) {
 		const row = findElement(`#gymroot ul[class*='properties_'] li[class*='${stat}_']`);
-		const title = findElement("[class*='propertyTitle_']", row);
+		const description = findElement("[class*='description_']", row);
 		const value = Number(findElement("[class*='propertyValue_']", row).textContent.replaceAll(",", "").trim());
 		const perksAvailable = settings.apiUsage.user.perks && userdata.perks;
 		const multiplier = perksAvailable ? gymPerkMultiplier(Object.values(userdata.perks).flat(), stat) : 1;
 		const estimate = estimateGymGains(value, happy, gym.modifiers[stat], gym.energy_cost, trains, multiplier, stat);
-		let display = findElement(`.${styles.gainEstimate}`, title, true);
+		let display = findElement(`.${styles.gainEstimate}`, description, true);
 		if (!display) {
 			display = elementBuilder({ type: "div", class: styles.gainEstimate });
-			title.appendChild(display);
+			description.appendChild(display);
 		}
-		display.textContent = `Estimated ${perksAvailable ? "" : "base "}gain: ${formatNumber(estimate.one, { decimals: 2 })} / train; ${formatNumber(estimate.total, { decimals: 2 })} for ${trains} trains`;
+		display.textContent = `Est. ${perksAvailable ? "" : "base "}gain: +${formatNumber(estimate.one, { decimals: 2 })} / train\n+${formatNumber(estimate.total, { decimals: 2 })} for ${trains} trains`;
 		display.title = "Approximate gain. Some bonuses may be missing; happiness loss varies between trains.";
 	}
 }
