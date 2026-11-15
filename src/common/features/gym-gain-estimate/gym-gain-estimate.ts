@@ -33,13 +33,13 @@ async function refresh() {
 		const value = Number(findElement("[class*='propertyValue_']", row).textContent.replaceAll(",", "").trim());
 		const perksAvailable = settings.apiUsage.user.perks && userdata.perks;
 		const multiplier = perksAvailable ? gymPerkMultiplier(Object.values(userdata.perks).flat(), stat) : 1;
-		const estimate = estimateGymGains(value, happy, gym.modifiers[stat] / 10, gym.energy_cost, trains, multiplier, stat);
+		const estimate = estimateGymGains(value, happy, gym.modifiers[stat], gym.energy_cost, trains, multiplier, stat);
 		let display = findElement(`.${styles.gainEstimate}`, title, true);
 		if (!display) {
 			display = elementBuilder({ type: "div", class: styles.gainEstimate });
 			title.appendChild(display);
 		}
-		display.textContent = `Estimated ${perksAvailable ? "" : "base "}gain: ${formatNumber(estimate.one)} / train; ${formatNumber(estimate.total)} for ${trains} trains`;
+		display.textContent = `Estimated ${perksAvailable ? "" : "base "}gain: ${formatNumber(estimate.one, { decimals: 2 })} / train; ${formatNumber(estimate.total, { decimals: 2 })} for ${trains} trains`;
 		display.title = "Approximate gain. Some bonuses may be missing; happiness loss varies between trains.";
 	}
 }

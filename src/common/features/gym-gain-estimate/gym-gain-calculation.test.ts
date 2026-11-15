@@ -2,6 +2,10 @@ import { describe, expect, it } from "bun:test";
 import { estimateGymGains, gymPerkMultiplier } from "./gym-gain-calculation";
 
 describe("estimateGymGains", () => {
+	it("calculates a low-stat train using gym dots", () => {
+		const estimate = estimateGymGains(5064.28, 951, 5, 10, 1, 1, "strength");
+		expect(estimate.one).toBeCloseTo(4.91008, 4);
+	});
 	it("matches the maintainer's high-stat spreadsheet example", () => {
 		const multiplier = 1.1 * 1.02 * 1.01 * 1.01;
 		const estimate = estimateGymGains(2_640_006_600, 5025, 7.5, 25, 1, multiplier, "strength");
