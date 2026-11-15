@@ -35,7 +35,7 @@ function addGains() {
 		if (!Number.isNaN(companyPerk)) totalHappy += (companyPerk / 100) * baseHappy;
 
 		if (isEventActive(TORN_EVENTS.WORLD_DIABETES_DAY, true)) {
-			totalHappy *= 2;
+			totalHappy *= 3;
 		}
 
 		findElement(".name-wrap", candy).insertAdjacentElement("beforeend", elementBuilder({ type: "span", class: "tt-candy-gains", text: `${totalHappy}H` }));

@@ -5,7 +5,13 @@
 		"date": false,
 		"logs": {
 			"features": [{ "message": "Show estimated gym gains.", "contributor": "AwesomeOddEven" }],
-			"fixes": [{ "message": "'Hide Icons' now hides the fading on mobile if scrolling no longer is an option.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "'Hide Icons' now hides the fading on mobile if scrolling no longer is an option.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Correctly show the World Diabetes Day event tripling the provided happy instead of doubling in 'Candy Happy'.",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"changes": [
 				{ "message": "'Hide Crime Flavour Text' now also hides neutral stories.", "contributor": "DeKleineKobini" },
 				{ "message": "Show which targets each target tier includes in 'Pickpocketing Tier'.", "contributor": "DeKleineKobini" },
