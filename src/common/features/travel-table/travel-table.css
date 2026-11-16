@@ -6,6 +6,7 @@
 	color: var(--content-title-links, #666);
 	align-items: center;
 	text-decoration: none;
+	gap: 5px;
 }
 
 .tt-travel-icon {
