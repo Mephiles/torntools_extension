@@ -22,7 +22,7 @@
 				{ "message": "'Hide Crime Flavour Text' now also hides neutral stories.", "contributor": "DeKleineKobini" },
 				{ "message": "Show which targets each target tier includes in 'Pickpocketing Tier'.", "contributor": "DeKleineKobini" },
 				{ "message": "Improve accessibility on our internal pages.", "contributor": "DeKleineKobini" },
-				{ "message": "Be less strict in when we disable features based on API errors", "contributor": "DeKleineKobini" },
+				{ "message": "Be less strict in when we disable features based on API errors.", "contributor": "DeKleineKobini" },
 				{ "message": "Slightly move the 'Travel Table' icon when flying.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
