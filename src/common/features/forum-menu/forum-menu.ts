@@ -11,6 +11,23 @@ import { toClipboard } from "@common/utils/functions/utilities";
 import { torntools } from "@common/utils/icons/torntools";
 import { Feature } from "@features/feature";
 
+type ForumsPreference = "hideThreads" | "hidePosts" | "highlightThreads" | "highlightPosts" | "ignoredThreads";
+
+function toggleForumsPreference(key: ForumsPreference, id: number) {
+	const preferences = settings.pages.forums[key];
+	const status = preferences[id];
+
+	if (status) {
+		delete preferences[id];
+		void ttStorage.update("settings", (stored) => delete stored.pages.forums[key][id]);
+	} else {
+		preferences[id] = true;
+		void ttStorage.change({ settings: { pages: { forums: { [key]: { [id]: true } } } } });
+	}
+
+	return status;
+}
+
 function initialiseListeners() {
 	addXHRListener(async ({ detail: { page, xhr } }) => {
 		if (page !== "forums") return;
@@ -282,12 +299,7 @@ async function showPosts() {
 								text: `${settings.pages.forums.hideThreads[userId] ? "Show" : "Hide"} ${name} threads`,
 								events: {
 									click(event) {
-										const status = settings.pages.forums.hideThreads[userId];
-
-										if (status) delete settings.pages.forums.hideThreads[userId];
-										else settings.pages.forums.hideThreads[userId] = true;
-
-										ttStorage.set({ settings });
+										const status = toggleForumsPreference("hideThreads", userId);
 
 										(event.target as Element).textContent = `${!status ? "Show" : "Hide"} ${name} threads`;
 									},
@@ -298,12 +310,7 @@ async function showPosts() {
 								text: `${shouldHidePosts ? "Show" : "Hide"} ${name} posts`,
 								events: {
 									click() {
-										const status = settings.pages.forums.hidePosts[userId];
-
-										if (status) delete settings.pages.forums.hidePosts[userId];
-										else settings.pages.forums.hidePosts[userId] = true;
-
-										ttStorage.set({ settings });
+										toggleForumsPreference("hidePosts", userId);
 
 										showPosts();
 									},
@@ -314,12 +321,7 @@ async function showPosts() {
 								text: `${settings.pages.forums.highlightThreads[userId] ? "Unhighlight" : "Highlight"} ${name} threads`,
 								events: {
 									click(event) {
-										const status = settings.pages.forums.highlightThreads[userId];
-
-										if (status) delete settings.pages.forums.highlightThreads[userId];
-										else settings.pages.forums.highlightThreads[userId] = true;
-
-										ttStorage.set({ settings });
+										const status = toggleForumsPreference("highlightThreads", userId);
 
 										(event.target as Element).textContent = `${!status ? "Unhighlight" : "Highlight"} ${name} threads`;
 									},
@@ -330,12 +332,7 @@ async function showPosts() {
 								text: `${settings.pages.forums.highlightPosts[userId] ? "Unhighlight" : "Highlight"} ${name} posts`,
 								events: {
 									click() {
-										const status = settings.pages.forums.highlightPosts[userId];
-
-										if (status) delete settings.pages.forums.highlightPosts[userId];
-										else settings.pages.forums.highlightPosts[userId] = true;
-
-										ttStorage.set({ settings });
+										toggleForumsPreference("highlightPosts", userId);
 
 										showPosts();
 									},
@@ -346,12 +343,8 @@ async function showPosts() {
 								text: `${settings.pages.forums.ignoredThreads[threadId] ? "Unignore" : "Ignore"} this entire thread`,
 								events: {
 									click(event) {
-										const status = settings.pages.forums.ignoredThreads[threadId];
+										const status = toggleForumsPreference("ignoredThreads", threadId);
 
-										if (status) delete settings.pages.forums.ignoredThreads[threadId];
-										else settings.pages.forums.ignoredThreads[threadId] = true;
-
-										ttStorage.set({ settings });
 										(event.target as Element).textContent = `${!status ? "Unignore" : "Ignore"} this entire thread`;
 									},
 								},

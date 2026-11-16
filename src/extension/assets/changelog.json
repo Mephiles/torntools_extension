@@ -29,7 +29,8 @@
 			"technical": [
 				{ "message": "Refactor 'Lottery Chance' to be easier to maintain.", "contributor": "DeKleineKobini" },
 				{ "message": "Combine functions to get the current bar values on-page.", "contributor": "DeKleineKobini" },
-				{ "message": "No longer decide what calls to relay through the background.", "contributor": "DeKleineKobini" }
+				{ "message": "No longer decide what calls to relay through the background.", "contributor": "DeKleineKobini" },
+				{ "message": "Change the way 'Forum Menu' updates your preferences.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
