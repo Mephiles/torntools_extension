@@ -2122,10 +2122,6 @@ export function hasFinishedEducation() {
 	return torndata.education.flatMap((e) => e.courses).every(({ id }) => userdata.education.complete.includes(id));
 }
 
-export function isChatV3() {
-	return !!findElement("#notes_settings_button", true);
-}
-
 let ttTopLinks: HTMLElement | undefined, ttTopLinksCreating: boolean | undefined;
 
 export async function createTTTopLinks() {
