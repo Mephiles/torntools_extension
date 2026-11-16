@@ -2139,8 +2139,8 @@ export async function createTTTopLinks() {
 	ttTopLinksCreating = true;
 	const topLinks = elementBuilder({ type: "div", class: "tt-top-icons" });
 	ttTopLinks = topLinks;
-	await requireElement("[class*='titleContainer___']").then((title) => {
-		title.appendChild(topLinks);
+	await requireElement("[class*='freeSpace___']").then((title) => {
+		title.insertAdjacentElement("afterend", topLinks);
 		ttTopLinksCreating = false;
 	});
 	return topLinks;

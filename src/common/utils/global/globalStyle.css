@@ -331,4 +331,5 @@ body[data-layout="hospital"] #sidebarroot .pill {
 .tt-top-icons {
 	display: flex;
 	gap: 10px;
+	font-weight: bold;
 }
