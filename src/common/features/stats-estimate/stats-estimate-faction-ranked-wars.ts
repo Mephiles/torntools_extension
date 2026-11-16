@@ -66,7 +66,7 @@ function showEstimates() {
 
 export default class StatsEstimateFactionRankedWarsFeature extends Feature {
 	constructor() {
-		super("Stats Estimate Faction Ranked Wars", "factions");
+		super("Stats Estimate Faction Ranked Wars", "faction");
 	}
 
 	override precondition() {

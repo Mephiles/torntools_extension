@@ -75,7 +75,7 @@ function removeEstimates() {
 
 export default class StatsEstimateFactionMembersFeature extends Feature {
 	constructor() {
-		super("Stats Estimate Faction Members", "factions");
+		super("Stats Estimate Faction Members", "faction");
 	}
 
 	override precondition() {
