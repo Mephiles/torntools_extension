@@ -444,6 +444,7 @@ export const DEFAULT_STORAGE = {
 				warReportHighlight: new DefaultSetting("boolean", true),
 				ocWeights: new DefaultSetting("boolean", true),
 				submitScenarios: new DefaultSetting("boolean", false),
+				warOnlineStatus: new DefaultSetting("boolean", true),
 			},
 			property: {
 				filter: new DefaultSetting("boolean", true),

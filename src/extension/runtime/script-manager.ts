@@ -97,6 +97,7 @@ import FactionMemberFilterFeature from "@features/faction-member-filter/faction-
 import FactionOCTimeFeature from "@features/faction-oc-time/faction-oc-time";
 import FactionQuickItemsFeature from "@features/faction-quick-items/faction-quick-items";
 import FactionStakeoutsFeature from "@features/faction-stakeouts/faction-stakeouts";
+import FactionWarOnlineCountsFeature from "@features/faction-war-online-counts/faction-war-online-counts";
 import FairAttackFeature from "@features/fair-attack/fair-attack";
 import FastHuntingFeature from "@features/fast-hunting/fast-hunting.ts";
 import FFScouterAttackFeature from "@features/ff-scouter/ff-scouter-attack";
@@ -440,6 +441,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FullFactionInfoboxFeature());
 		FEATURE_MANAGER.registerFeature(new FFScouterFactionFeature());
 		FEATURE_MANAGER.registerFeature(new LastActionFactionFeature());
+		FEATURE_MANAGER.registerFeature(new FactionWarOnlineCountsFeature());
 		FEATURE_MANAGER.registerFeature(new OCAvailablePlayersFeature());
 		FEATURE_MANAGER.registerFeature(new OCLastActionFeature());
 		FEATURE_MANAGER.registerFeature(new OpenOCFeature());

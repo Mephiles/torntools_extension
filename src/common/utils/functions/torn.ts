@@ -7,7 +7,7 @@ import { logger } from "@common/utils/functions/logger";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
 import { getCookie, isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
 import { torntools } from "@common/utils/icons/torntools";
-import type { TornCalendarActivity, TornCalendarResponse, UserStock } from "tornapi-typescript";
+import type { TornCalendarActivity, TornCalendarResponse, UserLastActionStatusEnum, UserStock } from "tornapi-typescript";
 import { elementBuilder, findParent, getSearchParameters, isElement } from "./dom";
 import { findAllElements, findElement, findElementWithText } from "./find-elements";
 import { convertToNumber, formatNumber } from "./formatting";
@@ -2722,3 +2722,24 @@ export type TravelCountry =
 	| "switzerland"
 	| "uae"
 	| "united_kingdom";
+
+export type UserActivityStatus = Lowercase<UserLastActionStatusEnum>;
+
+export function getUserActivity(element: ParentNode): UserActivityStatus | "" {
+	const icon = findElement("[class*='userOnlineStatusIcon___']", element, true);
+	if (icon) {
+		const label = icon?.getAttribute("alt") || icon.closest("[aria-label]")?.getAttribute("aria-label");
+		const labelMatch = label?.match(/\b(online|idle|offline)\b/i);
+		if (labelMatch) {
+			return labelMatch[1].toLowerCase() as UserActivityStatus;
+		}
+	}
+
+	const title = findElement("#iconTray li", element, true)?.getAttribute("title");
+	const titleMatch = title?.match(/Online|Idle|Offline/g);
+	if (titleMatch) {
+		return titleMatch[0].toLowerCase().trim() as UserActivityStatus;
+	}
+
+	return "";
+}

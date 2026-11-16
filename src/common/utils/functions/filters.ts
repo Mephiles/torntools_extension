@@ -18,10 +18,9 @@ import { findAllElements, findElement } from "@common/utils/functions/find-eleme
 import { camelCase } from "@common/utils/functions/formatting";
 import { logger } from "@common/utils/functions/logger";
 import { requireElement } from "@common/utils/functions/requires";
-import { RANK_TRIGGERS, WEAPON_BONUSES } from "@common/utils/functions/torn";
+import { getUserActivity, RANK_TRIGGERS, WEAPON_BONUSES } from "@common/utils/functions/torn";
 import { getUUID } from "@common/utils/functions/utilities";
 import { PHFillFunnel, PHFillFunnelX } from "@common/utils/icons/phosphor-icons";
-import type { UserLastActionStatusEnum } from "tornapi-typescript";
 
 export type SpecialFilterValue = "both" | "yes" | "no" | "none";
 
@@ -67,31 +66,6 @@ export const defaultFactionsItems: FilterOption[] = [
 		disabled: true,
 	},
 ];
-
-export const FILTER_REGEXES = {
-	activity: /Online|Idle|Offline/g,
-} as const;
-
-export type UserActivityStatus = Lowercase<UserLastActionStatusEnum>;
-
-export function getUserActivity(element: ParentNode): UserActivityStatus | "" {
-	const icon = findElement("[class*='userOnlineStatusIcon___']", element, true);
-	if (icon) {
-		const label = icon?.getAttribute("alt") || icon.closest("[aria-label]")?.getAttribute("aria-label");
-		const labelMatch = label?.match(/\b(online|idle|offline)\b/i);
-		if (labelMatch) {
-			return labelMatch[1].toLowerCase() as UserActivityStatus;
-		}
-	}
-
-	const title = findElement("#iconTray li", element, true)?.getAttribute("title");
-	const titleMatch = title?.match(FILTER_REGEXES.activity);
-	if (titleMatch) {
-		return titleMatch[0].toLowerCase().trim() as UserActivityStatus;
-	}
-
-	return "";
-}
 
 type FilterCallback = (() => void) | (() => Promise<void>);
 
