@@ -1033,11 +1033,11 @@ export function getDefaultStorage(defaultStorage: { [key: string]: any }) {
 					case "boolean":
 					case "number":
 					case "string":
-					case "object":
 						newStorage[key] = setting.defaultValue;
 						break;
+					case "object":
 					default:
-						newStorage[key] = setting.defaultValue;
+						newStorage[key] = structuredClone(setting.defaultValue);
 						break;
 				}
 			} else {
