@@ -55,7 +55,7 @@ class PrometheusTravelDataFetcher implements PriorityService<TravelDataFetchResu
 		let result: PrometheusTravelResponse;
 
 		try {
-			result = await fetchData<PrometheusTravelResponse>("prometheus", { section: "travel", relay: true });
+			result = await fetchData<PrometheusTravelResponse>("prometheus", { section: "travel" });
 		} catch (error: any) {
 			throw { service: "Prometheus", message: `Unknown - ${JSON.stringify(error)}` };
 		}
@@ -79,10 +79,7 @@ class TornIntelTravelDataFetcher implements PriorityService<TravelDataFetchResul
 		let result: TornIntelTravelResponse;
 
 		try {
-			result = await fetchData<TornIntelTravelResponse>("tornintel", {
-				section: "foreign-stock/travel-table",
-				relay: true,
-			});
+			result = await fetchData<TornIntelTravelResponse>("tornintel", { section: "foreign-stock/travel-table" });
 		} catch (error: any) {
 			throw { service: "Torn Intel", message: `Unknown - ${JSON.stringify(error)}` };
 		}
@@ -106,7 +103,7 @@ class YATATravelDataFetcher implements PriorityService<TravelDataFetchResult> {
 		let result: YATATravelResponse;
 
 		try {
-			result = await fetchData<YATATravelResponse>("yata", { section: "travel/export/", relay: true });
+			result = await fetchData<YATATravelResponse>("yata", { section: "travel/export/" });
 		} catch (error: any) {
 			throw { service: "YATA", message: `Unknown - ${JSON.stringify(error)}` };
 		}

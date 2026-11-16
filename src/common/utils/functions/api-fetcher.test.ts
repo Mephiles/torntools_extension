@@ -21,7 +21,6 @@ const BASE_OPTIONS: FetchOptions = {
 	body: undefined,
 	silent: false,
 	includeKey: false,
-	relay: false,
 	params: {},
 };
 

@@ -57,7 +57,7 @@ async function fetchWeights(): Promise<TornProbabilityRoleWeights> {
 		return ttCache.get("probability-weights")!;
 	}
 
-	const weights = await fetchData<TornProbabilityRoleWeights>("tornprobability", { section: "GetRoleWeights", relay: true });
+	const weights = await fetchData<TornProbabilityRoleWeights>("tornprobability", { section: "GetRoleWeights" });
 
 	ttCache.set({ "probability-weights": weights }, TO_MILLIS.DAYS);
 	return weights;

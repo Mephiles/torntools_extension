@@ -59,7 +59,7 @@ async function showNNB() {
 				result = ttCache.get<TornstatsFactionCrimes>("crimes", "tornstats")!;
 			} else {
 				try {
-					result = await fetchData<TornstatsFactionCrimes>("tornstats", { section: "faction/crimes", relay: true });
+					result = await fetchData<TornstatsFactionCrimes>("tornstats", { section: "faction/crimes" });
 
 					if (result.status) {
 						ttCache.set({ tornstats: result }, TO_MILLIS.HOURS, "crimes");
@@ -97,7 +97,7 @@ async function showNNB() {
 				result = ttCache.get<YATAFactionMembers>("crimes", "yata")!;
 			} else {
 				try {
-					result = await fetchData<YATAFactionMembers>("yata", { section: "faction/crimes/export", includeKey: true, relay: true });
+					result = await fetchData<YATAFactionMembers>("yata", { section: "faction/crimes/export", includeKey: true });
 
 					ttCache.set({ yata: result }, TO_MILLIS.HOURS, "crimes");
 				} catch (error) {

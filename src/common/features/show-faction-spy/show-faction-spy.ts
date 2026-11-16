@@ -90,7 +90,7 @@ class YATAFactionSpyPerformer extends FactionSpyPerformer {
 			data = ttCache.get<YATASpyResponse>("faction-spy-yata", this.factionID)!;
 			isCached = true;
 		} else {
-			data = await fetchData<YATASpyResponse>("yata", { relay: true, section: "spies", includeKey: true, params: { faction: this.factionID } });
+			data = await fetchData<YATASpyResponse>("yata", { section: "spies", includeKey: true, params: { faction: this.factionID } });
 			ttCache.set({ [this.factionID]: data }, TO_MILLIS.HOURS, "faction-spy-yata");
 		}
 

@@ -43,17 +43,17 @@ function syncData(items: SyncItem[], country: string) {
 	};
 
 	if (settings.external.yata) {
-		fetchData("yata", { section: "travel/import/", method: "POST", body: data, relay: true })
+		fetchData("yata", { section: "travel/import/", method: "POST", body: data })
 			.then((response) => logger.info("Updated YATA abroad prices.", response))
 			.catch((error) => logger.warn("Failed to update YATA abroad prices.", error));
 	}
 	if (settings.external.prometheus) {
-		fetchData("prometheus", { section: "travel", method: "POST", body: data, relay: true })
+		fetchData("prometheus", { section: "travel", method: "POST", body: data })
 			.then((response) => logger.info("Updated Prometheus abroad prices.", response))
 			.catch((error) => logger.warn("Failed to update Prometheus abroad prices.", error));
 	}
 	if (settings.external.tornintel) {
-		fetchData("tornintel", { section: "foreign-stock/upload", method: "POST", body: data, relay: true })
+		fetchData("tornintel", { section: "foreign-stock/upload", method: "POST", body: data })
 			.then((response) => logger.info("Updated Torn Intel abroad prices.", response))
 			.catch((error) => logger.warn("Failed to update Torn Intel abroad prices.", error));
 	}

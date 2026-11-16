@@ -7,7 +7,6 @@ import { TO_MILLIS } from "@common/utils/functions/utilities";
 
 const __DEFAULT_REVIVE_REQUEST: Partial<FetchOptions> = {
 	method: "POST",
-	relay: true,
 	silent: true,
 };
 

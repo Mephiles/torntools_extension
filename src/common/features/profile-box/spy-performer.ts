@@ -73,7 +73,7 @@ class YATASpyPerformer extends SpyPerformer {
 				result = ttCache.get("yata-spy", this.id);
 				isCached = true;
 			} else {
-				const yataResult = await fetchData<YATASpyResponse>("yata", { relay: true, section: "spy", id: this.id, includeKey: true, silent: true });
+				const yataResult = await fetchData<YATASpyResponse>("yata", { section: "spy", id: this.id, includeKey: true, silent: true });
 
 				if (!("error" in yataResult) && yataResult.spies[this.id]) {
 					result = {
@@ -128,7 +128,7 @@ class TornStatsSpyPerformer extends SpyPerformer {
 				result = ttCache.get("tornstats-spy", this.id)!;
 				isCached = true;
 			} else {
-				const tsResult = await fetchData<TornstatsSpy>("tornstats", { section: "spy/user", id: this.id, silent: true, relay: true });
+				const tsResult = await fetchData<TornstatsSpy>("tornstats", { section: "spy/user", id: this.id, silent: true });
 
 				result = {
 					status: tsResult.status,

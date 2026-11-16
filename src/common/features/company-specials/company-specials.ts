@@ -148,7 +148,6 @@ async function calculateSpies(json: any) {
 								player_level: parseInt(json.result.user.level),
 								...data[user],
 							},
-							relay: true,
 						})
 							.then((response) => {
 								const responseElement = findElement(".external-response", specialContext, true);

@@ -116,7 +116,7 @@ class FFScouterService extends ScouterService {
 	}
 
 	async __fetch(targets: number[]): Promise<ScouterResult[]> {
-		const data = await fetchData<FFScouterResult>("ffscouter", { section: "get-stats", includeKey: true, relay: true, params: { targets } });
+		const data = await fetchData<FFScouterResult>("ffscouter", { section: "get-stats", includeKey: true, params: { targets } });
 		if ("error" in data) {
 			logger.error("Failed to scout FF for the following players:", targets, data.error);
 			return targets.map<ScouterResult>((target) => ({

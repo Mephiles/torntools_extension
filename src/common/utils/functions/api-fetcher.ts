@@ -57,18 +57,18 @@ export interface FetchOptions {
 	body: any;
 	silent: boolean;
 	includeKey: boolean;
-	relay: boolean;
 	params: { [key: string]: any };
 }
 
+const CSP_ALLOWED_PLATFORMS: FetchLocation[] = ["torn_direct", "tornv2"];
 const TORN_API_PLATFORMS: FetchLocation[] = ["tornv2"];
 const TEXT_RESPONSE_PLATFORMS: FetchLocation[] = ["torn_direct", "laekna"];
 
 export async function fetchData<R = any>(location: FetchLocation, partialOptions: Partial<FetchOptions> = {}): Promise<R> {
 	const options = mergeOptions(partialOptions);
 
-	if (options.relay && SCRIPT_TYPE !== "BACKGROUND" && !RUNTIME_INFORMATION.isUserscript()) {
-		return relayToBackground(location, options);
+	if (SCRIPT_TYPE !== "BACKGROUND" && !RUNTIME_INFORMATION.isUserscript() && !CSP_ALLOWED_PLATFORMS.includes(location)) {
+		return OFFLOAD_SERVICE.fetchRelay(location, options);
 	}
 
 	const request = buildFetchRequest(location, options);
@@ -109,14 +109,9 @@ export function mergeOptions(partial: Partial<FetchOptions>): FetchOptions {
 		body: undefined,
 		silent: false,
 		includeKey: false,
-		relay: false,
 		params: {},
 		...partial,
 	};
-}
-
-async function relayToBackground<R = any>(location: FetchLocation, options: FetchOptions): Promise<R> {
-	return OFFLOAD_SERVICE.fetchRelay(location, { ...options, relay: false });
 }
 
 function decideTimeoutTimer(location: FetchLocation): number {

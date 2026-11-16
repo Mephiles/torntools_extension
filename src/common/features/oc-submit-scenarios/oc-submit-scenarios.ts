@@ -132,12 +132,7 @@ interface TornProbabilityScenarioData {
 }
 
 async function submitScenarioData(data: TornProbabilityScenarioData) {
-	return fetchData<never>("tornprobability", {
-		method: "POST",
-		section: "scenarios",
-		body: data,
-		relay: true,
-	});
+	return fetchData<never>("tornprobability", { method: "POST", section: "scenarios", body: data });
 }
 
 export default class OCSubmitScenariosFeature extends Feature {

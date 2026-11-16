@@ -15,7 +15,8 @@
 					"contributor": "DeKleineKobini"
 				},
 				{ "message": "Make sure the 'Race Car Selector' doesn't appear twice.", "contributor": "DeKleineKobini" },
-				{ "message": "Move the top icons (like in 'Computer Link') back to the right.", "contributor": "DeKleineKobini" }
+				{ "message": "Move the top icons (like in 'Computer Link') back to the right.", "contributor": "DeKleineKobini" },
+				{ "message": "'Show Faction Spy' was no longer showing up due to the call to TornStats failing.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "'Hide Crime Flavour Text' now also hides neutral stories.", "contributor": "DeKleineKobini" },
@@ -26,7 +27,8 @@
 			"removed": [],
 			"technical": [
 				{ "message": "Refactor 'Lottery Chance' to be easier to maintain.", "contributor": "DeKleineKobini" },
-				{ "message": "Combine functions to get the current bar values on-page.", "contributor": "DeKleineKobini" }
+				{ "message": "Combine functions to get the current bar values on-page.", "contributor": "DeKleineKobini" },
+				{ "message": "No longer decide what calls to relay through the background.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

@@ -36,7 +36,7 @@ async function showGraph() {
 			button.setAttribute("disabled", "");
 			showLoadingPlaceholder(responseElement, true);
 
-			const { message, status } = await fetchData("tornstats", { section: "battlestats/record", relay: true })
+			const { message, status } = await fetchData("tornstats", { section: "battlestats/record" })
 				.then((response) => {
 					if ("error" in response && typeof response.error === "string") {
 						let message: string;
@@ -106,7 +106,7 @@ async function showGraph() {
 			result = ttCache.get("gym", "graph");
 		} else {
 			try {
-				result = await fetchData("tornstats", { section: "battlestats/graph", relay: true });
+				result = await fetchData("tornstats", { section: "battlestats/graph" });
 
 				if (result.status) {
 					result.data = filterData(result.data);

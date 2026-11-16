@@ -28,7 +28,7 @@
 		if (maxPrice) params.maxPrice = maxPrice;
 		if (resultLimit) params.limit = resultLimit;
 
-		return fetchTornW3B<TornW3BResult>({ relay: true, section: `marketplace/${item.id}`, params }).then<TornW3BResult>((result) => ({
+		return fetchTornW3B<TornW3BResult>({ section: `marketplace/${item.id}`, params }).then<TornW3BResult>((result) => ({
 			...result,
 			listings: result.listings.filter((listing) => (!minQuantity || listing.quantity >= minQuantity) && (!maxPrice || listing.price <= maxPrice)),
 		}));

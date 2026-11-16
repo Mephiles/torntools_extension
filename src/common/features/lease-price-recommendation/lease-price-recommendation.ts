@@ -246,7 +246,6 @@ async function fetchRentalListings(propertyTypeId: number) {
 			id: propertyTypeId,
 			selections: ["rentals"],
 			params: { limit: FETCH_LIMIT, offset },
-			relay: true,
 			silent: true,
 		});
 
