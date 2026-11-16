@@ -10,7 +10,7 @@ import settingsManifest from "./settings-manifest.ts";
 
 (async () => {
 	registerCoreUserscriptContext();
-	await registerDatabaseUserscriptContext("tt_ci", settingsManifest);
+	await registerDatabaseUserscriptContext("tt_ci2", settingsManifest);
 	registerNetworkUserscriptContext();
 	registerInjectorUserscriptContext();
 

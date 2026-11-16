@@ -7,7 +7,7 @@ import settingsManifest from "./settings-manifest.ts";
 
 (async () => {
 	registerCoreUserscriptContext();
-	await registerDatabaseUserscriptContext("tt_fm", settingsManifest);
+	await registerDatabaseUserscriptContext("tt_fm2", settingsManifest);
 	registerInjectorUserscriptContext();
 
 	FEATURE_MANAGER.registerFeature(new ForumMenuFeature());
