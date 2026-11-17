@@ -486,6 +486,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.faction.csvWarReport", label: "CSV: War report", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.csvChainReport", label: "CSV: Chain report", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.csvChallengeContributions", label: "CSV: Challenge contributions", group: "qol", section: "faction" },
+	{ path: "settings.pages.faction.csvRaidReport", label: "CSV: Raid report", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.highlightOwn", label: "Highlight own OC", group: "qol", section: "faction", keywords: ["organized crime"] },
 	{ path: "settings.pages.faction.openOc", label: "Open ready OCs", group: "qol", section: "faction", keywords: ["organized crime"] },
 	{

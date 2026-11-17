@@ -102,6 +102,7 @@
 		<PreferenceSettingGroup title="CSV">
 			<StorageSwitch path="settings.pages.faction.csvRankedWarReport" label="Ranked war report" />
 			<StorageSwitch path="settings.pages.faction.csvWarReport" label="War report" />
+			<StorageSwitch path="settings.pages.faction.csvRaidReport" label="Raid report" />
 			<StorageSwitch path="settings.pages.faction.csvChainReport" label="Chain report" />
 			<StorageSwitch path="settings.pages.faction.csvChallengeContributions" label="Challenge contributions" />
 		</PreferenceSettingGroup>

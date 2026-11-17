@@ -16,7 +16,8 @@
 				},
 				{ "message": "Make sure the 'Race Car Selector' doesn't appear twice.", "contributor": "DeKleineKobini" },
 				{ "message": "Move the top icons (like in 'Computer Link') back to the right.", "contributor": "DeKleineKobini" },
-				{ "message": "'Show Faction Spy' was no longer showing up due to the call to TornStats failing.", "contributor": "DeKleineKobini" }
+				{ "message": "'Show Faction Spy' was no longer showing up due to the call to TornStats failing.", "contributor": "DeKleineKobini" },
+				{ "message": "Add the missing option to disable Raid Report to CSV.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "'Hide Crime Flavour Text' now also hides neutral stories.", "contributor": "DeKleineKobini" },
