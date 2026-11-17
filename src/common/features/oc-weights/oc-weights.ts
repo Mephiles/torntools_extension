@@ -24,7 +24,7 @@ async function displayScenarioWeights() {
 	findAllElements(":scope > [data-oc-id]:not([data-tt-weights])", list).forEach((row) => {
 		row.dataset.ttWeights = "true";
 
-		const title = findElement("[class*='panelTitle____']", row).textContent;
+		const title = findElement("[class*='panelTitle___']", row).textContent;
 		const data = weightsForScenario(weights, title) ?? {};
 
 		findAllElements("[class*='contentLayer___'] > [class*='wrapper___'] > [class*='wrapper___']", row).forEach((slotElement) => {

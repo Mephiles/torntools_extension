@@ -16,7 +16,8 @@
 				},
 				{ "message": "Make sure the 'Race Car Selector' doesn't appear twice.", "contributor": "DeKleineKobini" },
 				{ "message": "Move the top icons (like in 'Computer Link') back to the right.", "contributor": "DeKleineKobini" },
-				{ "message": "'Show Faction Spy' was no longer showing up due to the call to TornStats failing.", "contributor": "DeKleineKobini" }
+				{ "message": "'Show Faction Spy' was no longer showing up due to the call to TornStats failing.", "contributor": "DeKleineKobini" },
+        { "message": "'Display role weights for OC2 scenarios' could not function as element selector for OC panelTitle was no longer correct.", "contributor": "Phoenix" }
 			],
 			"changes": [
 				{ "message": "'Hide Crime Flavour Text' now also hides neutral stories.", "contributor": "DeKleineKobini" },
