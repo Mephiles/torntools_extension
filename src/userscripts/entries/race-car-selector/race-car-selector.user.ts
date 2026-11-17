@@ -23,6 +23,7 @@ import settingsManifest from "./settings-manifest.ts";
 	await fetchEnlistedCars(key);
 
 	setupRacingPage();
+
 	FEATURE_MANAGER.registerFeature(new RaceCarSelectorFeature());
 })();
 

@@ -20,6 +20,7 @@ import settingsManifest from "./settings-manifest.ts";
 	switch (page) {
 		case "itemmarket": {
 			await setupItemMarketPage();
+
 			FEATURE_MANAGER.registerFeature(new ItemMarketFillMaxFeature());
 			break;
 		}
@@ -34,6 +35,7 @@ import settingsManifest from "./settings-manifest.ts";
 		case "travel":
 			if (isAbroad()) {
 				await setupTravelAbroadPage();
+
 				FEATURE_MANAGER.registerFeature(new TravelFillMaxFeature());
 			}
 			break;
