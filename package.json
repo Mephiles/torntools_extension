@@ -24,6 +24,7 @@
 		"lint": "oxlint",
 		"lint:fix": "oxlint --fix",
 		"check:fix": "oxlint --fix && oxfmt",
+		"port-userscript": "bun tools/port-userscript.ts",
 		"static-items": "bun tools/update-static-items.ts",
 		"docs:dev": "astro dev --root docs",
 		"docs:build": "astro build --root docs",
