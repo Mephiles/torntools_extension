@@ -1,5 +1,5 @@
 import type { PortAnalysis, PortTodo, SettingsEntry, SettingsOverride } from "./analyse";
-import { entryImportPath } from "./analyse";
+import { entryImportBinding, entryImportPath } from "./analyse";
 
 export interface RenderedPort {
 	metadata: string;
@@ -70,7 +70,7 @@ function renderEntry(analysis: PortAnalysis): string {
 	return joinLines([
 		...todoBlock(analysis.todos, "user"),
 		'import { FEATURE_MANAGER } from "@common/utils/context";',
-		...analysis.classes.map((klass) => `import ${klass.className} from ${literal(entryImportPath(klass))};`),
+		...analysis.classes.map((klass) => `import ${entryImportBinding(klass)} from ${literal(entryImportPath(klass))};`),
 		'import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";',
 		'import { registerDatabaseUserscriptContext } from "@userscripts/runtime/context/script-database-context";',
 		...(analysis.injector ? ['import { registerInjectorUserscriptContext } from "@userscripts/runtime/context/script-injector-context";'] : []),
@@ -88,6 +88,7 @@ function renderEntry(analysis: PortAnalysis): string {
 		...(analysis.loadItems ? ["\tawait ScriptItemResolver.loadItems();"] : []),
 		...(analysis.apiKey === "required" ? ["\tawait requiresAPIKey();"] : []),
 		...(analysis.apiKey === "optional" ? ["\toptionalAPIKey();"] : []),
+		"",
 		...analysis.classes.map((klass) => `\tFEATURE_MANAGER.registerFeature(new ${klass.className}());`),
 		"})();",
 	]);

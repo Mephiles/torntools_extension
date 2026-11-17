@@ -43,6 +43,7 @@ export interface FeatureClass {
 	file: string;
 	name: string;
 	immediate: boolean;
+	namedExport: boolean;
 }
 
 export interface PortAnalysis {
@@ -118,7 +119,8 @@ export function analyseFeature(feature: string): PortAnalysis {
 
 	const network =
 		loadItems || identifiers.has("DATA_FETCHER") || identifiers.has("OFFLOAD_SERVICE") || identifiers.has("fetchData") || identifiers.has("getApiUrl");
-	const injector = identifiers.has("SCRIPT_INJECTOR");
+	// `addFetchListener`/`addXHRListener` are thin wrappers around SCRIPT_INJECTOR.
+	const injector = ["SCRIPT_INJECTOR", "addFetchListener", "addXHRListener"].some((identifier) => identifiers.has(identifier));
 
 	const matches = readMatches(classes, todos);
 	const runAt = primary.immediate ? "document-start" : "document-end";
@@ -156,6 +158,10 @@ export function entryImportPath(klass: FeatureClass): string {
 	return `@features/${basename(dirname(klass.file))}/${basename(klass.file, ".ts")}`;
 }
 
+export function entryImportBinding(klass: FeatureClass): string {
+	return klass.namedExport ? `{ ${klass.className} }` : klass.className;
+}
+
 function featureClasses(files: string[]): FeatureClass[] {
 	const classes: FeatureClass[] = [];
 
@@ -173,6 +179,7 @@ function featureClasses(files: string[]): FeatureClass[] {
 				file,
 				name: stringValue(args[0]) ?? node.name.text,
 				immediate: args.some((argument) => ts.isPropertyAccessExpression(argument) && argument.name.text === "IMMEDIATELY"),
+				namedExport: ts.getCombinedModifierFlags(node) === ts.ModifierFlags.Export,
 			});
 		});
 	}

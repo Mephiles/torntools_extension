@@ -18,6 +18,7 @@ const CASES = [
 	"company-specials", // shared connection entries
 	"flying-time", // single page
 	"item-values", // multiple pages
+	"prevent-join-attacks", // injector at document-start, secondary setting
 ];
 
 describe("matches the committed entries", () => {
@@ -38,6 +39,18 @@ describe("matches the committed entries", () => {
 });
 
 describe("settings classification", () => {
+	it("detects the injector through the listener wrappers", () => {
+		expect(analyseFeature("weapon-bonus-information").injector).toBe(true);
+		expect(analyseFeature("weapon-experience").injector).toBe(false);
+	});
+	it("imports a named export by name", () => {
+		const rendered = renderPort(analyseFeature("csv-challenge-contributions"));
+
+		expect(rendered.user).toContain(
+			'import { CSVChallengeContributionsFeature } from "@features/csv-challenge-contributions/csv-challenge-contributions";',
+		);
+	});
+
 	it("keeps a non-boolean isEnabled setting user-configurable", () => {
 		const analysis = analyseFeature("hide-icons");
 
@@ -103,6 +116,7 @@ describe("rendering", () => {
 					file: "/src/common/features/example-thing/example-thing.ts",
 					name: "Example Thing",
 					immediate: false,
+					namedExport: false,
 				},
 			],
 			settings: [{ path: "settings.pages.examples.option", label: "Example option" }],
@@ -157,6 +171,7 @@ import settingsManifest from "./settings-manifest.ts";
 	await registerDatabaseUserscriptContext("tt_et", settingsManifest);
 	registerNetworkUserscriptContext();
 	optionalAPIKey();
+
 	FEATURE_MANAGER.registerFeature(new ExampleThing());
 })();
 `,
