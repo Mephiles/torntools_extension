@@ -192,6 +192,7 @@ import PageTitleFeature from "@features/page-title/page-title";
 import PersistentListFilterFeature from "@features/persistent-list-filter/persistent-list-filter";
 import PickpocketingFilterFeature from "@features/pickpocketing-filter/pickpocketing-filter";
 import PointsValueFeature from "@features/points-value/points-value";
+import PokerProfileLinksFeature from "@features/poker-profile-links/poker-profile-links";
 import PreferenceSettingsFeature from "@features/preference-settings/preference-settings";
 import PreventJoinAttacksFeature from "@features/prevent-join-attacks/prevent-join-attacks.ts";
 import ProfileBoxFeature from "@features/profile-box/profile-box";
@@ -569,6 +570,8 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new WarReportHighlightFeature());
 	} else if (page === "highlow") {
 		FEATURE_MANAGER.registerFeature(new HighLowHelperFeature());
+	} else if (page === "holdem" || page === "poker-fullscreen") {
+		FEATURE_MANAGER.registerFeature(new PokerProfileLinksFeature());
 	} else if (page === "blackjack") {
 		FEATURE_MANAGER.registerFeature(new BlackjackStrategyFeature());
 	} else if (page === "points-market") {

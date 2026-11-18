@@ -228,6 +228,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 		section: "money",
 		keywords: ["stocks", "next bb"],
 	},
+	{ path: "settings.pages.casino.pokerProfileLinks", label: "Link poker player names to profiles", group: "financial", section: "money" },
 	{ path: "settings.pages.casino.netTotal", label: "Show net total of casino game", group: "financial", section: "money" },
 	{ path: "settings.pages.casino.blackjack", label: "Show the optimal choice for blackjack", group: "financial", section: "money", keywords: ["casino"] },
 	{ path: "settings.pages.casino.highlow", label: "Enable the high-low helper", group: "financial", section: "money", keywords: ["casino"] },
