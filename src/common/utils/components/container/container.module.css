@@ -1,4 +1,16 @@
 .container {
+	&.spacer {
+		margin-bottom: 10px;
+	}
+
+	&.spacer > .title {
+		margin-top: 10px;
+	}
+
+	&.collapsible > .title {
+		cursor: pointer;
+	}
+
 	.title {
 		padding-left: 10px;
 		height: 30px;
@@ -23,6 +35,24 @@
 			height: 34px;
 		}
 
+		> .options {
+			width: 100%;
+			display: flex;
+			flex-direction: row-reverse;
+			margin-right: 4px;
+			align-items: center;
+
+			& > * {
+				margin-right: 4px;
+				display: flex;
+				align-items: center;
+			}
+
+			i {
+				font-size: 1rem;
+			}
+		}
+
 		> :global(.icon) {
 			min-width: 30px;
 			font-size: 16px;
@@ -36,25 +66,33 @@
 		}
 	}
 
-	&.collapsible > .title {
-		cursor: pointer;
+	&:not(.alwaysContent) > .title.collapsed + main {
+		display: none !important;
 	}
 
-	&.rounding > .title.collapsed {
-		border-radius: 5px;
+	&.alwaysContent > .title.collapsed + main :global(.hide-collapse) {
+		display: none !important;
+	}
+
+	.text {
+		width: -webkit-fill-available;
+		width: -moz-available;
 	}
 
 	&.rounding > .title:not(.collapsed) {
 		border-radius: 5px 5px 0 0;
 	}
 
-	&.rounding > main {
-		border-radius: 0 0 5px 5px;
+	&.rounding.alwaysContent > .title {
+		border-radius: 5px 5px 0 0;
 	}
 
-	.text {
-		width: -webkit-fill-available;
-		width: -moz-available;
+	&.rounding:not(.alwaysContent) > .title.collapsed {
+		border-radius: 5px;
+	}
+
+	&.rounding > main {
+		border-radius: 0 0 5px 5px;
 	}
 
 	main {
@@ -68,4 +106,27 @@
 	&.compact > main {
 		padding: 0;
 	}
+}
+
+/*
+ * Rules that only apply to the containers built by createContainer(), anchored on the unscoped
+ * class names it emits so they can never affect the Svelte component.
+ */
+:global(.tt-container) > main {
+	margin-top: initial !important;
+}
+
+:global(.tt-container:not(.compact)) > main {
+	padding: 4px 4px 3px 4px;
+}
+
+:global(.tt-container.reset-styles) {
+	font-size: 12px !important;
+	font-family: Arial, serif !important;
+	color: var(--default-color) !important;
+	letter-spacing: 0;
+}
+
+:global(.tt-container) input[type="checkbox"] {
+	accent-color: #6e8820;
 }

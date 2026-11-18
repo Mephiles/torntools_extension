@@ -1,10 +1,10 @@
-import "./containers.css";
 import { ttStorage } from "@common/utils/context";
 import { filters } from "@common/utils/data/database";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
 import { camelCase } from "@common/utils/functions/formatting";
 import { PHFillCaretDown } from "@common/utils/icons/phosphor-icons";
+import styles from "@common/utils/components/container/container.module.css";
 
 export type ContainerPosition = { parentElement: Element } | { nextElement: Element } | { previousElement: Element } | { defaultPosition: true };
 
@@ -88,12 +88,12 @@ export function createContainer(
 	function _createContainer(title: string, options: ContainerOptions) {
 		findElement(`#${options.id}`, true)?.remove();
 
-		const containerClasses = ["tt-container"];
-		if (options.collapsible) containerClasses.push("collapsible");
-		if (options.applyRounding) containerClasses.push("rounding");
-		if (options.spacer) containerClasses.push("spacer");
-		if (options.compact) containerClasses.push("compact");
-		if (options.alwaysContent) containerClasses.push("always-content");
+		const containerClasses = ["tt-container", styles.container];
+		if (options.collapsible) containerClasses.push("collapsible", styles.collapsible);
+		if (options.applyRounding) containerClasses.push("rounding", styles.rounding);
+		if (options.spacer) containerClasses.push("spacer", styles.spacer);
+		if (options.compact) containerClasses.push("compact", styles.compact);
+		if (options.alwaysContent) containerClasses.push("always-content", styles.alwaysContent);
 		if (options.class) {
 			let classes: string[];
 			if (typeof options.class === "string") classes = options.class.split(" ").filter((c) => !!c);
@@ -105,7 +105,7 @@ export function createContainer(
 		if (options.resetStyles) containerClasses.push("reset-styles");
 
 		const mainClasses: string[] = [];
-		if (options.contentBackground) mainClasses.push("background");
+		if (options.contentBackground) mainClasses.push("background", styles.background);
 		if (options.flexContainer) mainClasses.push("t-flex");
 
 		containerClasses.push("tt-theme-background");
@@ -117,10 +117,10 @@ export function createContainer(
 			container.appendChild(
 				elementBuilder({
 					type: "div",
-					class: ["title", collapsed ? "collapsed" : null],
+					class: ["title", styles.title, collapsed ? "collapsed" : null, collapsed ? styles.collapsed : null],
 					children: [
-						elementBuilder({ type: "div", class: "text", text: title }),
-						elementBuilder({ type: "div", class: "options" }),
+						elementBuilder({ type: "div", class: ["text", styles.text], text: title }),
+						elementBuilder({ type: "div", class: ["options", styles.options] }),
 						options.collapsible ? PHFillCaretDown({ class: "icon" }) : null,
 					],
 				}),
@@ -132,9 +132,12 @@ export function createContainer(
 
 		if (options.collapsible && options.showHeader) {
 			findElement(".title", container).addEventListener("click", async () => {
-				findElement(".title", container).classList.toggle("collapsed");
+				const titleElement = findElement(".title", container);
+				// The scoped name drives the styling, the unscoped one is the public state.
+				titleElement.classList.toggle("collapsed");
+				titleElement.classList.toggle(styles.collapsed);
 
-				await ttStorage.change({ filters: { containers: { [options.id]: findElement(".title", container).classList.contains("collapsed") } } });
+				await ttStorage.change({ filters: { containers: { [options.id]: titleElement.classList.contains("collapsed") } } });
 			});
 		}
 		if (options.allowDragging) {
