@@ -48,6 +48,8 @@ export class ExtensionFeatureManager implements FeatureManager {
 		this.loadedFeatures = [];
 
 		window.addEventListener("error", (e) => {
+			if (e.filename.includes("torn.com/js/")) return;
+
 			if (e.error) {
 				if (e.error.filename.includes("injectedScript")) return;
 
@@ -55,7 +57,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 			} else {
 				if (
 					e.message === "ResizeObserver loop completed with undelivered notifications." &&
-					(e.filename.includes("torn.com/") || e.filename === "") // Firefox has no filename for some reason.
+					e.filename === "" // Firefox has no filename for some reason.
 				)
 					return;
 
