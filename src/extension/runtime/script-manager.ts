@@ -54,6 +54,7 @@ import CanEnergyFeature from "@features/can-energy/can-energy";
 import CandyHappyFeature from "@features/candy-happy/candy-happy";
 import CarWinPercentageFeature from "@features/car-win-percentage/car-win-percentage";
 import CasinoNetTotalFeature from "@features/casino-net-total/casino-net-total";
+import CategoryValueCalculatorFeature from "@features/category-value-calculator/category-value-calculator";
 import ChatAutocompleteFeature from "@features/chat-autocomplete/chat-autocomplete";
 import ChatFontSizeFeature from "@features/chat-font-size/chat-font-size";
 import ChatHighlightFeature from "@features/chat-highlight/chat-highlight";
@@ -379,6 +380,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new MissingFlowersFeature());
 		FEATURE_MANAGER.registerFeature(new MarketIconsFeature());
 		FEATURE_MANAGER.registerFeature(new MissingBooksFeature());
+		FEATURE_MANAGER.registerFeature(new CategoryValueCalculatorFeature());
 	} else if (page === "auction") {
 		setupAuctionHousePage().catch(logger.debug);
 		FEATURE_MANAGER.registerFeature(new AuctionHouseFilterFeature());

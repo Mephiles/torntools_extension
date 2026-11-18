@@ -6,7 +6,8 @@
 		"logs": {
 			"features": [
 				{ "message": "Show estimated gym gains.", "contributor": "AwesomeOddEven" },
-				{ "message": "Show the member counts per status on each side of a ranked war.", "contributor": "DeKleineKobini" }
+				{ "message": "Show the member counts per status on each side of a ranked war.", "contributor": "DeKleineKobini" },
+				{ "message": "Calculate the value of an entire item category.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "'Hide Icons' now hides the fading on mobile if scrolling no longer is an option.", "contributor": "DeKleineKobini" },

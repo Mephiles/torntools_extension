@@ -1,0 +1,59 @@
+---
+title: Category Value Calculator
+description: Shows the total value of the items you own in a category on the items page.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+The Category Value Calculator adds a container to your items page that totals the value of the items you own in one
+category, using either their market value, their sell value, or whichever of the two is higher.
+
+## How It Works
+
+1. Pick a category and a price mode, then press **Calculate**.
+2. The extension fetches that category from Torn's `user/inventory` API. Torn caches this selection for 15 minutes from
+   the timestamp it returns, and the extension caches it for exactly that long, so quantities are exact, including
+   equipped items.
+3. Each item is priced with Torn's item data: the market value (`market_price`) or the sell value (`sell_price`).
+4. The table lists every owned item in the category with its quantity, the applied price and its total. The totals row
+   on top sums the quantities and the value.
+5. Items without a usable price are counted as zero and listed below the table so the totals never silently lie.
+6. The line above the table shows how long ago Torn generated the data.
+
+<Aside type="note">
+	The **Combo** mode uses the highest of the market value and the sell value per item. A small **M** or **S** next to the price shows which one was applied.
+</Aside>
+
+## Where It Works
+
+| Page           | Behavior                                          |
+| -------------- | ------------------------------------------------- |
+| **Items page** | Container above the inventory lists, per category |
+
+## Usage
+
+| Column            | Meaning                                                     |
+| ----------------- | ----------------------------------------------------------- |
+| **Item**          | The item and its icon                                       |
+| **Quantity**      | How many of that item you own                               |
+| **Applied price** | The price used for this item, with `M` or `S` in combo mode |
+| **Total**         | Applied price × quantity                                    |
+
+## Setup / Requirements
+
+1. You need an API key with at least **minimal** access.
+2. The inventory selection must be available for your key.
+
+## Settings
+
+| Setting                                        | Default | Description                             |
+| ---------------------------------------------- | ------- | --------------------------------------- |
+| `settings.pages.items.categoryValueCalculator` | `false` | Show the Category Value Calculator box. |
+
+## Troubleshooting
+
+| Problem                      | Likely Cause                                                           |
+| ---------------------------- | ---------------------------------------------------------------------- |
+| "No API access."             | No (valid) API key, or your user data has not loaded yet.              |
+| An API error is shown in red | The inventory request failed or your key does not allow the selection. |
+| Quantities look out of date  | The inventory is cached; results refresh after 30 seconds.             |

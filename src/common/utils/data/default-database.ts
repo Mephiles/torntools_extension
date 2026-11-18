@@ -306,6 +306,7 @@ export const DEFAULT_STORAGE = {
 				openedSupplyPackValue: new DefaultSetting("boolean", true),
 				hideRecycleMessage: new DefaultSetting("boolean", false),
 				hideTooManyItemsWarning: new DefaultSetting("boolean", false),
+				categoryValueCalculator: new DefaultSetting("boolean", false),
 			},
 			crimes: {
 				quickCrimes: new DefaultSetting("boolean", true),
@@ -734,6 +735,9 @@ export const DEFAULT_STORAGE = {
 		},
 		city: {
 			highlightItems: new DefaultSetting("boolean", true),
+		},
+		items: {
+			categoryValueCalculator: new DefaultSetting<{ category: string; mode: string }>("object", { category: "", mode: "combo" }),
 		},
 		bounties: {
 			minLevel: new DefaultSetting("number", 1),

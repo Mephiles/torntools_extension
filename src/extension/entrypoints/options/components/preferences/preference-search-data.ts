@@ -278,6 +278,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.items.medicalLife", label: "Show life information when consuming medical items", group: "financial", section: "items" },
 	{ path: "settings.pages.items.hideRecycleMessage", label: "Hide the recycle message", group: "financial", section: "items" },
 	{ path: "settings.pages.items.hideTooManyItemsWarning", label: "Hide the too many items warning", group: "financial", section: "items" },
+	{ path: "settings.pages.items.categoryValueCalculator", label: "Calculate the value of an entire item category", group: "financial", section: "items" },
 	{ path: "settings.pages.items.missingBooks", label: "Display missing books", group: "financial", section: "items" },
 	{ path: "settings.pages.items.missingFlowers", label: "Missing flowers", group: "financial", section: "items", keywords: ["museum"] },
 	{ path: "settings.pages.items.missingPlushies", label: "Missing plushies", group: "financial", section: "items", keywords: ["museum"] },
