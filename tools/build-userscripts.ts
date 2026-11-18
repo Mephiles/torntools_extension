@@ -4,7 +4,7 @@ import { rm } from "node:fs/promises";
 import { resolve } from "node:path";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadata";
-import { build } from "vite";
+import { build, minify } from "vite";
 import monkey from "vite-plugin-monkey";
 
 const root = resolve(import.meta.dirname, "..");
@@ -21,6 +21,25 @@ const aliases = {
 	"@features": resolve(root, "src/common/features"),
 	"@svelte": resolve(root, "src/extension/svelte"),
 	"@userscripts": resolve(root, "src/userscripts"),
+};
+
+/**
+ * Minify only what end users cannot read anyway: dependencies (the Svelte runtime is the bulk) and the JS the Svelte
+ * compiler generates. Handwritten sources stay readable in the published bundle.
+ */
+const minifyGeneratedCode = {
+	name: "minify-generated-code",
+	enforce: "post",
+	async transform(code: string, id: string) {
+		const isDependency = id.includes("node_modules") && /\.[cm]?js$/.test(id);
+		const isCompiledSvelte = id.endsWith(".svelte") && !id.includes("?");
+		if (!isDependency && !isCompiledSvelte) return;
+
+		const result = await minify(id, code, { module: true, compress: true, mangle: true });
+		if (result.errors.length) throw new Error(`Failed to minify ${id}: ${result.errors.map((error) => error.message).join("; ")}`);
+
+		return { code: result.code, map: null };
+	},
 };
 
 async function buildUserscript(entryName: string, userscript: UserscriptMetadata, fileSuffix: string, beta = false, dev = false) {
@@ -42,6 +61,7 @@ async function buildUserscript(entryName: string, userscript: UserscriptMetadata
 		resolve: { alias: aliases },
 		plugins: [
 			svelte(),
+			dev ? null : minifyGeneratedCode,
 			monkey({
 				entry: `src/userscripts/entries/${entryName}/${entryName}.user.ts`,
 				userscript: {
