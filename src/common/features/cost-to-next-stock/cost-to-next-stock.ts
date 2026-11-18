@@ -70,10 +70,6 @@ export default class CostToNextStockFeature extends Feature {
 	}
 
 	override async reload() {
-		if (!this.isEnabled()) {
-			removeCostToNext();
-			return;
-		}
 		await showCostToNext();
 	}
 

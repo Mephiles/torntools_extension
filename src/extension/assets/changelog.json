@@ -19,7 +19,8 @@
 				{ "message": "Move the top icons (like in 'Computer Link') back to the right.", "contributor": "DeKleineKobini" },
 				{ "message": "'Show Faction Spy' was no longer showing up due to the call to TornStats failing.", "contributor": "DeKleineKobini" },
 				{ "message": "Add the missing option to disable Raid Report to CSV.", "contributor": "DeKleineKobini" },
-				{ "message": "'OC Weights' no longer was showing up.", "contributor": "DeKleineKobini" }
+				{ "message": "'OC Weights' no longer was showing up.", "contributor": "DeKleineKobini" },
+				{ "message": "Avoid an error with 'Cost to Next Stock'.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "'Hide Crime Flavour Text' now also hides neutral stories.", "contributor": "DeKleineKobini" },
