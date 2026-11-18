@@ -2,8 +2,8 @@ import type { BaseElement } from "@common/utils/elements/base-element";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { getTypedKeyOf, groupBy, noop } from "@common/utils/functions/utilities";
 import type { TypedKeyOf } from "@common/utils/functions/utilities";
-import "./table.css";
 import { PHFillCaretDown, PHFillCaretUp } from "@common/utils/icons/phosphor-icons";
+import styles from "@common/utils/components/table/table.module.css";
 
 const COLUMN_SORT_DIRECTION = {
 	Asc: "asc",
@@ -53,18 +53,18 @@ function createTableHeaderCell<T>(
 
 	const sortIcon = elementBuilder({
 		type: "svg",
-		class: "tt-table-header-cell-sort-icon tt-hidden",
+		class: [styles.headerCellSortIcon, "tt-table-header-cell-sort-icon", "tt-hidden"],
 	});
 
 	const headerCellElement = elementBuilder({
 		type: "div",
-		class: ["tt-table-header-cell", ...(columnDef.class ? [columnDef.class] : [])],
+		class: [styles.headerCell, "tt-table-header-cell", ...(columnDef.class ? [columnDef.class] : [])],
 		style: options.stretchColumns ? { minWidth: `${columnDef.width}px`, flex: "1" } : { width: `${columnDef.width}px` },
 		children: [
 			elementBuilder({
 				type: "span",
 				text: columnDef.title,
-				class: "tt-table-header-cell-title",
+				class: [styles.headerCellTitle, "tt-table-header-cell-title"],
 			}),
 			sortIcon,
 		],
@@ -72,7 +72,7 @@ function createTableHeaderCell<T>(
 
 	if (columnDef.sortable) {
 		headerCellElement.addEventListener("click", _sortIconClicked);
-		headerCellElement.classList.add("tt-table-header-cell-clickable");
+		headerCellElement.classList.add(styles.headerCellClickable, "tt-table-header-cell-clickable");
 	}
 
 	function setColumnSort(direction: COLUMN_SORT_DIRECTION) {
@@ -125,7 +125,7 @@ function createTableCell<T, K extends keyof T>(rowData: T, data: T[K], columnDef
 	const cell = cellRenderer(data);
 	const cellElement = elementBuilder({
 		type: "div",
-		class: ["tt-table-row-cell", ...(columnDef.class ? [columnDef.class] : [])],
+		class: [styles.rowCell, "tt-table-row-cell", ...(columnDef.class ? [columnDef.class] : [])],
 		style: options.stretchCell ? { minWidth: `${columnDef.width}px`, flex: "1" } : { width: `${columnDef.width}px` },
 		children: [cell.element],
 	});
@@ -151,7 +151,7 @@ function createTableRow<T extends Record<string, any>>(
 
 	const rowElement = elementBuilder({
 		type: "div",
-		class: ["tt-table-row", ...(options.rowClass ? [options.rowClass(rowData)] : [])],
+		class: [styles.row, "tt-table-row", ...(options.rowClass ? [options.rowClass(rowData)] : [])],
 		children: rowCells.map((cell) => cell.element),
 	});
 
@@ -172,7 +172,7 @@ function _createRowGroup<T>(groupKey: string, rowGroupInfo: TableRowGroupInfo<T>
 	const rowGroupCell = rowGroupInfo.cellRenderer(groupKey);
 	const groupHeader = elementBuilder({
 		type: "div",
-		class: ["tt-table-row-header"],
+		class: [styles.rowHeader, "tt-table-row-header"],
 		children: [rowGroupCell.element],
 	});
 
@@ -184,6 +184,7 @@ function _createRowGroup<T>(groupKey: string, rowGroupInfo: TableRowGroupInfo<T>
 	};
 }
 
+// Every module class is also emitted as its legacy tt-table-* name, so features styling the table through their own CSS (e.g. profile-box) keep working.
 export function createTable<T extends Record<string, any>>(
 	tableColumnsDefs: TableColumnDef<T>[],
 	tableRowsData: T[],
@@ -208,16 +209,16 @@ export function createTable<T extends Record<string, any>>(
 
 	const tableBodyElem = elementBuilder({
 		type: "div",
-		class: "tt-table-body",
+		class: [styles.body, "tt-table-body"],
 		children: tableRows.map((row) => row.element),
 	});
 	const tableElem = elementBuilder({
 		type: "div",
-		class: ["tt-table", ...(options.tableClass ? [options.tableClass] : [])],
+		class: [styles.table, "tt-table", ...(options.tableClass ? [options.tableClass] : [])],
 		children: [
 			elementBuilder({
 				type: "div",
-				class: "tt-table-header",
+				class: [styles.header, "tt-table-header"],
 				children: tableHeaders.map((header) => header.element),
 			}),
 			tableBodyElem,
