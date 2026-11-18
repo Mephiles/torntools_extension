@@ -255,7 +255,7 @@ function getCategories(itemType: string) {
 	if (itemType === "weapons") {
 		return ["Melee", "Secondary", "Primary", "Temporary"].sort().map((t) => ({ value: t.toLowerCase(), description: t }));
 	}
-	return ITEM_TYPES.filter((t) => !["Melee", "Secondary", "Primary", "Defensive", "Unused", "Book", "Temporary"].includes(t))
+	return ITEM_TYPES.filter((t) => !["Melee", "Secondary", "Primary", "Defensive", "Book", "Temporary"].includes(t))
 		.sort()
 		.map((t) => ({ value: t.toLowerCase(), description: t }));
 }

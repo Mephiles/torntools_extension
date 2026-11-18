@@ -7,7 +7,7 @@ import { logger } from "@common/utils/functions/logger";
 import { requireCondition, requireElement } from "@common/utils/functions/requires";
 import { getCookie, isIntNumber, TO_MILLIS } from "@common/utils/functions/utilities";
 import { torntools } from "@common/utils/icons/torntools";
-import type { TornCalendarActivity, TornCalendarResponse, UserLastActionStatusEnum, UserStock } from "tornapi-typescript";
+import type { TornCalendarActivity, TornCalendarResponse, TornInventoryItemType, UserLastActionStatusEnum, UserStock } from "tornapi-typescript";
 import { elementBuilder, findParent, getSearchParameters, isElement } from "./dom";
 import { findAllElements, findElement, findElementWithText } from "./find-elements";
 import { convertToNumber, formatNumber } from "./formatting";
@@ -1482,34 +1482,33 @@ export const SPECIAL_FILTER_ICONS: Record<string, string[]> = {
 
 export const CHAIN_BONUSES = [10, 25, 50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000] as const;
 
-export const ITEM_TYPES = [
-	"Melee",
-	"Secondary",
-	"Primary",
-	"Defensive",
-	"Candy",
-	"Other",
-	"Special",
-	"Material",
-	"Clothing",
-	"Jewelry",
-	"Tool",
-	"Medical",
-	"Collectible",
-	"Car",
-	"Flower",
-	"Booster",
-	"Unused",
+export const ITEM_TYPES: TornInventoryItemType[] = [
 	"Alcohol",
-	"Plushie",
-	"Drug",
-	"Temporary",
-	"Supply Pack",
-	"Enhancer",
 	"Artifact",
-	"Energy Drink",
 	"Book",
-] as const;
+	"Booster",
+	"Candy",
+	"Car",
+	"Clothing",
+	"Collectible",
+	"Defensive",
+	"Drug",
+	"Energy Drink",
+	"Enhancer",
+	"Flower",
+	"Jewelry",
+	"Material",
+	"Medical",
+	"Melee",
+	"Other",
+	"Plushie",
+	"Primary",
+	"Secondary",
+	"Special",
+	"Supply Pack",
+	"Temporary",
+	"Tool",
+];
 
 export const WEAPON_BONUSES = [
 	"Achilles",
