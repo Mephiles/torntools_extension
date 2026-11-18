@@ -3,7 +3,7 @@ import type { UserscriptMetadata } from "@userscripts/entries/userscript-metadat
 const metadata: UserscriptMetadata = {
 	name: "CSV Report",
 	description: "Download the faction chain, war, ranked war, raid and challenge contribution reports as CSV.",
-	version: "1.0.0",
+	version: "1.0.1",
 	matches: [
 		"https://*.torn.com/factions.php*",
 		"https://*.torn.com/war.php?step=chainreport*",
