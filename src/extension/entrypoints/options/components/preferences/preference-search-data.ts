@@ -276,7 +276,6 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.items.highlightBloodBags", label: "Highlight blood bags", group: "financial", section: "items" },
 	{ path: "settings.pages.items.energyWarning", label: "Warn if an item gives you energy over 1000", group: "financial", section: "items" },
 	{ path: "settings.pages.items.medicalLife", label: "Show life information when consuming medical items", group: "financial", section: "items" },
-	{ path: "settings.pages.items.hideRecycleMessage", label: "Hide the recycle message", group: "financial", section: "items" },
 	{ path: "settings.pages.items.hideTooManyItemsWarning", label: "Hide the too many items warning", group: "financial", section: "items" },
 	{ path: "settings.pages.items.categoryValueCalculator", label: "Calculate the value of an entire item category", group: "financial", section: "items" },
 	{ path: "settings.pages.items.missingBooks", label: "Display missing books", group: "financial", section: "items" },

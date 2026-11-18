@@ -134,7 +134,6 @@ import HideIconsFeature from "@features/hide-icons/hide-icons";
 import HideLeaveButtonsFeature from "@features/hide-leave-buttons/hide-leave-buttons";
 import HideLevelUpgradeFeature from "@features/hide-level-upgrade/hide-level-upgrade";
 import HideNewspaperHighlightFeature from "@features/hide-newspaper-highlight/hide-newspaper-highlight";
-import HideRecycleMessageFeature from "@features/hide-recycle-message/hide-recycle-message";
 import HideStocksFeature from "@features/hide-stocks/hide-stocks";
 import HideTooManyItemsWarningFeature from "@features/hide-too-many-items-warning/hide-too-many-items-warning";
 import HideTravelInventoryFeature from "@features/hide-travel-inventory/hide-travel-inventory";
@@ -364,7 +363,6 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new MuseumMarketLinkFeature());
 	} else if (page === "item") {
 		setupItemPage();
-		FEATURE_MANAGER.registerFeature(new HideRecycleMessageFeature());
 		FEATURE_MANAGER.registerFeature(new HideTooManyItemsWarningFeature());
 		FEATURE_MANAGER.registerFeature(new HighlightBloodBagsFeature());
 		FEATURE_MANAGER.registerFeature(new QuickItemsFeature());

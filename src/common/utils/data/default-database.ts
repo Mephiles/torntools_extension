@@ -304,7 +304,6 @@ export const DEFAULT_STORAGE = {
 				energyWarning: new DefaultSetting("boolean", true),
 				medicalLife: new DefaultSetting("boolean", true),
 				openedSupplyPackValue: new DefaultSetting("boolean", true),
-				hideRecycleMessage: new DefaultSetting("boolean", false),
 				hideTooManyItemsWarning: new DefaultSetting("boolean", false),
 				categoryValueCalculator: new DefaultSetting("boolean", false),
 			},

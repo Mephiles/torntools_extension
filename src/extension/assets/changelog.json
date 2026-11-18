@@ -29,7 +29,12 @@
 				{ "message": "Slightly move the 'Travel Table' icon when flying.", "contributor": "DeKleineKobini" },
 				{ "message": "Ignore errors caused by Torn itself in the feature manager.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
+			"removed": [
+				{
+					"message": "Remove the feature to hide the recycle message on the item page, as it no longer seems to appear.",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"technical": [
 				{ "message": "Refactor 'Lottery Chance' to be easier to maintain.", "contributor": "DeKleineKobini" },
 				{ "message": "Combine functions to get the current bar values on-page.", "contributor": "DeKleineKobini" },
