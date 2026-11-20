@@ -17,7 +17,9 @@ export type DatabaseStoragePath<T, Prefix extends string = ""> = T extends Stora
 				[Key in KnownStringKey<T>]: T[Key] extends StorageLeaf
 					? JoinPath<Prefix, Key>
 					: T[Key] extends object
-						? DatabaseStoragePath<T[Key], JoinPath<Prefix, Key>>
+						? KnownStringKey<T[Key]> extends never
+							? JoinPath<Prefix, Key>
+							: DatabaseStoragePath<T[Key], JoinPath<Prefix, Key>>
 						: JoinPath<Prefix, Key>;
 			}[KnownStringKey<T>]
 		: never;

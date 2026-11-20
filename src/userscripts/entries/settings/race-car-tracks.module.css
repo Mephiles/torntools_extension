@@ -1,0 +1,76 @@
+.rows {
+	display: grid;
+}
+
+.message {
+	font-size: 11px;
+	line-height: 1.35;
+	margin: 0;
+	opacity: 0.75;
+	padding: 7px 8px 7px 25px;
+}
+
+.row {
+	align-items: center;
+	display: flex;
+	gap: 12px;
+	justify-content: space-between;
+	padding: 6px 8px 6px 25px;
+
+	& + & {
+		border-top: 1px solid var(--default-panel-divider-inner-side-color, #ccc);
+	}
+
+	&:hover {
+		background: var(--default-bg-panel-active-color);
+	}
+}
+
+.track {
+	flex: 0 0 7rem;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.35;
+}
+
+.choice {
+	display: grid;
+	flex: 1;
+	gap: 2px;
+	min-width: 0;
+}
+
+.input {
+	background: var(--input-background-color);
+	border: 1px solid var(--input-border-color);
+	border-radius: 5px;
+	box-sizing: border-box;
+	color: var(--input-color);
+	font-size: 12px;
+	height: 24px;
+	padding: 0 6px;
+	width: 100%;
+
+	&:is(select) {
+		height: 26px;
+	}
+}
+
+.hint {
+	font-size: 11px;
+	line-height: 1.35;
+	opacity: 0.7;
+}
+
+@media (max-width: 520px) {
+	.row {
+		align-items: stretch;
+		flex-direction: column;
+		gap: 4px;
+		padding-left: 10px;
+	}
+
+	.track {
+		flex: none;
+	}
+}

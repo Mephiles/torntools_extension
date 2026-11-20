@@ -5,6 +5,7 @@ import {
 	applyManifestOverrides,
 	applySettingsDefaults,
 	applySettingsPatch,
+	deleteSharedPreference,
 	forgetScript,
 	getEffectiveApi,
 	getEffectiveSettings,
@@ -128,6 +129,19 @@ describe("shared settings", () => {
 		await updateSharedPreference("settings.logLevel", "debug");
 
 		expect(getEffectiveSettings().logLevel).toBe("debug");
+	});
+
+	it("deletes a key from an object preference", async () => {
+		await updateSharedPreference("settings.pages.racing.trackCars", { 6: 5, 7: 3 });
+		await deleteSharedPreference("settings.pages.racing.trackCars", "6");
+
+		expect(getEffectiveSettings().pages.racing.trackCars).toEqual({ 7: 3 });
+	});
+
+	it("ignores a delete for a preference that was never stored", async () => {
+		await deleteSharedPreference("settings.pages.racing.trackCars", "6");
+
+		expect(getEffectiveSettings().pages.racing.trackCars).toEqual({});
 	});
 
 	it("registers a script with its name, version and settings", () => {

@@ -6,8 +6,16 @@
 	import type { PreferenceStoragePath } from "@common/utils/data/preference-storage";
 	import type { RegisteredScript, SettingControlType, SettingsManifestEntry } from "@userscripts/settings/settings-manifest";
 	import { buildSettingsLayout } from "@userscripts/settings/settings-sections";
-	import { forgetScript, getEffectiveApi, getEffectiveSettings, getRegisteredScripts, updateSharedPreference } from "@userscripts/settings/shared-settings";
+	import {
+		deleteSharedPreference,
+		forgetScript,
+		getEffectiveApi,
+		getEffectiveSettings,
+		getRegisteredScripts,
+		updateSharedPreference,
+	} from "@userscripts/settings/shared-settings";
 	import { isPDA } from "@userscripts/utils/script-utils";
+	import RaceCarTracks from "./race-car-tracks.svelte";
 	import styles from "./settings-page.module.css";
 
 	let scripts = $state<RegisteredScript[]>(getRegisteredScripts());
@@ -42,6 +50,20 @@
 		}
 	}
 
+	async function setTrackCar(trackId: number, carId: number | null) {
+		error = null;
+
+		try {
+			if (carId === null) await deleteSharedPreference("settings.pages.racing.trackCars", String(trackId));
+			else await updateSharedPreference("settings.pages.racing.trackCars", { [trackId]: carId });
+
+			settings = getEffectiveSettings();
+			api = getEffectiveApi();
+		} catch (reason) {
+			error = reason instanceof Error ? reason.message : "Could not save the setting.";
+		}
+	}
+
 	function forget(script: RegisteredScript) {
 		forgetScript(script.id);
 		scripts = getRegisteredScripts();
@@ -53,61 +75,76 @@
 	{@const type = controlType(entry, value)}
 	{@const id = entry.path.replaceAll(".", "-")}
 
-	<div class={type === "icons" ? `${styles.row} ${styles.rowStacked}` : styles.row}>
-		<div class={styles.copy}>
-			{#if type === "icons"}
+	{#if type === "race-cars"}
+		<div class={styles.row}>
+			<div class={styles.copy}>
 				<div class={styles.label}>{entry.label}</div>
+				{#if entry.description}
+					<div class={styles.description}>{entry.description}</div>
+				{/if}
+				{#if note}
+					<div class={styles.description}>{note}</div>
+				{/if}
+			</div>
+		</div>
+		<RaceCarTracks value={(value ?? {}) as Record<number, number>} onchange={(trackId, carId) => void setTrackCar(trackId, carId)} />
+	{:else}
+		<div class={type === "icons" ? `${styles.row} ${styles.rowStacked}` : styles.row}>
+			<div class={styles.copy}>
+				{#if type === "icons"}
+					<div class={styles.label}>{entry.label}</div>
+				{:else}
+					<label class={styles.label} for={id}>{entry.label}</label>
+				{/if}
+				{#if entry.description}
+					<div class={styles.description}>{entry.description}</div>
+				{/if}
+				{#if note}
+					<div class={styles.description}>{note}</div>
+				{/if}
+			</div>
+
+			{#if type === "switch"}
+				<input
+					{id}
+					class={styles.switch}
+					type="checkbox"
+					checked={Boolean(value)}
+					onchange={(event) => void setValue(entry.path, event.currentTarget.checked)}
+				/>
+			{:else if type === "number"}
+				<input
+					{id}
+					class={styles.input}
+					type="number"
+					step="any"
+					value={value ?? ""}
+					onchange={(event) => {
+						const raw = event.currentTarget.value.trim();
+						const parsed = raw === "" ? 0 : Number(raw);
+						if (!Number.isNaN(parsed)) void setValue(entry.path, parsed);
+					}}
+				/>
+			{:else if type === "icons"}
+				<IconPicker value={Array.isArray(value) ? value : []} onchange={(next) => void setValue(entry.path, next)} />
+			{:else if type === "select"}
+				<select {id} class={styles.input} onchange={(event) => void setValue(entry.path, event.currentTarget.value)}>
+					{#each entry.options ?? [] as option (option.value)}
+						<option value={option.value} selected={option.value === String(value ?? "")} disabled={option.disabled}>{option.label}</option>
+					{/each}
+				</select>
 			{:else}
-				<label class={styles.label} for={id}>{entry.label}</label>
-			{/if}
-			{#if entry.description}
-				<div class={styles.description}>{entry.description}</div>
-			{/if}
-			{#if note}
-				<div class={styles.description}>{note}</div>
+				<input
+					{id}
+					class={styles.input}
+					type="text"
+					autocomplete="off"
+					value={String(value ?? "")}
+					onchange={(event) => void setValue(entry.path, event.currentTarget.value)}
+				/>
 			{/if}
 		</div>
-
-		{#if type === "switch"}
-			<input
-				{id}
-				class={styles.switch}
-				type="checkbox"
-				checked={Boolean(value)}
-				onchange={(event) => void setValue(entry.path, event.currentTarget.checked)}
-			/>
-		{:else if type === "number"}
-			<input
-				{id}
-				class={styles.input}
-				type="number"
-				step="any"
-				value={value ?? ""}
-				onchange={(event) => {
-					const raw = event.currentTarget.value.trim();
-					const parsed = raw === "" ? 0 : Number(raw);
-					if (!Number.isNaN(parsed)) void setValue(entry.path, parsed);
-				}}
-			/>
-		{:else if type === "icons"}
-			<IconPicker value={Array.isArray(value) ? value : []} onchange={(next) => void setValue(entry.path, next)} />
-		{:else if type === "select"}
-			<select {id} class={styles.input} onchange={(event) => void setValue(entry.path, event.currentTarget.value)}>
-				{#each entry.options ?? [] as option (option.value)}
-					<option value={option.value} selected={option.value === String(value ?? "")} disabled={option.disabled}>{option.label}</option>
-				{/each}
-			</select>
-		{:else}
-			<input
-				{id}
-				class={styles.input}
-				type="text"
-				autocomplete="off"
-				value={String(value ?? "")}
-				onchange={(event) => void setValue(entry.path, event.currentTarget.value)}
-			/>
-		{/if}
-	</div>
+	{/if}
 {/snippet}
 
 <Container title="TornTools - Userscript Settings">

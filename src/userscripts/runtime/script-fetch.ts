@@ -8,7 +8,7 @@ import { noop } from "@common/utils/functions/utilities.ts";
 import { isPDA } from "@userscripts/utils/script-utils";
 import styles from "./script-fetch.module.css";
 
-const PDA_KEY = "###PDA-APIKEY###";
+export const PDA_KEY = "###PDA-APIKEY###";
 const STORAGE_LOCATION = "tt_scripts_key";
 
 export async function requiresAPIKey() {

@@ -1,4 +1,5 @@
 import { setTTStorage } from "@common/utils/context";
+import { ttCache } from "@common/utils/data/cache";
 import { setFilters } from "@common/utils/data/database";
 import type { DatabaseFilters } from "@common/utils/data/database";
 import { DEFAULT_STORAGE, getDefaultStorage } from "@common/utils/data/default-database";
@@ -6,6 +7,7 @@ import { elementBuilder } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
 import { requireElementOptionally } from "@common/utils/functions/requires";
 import { registerCoreUserscriptContext } from "@userscripts/runtime/context/script-core-context";
+import { registerNetworkUserscriptContext } from "@userscripts/runtime/context/script-network-context";
 import { PDAScriptStorage, TTScriptStorage } from "@userscripts/runtime/script-storage";
 import { isPDA } from "@userscripts/utils/script-utils";
 import { mount } from "svelte";
@@ -18,9 +20,11 @@ import SettingsPage from "./settings-page.svelte";
 	if (!wrapper) return;
 
 	registerCoreUserscriptContext();
+	registerNetworkUserscriptContext();
 
 	const storage = isPDA() ? new PDAScriptStorage() : new TTScriptStorage("tt_settings");
 	setTTStorage(storage);
+	ttCache.cache = (await storage.get("cache")) ?? {};
 
 	const defaultFilters = getDefaultStorage(DEFAULT_STORAGE.filters) as DatabaseFilters;
 	const storedFilters = (await storage.get("filters")) as Partial<DatabaseFilters> | undefined;

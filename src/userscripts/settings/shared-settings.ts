@@ -108,6 +108,19 @@ export function updateSharedPreference(path: PreferenceStoragePath, value: unkno
 	return Promise.reject(new Error(`Unsupported shared setting path: ${path}`));
 }
 
+export function deleteSharedPreference(path: PreferenceStoragePath, key: string): Promise<void> {
+	const data = readSharedSettings();
+	const [root, ...segments] = path.split(".");
+	const target = segments.reduce<unknown>((value, segment) => (isPlainObject(value) ? value[segment] : undefined), root === "api" ? data.api : data.settings);
+
+	if (isPlainObject(target)) {
+		delete target[key];
+		writeSharedSettings(data);
+	}
+
+	return Promise.resolve();
+}
+
 export function registerScript(fallbackId: string, manifest: SettingsManifest): void {
 	const info = getScriptInfo();
 	const registration: RegisteredScript = {
