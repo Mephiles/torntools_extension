@@ -394,6 +394,7 @@ export const DEFAULT_STORAGE = {
 				values: new DefaultSetting("boolean", true),
 			},
 			casino: {
+				pokerProfileLinks: new DefaultSetting("boolean", true),
 				netTotal: new DefaultSetting("boolean", true),
 				blackjack: new DefaultSetting("boolean", true),
 				highlow: new DefaultSetting("boolean", false),

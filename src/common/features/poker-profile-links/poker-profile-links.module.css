@@ -1,0 +1,9 @@
+:has(> .profileLink) {
+	position: relative;
+}
+
+.profileLink {
+	position: absolute;
+	inset: 0;
+	cursor: pointer;
+}

@@ -89,6 +89,7 @@
 	<PreferenceSectionCard title="Casino">
 		<div class="grid gap-2">
 			<PreferenceSettingGroup>
+				<StorageSwitch path="settings.pages.casino.pokerProfileLinks" label="Link poker player names to profiles" />
 				<StorageSwitch path="settings.pages.casino.netTotal" label="Show net total of casino game" />
 				<StorageSwitch path="settings.pages.casino.blackjack" label="Show the optimal choice for blackjack">
 					<a
