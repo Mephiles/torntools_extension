@@ -28,7 +28,11 @@
 				{ "message": "Improve accessibility on our internal pages.", "contributor": "DeKleineKobini" },
 				{ "message": "Be less strict in when we disable features based on API errors.", "contributor": "DeKleineKobini" },
 				{ "message": "Slightly move the 'Travel Table' icon when flying.", "contributor": "DeKleineKobini" },
-				{ "message": "Ignore errors caused by Torn itself in the feature manager.", "contributor": "DeKleineKobini" }
+				{ "message": "Ignore errors caused by Torn itself in the feature manager.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Prefer a car named after the track when multiple cars fit the recommendation in 'Race Car Selector'.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"removed": [
 				{
@@ -43,11 +47,7 @@
 				{ "message": "Change the way 'Forum Menu' updates your preferences.", "contributor": "DeKleineKobini" },
 				{ "message": "Refactor the container component to use modular CSS.", "contributor": "DeKleineKobini" },
 				{ "message": "Refactor the container builder to use the container's modular CSS.", "contributor": "DeKleineKobini" },
-				{ "message": "Refactor the data table element to use modular CSS.", "contributor": "DeKleineKobini" },
-				{
-					"message": "Prefer a car named after the track when multiple cars fit the recommendation in 'Race Car Selector'.",
-					"contributor": "DeKleineKobini"
-				}
+				{ "message": "Refactor the data table element to use modular CSS.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
