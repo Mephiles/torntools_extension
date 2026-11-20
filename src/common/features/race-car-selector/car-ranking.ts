@@ -66,19 +66,45 @@ export function findRecommendedCar(cars: UserRaceCarDetails[], trackName: string
 	const recommendation = getRecommendation(trackName);
 	if (!recommendation) return undefined;
 
-	const eligibleCars = getRecommendedModelCars(cars, trackName);
-	return eligibleCars.find((car) => buildMatchesRecommendation(car, recommendation, catalog));
+	const matches = getRecommendedModelCars(cars, trackName).filter((car) => buildMatchesRecommendation(car, recommendation, catalog));
+
+	return findTrackNamedCar(matches, trackName) ?? matches[0];
+}
+
+enum CarNameMatch {
+	NONE = 0,
+	PREFIX = 1,
+	TRACK = 2,
+}
+
+function carNameMatchStrength(carName: string | null, trackName: string): CarNameMatch {
+	if (!carName) return CarNameMatch.NONE;
+
+	const name = carName.toLowerCase();
+	const track = trackName.toLowerCase();
+
+	if (name.includes(track)) return CarNameMatch.TRACK;
+	if (name.includes(track.slice(0, 3))) return CarNameMatch.PREFIX;
+	return CarNameMatch.NONE;
 }
 
 export function carNameMatchesTrack(carName: string | null, trackName: string): boolean {
-	if (!carName) return false;
-
-	const track = trackName.toLowerCase();
-	const trackShort = track.slice(0, 3);
-
-	return carName.toLowerCase().includes(track) || carName.toLowerCase().includes(trackShort);
+	return carNameMatchStrength(carName, trackName) > CarNameMatch.NONE;
 }
 
 export function findTrackNamedCar(cars: UserRaceCarDetails[], trackName: string): UserRaceCarDetails | undefined {
-	return cars.find((car) => !car.is_removed && carNameMatchesTrack(car.car_name, trackName));
+	let best: UserRaceCarDetails | undefined;
+	let bestStrength = CarNameMatch.NONE;
+
+	for (const car of cars) {
+		if (car.is_removed) continue;
+
+		const strength = carNameMatchStrength(car.car_name, trackName);
+		if (strength > bestStrength) {
+			best = car;
+			bestStrength = strength;
+		}
+	}
+
+	return best;
 }

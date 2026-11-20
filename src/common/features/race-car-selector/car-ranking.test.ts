@@ -114,6 +114,28 @@ describe("findRecommendedCar", () => {
 		expect(findRecommendedCar([offSetup, exactSetup], "Underdog", catalog(UPGRADES))?.id).toBe(2);
 	});
 
+	it("prefers the matching build named after the track when several match", () => {
+		const plain = car({ id: 1, parts: [SHORT_GEAR.id, TURBO_TWO.id] });
+		const named = car({ id: 2, parts: [SHORT_GEAR.id, TURBO_TWO.id], car_name: "Underdog/Commerce/Sew-" });
+
+		expect(findRecommendedCar([plain, named], "Underdog", catalog(UPGRADES))?.id).toBe(2);
+	});
+
+	it("prefers a full track name over a short prefix regardless of order", () => {
+		const prefixNamed = car({ id: 1, parts: [SHORT_GEAR.id, TURBO_TWO.id], car_name: "Sew-" });
+		const trackNamed = car({ id: 2, parts: [SHORT_GEAR.id, TURBO_TWO.id], car_name: "Sewage" });
+
+		expect(findRecommendedCar([prefixNamed, trackNamed], "Sewage", catalog(UPGRADES))?.id).toBe(2);
+		expect(findRecommendedCar([trackNamed, prefixNamed], "Sewage", catalog(UPGRADES))?.id).toBe(2);
+	});
+
+	it("falls back to the first matching build when none is named after the track", () => {
+		const plain = car({ id: 1, parts: [SHORT_GEAR.id, TURBO_TWO.id] });
+		const otherNamed = car({ id: 2, parts: [SHORT_GEAR.id, TURBO_TWO.id], car_name: "Vector" });
+
+		expect(findRecommendedCar([plain, otherNamed], "Underdog", catalog(UPGRADES))?.id).toBe(1);
+	});
+
 	it("returns nothing when the recommended model is not owned", () => {
 		const cars = [car({ id: 1, car_item_name: "Veloria LFA" })];
 
@@ -149,6 +171,21 @@ describe("findTrackNamedCar", () => {
 		expect(findTrackNamedCar([other, named], "Sewage")?.id).toBe(2);
 		expect(findTrackNamedCar([other, named], "Vector")?.id).toBe(1);
 		expect(findTrackNamedCar([other, named], "Mudpit")).toBeUndefined();
+	});
+
+	it("prefers a full name match over a short-prefix match", () => {
+		const shortMatch = car({ id: 1, car_name: "Commerce/Sew-" });
+		const fullMatch = car({ id: 2, car_name: "Sewage" });
+
+		expect(findTrackNamedCar([shortMatch, fullMatch], "Sewage")?.id).toBe(2);
+		expect(findTrackNamedCar([fullMatch, shortMatch], "Sewage")?.id).toBe(2);
+	});
+
+	it("keeps the first car when two match equally", () => {
+		const first = car({ id: 1, car_name: "Underdog" });
+		const second = car({ id: 2, car_name: "Underdog/Commerce" });
+
+		expect(findTrackNamedCar([first, second], "Underdog")?.id).toBe(1);
 	});
 });
 
