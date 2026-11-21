@@ -54,11 +54,14 @@ function catalog(upgrades: RaceCarUpgrade[]): UpgradeCatalog {
 	return new Map(upgrades.map((item) => [item.id, item]));
 }
 
-const SHORT_GEAR = upgrade({ id: 1, name: "Short Ratio Gearbox", subcategory: "Gearbox" });
-const LONG_GEAR = upgrade({ id: 2, name: "Long Ratio Gearbox", subcategory: "Gearbox" });
+const SHORT_GEAR = upgrade({ id: 1, name: "Paddle Shift Gearbox (Short Ratio)", subcategory: "Gearbox" });
+const LONG_GEAR = upgrade({ id: 2, name: "Paddle Shift Gearbox (Long Ratio)", subcategory: "Gearbox" });
 const TURBO_TWO = upgrade({ id: 3, name: "Stage Two Turbo Kit", subcategory: "Turbo" });
 const TURBO_THREE = upgrade({ id: 4, name: "Stage Three Turbo Kit", subcategory: "Turbo" });
-const UPGRADES = [SHORT_GEAR, LONG_GEAR, TURBO_TWO, TURBO_THREE];
+const DIRT_SHORT_GEAR = upgrade({ id: 5, name: "Rally Gearbox (Short Ratio)", subcategory: "Gearbox" });
+const TRACK_TYRES = upgrade({ id: 6, name: "Track Tires", subcategory: "Tyres" });
+const RALLY_TYRES = upgrade({ id: 7, name: "Rally Tires", subcategory: "Tyres" });
+const UPGRADES = [SHORT_GEAR, LONG_GEAR, TURBO_TWO, TURBO_THREE, DIRT_SHORT_GEAR, TRACK_TYRES, RALLY_TYRES];
 const UNDERDOG = getRecommendation("Underdog")!;
 
 describe("getRecommendedModelCars", () => {
@@ -81,6 +84,16 @@ describe("deriveSetupFromParts", () => {
 	it("reads the turbo stage from a kit", () => {
 		expect(deriveSetupFromParts(car({ id: 1, parts: [TURBO_THREE.id] }), catalog([TURBO_THREE])).turbo).toBe("t3");
 	});
+
+	it("reads the surface from the tyres", () => {
+		expect(deriveSetupFromParts(car({ id: 1, parts: [TRACK_TYRES.id] }), catalog([TRACK_TYRES])).surface).toBe("tarmac");
+		expect(deriveSetupFromParts(car({ id: 1, parts: [RALLY_TYRES.id] }), catalog([RALLY_TYRES])).surface).toBe("dirt");
+	});
+
+	it("falls back to the gearbox for the surface", () => {
+		expect(deriveSetupFromParts(car({ id: 1, parts: [SHORT_GEAR.id] }), catalog([SHORT_GEAR])).surface).toBe("tarmac");
+		expect(deriveSetupFromParts(car({ id: 1, parts: [DIRT_SHORT_GEAR.id] }), catalog([DIRT_SHORT_GEAR])).surface).toBe("dirt");
+	});
 });
 
 describe("buildMatchesRecommendation", () => {
@@ -90,6 +103,14 @@ describe("buildMatchesRecommendation", () => {
 
 		expect(buildMatchesRecommendation(full, UNDERDOG, catalog(UPGRADES))).toBe(true);
 		expect(buildMatchesRecommendation(partial, UNDERDOG, catalog(UPGRADES))).toBe(false);
+	});
+
+	it("requires the surface to match", () => {
+		const tarmac = car({ id: 1, parts: [SHORT_GEAR.id, TURBO_TWO.id, TRACK_TYRES.id] });
+		const dirt = car({ id: 2, parts: [DIRT_SHORT_GEAR.id, TURBO_TWO.id, RALLY_TYRES.id] });
+
+		expect(buildMatchesRecommendation(tarmac, UNDERDOG, catalog(UPGRADES))).toBe(true);
+		expect(buildMatchesRecommendation(dirt, UNDERDOG, catalog(UPGRADES))).toBe(false);
 	});
 });
 
@@ -134,6 +155,18 @@ describe("findRecommendedCar", () => {
 		const otherNamed = car({ id: 2, parts: [SHORT_GEAR.id, TURBO_TWO.id], car_name: "Vector" });
 
 		expect(findRecommendedCar([plain, otherNamed], "Underdog", catalog(UPGRADES))?.id).toBe(1);
+	});
+
+	it("does not use a dirt build for a tarmac track that wants the same car, gearbox and turbo", () => {
+		const dirt = car({ id: 1, parts: [DIRT_SHORT_GEAR.id, TURBO_TWO.id, RALLY_TYRES.id] });
+
+		expect(findRecommendedCar([dirt], "Underdog", catalog(UPGRADES))).toBeUndefined();
+	});
+
+	it("does not use a tarmac build for a dirt track that wants the same car, gearbox and turbo", () => {
+		const tarmac = car({ id: 1, parts: [SHORT_GEAR.id, TURBO_TWO.id, TRACK_TYRES.id] });
+
+		expect(findRecommendedCar([tarmac], "Hammerhead", catalog(UPGRADES))).toBeUndefined();
 	});
 
 	it("returns nothing when the recommended model is not owned", () => {

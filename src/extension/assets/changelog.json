@@ -22,7 +22,11 @@
 				{ "message": "Add the missing option to disable Raid Report to CSV.", "contributor": "DeKleineKobini" },
 				{ "message": "'OC Weights' no longer was showing up.", "contributor": "DeKleineKobini" },
 				{ "message": "Avoid an error with 'Cost to Next Stock'.", "contributor": "DeKleineKobini" },
-				{ "message": "Avoid an error on the racing page after selecting a car.", "contributor": "DeKleineKobini" }
+				{ "message": "Avoid an error on the racing page after selecting a car.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Only recommend a car with a dirt or tarmac setup matching the track in 'Race Car Selector'.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [
 				{ "message": "'Hide Crime Flavour Text' now also hides neutral stories.", "contributor": "DeKleineKobini" },

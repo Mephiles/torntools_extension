@@ -1,4 +1,4 @@
-import type { GearboxRatio, RaceRecommendation } from "@features/race-car-selector/racing-recommendations";
+import type { GearboxRatio, RaceRecommendation, RaceSurface } from "@features/race-car-selector/racing-recommendations";
 import { getRecommendation } from "@features/race-car-selector/racing-recommendations";
 import type { RaceCarUpgrade, UserRaceCarDetails } from "tornapi-typescript";
 
@@ -7,6 +7,7 @@ export type UpgradeCatalog = Map<number, RaceCarUpgrade>;
 export interface CarSetup {
 	gearbox: GearboxRatio;
 	turbo: string;
+	surface: RaceSurface;
 	parsed: boolean;
 }
 
@@ -34,7 +35,7 @@ function stageFromUpgradeText(text: string): number {
 }
 
 export function deriveSetupFromParts(car: UserRaceCarDetails, catalog: UpgradeCatalog): CarSetup {
-	const result: CarSetup = { gearbox: "", turbo: "", parsed: false };
+	const result: CarSetup = { gearbox: "", turbo: "", surface: "", parsed: false };
 	if (!car.parts.length) return result;
 
 	const installed = car.parts.map((id) => catalog.get(id)).filter((upgrade): upgrade is RaceCarUpgrade => Boolean(upgrade));
@@ -52,6 +53,11 @@ export function deriveSetupFromParts(car: UserRaceCarDetails, catalog: UpgradeCa
 		else if (gearName.includes("short ratio")) result.gearbox = "short ratio";
 	}
 
+	const tyreUpgrade = installed.find((upgrade) => upgrade.subcategory === "Tyres");
+	const surfaceSource = (tyreUpgrade?.name ?? gearUpgrade?.name ?? "").toLowerCase();
+	if (surfaceSource.includes("rally")) result.surface = "dirt";
+	else if (surfaceSource.includes("track") || surfaceSource.includes("paddle shift")) result.surface = "tarmac";
+
 	result.parsed = Boolean(result.gearbox || result.turbo);
 	return result;
 }
@@ -59,7 +65,7 @@ export function deriveSetupFromParts(car: UserRaceCarDetails, catalog: UpgradeCa
 export function buildMatchesRecommendation(car: UserRaceCarDetails, recommendation: RaceRecommendation, catalog: UpgradeCatalog): boolean {
 	const setup = deriveSetupFromParts(car, catalog);
 
-	return setup.parsed && setup.gearbox === recommendation.gearbox && setup.turbo === recommendation.turbo;
+	return setup.parsed && setup.gearbox === recommendation.gearbox && setup.turbo === recommendation.turbo && setup.surface === recommendation.surface;
 }
 
 export function findRecommendedCar(cars: UserRaceCarDetails[], trackName: string, catalog: UpgradeCatalog): UserRaceCarDetails | undefined {

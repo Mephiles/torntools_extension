@@ -2,7 +2,7 @@
 	import { TRACKS } from "@common/pages/racing-page.ts";
 	import { ttStorage } from "@common/utils/context";
 	import { countOwnedModelBuilds } from "@features/race-car-selector/car-ranking";
-	import { formatGearbox, getGuideSetup, getRecommendation } from "@features/race-car-selector/racing-recommendations";
+	import { formatGearbox, formatSurface, getGuideSetup, getRecommendation } from "@features/race-car-selector/racing-recommendations";
 	import { settingsStore, userdataStore } from "../../../stores/database-store.svelte";
 	import ItemSelect from "../ItemSelect.svelte";
 	import PreferenceSectionCard from "../PreferenceSectionCard.svelte";
@@ -35,7 +35,7 @@
 		if (!recommendation) return "";
 
 		const setup = getGuideSetup(trackName);
-		const setupText = [formatGearbox(setup.gearbox), setup.turbo.toUpperCase()].filter(Boolean).join(" ");
+		const setupText = [formatSurface(setup.surface), formatGearbox(setup.gearbox), setup.turbo.toUpperCase()].filter(Boolean).join(" ");
 		const car = setupText ? `${recommendation.car} (${setupText})` : recommendation.car;
 		const owned = countOwnedModelBuilds(enlistedCars, recommendation);
 
