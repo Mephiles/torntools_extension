@@ -55,7 +55,8 @@
 				{ "message": "Change the way 'Forum Menu' updates your preferences.", "contributor": "DeKleineKobini" },
 				{ "message": "Refactor the container component to use modular CSS.", "contributor": "DeKleineKobini" },
 				{ "message": "Refactor the container builder to use the container's modular CSS.", "contributor": "DeKleineKobini" },
-				{ "message": "Refactor the data table element to use modular CSS.", "contributor": "DeKleineKobini" }
+				{ "message": "Refactor the data table element to use modular CSS.", "contributor": "DeKleineKobini" },
+				{ "message": "Improved error handling for Firefox errors in content scripts.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

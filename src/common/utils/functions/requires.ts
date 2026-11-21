@@ -1,3 +1,4 @@
+import { usingFirefox } from "@common/utils/functions/browser";
 import { findElement } from "@common/utils/functions/find-elements";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 
@@ -6,6 +7,44 @@ type RequireConditionFn<T = any> = () => T | { value: NonNullable<T>; success: b
 interface RequireConditionOptions {
 	delay: number;
 	maxCycles: number;
+}
+
+/**
+ * Firefox doesn't fire `unhandledrejection` for rejections from content scripts
+ * (https://bugzilla.mozilla.org/show_bug.cgi?id=1632270), so we dispatch it ourselves.
+ * A rejection counts as handled once someone attaches an `onRejected` handler.
+ */
+class UnhandledRejectionPromise<T> extends Promise<T> {
+	private handled = false;
+
+	// oxlint-disable-next-line unicorn/no-thenable -- observing handlers is the point here
+	override then<TResult1 = T, TResult2 = never>(
+		onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | null,
+		onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null,
+	): Promise<TResult1 | TResult2> {
+		if (onrejected) this.handled = true;
+
+		return super.then(onfulfilled, onrejected);
+	}
+
+	trackUnhandledRejections() {
+		// Bypasses our own `then`, so this doesn't mark the rejection as handled.
+		super.then(undefined, (reason: unknown) => {
+			window.setTimeout(() => {
+				if (this.handled) return;
+
+				window.dispatchEvent(new PromiseRejectionEvent("unhandledrejection", { promise: this, reason }));
+			});
+		});
+
+		return this;
+	}
+}
+
+function createRequirePromise<T>(executor: (resolve: (value: T) => void, reject: (reason?: any) => void) => void): Promise<T> {
+	if (typeof window === "undefined" || !usingFirefox()) return new Promise<T>(executor);
+
+	return new UnhandledRejectionPromise<T>(executor).trackUnhandledRejections();
 }
 
 export function requireCondition<T = any>(condition: RequireConditionFn<T>, partialOptions: Partial<RequireConditionOptions> = {}): Promise<NonNullable<T>> {
@@ -18,7 +57,7 @@ export function requireCondition<T = any>(condition: RequireConditionFn<T>, part
 	// Preserve stack for throwing later when needed.
 	const error = new Error("Maximum cycles reached.");
 
-	return new Promise((resolve, reject) => {
+	return createRequirePromise<NonNullable<T>>((resolve, reject) => {
 		if (checkCondition()) return;
 
 		let counter = 0;
@@ -113,7 +152,7 @@ export function requireElement<T extends Element = HTMLElement>(selector: string
 	// Preserve stack for throwing later when needed.
 	const error = new Error("Maximum cycles reached.");
 
-	return new Promise((resolve, reject) => {
+	return createRequirePromise<T | true>((resolve, reject) => {
 		const element = findElement<T>(selector, options.parent, true);
 		if (options.invert && !element) {
 			resolve(true);
