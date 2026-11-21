@@ -27,7 +27,8 @@
 					"message": "Only recommend a car with a dirt or tarmac setup matching the track in 'Race Car Selector'.",
 					"contributor": "DeKleineKobini"
 				},
-				{ "message": "Make sure the 'Company ID' doesn't appear twice.", "contributor": "DeKleineKobini" }
+				{ "message": "Make sure the 'Company ID' doesn't appear twice.", "contributor": "DeKleineKobini" },
+				{ "message": "'Properties Filter' didn't work when not married (as there are no tabs in that case).", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "'Hide Crime Flavour Text' now also hides neutral stories.", "contributor": "DeKleineKobini" },

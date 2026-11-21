@@ -105,7 +105,7 @@ async function addFilterContainer() {
 		container: {
 			title: "Properties Filter",
 			class: "mt10 mb10",
-			previousElement: findElement(".properties-tabs"),
+			previousElement: findElement(".properties-tabs, .gallery-wrapper, .properties-list"),
 		},
 		statisticsLabel: "properties",
 		enabled: filters.properties.enabled,
@@ -139,7 +139,7 @@ async function reattachFilter() {
 		return;
 	}
 
-	filter.reattach({ previousElement: findElement(".properties-tabs") });
+	filter.reattach({ previousElement: findElement(".properties-tabs, .gallery-wrapper, .properties-list") });
 	await filter.run();
 }
 
