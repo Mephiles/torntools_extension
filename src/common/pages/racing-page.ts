@@ -29,11 +29,12 @@ async function triggerInitialEvent() {
 
 async function handleTab(params: URLSearchParams) {
 	const section = params.get("section");
+	const step = params.get("step");
 
 	switch (params.get("tab")) {
 		case "cars": {
-			if (section === "changeRacingCar") {
-				await requireElement(".enlist-wrap");
+			if (section === "changeRacingCar" && step !== "changeRacingCar") {
+				await requireElement(".enlist-wrap, X1");
 				triggerCustomListener(EVENT_CHANNELS.RACING__CHANGE_CAR);
 			} else {
 				// triggerCustomListener(EVENT_CHANNELS.RACING__TAB__CARS);
