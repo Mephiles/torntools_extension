@@ -328,3 +328,18 @@ export function readableErrorMessage(error: unknown): string {
 }
 
 export function noop() {}
+
+/**
+ * Wraps a promise-returning function so that concurrent calls share the first run. Once that run settles, the next call runs the function again.
+ */
+export function singleFlight<T>(fn: () => Promise<T>): () => Promise<T> {
+	let inFlight: Promise<T> | null = null;
+
+	return () => {
+		if (inFlight) return inFlight;
+
+		inFlight = fn().finally(() => (inFlight = null));
+
+		return inFlight;
+	};
+}

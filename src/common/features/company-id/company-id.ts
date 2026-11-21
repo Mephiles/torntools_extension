@@ -2,16 +2,19 @@ import { isOwnCompany, readCompanyDetails } from "@common/pages/company-page";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, getHashParameters } from "@common/utils/functions/dom";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
-import { findElement } from "@common/utils/functions/find-elements.ts";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { getPageStatus } from "@common/utils/functions/torn";
+import { singleFlight } from "@common/utils/functions/utilities";
 import { Feature } from "@features/feature";
 
 function initialise() {
 	if (!isOwnCompany) {
-		addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, addID);
+		addCustomListener(EVENT_CHANNELS.COMPANY_EMPLOYEES_PAGE, safeAddId);
 	}
 }
+
+const safeAddId = singleFlight(addID);
 
 async function addID() {
 	if (findElement("#tt-company-id", true)) return; // Element has already been added - second check in-case feature reinjects
@@ -47,7 +50,7 @@ export default class CompanyIDFeature extends Feature {
 		const params = getHashParameters();
 		if (params.get("p") !== "corpinfo") return;
 
-		await addID();
+		await safeAddId();
 	}
 
 	override storageKeys() {

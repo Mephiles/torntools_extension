@@ -8,6 +8,7 @@ import {
 	isSameUTCDay,
 	objectsEquals,
 	readableErrorMessage,
+	singleFlight,
 	speakText,
 	toCorrectType,
 	toNumericVersion,
@@ -291,5 +292,48 @@ describe("utilities", () => {
 
 			expect(synthesis.spoken).toHaveLength(0);
 		});
+	});
+});
+
+describe("singleFlight", () => {
+	it("should share one run between concurrent calls", async () => {
+		let calls = 0;
+		let resolveFlight!: (value: string) => void;
+		const flight = singleFlight(() => {
+			calls++;
+			return new Promise<string>((resolve) => (resolveFlight = resolve));
+		});
+
+		const first = flight();
+		const second = flight();
+		resolveFlight("value");
+
+		expect(await first).toBe("value");
+		expect(await second).toBe("value");
+		expect(calls).toBe(1);
+	});
+
+	it("should run again once the previous run settled", async () => {
+		let calls = 0;
+		const flight = singleFlight(async () => ++calls);
+
+		expect(await flight()).toBe(1);
+		expect(await flight()).toBe(2);
+		expect(calls).toBe(2);
+	});
+
+	it("should clear the in-flight run after a rejection", async () => {
+		let calls = 0;
+		const flight = singleFlight(async () => {
+			calls++;
+			if (calls === 1) throw new Error("failed");
+
+			return "value";
+		});
+
+		const error = await flight().catch((reason: Error) => reason);
+		expect(error).toBeInstanceOf(Error);
+		expect(await flight()).toBe("value");
+		expect(calls).toBe(2);
 	});
 });
