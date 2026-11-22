@@ -475,6 +475,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 	{ path: "settings.pages.faction.balanceWarning", label: "Balance warning", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.showFullInfobox", label: "Show full faction description without scroll bar", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.foldableInfobox", label: "Make faction infobox foldable", group: "qol", section: "faction" },
+	{ path: "settings.pages.faction.highlightOwnRow", label: "Highlight your own faction row", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.numberMembers", label: "Add numbers to every member of faction", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.warFinishTimes", label: "Show the finish time of wars", group: "qol", section: "faction" },
 	{ path: "settings.pages.faction.armoryWorth", label: "Show total worth of faction armory", group: "qol", section: "faction" },

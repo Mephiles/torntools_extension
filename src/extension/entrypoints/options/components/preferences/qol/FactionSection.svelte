@@ -53,6 +53,7 @@
 			<StorageSwitch path="settings.pages.faction.idBesideFactionName" label="Reformat faction names as 'FACTIONNAME [ID]'" />
 			<StorageSwitch path="settings.pages.faction.showFullInfobox" label="Show the option to show the description without scroll bar" />
 			<StorageSwitch path="settings.pages.faction.foldableInfobox" label="Make infobox foldable" />
+			<StorageSwitch path="settings.pages.faction.highlightOwnRow" label="Highlight your own faction row" />
 			<StorageSwitch path="settings.pages.faction.numberMembers" label="Add numbers to every member of faction" />
 			<StorageSwitch path="settings.pages.faction.warFinishTimes" label="Show the finish time of wars" />
 			<StorageSwitch path="settings.pages.faction.armoryWorth" label="Show total worth of faction armory" description="Requires faction API access." />
