@@ -95,6 +95,10 @@ We have Oxfmt formatting and Oxlint linting to help you follow our coding conven
 - Wherever possible use nested selectors for an easier overview in the stylesheets.
 - Visual elements should keep the feel of TornTools intact. UI that clashes with the rest of the extension will need
   changes before it can be merged.
+- `querySelector`, `querySelectorAll`, `getElementById`, `getElementsByTagName` are banned in favor of `findElement` and `findAllElements`
+- `createElement` is banned in favor of `elementBuilder`
+- Don't check for a feature state in its own file except for the `isEnabled` function. Once a feature has been enabled, it stays enabled until they reload.
+- Don't overcomplicate things in a way to anticipate on changes. It adds unnecessary complexity for something that will be unlikely to happen or require more changes anyway.
 
 ## Adding yourself as a contributor
 
