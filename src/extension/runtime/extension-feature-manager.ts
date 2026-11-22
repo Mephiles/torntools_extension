@@ -76,7 +76,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 		);
 	}
 
-	private logError(info: string | string[], error: any) {
+	logError(info: string | string[], error: any) {
 		if (error?.message === "Extension context invalidated.") return;
 		if (error?.message === "Maximum cycles reached." && !settings.developer) return;
 

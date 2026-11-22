@@ -1,6 +1,7 @@
 import { handleDeviceSizeClasses } from "@common/pages/global-page";
 import { RUNTIME_INFORMATION } from "@common/utils/context";
 import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/events";
+import { logger } from "@common/utils/functions/logger";
 import type { Feature } from "@features/feature";
 import type { FeatureManager } from "@features/feature-manager";
 
@@ -20,6 +21,10 @@ export class ScriptFeatureManager implements FeatureManager {
 	}
 
 	createPopup() {}
+
+	logError(info: string | string[], error: any): void {
+		logger.error(info, error);
+	}
 
 	isEnabled(featureConstructor: new () => Feature): boolean {
 		return this.getScriptState().enabled[new featureConstructor().name];

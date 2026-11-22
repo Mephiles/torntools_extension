@@ -1,3 +1,4 @@
+import { FEATURE_MANAGER } from "@common/utils/context";
 import { registerExtensionContext } from "@/runtime/extension-context";
 import { scriptManager } from "@/runtime/script-manager";
 
@@ -17,6 +18,11 @@ export default defineContentScript({
 
 	main() {
 		registerExtensionContext();
-		scriptManager();
+
+		try {
+			scriptManager();
+		} catch (error) {
+			FEATURE_MANAGER.logError("Failed to run the content script.", error);
+		}
 	},
 });
