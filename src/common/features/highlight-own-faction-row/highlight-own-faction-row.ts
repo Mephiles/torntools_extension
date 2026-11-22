@@ -1,7 +1,7 @@
 import { getFactionSubpage, isInternalFaction } from "@common/pages/factions-page";
-import { api, settings, storageListeners } from "@common/utils/data/database";
+import { settings, userdata } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
-import { findAllElements } from "@common/utils/functions/find-elements";
+import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 import styles from "./highlight-own-faction-row.module.css";
@@ -9,17 +9,17 @@ import styles from "./highlight-own-faction-row.module.css";
 const MEMBER_ROW = ".faction-info-wrap .members-list .table-body > .table-row";
 
 function updateHighlight() {
-	const owner = api.torn.owner;
-	const enabled = settings.pages.faction.highlightOwnRow;
-	const profileLink = `a[href*="profiles.php?" i]:is([href$="?XID=${owner}" i], [href$="&XID=${owner}" i], [href*="?XID=${owner}&" i], [href*="&XID=${owner}&" i])`;
+	const playerId = userdata?.profile?.id;
+	if (!playerId) return;
 
 	for (const row of findAllElements(MEMBER_ROW)) {
-		row.classList.toggle(styles.ownRow, enabled && !!owner && !!row.querySelector(profileLink));
+		const profileLink = findElement(`a[href$="/profiles.php?XID=${playerId}"]`, row, true);
+		row.classList.toggle(styles.ownRow, !!profileLink);
 	}
 }
 
 async function highlightWhenLoaded() {
-	if (getFactionSubpage() !== "info" || !settings.pages.faction.highlightOwnRow) return;
+	if (getFactionSubpage() !== "info") return;
 
 	await requireElement(MEMBER_ROW);
 	updateHighlight();
@@ -42,21 +42,17 @@ export default class HighlightOwnFactionRowFeature extends Feature {
 		addCustomListener(EVENT_CHANNELS.FACTION_INFO, highlightWhenLoaded);
 		addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_FILTER, updateHighlight);
 		addCustomListener(EVENT_CHANNELS.FACTION_NATIVE_SORT, updateHighlight);
-		storageListeners.settings.push((oldSettings) => {
-			if (oldSettings?.pages.faction.highlightOwnRow && !settings.pages.faction.highlightOwnRow) updateHighlight();
-		});
-		storageListeners.api.push(updateHighlight);
 	}
 
-	override execute() {
-		return highlightWhenLoaded();
+	override async execute() {
+		await highlightWhenLoaded();
 	}
 
-	override reload() {
-		return highlightWhenLoaded();
+	override async reload() {
+		await highlightWhenLoaded();
 	}
 
 	override storageKeys() {
-		return ["settings.pages.faction.highlightOwnRow"];
+		return ["settings.pages.faction.highlightOwnRow", "userdata.profile.id"];
 	}
 }
