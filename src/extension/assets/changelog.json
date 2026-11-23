@@ -61,7 +61,8 @@
 				{ "message": "More information in some errors for easier debugging.", "contributor": "DeKleineKobini" },
 				{ "message": "Small technical change in the fetching of travel data.", "contributor": "DeKleineKobini" },
 				{ "message": "Use modular and nested CSS in 'Drug Details'.", "contributor": "DeKleineKobini" },
-				{ "message": "Use modular and nested CSS in 'Clean Flight'.", "contributor": "DeKleineKobini" }
+				{ "message": "Use modular and nested CSS in 'Clean Flight'.", "contributor": "DeKleineKobini" },
+				{ "message": "Cleanup chat 2.0 code in 'Chat Font Size'.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},
