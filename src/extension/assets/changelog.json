@@ -59,7 +59,8 @@
 				{ "message": "Refactor the data table element to use modular CSS.", "contributor": "DeKleineKobini" },
 				{ "message": "Improved error handling for Firefox errors in content scripts.", "contributor": "DeKleineKobini" },
 				{ "message": "More information in some errors for easier debugging.", "contributor": "DeKleineKobini" },
-				{ "message": "Small technical change in the fetching of travel data.", "contributor": "DeKleineKobini" }
+				{ "message": "Small technical change in the fetching of travel data.", "contributor": "DeKleineKobini" },
+				{ "message": "Use modular and nested CSS in 'Drug Details'.", "contributor": "DeKleineKobini" }
 			]
 		}
 	},

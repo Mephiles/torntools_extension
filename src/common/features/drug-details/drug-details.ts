@@ -1,4 +1,3 @@
-import "./drug-details.css";
 import { extractArmorySubcategory, isInternalFaction } from "@common/pages/factions-page";
 import { settings } from "@common/utils/data/database";
 import { elementBuilder, isElement, isHTMLElement } from "@common/utils/functions/dom";
@@ -11,6 +10,7 @@ import { requireElement } from "@common/utils/functions/requires";
 import { DRUG_INFORMATION, getPage, getPageStatus } from "@common/utils/functions/torn";
 import type { DrugDetail } from "@common/utils/functions/torn";
 import { Feature } from "@features/feature";
+import styles from "./drug-details.module.css";
 
 interface DrugDetailsOptions {
 	react: boolean | (() => boolean);
@@ -184,119 +184,58 @@ async function showDetails(id: number, partialOptions: Partial<DrugDetailsOption
 function show(parent: Element, details: DrugDetail) {
 	// Remove current info
 	parent.classList.add("tt-modified");
-	findAllElements(".item-effect", parent).forEach((effect) => effect.remove());
+	findAllElements(`.item-effect, .${styles.itemEffect}`, parent) // While these classes have the same name, the non-modular use is for a Torn-native class.
+		.forEach((effect) => effect.remove());
 
 	// Pros
 	if (details.pros) {
-		parent.appendChild(elementBuilder({ type: "div", class: "item-effect pro mt10", text: "Pros:", dataset: { addedBy: "TornTools" } }));
+		appendEffect(parent, "Pros:", "pro", "mt10");
 
-		for (const effect of details.pros) {
-			parent.appendChild(
-				elementBuilder({
-					type: "div",
-					class: "item-effect pro tabbed",
-					text: effect,
-					dataset: { addedBy: "TornTools" },
-				}),
-			);
-		}
+		for (const effect of details.pros) appendEffect(parent, effect, "pro", styles.tabbed);
 	}
 
 	// Cons
 	if (details.cons) {
-		parent.appendChild(elementBuilder({ type: "div", class: "item-effect con", text: "Cons:", dataset: { addedBy: "TornTools" } }));
+		appendEffect(parent, "Cons:", "con");
 
-		for (const effect of details.cons) {
-			parent.appendChild(
-				elementBuilder({
-					type: "div",
-					class: "item-effect con tabbed",
-					text: effect,
-					dataset: { addedBy: "TornTools" },
-				}),
-			);
-		}
+		for (const effect of details.cons) appendEffect(parent, effect, "con", styles.tabbed);
 	}
 
 	// Cooldown
-	parent.append(
-		elementBuilder({
-			type: "div",
-			class: "item-effect con",
-			text: `Cooldown: ${details.cooldown}`,
-			dataset: { addedBy: "TornTools" },
-		}),
-		elementBuilder({
-			type: "div",
-			class: "item-effect con",
-			text: `Addiction Points: ${details.addiction}`,
-			dataset: { addedBy: "TornTools" },
-		}),
-	);
+	appendEffect(parent, `Cooldown: ${details.cooldown}`, "con");
+	appendEffect(parent, `Addiction Points: ${details.addiction}`, "con");
 
 	// Overdose
 	if (details.overdose) {
-		parent.appendChild(elementBuilder({ type: "div", class: "item-effect con", text: "Overdose:", dataset: { addedBy: "TornTools" } }));
+		appendEffect(parent, "Overdose:", "con");
 
 		// bars
 		if (details.overdose.bars) {
-			parent.appendChild(
-				elementBuilder({
-					type: "div",
-					class: "item-effect con tabbed",
-					text: "Bars",
-					dataset: { addedBy: "TornTools" },
-				}),
-			);
+			appendEffect(parent, "Bars", "con", styles.tabbed);
 
-			for (const effect of details.overdose.bars) {
-				parent.appendChild(
-					elementBuilder({
-						type: "div",
-						class: "item-effect con double-tabbed",
-						text: effect,
-						dataset: { addedBy: "TornTools" },
-					}),
-				);
-			}
+			for (const effect of details.overdose.bars) appendEffect(parent, effect, "con", styles.doubleTabbed);
 		}
 
 		// stats
-		if (details.overdose.stats) {
-			parent.appendChild(
-				elementBuilder({
-					type: "div",
-					class: "item-effect con tabbed",
-					text: `Stats: ${details.overdose.stats}`,
-					dataset: { addedBy: "TornTools" },
-				}),
-			);
-		}
+		if (details.overdose.stats) appendEffect(parent, `Stats: ${details.overdose.stats}`, "con", styles.tabbed);
 
 		// hospital time
-		if (details.overdose.hosp_time) {
-			parent.appendChild(
-				elementBuilder({
-					type: "div",
-					class: "item-effect con tabbed",
-					text: `Hospital: ${details.overdose.hosp_time}`,
-					dataset: { addedBy: "TornTools" },
-				}),
-			);
-		}
+		if (details.overdose.hosp_time) appendEffect(parent, `Hospital: ${details.overdose.hosp_time}`, "con", styles.tabbed);
 
 		// extra
-		if (details.overdose.extra) {
-			parent.appendChild(
-				elementBuilder({
-					type: "div",
-					class: "item-effect con tabbed",
-					text: `Extra: ${details.overdose.extra}`,
-					dataset: { addedBy: "TornTools" },
-				}),
-			);
-		}
+		if (details.overdose.extra) appendEffect(parent, `Extra: ${details.overdose.extra}`, "con", styles.tabbed);
 	}
+}
+
+function appendEffect(parent: Element, text: string, variant: "pro" | "con", extraClass: string | null = null) {
+	parent.appendChild(
+		elementBuilder({
+			type: "div",
+			class: [styles.itemEffect, styles[variant], extraClass],
+			text,
+			dataset: { addedBy: "TornTools" },
+		}),
+	);
 }
 
 export default class DrugDetailsFeature extends Feature {

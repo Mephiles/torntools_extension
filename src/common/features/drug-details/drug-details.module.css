@@ -1,0 +1,19 @@
+.item-effect {
+	font-weight: bold;
+
+	&.tabbed {
+		margin-left: 15px;
+	}
+
+	&.double-tabbed {
+		margin-left: 30px;
+	}
+
+	&.pro {
+		color: var(--default-green-color);
+	}
+
+	&.con {
+		color: var(--default-red-color);
+	}
+}
