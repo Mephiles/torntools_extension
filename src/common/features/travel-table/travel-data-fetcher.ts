@@ -1,8 +1,7 @@
 import { settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { PrometheusTravelResponse, TornIntelTravelResponse, YATATravelResponse } from "@common/utils/functions/api.types";
-import { executePriorityServices } from "@common/utils/functions/priority-services";
-import type { PriorityService } from "@common/utils/functions/priority-services";
+import { executePriorityServices, PriorityService } from "@common/utils/functions/priority-services";
 
 export type TravelStock = Record<
 	string,
@@ -40,7 +39,7 @@ export async function fetchTravelData(): Promise<TravelData> {
 	};
 }
 
-class PrometheusTravelDataFetcher implements PriorityService<TravelDataFetchResult> {
+class PrometheusTravelDataFetcher extends PriorityService<TravelDataFetchResult> {
 	readonly name = "Prometheus";
 
 	enabled(): boolean {
@@ -64,7 +63,7 @@ class PrometheusTravelDataFetcher implements PriorityService<TravelDataFetchResu
 	}
 }
 
-class TornIntelTravelDataFetcher implements PriorityService<TravelDataFetchResult> {
+class TornIntelTravelDataFetcher extends PriorityService<TravelDataFetchResult> {
 	readonly name = "Torn Intel";
 
 	enabled(): boolean {
@@ -88,7 +87,7 @@ class TornIntelTravelDataFetcher implements PriorityService<TravelDataFetchResul
 	}
 }
 
-class YATATravelDataFetcher implements PriorityService<TravelDataFetchResult> {
+class YATATravelDataFetcher extends PriorityService<TravelDataFetchResult> {
 	readonly name = "YATA";
 
 	enabled(): boolean {
