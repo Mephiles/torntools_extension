@@ -1,5 +1,4 @@
 import "./bazaar-worth.css";
-import { ITEM_RESOLVER } from "@common/utils/context";
 import { ttCache } from "@common/utils/data/cache";
 import { settings } from "@common/utils/data/database";
 import { fetchData } from "@common/utils/functions/api-fetcher";
@@ -116,11 +115,11 @@ export default class BazaarWorthFeature extends DisabledUntilNoticeFeature {
 		super("Bazaar Worth", "bazaar", ExecutionTiming.IMMEDIATELY);
 	}
 
-	override requirements() {
-		if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
-
-		return true;
-	}
+	// override requirements() {
+	// 	if (!ITEM_RESOLVER.hasFullItems()) return "No API access.";
+	//
+	// 	return true;
+	// }
 
 	override isEnabled() {
 		return settings.pages.bazaar.worth;
