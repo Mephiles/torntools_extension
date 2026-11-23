@@ -1,0 +1,7 @@
+.clean-flight {
+	[class*="factWrapper___"],
+	[class*="airspaceScene___"],
+	[class*="flightProgressSection___"] hr:first-child {
+		display: none;
+	}
+}
