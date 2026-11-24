@@ -13,7 +13,7 @@ function updateHighlight() {
 	if (!playerId) return;
 
 	findElement(`.${styles.ownRow}`, true)?.classList.remove(styles.ownRow);
-	findElement(`${MEMBER_ROW}:has(a[href$="/profiles.php?XID=${playerId}"])`, true)?.classList.add(styles.ownRow);
+	findElement(`${MEMBER_ROW}:has(a[href$="/profiles.php?XID=${playerId}"])`).classList.add(styles.ownRow);
 }
 
 async function highlightWhenLoaded() {
