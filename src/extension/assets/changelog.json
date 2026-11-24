@@ -3,7 +3,13 @@
 		"version": { "major": 9, "minor": 4, "build": 2 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [],
+			"fixes": [],
+			"changes": [],
+			"removed": [],
+			"technical": [{ "message": "Minor refactoring of the logging system to accommodate an upcoming change .", "contributor": "DeKleineKobini" }]
+		}
 	},
 	{
 		"version": { "major": 9, "minor": 4, "build": 1 },

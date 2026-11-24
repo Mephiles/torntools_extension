@@ -56,21 +56,26 @@ function withPrefix(section: string | null, args: unknown[]): unknown[] {
 	return [getContextLabel(section), ...args];
 }
 
-function write(level: LogLevel, method: "error" | "warn" | "log" | "debug", section: string | null, force: boolean, args: unknown[]): void {
+interface LoggerOptions {
+	section: string | null;
+	force: boolean;
+}
+
+function write(level: LogLevel, method: "error" | "warn" | "log" | "debug", { force, section }: LoggerOptions, args: unknown[]): void {
 	if (!force && !isEnabled(level)) return;
 
 	console[method](...withPrefix(section, args));
 }
 
-function createLogger(section: string | null, force: boolean): Logger {
+function createLogger(options: LoggerOptions): Logger {
 	return {
-		error: (...args: unknown[]) => write("error", "error", section, force, args),
-		warn: (...args: unknown[]) => write("warn", "warn", section, force, args),
-		info: (...args: unknown[]) => write("info", "log", section, force, args),
-		debug: (...args: unknown[]) => write("debug", "debug", section, force, args),
-		withSection: (nextSection: string) => createLogger(nextSection, force),
+		error: (...args: unknown[]) => write("error", "error", options, args),
+		warn: (...args: unknown[]) => write("warn", "warn", options, args),
+		info: (...args: unknown[]) => write("info", "log", options, args),
+		debug: (...args: unknown[]) => write("debug", "debug", options, args),
+		withSection: (section: string) => createLogger({ ...options, section }),
 		get force() {
-			return createLogger(section, true);
+			return createLogger({ ...options, force: true });
 		},
 	};
 }
@@ -93,4 +98,4 @@ export interface Logger extends Log {
 	readonly force: Logger;
 }
 
-export const logger: Logger = createLogger(null, false);
+export const logger: Logger = createLogger({ section: null, force: false });
