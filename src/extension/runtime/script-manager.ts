@@ -144,6 +144,7 @@ import HighlightCheapItemsFeature from "@features/highlight-cheap-items/highligh
 import HighlightEnergyRefillFeature from "@features/highlight-energy-refill/highlight-energy-refill";
 import HighlightNerveRefillFeature from "@features/highlight-nerve-refill/highlight-nerve-refill";
 import HighlightOCFeature from "@features/highlight-oc/highlight-oc";
+import HighlightOwnFactionRowFeature from "@features/highlight-own-faction-row/highlight-own-faction-row";
 import HighlightPropertiesFeature from "@features/highlight-properties/highlight-properties";
 import HospitalFilterFeature from "@features/hospital-filter/hospital-filter";
 import ItemMarketLeftBarFeature from "@features/item-market-left-bar/item-market-left-bar";
@@ -439,6 +440,7 @@ export function scriptManager() {
 		FEATURE_MANAGER.registerFeature(new FactionIDFeature());
 		FEATURE_MANAGER.registerFeature(new CSVChallengeContributionsFeature());
 		FEATURE_MANAGER.registerFeature(new MemberRankFeature());
+		FEATURE_MANAGER.registerFeature(new HighlightOwnFactionRowFeature());
 		FEATURE_MANAGER.registerFeature(new FullFactionInfoboxFeature());
 		FEATURE_MANAGER.registerFeature(new FFScouterFactionFeature());
 		FEATURE_MANAGER.registerFeature(new LastActionFactionFeature());

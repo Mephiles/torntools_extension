@@ -426,6 +426,7 @@ export const DEFAULT_STORAGE = {
 				showFullInfobox: new DefaultSetting("boolean", true),
 				foldableInfobox: new DefaultSetting("boolean", true),
 				numberMembers: new DefaultSetting("boolean", true),
+				highlightOwnRow: new DefaultSetting("boolean", false),
 				warFinishTimes: new DefaultSetting("boolean", false),
 				memberFilter: new DefaultSetting("boolean", true),
 				memberFilterRevivable: new DefaultSetting("boolean", false),
