@@ -410,3 +410,9 @@ export function isSVGElement(node: Node | EventTarget | null): node is SVGElemen
 export function isCustomEvent<T>(event: Event): event is CustomEvent<T> {
 	return event instanceof CustomEvent;
 }
+
+export function getParentContext(parent: ParentNode): string | null {
+	if (parent instanceof Document) return parent.documentElement.outerHTML;
+
+	return isElement(parent) ? parent.outerHTML : parent.textContent;
+}

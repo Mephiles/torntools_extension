@@ -1,4 +1,5 @@
 import { usingFirefox } from "@common/utils/functions/browser";
+import { getParentContext } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 
@@ -135,6 +136,20 @@ function removeListenerFromRegistry(listener: PendingListener) {
 	cleanupEntryIfEmpty(entry);
 }
 
+export class RequireElementConditionError extends Error {
+	selector: string;
+	parent: string | null;
+	timeout: number;
+
+	constructor(selector: string, parent: string | null, inverted: boolean, timeout: number) {
+		super(`Element with selector ${selector} was expected to ${inverted ? "disappear" : "appear"} but didn't.`);
+		this.name = "RequireElementConditionError";
+		this.selector = selector;
+		this.parent = parent;
+		this.timeout = timeout;
+	}
+}
+
 export function requireElement<T extends Element = HTMLElement>(selector: string, attributes?: Partial<Omit<RequireElementOptions, "invert">>): Promise<T>;
 export function requireElement(selector: string, attributes?: Partial<RequireElementOptions & { invert: true }>): Promise<true>;
 export function requireElement<T extends Element = HTMLElement>(selector: string, attributes: Partial<RequireElementOptions> = {}): Promise<T | true> {
@@ -150,7 +165,7 @@ export function requireElement<T extends Element = HTMLElement>(selector: string
 	};
 
 	// Preserve stack for throwing later when needed.
-	const error = new Error("Maximum cycles reached.");
+	const error = new RequireElementConditionError(selector, getParentContext(options.parent), options.invert, options.timeout);
 
 	return createRequirePromise<T | true>((resolve, reject) => {
 		const element = findElement<T>(selector, options.parent, true);

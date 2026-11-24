@@ -1,4 +1,4 @@
-import { isElement } from "@common/utils/functions/dom.ts";
+import { getParentContext } from "@common/utils/functions/dom.ts";
 
 export class ElementNotFoundError extends Error {
 	selector: string;
@@ -10,12 +10,6 @@ export class ElementNotFoundError extends Error {
 		this.selector = selector;
 		this.parent = parent;
 	}
-}
-
-function getParentContext(parent: ParentNode): string | null {
-	if (parent instanceof Document) return parent.documentElement.outerHTML;
-
-	return isElement(parent) ? parent.outerHTML : parent.textContent;
 }
 
 export function findAllElements<K extends keyof HTMLElementTagNameMap>(tagName: K, parent?: ParentNode): HTMLElementTagNameMap[K][];
