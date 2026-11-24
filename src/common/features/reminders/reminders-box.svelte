@@ -18,6 +18,7 @@
 					this={reminder.url ? "a" : "div"}
 					href={reminder.url}
 					class={[styles.reminder, reminder.finished ? styles.finished : null, reminder.ignored ? styles.ignored : null]}
+					title={reminder.title ?? undefined}
 					tabindex="-1"
 				>
 					{reminder.name}{#if reminder.finished}: Finished!{/if}{#if reminder.ignored}: Ignored!{/if}

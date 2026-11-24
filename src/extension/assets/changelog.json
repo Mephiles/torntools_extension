@@ -41,7 +41,8 @@
 				{
 					"message": "Prefer a car named after the track when multiple cars fit the recommendation in 'Race Car Selector'.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "Display the missing item for the oc reminder as tooltip.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [
 				{

@@ -1,3 +1,4 @@
+import { ITEM_RESOLVER } from "@common/utils/context.ts";
 import { api, companydata, settings, userdata } from "@common/utils/data/database";
 import { hasCompanyAPIAccess } from "@common/utils/functions/api.ts";
 import { hasFinishedEducation, LINKS } from "@common/utils/functions/torn";
@@ -9,6 +10,7 @@ export interface Reminder {
 	enabled: () => boolean;
 	ignored?: () => boolean;
 	finished: () => boolean;
+	title?: () => string | null;
 }
 
 export const REMINDERS: Reminder[] = [
@@ -94,6 +96,19 @@ export const REMINDERS: Reminder[] = [
 
 			// Mark as finished if there is no item requirement, or when the item is available.
 			return !slot.item_requirement || slot.item_requirement.is_available;
+		},
+		title: () => {
+			if (!userdata.organizedCrime || !("id" in userdata.organizedCrime)) return null;
+
+			const slot = userdata.organizedCrime.slots.find((slot) => slot.user?.id === api.torn.owner);
+			if (!slot?.item_requirement) return null;
+
+			const { id, is_reusable } = slot.item_requirement;
+
+			const name = ITEM_RESOLVER.loadItem(id)?.name;
+			if (!name) return null;
+
+			return `${is_reusable ? "Requires" : "Uses"}: ${name}`;
 		},
 	},
 	{
