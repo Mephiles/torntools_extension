@@ -1,7 +1,7 @@
 import { getFactionSubpage, isInternalFaction } from "@common/pages/factions-page";
 import { settings, userdata } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
-import { findAllElements, findElement } from "@common/utils/functions/find-elements";
+import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
 import { Feature } from "@features/feature";
 import styles from "./highlight-own-faction-row.module.css";
@@ -12,10 +12,8 @@ function updateHighlight() {
 	const playerId = userdata?.profile?.id;
 	if (!playerId) return;
 
-	for (const row of findAllElements(MEMBER_ROW)) {
-		const profileLink = findElement(`a[href$="/profiles.php?XID=${playerId}"]`, row, true);
-		row.classList.toggle(styles.ownRow, !!profileLink);
-	}
+	findElement(`.${styles.ownRow}`, true)?.classList.remove(styles.ownRow);
+	findElement(`${MEMBER_ROW}:has(a[href$="/profiles.php?XID=${playerId}"])`, true)?.classList.add(styles.ownRow);
 }
 
 async function highlightWhenLoaded() {
