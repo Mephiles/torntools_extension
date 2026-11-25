@@ -16,23 +16,27 @@ interface RequireConditionOptions {
  * A rejection counts as handled once someone attaches an `onRejected` handler.
  */
 class UnhandledRejectionPromise<T> extends Promise<T> {
-	private handled = false;
+	// Shared with derived promises, so `.then(...).catch(...)` marks this rejection as handled.
+	private handled = { value: false };
 
 	// oxlint-disable-next-line unicorn/no-thenable -- observing handlers is the point here
 	override then<TResult1 = T, TResult2 = never>(
 		onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | null,
 		onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null,
 	): Promise<TResult1 | TResult2> {
-		if (onrejected) this.handled = true;
+		if (onrejected) this.handled.value = true;
 
-		return super.then(onfulfilled, onrejected);
+		const derived = super.then(onfulfilled, onrejected);
+		if (derived instanceof UnhandledRejectionPromise) derived.handled = this.handled;
+
+		return derived;
 	}
 
 	trackUnhandledRejections() {
 		// Bypasses our own `then`, so this doesn't mark the rejection as handled.
 		super.then(undefined, (reason: unknown) => {
 			window.setTimeout(() => {
-				if (this.handled) return;
+				if (this.handled.value) return;
 
 				window.dispatchEvent(new PromiseRejectionEvent("unhandledrejection", { promise: this, reason }));
 			});

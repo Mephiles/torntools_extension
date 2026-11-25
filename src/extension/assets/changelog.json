@@ -6,7 +6,11 @@
 		"logs": {
 			"features": [],
 			"fixes": [
-				{ "message": "Change the link for the Company Trains reminder to the company page instead of education.", "contributor": "DeKleineKobini" }
+				{ "message": "Change the link for the Company Trains reminder to the company page instead of education.", "contributor": "DeKleineKobini" },
+				{
+					"message": "Avoid false positive errors when we wait on something to appear on the page but it doesn't, where we handle the output already.",
+					"contributor": "DeKleineKobini"
+				}
 			],
 			"changes": [],
 			"removed": [],

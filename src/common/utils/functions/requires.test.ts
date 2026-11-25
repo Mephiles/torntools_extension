@@ -71,6 +71,16 @@ describe("require", () => {
 			expect(dispatched).toHaveLength(0);
 		});
 
+		it("should not report a rejection that is caught after a `then`", async () => {
+			useFirefox();
+
+			requireNothing().then(noop).catch(noop);
+
+			await waitForReport();
+
+			expect(dispatched).toHaveLength(0);
+		});
+
 		it("should not report a rejection that is awaited", async () => {
 			useFirefox();
 
