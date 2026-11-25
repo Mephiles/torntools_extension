@@ -96,6 +96,7 @@ export async function markTravelTableColumns() {
 		else return;
 
 		header.dataset.ttContentType = contentType;
+		header.style.gridArea = contentType;
 	});
 
 	await requireElement("[class*='stockTableWrapper___'] [class*='row___']");
@@ -112,5 +113,6 @@ export async function markTravelTableColumns() {
 		else return;
 
 		row.dataset.ttContentType = contentType;
+		row.style.gridArea = contentType;
 	});
 }
