@@ -37,6 +37,6 @@ jobs:
               run: bun oxfmt
 
             - name: Add & Commit
-              uses: EndBug/add-and-commit@v10
+              uses: EndBug/add-and-commit@v11
               with:
                   message: "Prepare next version: v${{ env.newVersion }}"
