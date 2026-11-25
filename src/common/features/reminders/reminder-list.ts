@@ -128,7 +128,7 @@ export const REMINDERS: Reminder[] = [
 	},
 	{
 		name: "Company Trains",
-		url: LINKS.education,
+		url: LINKS.companies,
 		enabled: () => hasCompanyAPIAccess() && settings.scripts.reminders.types.trainsAvailable !== null,
 		finished: () => {
 			if (companydata?.access !== "director" || settings.scripts.reminders.types.trainsAvailable === null) return true;

@@ -5,7 +5,9 @@
 		"date": false,
 		"logs": {
 			"features": [],
-			"fixes": [],
+			"fixes": [
+				{ "message": "Change the link for the Company Trains reminder to the company page instead of education.", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": [],
 			"technical": [{ "message": "Minor refactoring of the logging system to accommodate an upcoming change .", "contributor": "DeKleineKobini" }]
