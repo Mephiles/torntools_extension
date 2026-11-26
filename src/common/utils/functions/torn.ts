@@ -2452,6 +2452,8 @@ export function isInfiniteUsageItem(id: number): boolean {
 
 export const TORNTOOLS_FORUM_POST = "https://www.torn.com/forums.php#/p=threads&f=67&t=16243863";
 
+export const TORNTOOLS_PRIVACY_POLICY = "https://docs.google.com/document/d/1CrYDHkFs70D0VEelp29fs8xV5-Eo_UBCIpnpsCuIxMI/edit?usp=sharing";
+
 export const RANKS: Record<string, number> = {
 	"Absolute beginner": 1,
 	Beginner: 2,

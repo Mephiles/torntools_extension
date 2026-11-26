@@ -4,6 +4,7 @@ import { checkAPIPermission } from "@common/utils/functions/api-key";
 import { createContainer, removeContainer } from "@common/utils/functions/containers";
 import { elementBuilder } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
+import { TORNTOOLS_PRIVACY_POLICY } from "@common/utils/functions/torn";
 import { noop } from "@common/utils/functions/utilities.ts";
 import { isPDA } from "@userscripts/utils/script-utils";
 import styles from "./script-fetch.module.css";
@@ -34,7 +35,7 @@ export async function requiresAPIKey() {
 
 		const keyInput = elementBuilder({ type: "input", class: styles.keyField });
 
-		options.appendChild(
+		options.append(
 			elementBuilder({
 				type: "button",
 				class: ["preference-button", styles.keyField],
@@ -54,8 +55,15 @@ export async function requiresAPIKey() {
 					},
 				},
 			}),
+			keyInput,
+			elementBuilder({
+				type: "a",
+				class: styles.privacyNote,
+				href: TORNTOOLS_PRIVACY_POLICY,
+				text: "Privacy policy",
+				attributes: { target: "_blank", rel: "noopener noreferrer" },
+			}),
 		);
-		options.appendChild(keyInput);
 	});
 }
 

@@ -12,6 +12,11 @@
 	margin: 0 0 8px;
 	opacity: 0.72;
 	padding: 0 2px;
+
+	& a {
+		color: inherit;
+		text-decoration: underline;
+	}
 }
 
 .error {

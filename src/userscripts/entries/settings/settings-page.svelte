@@ -4,6 +4,7 @@
 	import type { DatabaseApi, DatabaseSettings } from "@common/utils/data/database";
 	import { getPreferenceValue } from "@common/utils/data/preference-storage";
 	import type { PreferenceStoragePath } from "@common/utils/data/preference-storage";
+	import { TORNTOOLS_PRIVACY_POLICY } from "@common/utils/functions/torn";
 	import type { RegisteredScript, SettingControlType, SettingsManifestEntry } from "@userscripts/settings/settings-manifest";
 	import { buildSettingsLayout } from "@userscripts/settings/settings-sections";
 	import {
@@ -150,6 +151,10 @@
 <Container title="TornTools - Userscript Settings">
 	<div class={styles.settings}>
 		<p class={styles.subtitle}>Settings for the TornTools userscripts you have installed. A script appears here after it has run in the last 14 days.</p>
+
+		<p class={styles.subtitle}>
+			<a href={TORNTOOLS_PRIVACY_POLICY} target="_blank" rel="noopener noreferrer">Privacy policy</a>
+		</p>
 
 		{#if error}
 			<p class={styles.error}>{error}</p>

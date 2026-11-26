@@ -5,3 +5,16 @@
 	border-radius: 4px;
 	background: #00000060;
 }
+
+.privacyNote {
+	color: currentColor;
+	font-size: 11px;
+	line-height: 1.45;
+	opacity: 0.72;
+	padding-block-start: 4px;
+
+	& a {
+		color: inherit;
+		text-decoration: underline;
+	}
+}
