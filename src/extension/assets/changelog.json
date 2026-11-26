@@ -12,12 +12,7 @@
 					"contributor": "DeKleineKobini"
 				}
 			],
-			"changes": [
-				{
-					"message": "Label API calls from userscripts as 'TT Userscripts' by default, configurable in the userscript settings.",
-					"contributor": "DeKleineKobini"
-				}
-			],
+			"changes": [],
 			"removed": [],
 			"technical": [{ "message": "Minor refactoring of the logging system to accommodate an upcoming change .", "contributor": "DeKleineKobini" }]
 		}
