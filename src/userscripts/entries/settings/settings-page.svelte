@@ -191,6 +191,22 @@
 						/>
 					{/if}
 				</div>
+
+				<div class={styles.row}>
+					<div class={styles.copy}>
+						<label class={styles.label} for="tt-userscript-api-comment">API call comment</label>
+						<div class={styles.description}>Sent with Torn API requests made by userscripts. Leave blank to send no comment.</div>
+					</div>
+
+					<input
+						id="tt-userscript-api-comment"
+						class={styles.input}
+						type="text"
+						autocomplete="off"
+						value={settings.apiUsage.comment ?? ""}
+						onchange={(event) => void setValue("settings.apiUsage.comment", event.currentTarget.value)}
+					/>
+				</div>
 			</div>
 		</details>
 

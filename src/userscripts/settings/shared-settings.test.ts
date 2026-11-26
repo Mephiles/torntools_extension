@@ -83,6 +83,16 @@ describe("shared settings", () => {
 		});
 	});
 
+	it("defaults the API comment to 'TT Userscripts', but keeps a stored value", async () => {
+		expect(getEffectiveSettings().apiUsage.comment).toBe("TT Userscripts");
+
+		await applySettingsPatch({ apiUsage: { comment: "TornTools" } });
+		expect(getEffectiveSettings().apiUsage.comment).toBe("TornTools");
+
+		await applySettingsPatch({ apiUsage: { comment: "" } });
+		expect(getEffectiveSettings().apiUsage.comment).toBe("");
+	});
+
 	it("seeds a script's defaults without touching values the user changed", async () => {
 		await applySettingsDefaults({ pages: { targets: { nativeFilter: true }, friends: { nativeFilter: true } } });
 		await applySettingsPatch({ pages: { friends: { nativeFilter: false } } });

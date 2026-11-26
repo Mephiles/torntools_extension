@@ -12,6 +12,8 @@ const LEGACY_API_KEY = "tt_scripts_key";
 
 const DEFAULT_SETTINGS = getDefaultStorage(DEFAULT_STORAGE.settings) as DatabaseSettings;
 const DEFAULT_API = getDefaultStorage(DEFAULT_STORAGE.api) as DatabaseApi;
+/** Userscripts label their API traffic differently from the browser extension. */
+const USERSCRIPT_SETTING_DEFAULTS: RecursivePartial<DatabaseSettings> = { apiUsage: { comment: "TT Userscripts" } };
 
 interface SharedSettingsData {
 	version: number;
@@ -68,7 +70,7 @@ export function applyManifestOverrides<T>(value: T, overrides: readonly Settings
 }
 
 export function getEffectiveSettings(manifest?: SettingsManifest): DatabaseSettings {
-	const merged = mergeDefaults(DEFAULT_SETTINGS, readSharedSettings().settings);
+	const merged = mergeDefaults(mergeDefaults(DEFAULT_SETTINGS, USERSCRIPT_SETTING_DEFAULTS), readSharedSettings().settings);
 	return applyManifestOverrides(merged, manifest?.overrides, "settings");
 }
 
