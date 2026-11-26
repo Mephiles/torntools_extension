@@ -91,6 +91,7 @@ We have Oxfmt formatting and Oxlint linting to help you follow our coding conven
 - Any changes should be added in the `src/extension/assets/changelog.json` file under the first unreleased version.
     - New entries should be added to the end of the correct section, so entries in each section are ordered from first implemented to last.
     - First contributions should also credit you in `src/common/utils/team.ts`, see [Adding yourself as a contributor](#adding-yourself-as-a-contributor).
+    - Changes that don't impact the browser extension should not be included in the changelog.
 - Prefer using modular stylesheets for new features.
 - Wherever possible use nested selectors for an easier overview in the stylesheets.
 - Visual elements should keep the feel of TornTools intact. UI that clashes with the rest of the extension will need
