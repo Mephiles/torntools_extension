@@ -1,5 +1,5 @@
 import { factiondata, settings, userdata } from "@common/utils/data/database";
-import { hasAPIData, hasOC2Data } from "@common/utils/functions/api";
+import { hasAPIData } from "@common/utils/functions/api";
 import { addInformationSection, checkDevice, elementBuilder, showInformationSection } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
 import { formatDate, formatTime } from "@common/utils/functions/formatting";
@@ -89,7 +89,6 @@ export default class RWTimerFeature extends Feature {
 
 	override async requirements() {
 		if (!hasAPIData()) return "No API access.";
-		else if (!hasOC2Data()) return "No OC 2 data.";
 		else if (!(await checkDevice()).hasSidebar) return "Not supported on mobiles or tablets!";
 
 		return true;
