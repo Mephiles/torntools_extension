@@ -10,7 +10,8 @@
 				{
 					"message": "Avoid false positive errors when we wait on something to appear on the page but it doesn't, where we handle the output already.",
 					"contributor": "DeKleineKobini"
-				}
+				},
+				{ "message": "'Travel Item Profits' had issues with being displayed properly on smaller screens on safari.", "contributor": "DeKleineKobini" }
 			],
 			"changes": [
 				{ "message": "Avoid our uncaught promise errors from appearing twice.", "contributor": "DeKleineKobini" },

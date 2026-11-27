@@ -6,19 +6,49 @@
 }
 
 @media screen and (max-width: 785px) {
-	.travel-profits [class*="stockTableWrapper___"] [class*="itemsHeader___"],
-	.travel-profits [class*="row___"] {
-		grid-template-columns: [item] 65px [name] 1fr [stock] 44px [profit] 90px [cost] 66px [buy] 34px !important;
-	}
+	.travel-profits [class*="stockTableWrapper___"] {
+		[class*="itemsHeader___"],
+		[class*="row___"] {
+			grid-template-columns: [item] 65px [name] 1fr [stock] 44px [profit] 90px [cost] 66px [buy] 34px !important;
+		}
 
-	[data-tt-content-type] {
-		grid-area: attr(data-tt-content-type) !important;
+		/* attr() is not supported in grid-area by every browser (e.g. iOS 17 Safari), so map each column explicitly. */
+		[data-tt-content-type="item"] {
+			grid-area: item !important;
+		}
+
+		[data-tt-content-type="name"] {
+			grid-area: name !important;
+		}
+
+		[data-tt-content-type="type"] {
+			grid-area: type !important;
+		}
+
+		[data-tt-content-type="stock"] {
+			grid-area: stock !important;
+		}
+
+		[data-tt-content-type="profit"] {
+			grid-area: profit !important;
+		}
+
+		[data-tt-content-type="cost"] {
+			grid-area: cost !important;
+		}
+
+		[data-tt-content-type="amount"] {
+			grid-area: amount !important;
+		}
+
+		[data-tt-content-type="buy"] {
+			grid-area: buy !important;
+		}
 	}
 
 	.travel-market-heading,
 	.travel-market-cell {
 		border-left: 1px solid var(--default-panel-divider-inner-side-color);
-		grid-area: profit;
 	}
 }
 
