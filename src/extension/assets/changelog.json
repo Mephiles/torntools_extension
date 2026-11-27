@@ -7,7 +7,10 @@
 			"features": [
 				{ "message": "Optionally send logs to our logging server for debugging purposes, with 72-hour sessions.", "contributor": "DeKleineKobini" }
 			],
-			"fixes": [{ "message": "Don't break when trying to map sourcemaps with an invalid line.", "contributor": "DeKleineKobini" }],
+			"fixes": [
+				{ "message": "Don't break when trying to map sourcemaps with an invalid line.", "contributor": "DeKleineKobini" },
+				{ "message": "Don't run any content scripts on editor.torn.com (the image host).", "contributor": "DeKleineKobini" }
+			],
 			"changes": [],
 			"removed": [],
 			"technical": []

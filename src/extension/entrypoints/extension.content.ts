@@ -12,6 +12,7 @@ export default defineContentScript({
 		"https://*.torn.com/joblisting.php*",
 		"https://wiki.torn.com/*",
 		"https://api.torn.com/*",
+		"https://editor.torn.com/*",
 	],
 
 	runAt: "document_start",
