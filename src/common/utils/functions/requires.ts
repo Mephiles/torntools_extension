@@ -1,6 +1,7 @@
 import { usingFirefox } from "@common/utils/functions/browser";
 import { getParentContext } from "@common/utils/functions/dom";
 import { findElement } from "@common/utils/functions/find-elements";
+import { CustomTornToolsError } from "@common/utils/functions/torntools-errors.ts";
 import { TO_MILLIS } from "@common/utils/functions/utilities";
 
 type RequireConditionFn<T = any> = () => T | { value: NonNullable<T>; success: boolean };
@@ -140,7 +141,7 @@ function removeListenerFromRegistry(listener: PendingListener) {
 	cleanupEntryIfEmpty(entry);
 }
 
-export class RequireElementConditionError extends Error {
+export class RequireElementConditionError extends CustomTornToolsError {
 	selector: string;
 	parent: string | null;
 	timeout: number;

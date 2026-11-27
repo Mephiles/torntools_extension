@@ -4,6 +4,7 @@ import { EVENT_CHANNELS, triggerCustomListener } from "@common/utils/functions/e
 import { findAllElements, findElement } from "@common/utils/functions/find-elements";
 import { logger as _logger } from "@common/utils/functions/logger";
 import { requireCondition, requireDOMContentLoaded, requireDOMInteractive, requireElement } from "@common/utils/functions/requires";
+import { CustomTornToolsError } from "@common/utils/functions/torntools-errors.ts";
 import { arraysEquals, noop, objectsEquals, toClipboard } from "@common/utils/functions/utilities";
 import { PHBoldCheck, PHBoldCopy, PHBoldSpinnerGap, PHQuestion, PHXCircle } from "@common/utils/icons/phosphor-icons";
 import { SOURCE_SERVICE } from "@extension/services/proxy-services";
@@ -65,6 +66,11 @@ export class ExtensionFeatureManager implements FeatureManager {
 			}
 		});
 		window.addEventListener("unhandledrejection", (e) => {
+			if (e.reason instanceof CustomTornToolsError) {
+				e.preventDefault();
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+			}
 			this.logError("Uncaught promise rejection:", e.reason);
 		});
 

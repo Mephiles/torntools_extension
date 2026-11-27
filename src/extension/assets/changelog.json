@@ -12,7 +12,7 @@
 					"contributor": "DeKleineKobini"
 				}
 			],
-			"changes": [],
+			"changes": [{ "message": "Avoid our uncaught promise errors from appearing twice.", "contributor": "DeKleineKobini" }],
 			"removed": [],
 			"technical": [{ "message": "Minor refactoring of the logging system to accommodate an upcoming change .", "contributor": "DeKleineKobini" }]
 		}

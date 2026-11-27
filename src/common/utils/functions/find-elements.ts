@@ -1,6 +1,7 @@
 import { getParentContext } from "@common/utils/functions/dom.ts";
+import { CustomTornToolsError } from "@common/utils/functions/torntools-errors.ts";
 
-export class ElementNotFoundError extends Error {
+export class ElementNotFoundError extends CustomTornToolsError {
 	selector: string;
 	parent: string | null;
 
