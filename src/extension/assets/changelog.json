@@ -23,7 +23,9 @@
 				{ "message": "Avoid our uncaught promise errors from appearing twice.", "contributor": "DeKleineKobini" },
 				{ "message": "Show a link to our privacy policy on multiple places.", "contributor": "DeKleineKobini" }
 			],
-			"removed": [],
+			"removed": [
+				{ "message": "Disable the 'Trade No Confirm' feature (temporarily), due to a change by Torn blocking it.", "contributor": "DeKleineKobini" }
+			],
 			"technical": [
 				{ "message": "Minor refactoring of the logging system to accommodate an upcoming change .", "contributor": "DeKleineKobini" },
 				{ "message": "Add opt-in remote logging transport and session handling.", "contributor": "DeKleineKobini" }
