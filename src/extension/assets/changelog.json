@@ -3,15 +3,20 @@
 		"version": { "major": 9, "minor": 4, "build": 3 },
 		"title": "Beta",
 		"date": false,
-		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+		"logs": {
+			"features": [
+				{ "message": "Optionally send logs to our logging server for debugging purposes, with 72-hour sessions.", "contributor": "DeKleineKobini" }
+			],
+			"fixes": [],
+			"changes": [],
+			"removed": [],
+			"technical": []
+		}
 	},
 	{
 		"version": { "major": 9, "minor": 4, "build": 2 },
 		"date": "2026/11/27",
 		"logs": {
-			"features": [
-				{ "message": "Optionally send logs to our logging server for debugging purposes, with 72-hour sessions.", "contributor": "DeKleineKobini" }
-			],
 			"fixes": [
 				{ "message": "Change the link for the Company Trains reminder to the company page instead of education.", "contributor": "DeKleineKobini" },
 				{
@@ -28,10 +33,7 @@
 			"removed": [
 				{ "message": "Disable the 'Trade No Confirm' feature (temporarily), due to a change by Torn blocking it.", "contributor": "DeKleineKobini" }
 			],
-			"technical": [
-				{ "message": "Minor refactoring of the logging system to accommodate an upcoming change .", "contributor": "DeKleineKobini" },
-				{ "message": "Add opt-in remote logging transport and session handling.", "contributor": "DeKleineKobini" }
-			]
+			"technical": [{ "message": "Minor refactoring of the logging system to accommodate an upcoming change .", "contributor": "DeKleineKobini" }]
 		}
 	},
 	{
