@@ -2,7 +2,7 @@ import { settings } from "@common/utils/data/database";
 import { addCustomListener, EVENT_CHANNELS } from "@common/utils/functions/events";
 import { findElement } from "@common/utils/functions/find-elements";
 import { requireElement } from "@common/utils/functions/requires";
-import { Feature } from "@features/feature";
+import { DisabledUntilNoticeFeature } from "@features/feature";
 
 function initialiseListeners() {
 	addCustomListener(EVENT_CHANNELS.TRADE, async ({ active }) => {
@@ -24,7 +24,7 @@ async function removeConfirmation() {
 	link.setAttribute("href", url.replace("accept", "accept2"));
 }
 
-export default class NoConfirmTradeFeature extends Feature {
+export default class NoConfirmTradeFeature extends DisabledUntilNoticeFeature {
 	constructor() {
 		super("Trade No Confirm", "trade");
 	}
