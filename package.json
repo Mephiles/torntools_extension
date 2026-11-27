@@ -36,6 +36,7 @@
 		"@tanstack/svelte-table": "^9.3.2",
 		"@webext-core/proxy-service": "^3.0.3",
 		"@wxt-dev/module-svelte": "^2.0.5",
+		"bowser": "^2.15.1",
 		"chart.js": "^4.6.2",
 		"sortablejs": "^1.15.7",
 		"source-map": "^0.8.0",

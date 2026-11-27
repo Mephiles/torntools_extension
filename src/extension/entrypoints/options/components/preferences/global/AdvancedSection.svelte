@@ -5,6 +5,7 @@
 	import PreferenceSettingGroup from "../PreferenceSettingGroup.svelte";
 	import StorageSelect from "../StorageSelect.svelte";
 	import StorageSwitch from "../StorageSwitch.svelte";
+	import RemoteLoggingCard from "./RemoteLoggingCard.svelte";
 </script>
 
 <PreferenceSectionCard title="Debug Information">
@@ -29,6 +30,8 @@
 		</PreferenceSettingGroup>
 	</div>
 </PreferenceSectionCard>
+
+<RemoteLoggingCard />
 
 {#if ENABLE_PLAYGROUND_TORNTOOLS && ENABLE_INFORMATION_REPORTING}
 	<PreferenceSectionCard title="Information Reporting">

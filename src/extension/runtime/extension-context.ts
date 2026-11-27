@@ -25,6 +25,7 @@ import { ExtensionEventHandler } from "@/runtime/extension-event-handler";
 import { ExtensionFeatureManager } from "@/runtime/extension-feature-manager";
 import { ExtensionInformationRetriever } from "@/runtime/extension-information-retriever";
 import { TTExtensionStorage } from "@/runtime/extension-storage";
+import { registerRemoteLoggingSink } from "@/runtime/remote-logging";
 import { BACKGROUND_SERVICE } from "@/services/proxy-services";
 import { STATIC_ITEM_MAP, STATIC_ITEMS } from "@/utils/static-data/static-items";
 
@@ -43,6 +44,7 @@ export function registerExtensionContext() {
 	setOffloadService(ExtensionOffloadService);
 	setDataFetcher(ExtensionDataFetcher);
 	setStaticItemResolver(ExtensionItemResolver);
+	registerRemoteLoggingSink(SCRIPT_TYPE === "BACKGROUND");
 }
 
 export function registerExtensionInjectedScriptContext() {

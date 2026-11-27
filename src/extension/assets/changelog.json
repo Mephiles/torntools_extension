@@ -4,7 +4,12 @@
 		"title": "Beta",
 		"date": false,
 		"logs": {
-			"features": [],
+			"features": [
+				{
+					"message": "Optionally send logs to our logging server for debugging purposes, with 72-hour sessions.",
+					"contributor": "DeKleineKobini"
+				}
+			],
 			"fixes": [
 				{ "message": "Change the link for the Company Trains reminder to the company page instead of education.", "contributor": "DeKleineKobini" },
 				{
@@ -17,7 +22,10 @@
 				{ "message": "Show a link to our privacy policy on multiple places.", "contributor": "DeKleineKobini" }
 			],
 			"removed": [],
-			"technical": [{ "message": "Minor refactoring of the logging system to accommodate an upcoming change .", "contributor": "DeKleineKobini" }]
+			"technical": [
+				{ "message": "Minor refactoring of the logging system to accommodate an upcoming change .", "contributor": "DeKleineKobini" },
+				{ "message": "Add opt-in remote logging transport and session handling.", "contributor": "DeKleineKobini" }
+			]
 		}
 	},
 	{

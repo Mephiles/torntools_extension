@@ -118,3 +118,10 @@ export class SourceService {
 		};
 	}
 }
+
+let sourceService: SourceService | null = null;
+
+export function getSourceService(): SourceService {
+	sourceService ??= new SourceService();
+	return sourceService;
+}

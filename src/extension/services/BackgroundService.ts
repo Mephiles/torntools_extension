@@ -6,6 +6,7 @@ import { bumpCacheVersion, getCache, removeCacheEntries, setCacheEntries } from 
 import { bumpNotesVersion, getNotes, removeNotes, setNotes } from "@common/utils/data/idb-notes";
 import { fetchData } from "@common/utils/functions/api-fetcher";
 import type { FetchLocation, FetchOptions } from "@common/utils/functions/api-fetcher";
+import type { SerializedLogEntry } from "@common/utils/functions/remote-logging-entry";
 import { resetAlarms } from "@extension/entrypoints/background";
 import { dispatchNotification, getNotificationSound, notificationTestPlayer } from "@extension/entrypoints/background/notifications";
 import { timedUpdates } from "@extension/entrypoints/background/updates";
@@ -15,6 +16,7 @@ import { updateStocks } from "@extension/entrypoints/background/updates/stockdat
 import { updateTorndata } from "@extension/entrypoints/background/updates/torndata";
 import { updateUserdata } from "@extension/entrypoints/background/updates/userdata";
 import type { Browser } from "@wxt-dev/browser";
+import { enqueueRemoteLog } from "@/runtime/remote-logging";
 
 type Alarm = Browser.alarms.Alarm;
 
@@ -56,6 +58,10 @@ export class BackgroundService {
 
 	fetchRelay<R = any>(location: FetchLocation, options: Partial<FetchOptions> = {}): Promise<R> {
 		return fetchData<R>(location, options);
+	}
+
+	async remoteLog(entry: SerializedLogEntry): Promise<void> {
+		enqueueRemoteLog(entry);
 	}
 
 	async forceUpdate(update: "torndata" | "stocks" | "factiondata" | "companydata" | "userdata"): Promise<ActionResponse> {

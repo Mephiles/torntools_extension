@@ -66,6 +66,8 @@ export async function getExportData(includeApi: boolean, isFileExport = false): 
 			}
 		});
 
+	sanitizeExport(database);
+
 	return {
 		user: hasAPIData() ? { id: userdata.profile.id, name: userdata.profile.name } : false,
 		client: {
@@ -76,6 +78,14 @@ export async function getExportData(includeApi: boolean, isFileExport = false): 
 		database,
 		...(corrupted.length > 0 && { corrupted }),
 	};
+}
+
+function sanitizeExport(database: ExportDatabasePayload) {
+	if ("settings" in database) {
+		const settings = database.settings as Record<string, any> | undefined;
+
+		delete settings?.logging?.remote;
+	}
 }
 
 export async function importExportData(data: ExportData) {

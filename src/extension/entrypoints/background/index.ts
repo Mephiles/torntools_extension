@@ -9,8 +9,10 @@ import type { NotificationRelation } from "@extension/entrypoints/background/not
 import { timedUpdates } from "@extension/entrypoints/background/updates/";
 import { showIconBars } from "@extension/entrypoints/background/updates/icon-bars";
 import { registerExtensionContext } from "@extension/runtime/extension-context";
+import { setSourceMapper } from "@extension/runtime/remote-logging";
+import { ensureRemoteLoggingInstallId } from "@extension/runtime/remote-logging-state";
 import { BACKGROUND_SERVICE_KEY, SOURCE_SERVICE_KEY } from "@extension/services/proxy-service-keys";
-import { SourceService } from "@extension/services/SourceService";
+import { getSourceService } from "@extension/services/SourceService";
 import { registerService } from "@webext-core/proxy-service";
 import { browser } from "wxt/browser";
 import type { Browser } from "wxt/browser";
@@ -39,6 +41,7 @@ async function onInstall() {
 	await migrateDatabase(true);
 	void initializeDatabase();
 	void checkUpdate();
+	void ensureRemoteLoggingInstallId().catch(() => {});
 
 	initializeBackoff();
 	void resetAlarms();
@@ -70,6 +73,7 @@ async function onStartup() {
 	await migrateDatabase(false);
 	void initializeDatabase();
 	void checkUpdate();
+	void ensureRemoteLoggingInstallId().catch(() => {});
 
 	initializeBackoff();
 
@@ -142,7 +146,10 @@ export default defineBackground(() => {
 
 	const backgroundService = new BackgroundService();
 	registerService(BACKGROUND_SERVICE_KEY, backgroundService);
-	registerService(SOURCE_SERVICE_KEY, new SourceService());
+
+	const sourceService = getSourceService();
+	registerService(SOURCE_SERVICE_KEY, sourceService);
+	setSourceMapper((stack) => sourceService.mappedStack(stack));
 
 	if ("connection" in navigator) {
 		// @ts-expect-error Not part of the standard, only available on Chromium-based browsers.

@@ -15,6 +15,7 @@ import { TornToolsStorage } from "@common/utils/data/storage";
 import { logger } from "@common/utils/functions/logger";
 import { SCRIPT_TYPE } from "@common/utils/functions/utilities";
 import { browser } from "wxt/browser";
+import { getRemoteLoggingState } from "@/runtime/remote-logging-state";
 import { BACKGROUND_SERVICE } from "@/services/proxy-services";
 
 const isContentScript = SCRIPT_TYPE === "CONTENT";
@@ -164,10 +165,11 @@ export class TTExtensionStorage extends TornToolsStorage {
 			await this.set({ [key]: getDefaultStorage(DEFAULT_STORAGE)[key] });
 		} else {
 			const apiKey = api ? api.torn.key : undefined;
+			const installId = (await getRemoteLoggingState()).installId;
 
 			await this.clear();
 			await this.set(getDefaultStorage(DEFAULT_STORAGE));
-			await this.change({ api: { torn: { key: apiKey } } });
+			await this.change({ api: { torn: { key: apiKey } }, settings: { logging: { remote: { installId } } } });
 
 			logger.info("Storage cleared");
 			logger.info("New storage", await this.get());

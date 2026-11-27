@@ -4,7 +4,21 @@ const LEVEL_PRIORITY: Record<LogLevel, number> = { error: 0, warn: 1, info: 2, d
 const DEFAULT_LEVEL: LogLevel = typeof __TT_DEV__ !== "undefined" && __TT_DEV__ ? "debug" : "warn";
 const USERSCRIPT_NAME_PREFIX = "TORN: TornTools - ";
 
+export interface LogSinkEvent {
+	level: "warn" | "error";
+	section: string | null;
+	args: unknown[];
+	timestamp: number;
+}
+
+export type LogSink = (event: LogSinkEvent) => void;
+
 let currentLevel: LogLevel = DEFAULT_LEVEL;
+let logSink: LogSink | null = null;
+
+export function setLogSink(sink: LogSink | null): void {
+	logSink = sink;
+}
 
 export function isLogLevel(value: unknown): value is LogLevel {
 	return value === "error" || value === "warn" || value === "info" || value === "debug";
@@ -59,9 +73,27 @@ function withPrefix(section: string | null, args: unknown[]): unknown[] {
 interface LoggerOptions {
 	section: string | null;
 	force: boolean;
+	remoteOnly: boolean;
+	remoteContext?: unknown;
 }
 
-function write(level: LogLevel, method: "error" | "warn" | "log" | "debug", { force, section }: LoggerOptions, args: unknown[]): void {
+function write(
+	level: LogLevel,
+	method: "error" | "warn" | "log" | "debug",
+	{ section, force, remoteOnly, remoteContext }: LoggerOptions,
+	args: unknown[],
+): void {
+	if ((level === "warn" || level === "error") && logSink) {
+		try {
+			const allArgs = remoteContext === undefined ? args : [...args, remoteContext];
+
+			logSink({ level, section, args: allArgs, timestamp: Date.now() });
+		} catch {
+			// A broken sink must never break logging.
+		}
+	}
+
+	if (remoteOnly) return;
 	if (!force && !isEnabled(level)) return;
 
 	console[method](...withPrefix(section, args));
@@ -74,8 +106,12 @@ function createLogger(options: LoggerOptions): Logger {
 		info: (...args: unknown[]) => write("info", "log", options, args),
 		debug: (...args: unknown[]) => write("debug", "debug", options, args),
 		withSection: (section: string) => createLogger({ ...options, section }),
+		withRemoteContext: (remoteContext: unknown) => createLogger({ ...options, remoteContext }),
 		get force() {
 			return createLogger({ ...options, force: true });
+		},
+		get remote() {
+			return createLogger({ ...options, remoteOnly: true });
 		},
 	};
 }
@@ -96,6 +132,18 @@ export interface Logger extends Log {
 	 * Composes with sections: `logger.withSection("FeatureManager").force.info(...)`.
 	 */
 	readonly force: Logger;
+
+	/**
+	 * Returns a logger that only forwards warnings and errors to the log sink, without writing to the console.
+	 * Composes with sections and `force`: `logger.withSection("FeatureManager").remote.error(...)`.
+	 */
+	readonly remote: Logger;
+
+	/**
+	 * Returns a logger that appends the given context to remote sink events only, without changing console output.
+	 * Composes with sections, `force` and `remote`: `logger.withSection("FeatureManager").withRemoteContext(context).error(...)`.
+	 */
+	withRemoteContext(context: unknown): Logger;
 }
 
-export const logger: Logger = createLogger({ section: null, force: false });
+export const logger: Logger = createLogger({ section: null, force: false, remoteOnly: false });

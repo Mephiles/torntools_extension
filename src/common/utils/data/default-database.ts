@@ -68,6 +68,14 @@ export const DEFAULT_STORAGE = {
 		featureDisplayHideEmpty: new DefaultSetting("boolean", true),
 		logLevel: new DefaultSetting<LogLevel>("string", "warn"),
 		developer: new DefaultSetting("boolean", false),
+		logging: {
+			remote: {
+				enabled: new DefaultSetting("boolean", false),
+				installId: new DefaultSetting<string | null>("string"),
+				sessionId: new DefaultSetting<string | null>("string"),
+				sessionExpiresAt: new DefaultSetting<number | null>("number"),
+			},
+		},
 		formatting: {
 			tct: new DefaultSetting("boolean", false),
 			date: new DefaultSetting("string", "eu"),

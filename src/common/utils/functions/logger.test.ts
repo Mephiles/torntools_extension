@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, mock, spyOn } from "bun:test";
 import { noop } from "@common/utils/functions/utilities.ts";
-import { getLogLevel, isLogLevel, logger, setLogLevel } from "./logger";
+import { getLogLevel, isLogLevel, logger, setLogLevel, setLogSink } from "./logger";
+import type { LogSinkEvent } from "./logger";
 
 function captureConsole() {
 	return {
@@ -14,6 +15,7 @@ function captureConsole() {
 describe("logger", () => {
 	afterEach(() => {
 		setLogLevel("warn");
+		setLogSink(null);
 		mock.restore();
 	});
 
@@ -31,6 +33,71 @@ describe("logger", () => {
 			logger.info("hello");
 
 			expect(spies.log).toHaveBeenCalledWith("[TornTools - Test Script BETA] hello");
+		});
+	});
+
+	describe("log sink", () => {
+		it("should forward warnings and errors regardless of the local log level", () => {
+			const sink = mock((_event: LogSinkEvent) => {});
+			setLogSink(sink);
+			setLogLevel("error");
+
+			logger.warn("warning");
+			logger.error("error");
+			logger.info("info");
+			logger.debug("debug");
+
+			expect(sink).toHaveBeenCalledTimes(2);
+			expect(sink.mock.calls[0][0]).toMatchObject({ level: "warn", section: null, args: ["warning"] });
+			expect(sink.mock.calls[1][0]).toMatchObject({ level: "error", section: null, args: ["error"] });
+		});
+
+		it("should pass the section to the sink", () => {
+			const sink = mock((_event: LogSinkEvent) => {});
+			setLogSink(sink);
+
+			logger.withSection("Feature").warn("warning");
+
+			expect(sink).toHaveBeenCalledWith(expect.objectContaining({ section: "Feature", level: "warn" }));
+		});
+
+		it("should not let a broken sink break logging", () => {
+			const spies = captureConsole();
+			setLogSink(() => {
+				throw new Error("sink failed");
+			});
+
+			logger.error("still logged");
+
+			expect(spies.error).toHaveBeenCalledTimes(1);
+		});
+
+		it("should send remote-only logs to the sink without console output", () => {
+			const spies = captureConsole();
+			const sink = mock((_event: LogSinkEvent) => {});
+			setLogSink(sink);
+
+			logger.withSection("Feature").remote.error("remote error");
+			logger.remote.warn("remote warning");
+			logger.remote.info("remote info");
+
+			expect(sink).toHaveBeenCalledTimes(2);
+			expect(sink.mock.calls[0][0]).toMatchObject({ level: "error", section: "Feature", args: ["remote error"] });
+			expect(sink.mock.calls[1][0]).toMatchObject({ level: "warn", section: null, args: ["remote warning"] });
+			expect(spies.error).not.toHaveBeenCalled();
+			expect(spies.warn).not.toHaveBeenCalled();
+			expect(spies.log).not.toHaveBeenCalled();
+		});
+
+		it("should add context to remote logs without changing console output", () => {
+			const spies = captureConsole();
+			const sink = mock((_event: LogSinkEvent) => {});
+			setLogSink(sink);
+
+			logger.withSection("Feature").withRemoteContext({ filename: "x.js", lineno: 1 }).error("boom");
+
+			expect(sink).toHaveBeenCalledWith(expect.objectContaining({ level: "error", section: "Feature", args: ["boom", { filename: "x.js", lineno: 1 }] }));
+			expect(spies.error).toHaveBeenCalledWith("[TornTools - Feature] boom");
 		});
 	});
 

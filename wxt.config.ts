@@ -108,7 +108,7 @@ export default defineConfig({
 				"https://ffscouter.com/",
 				"https://moonvault.tail3a72e2.ts.net/revive",
 				"https://torn-intel.com/",
-				"https://torntools.tornplayground.eu/",
+				"https://*.torntools.tornplayground.eu/*",
 				"https://tornprobability.com/",
 			],
 			permissions: ["storage", "notifications", "alarms", ...(browser === "chrome" ? ["background", "offscreen"] : [])],
@@ -130,6 +130,7 @@ export default defineConfig({
 					strict_min_version: "128.0",
 					data_collection_permissions: {
 						required: ["none"],
+						optional: ["technicalAndInteraction"],
 					},
 				},
 				gecko_android: {},

@@ -85,6 +85,28 @@
 				</Table.Root>
 			</div>
 
+			<h3 class="mt-3 text-base font-bold">Remote Logging (opt-in)</h3>
+
+			<p class="text-muted-foreground text-sm">
+				Remote logging is off by default and only runs while you have an active session. When enabled, TornTools sends warning and error logs to our
+				self-hosted GlitchTip instance at <code class="bg-muted rounded px-1">logs.torntools.tornplayground.eu</code>. Sessions run for 72 hours and can
+				be extended or revoked at any time.
+			</p>
+			<br />
+
+			<p class="text-muted-foreground text-sm">
+				Each installation gets a random install ID, and each session gets a random session ID. Events include the install and session ID, extension
+				version, browser and operating system, the Torn page URL with its query and hash navigation parameters (sensitive values such as API keys and
+				request tokens are redacted, while page identifiers such as player, faction or forum IDs remain), the log level and message, stack traces, and
+				any additional data attached to the log call. We do not attach your IP address, API key, cookies, local storage, or request bodies.
+			</p>
+			<br />
+
+			<p class="text-muted-foreground text-sm">
+				Revoking remote logging stops future events, but does not delete events GlitchTip already received. Received events are kept for up to 30 days.
+			</p>
+			<br />
+
 			<p class="text-muted-foreground text-sm">
 				Our privacy policy can be found
 				<a class="text-primary hover:underline" href={TORNTOOLS_PRIVACY_POLICY} target="_blank" rel="noreferrer">here</a>.

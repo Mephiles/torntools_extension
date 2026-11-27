@@ -18,6 +18,7 @@
 		compact?: boolean;
 		disabled?: boolean;
 		externalServices?: readonly ExternalService[];
+		beforeValueChange?: (value: boolean) => boolean | Promise<boolean>;
 		titleAction?: Snippet;
 		children?: Snippet;
 	}
@@ -31,6 +32,7 @@
 		compact = false,
 		disabled: disabledProp = false,
 		externalServices = [],
+		beforeValueChange,
 		titleAction,
 		children,
 	}: StorageSwitchProps = $props();
@@ -40,9 +42,11 @@
 	const requirementMet = $derived(externalServices.length === 0 || externalServices.some((service) => Boolean($settingsStore.external[service])));
 	const disabled = $derived(disabledProp || !requirementMet);
 
-	function updateChecked(value: boolean) {
+	async function updateChecked(value: boolean) {
 		if (disabled) return;
-		void updatePreferenceValue(path, value);
+		if (beforeValueChange && !(await beforeValueChange(value))) return;
+
+		await updatePreferenceValue(path, value);
 	}
 </script>
 
@@ -60,7 +64,7 @@
 			{/if}
 		</Field.Content>
 
-		<Switch {id} size="sm" {checked} {disabled} onCheckedChange={updateChecked} />
+		<Switch {id} size="sm" {checked} {disabled} onCheckedChange={(value) => void updateChecked(value)} />
 	</Field.Field>
 
 	{#if children}

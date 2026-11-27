@@ -180,6 +180,7 @@ export const PREFERENCE_SEARCH_DATA: readonly SearchablePreference[] = [
 
 	// Section: advanced
 	{ path: "settings.logLevel", label: "Log level", group: "global", section: "advanced" },
+	{ path: "settings.logging.remote.enabled", label: "Remote logging", group: "global", section: "advanced" },
 	{ path: "settings.developer", label: "Developer errors", group: "global", section: "advanced" },
 	{ path: "settings.featureDisplay", label: "Feature manager", group: "global", section: "advanced" },
 	{ path: "settings.featureDisplayOnlyFailed", label: "Feature manager: only failed", group: "global", section: "advanced" },

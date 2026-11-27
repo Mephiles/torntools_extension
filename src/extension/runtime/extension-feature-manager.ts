@@ -9,11 +9,31 @@ import { arraysEquals, noop, objectsEquals, toClipboard } from "@common/utils/fu
 import { PHBoldCheck, PHBoldCopy, PHBoldSpinnerGap, PHQuestion, PHXCircle } from "@common/utils/icons/phosphor-icons";
 import { SOURCE_SERVICE } from "@extension/services/proxy-services";
 import { ExecutionTiming } from "@features/feature";
-import type { Feature } from "@features/feature";
 import "./extension-feature-manager.css";
+import type { Feature } from "@features/feature";
 import type { FeatureManager } from "@features/feature-manager";
 
 const logger = _logger.withSection("FeatureManager");
+
+async function getErrorEventContext(event: ErrorEvent) {
+	const location = await SOURCE_SERVICE.fromSource(event.lineno, event.colno).catch(() => null);
+
+	return {
+		message: event.message,
+		filename: event.filename,
+		lineno: event.lineno,
+		colno: event.colno,
+		...(location && { mappedSource: `${location.path}:${location.line}:${location.column}` }),
+	};
+}
+
+function getRejectionEventContext(event: PromiseRejectionEvent) {
+	const reason = event.reason;
+
+	if (reason instanceof Error) return { reason: { name: reason.name, message: reason.message } };
+
+	return { reason: typeof reason === "string" ? reason.slice(0, 1_000) : String(reason), reasonType: typeof reason };
+}
 
 type FeatureSingleFn = (() => void) | (() => Promise<void>) | null;
 
@@ -54,7 +74,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 			if (e.error) {
 				if (e.error.filename.includes("injectedScript")) return;
 
-				this.logError("Uncaught window error: ", e.error);
+				this.logError("Uncaught window error: ", e.error, getErrorEventContext(e));
 			} else {
 				if (
 					e.message === "ResizeObserver loop completed with undelivered notifications." &&
@@ -62,7 +82,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 				)
 					return;
 
-				this.logError("Uncaught window error: ", e);
+				this.logError("Uncaught window error: ", e, getErrorEventContext(e));
 			}
 		});
 		window.addEventListener("unhandledrejection", (e) => {
@@ -71,7 +91,7 @@ export class ExtensionFeatureManager implements FeatureManager {
 				e.stopPropagation();
 				e.stopImmediatePropagation();
 			}
-			this.logError("Uncaught promise rejection:", e.reason);
+			this.logError("Uncaught promise rejection:", e.reason, getRejectionEventContext(e));
 		});
 
 		logger.force.info(
@@ -82,9 +102,12 @@ export class ExtensionFeatureManager implements FeatureManager {
 		);
 	}
 
-	logError(info: string | string[], error: any) {
+	logError(info: string | string[], error: any, remoteContext?: unknown) {
 		if (error?.message === "Extension context invalidated.") return;
-		if (error?.message === "Maximum cycles reached." && !settings.developer) return;
+		if (error?.message === "Maximum cycles reached." && !settings.developer) {
+			logger.remote.error(info, error);
+			return;
+		}
 
 		this.errorCount = this.errorCount + 1;
 		if (this.errorCount === 1) {
@@ -97,8 +120,10 @@ export class ExtensionFeatureManager implements FeatureManager {
 				.then((messages) => messages.classList.add("show"));
 		}
 
-		this.generateErrorMessage(info, error)
-			.then((message) => logger.error(...message))
+		const message = this.generateErrorMessage(info, error);
+
+		Promise.resolve(remoteContext)
+			.then((context) => logger.withRemoteContext(context).error(...message))
 			.catch(noop);
 
 		if (!this.container) {
@@ -111,21 +136,13 @@ export class ExtensionFeatureManager implements FeatureManager {
 		}
 	}
 
-	private async generateErrorMessage(info: string | string[], error: any): Promise<string[]> {
-		const infoMessages: string[] = Array.isArray(info) ? info : [info];
+	private generateErrorMessage(info: string | string[], error: any): unknown[] {
+		const infoMessages: unknown[] = Array.isArray(info) ? [...info] : [info];
 
-		if (error) {
-			if (typeof error === "object") {
-				if (error instanceof Error) {
-					infoMessages.push(await SOURCE_SERVICE.mappedStack(error.stack));
-				} else if (error instanceof ErrorEvent) {
-					const location = await SOURCE_SERVICE.fromSource(error.lineno, error.colno);
-					const formattedLocation = location ? `${location.file}:${location.line}` : `${error.filename}:${error.lineno}`;
-					infoMessages.push(`${error.message} @ ${formattedLocation}`);
-				}
-			} else {
-				infoMessages.push(error);
-			}
+		if (error instanceof ErrorEvent) {
+			infoMessages.push(`${error.message} @ ${error.filename}:${error.lineno}`);
+		} else if (error) {
+			infoMessages.push(error);
 		}
 
 		return infoMessages;
