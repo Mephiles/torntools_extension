@@ -56,11 +56,15 @@ export async function hasRemoteLoggingPermissions(): Promise<boolean> {
 	return await hasRemoteLoggingDataCollectionPermission();
 }
 
-export async function requestRemoteLoggingPermissions(): Promise<boolean> {
+/**
+ * Firefox only allows `permissions.request` from the user input handler that triggered it, so nothing may be awaited
+ * before it. `includeDataCollection` has to be resolved ahead of time, with `supportsRemoteLoggingDataCollectionPermissions`.
+ */
+export async function requestRemoteLoggingPermissions(includeDataCollection: boolean): Promise<boolean> {
 	if (!browser.permissions) return false;
 
 	const request: Browser.permissions.Permissions & DataCollectionPermissions = { origins: [REMOTE_LOGGING_ORIGIN] };
-	if (await supportsDataCollectionPermissions()) {
+	if (includeDataCollection) {
 		request.data_collection = ["technicalAndInteraction"];
 	}
 
@@ -80,7 +84,7 @@ async function hasRemoteLoggingDataCollectionPermission(): Promise<boolean> {
  * Data collection permissions only exist from Firefox 140 onwards. Browsers without them either reject the key in a
  * request or ignore it, but none of them report one from getAll, so that is the only answer that can be trusted.
  */
-async function supportsDataCollectionPermissions(): Promise<boolean> {
+export async function supportsRemoteLoggingDataCollectionPermissions(): Promise<boolean> {
 	return (await getDataCollectionPermissions()) !== null;
 }
 

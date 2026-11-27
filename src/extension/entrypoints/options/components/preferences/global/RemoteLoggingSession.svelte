@@ -13,12 +13,14 @@
 		requestRemoteLoggingPermissions,
 		revokeRemoteLoggingSession,
 		startRemoteLoggingSession,
+		supportsRemoteLoggingDataCollectionPermissions,
 	} from "@/runtime/remote-logging-state";
 	import { settingsStore } from "../../../stores/database-store.svelte";
 	import StorageSwitch from "../StorageSwitch.svelte";
 
 	let permissionsGranted = $state(false);
 	let busy = $state(false);
+	let dataCollectionSupported = false;
 
 	const ready = $derived(Boolean($settingsStore));
 	const loggingState = $derived($settingsStore?.logging?.remote ?? DEFAULT_REMOTE_LOGGING_STATE);
@@ -41,7 +43,10 @@
 	});
 
 	async function refreshPermissions() {
-		permissionsGranted = await hasRemoteLoggingPermissions();
+		const [granted, supportsDataCollection] = await Promise.all([hasRemoteLoggingPermissions(), supportsRemoteLoggingDataCollectionPermissions()]);
+
+		permissionsGranted = granted;
+		dataCollectionSupported = supportsDataCollection;
 	}
 
 	/**
@@ -84,7 +89,7 @@
 		}
 
 		try {
-			const granted = await requestRemoteLoggingPermissions();
+			const granted = await requestRemoteLoggingPermissions(dataCollectionSupported);
 			if (!granted) {
 				toast.error("Can't enable remote logging without accepting the permissions.");
 				return false;

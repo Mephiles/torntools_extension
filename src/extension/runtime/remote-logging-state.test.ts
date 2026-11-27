@@ -9,7 +9,7 @@ const permissions = {
 mock.module("wxt/browser", () => ({ browser: { permissions } }));
 
 import { REMOTE_LOGGING_ORIGIN } from "@common/utils/functions/remote-logging";
-import { hasRemoteLoggingPermissions, requestRemoteLoggingPermissions } from "./remote-logging-state";
+import { hasRemoteLoggingPermissions, requestRemoteLoggingPermissions, supportsRemoteLoggingDataCollectionPermissions } from "./remote-logging-state";
 
 beforeEach(() => {
 	permissions.contains.mockClear();
@@ -45,17 +45,28 @@ describe("hasRemoteLoggingPermissions", () => {
 	});
 });
 
+describe("supportsRemoteLoggingDataCollectionPermissions", () => {
+	it("is false where the browser does not report data collection", async () => {
+		expect(await supportsRemoteLoggingDataCollectionPermissions()).toBe(false);
+	});
+
+	it("is true where the browser reports data collection", async () => {
+		permissions.getAll.mockResolvedValue({ permissions: [], origins: [], data_collection: [] });
+
+		expect(await supportsRemoteLoggingDataCollectionPermissions()).toBe(true);
+	});
+});
+
 describe("requestRemoteLoggingPermissions", () => {
 	it("does not ask for data collection where the browser has none", async () => {
-		expect(await requestRemoteLoggingPermissions()).toBe(true);
+		expect(await requestRemoteLoggingPermissions(false)).toBe(true);
 		expect(permissions.request).toHaveBeenCalledWith({ origins: [REMOTE_LOGGING_ORIGIN] });
 	});
 
 	it("asks for technicalAndInteraction where the browser reports data collection", async () => {
-		permissions.getAll.mockResolvedValueOnce({ permissions: [], origins: [], data_collection: [] });
 		permissions.getAll.mockResolvedValue({ permissions: [], origins: [], data_collection: ["technicalAndInteraction"] });
 
-		expect(await requestRemoteLoggingPermissions()).toBe(true);
+		expect(await requestRemoteLoggingPermissions(true)).toBe(true);
 		expect(permissions.request).toHaveBeenCalledWith({
 			origins: [REMOTE_LOGGING_ORIGIN],
 			data_collection: ["technicalAndInteraction"],
