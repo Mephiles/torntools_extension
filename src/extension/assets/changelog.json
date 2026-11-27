@@ -7,7 +7,7 @@
 			"features": [
 				{ "message": "Optionally send logs to our logging server for debugging purposes, with 72-hour sessions.", "contributor": "DeKleineKobini" }
 			],
-			"fixes": [],
+			"fixes": [{ "message": "Don't break when trying to map sourcemaps with an invalid line.", "contributor": "DeKleineKobini" }],
 			"changes": [],
 			"removed": [],
 			"technical": []

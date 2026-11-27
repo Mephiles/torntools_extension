@@ -55,6 +55,7 @@ export class SourceService {
 	}
 
 	fromSource(line: number, column: number): SourceLocation | null {
+		if (line <= 0) return null;
 		if (!this.sourceMapConsumer) return null;
 
 		const position = this.sourceMapConsumer.originalPositionFor({ line, column });
