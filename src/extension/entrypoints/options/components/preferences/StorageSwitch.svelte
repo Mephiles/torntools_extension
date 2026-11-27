@@ -38,13 +38,24 @@
 	}: StorageSwitchProps = $props();
 
 	const storageSource = $derived({ settings: $settingsStore, api: $apiStore });
-	const checked = $derived(Boolean(getPreferenceValue(storageSource, path)));
-	const requirementMet = $derived(externalServices.length === 0 || externalServices.some((service) => Boolean($settingsStore.external[service])));
+	const storedChecked = $derived(Boolean(getPreferenceValue(storageSource, path)));
+	const requirementMet = $derived(
+		!externalServices || externalServices.length === 0 || externalServices.some((service) => Boolean($settingsStore.external[service])),
+	);
 	const disabled = $derived(disabledProp || !requirementMet);
+
+	let checked = $state(false);
+	$effect(() => {
+		checked = storedChecked;
+	});
 
 	async function updateChecked(value: boolean) {
 		if (disabled) return;
-		if (beforeValueChange && !(await beforeValueChange(value))) return;
+
+		if (beforeValueChange && !(await beforeValueChange(value))) {
+			checked = storedChecked;
+			return;
+		}
 
 		await updatePreferenceValue(path, value);
 	}
@@ -64,7 +75,7 @@
 			{/if}
 		</Field.Content>
 
-		<Switch {id} size="sm" {checked} {disabled} onCheckedChange={(value) => void updateChecked(value)} />
+		<Switch {id} size="sm" bind:checked {disabled} onCheckedChange={(value) => void updateChecked(value)} />
 	</Field.Field>
 
 	{#if children}
