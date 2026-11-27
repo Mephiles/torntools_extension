@@ -1,14 +1,16 @@
 [
 	{
-		"version": { "major": 9, "minor": 4, "build": 2 },
+		"version": { "major": 9, "minor": 4, "build": 3 },
 		"title": "Beta",
 		"date": false,
+		"logs": { "features": [], "fixes": [], "changes": [], "removed": [], "technical": [] }
+	},
+	{
+		"version": { "major": 9, "minor": 4, "build": 2 },
+		"date": "2026/11/27",
 		"logs": {
 			"features": [
-				{
-					"message": "Optionally send logs to our logging server for debugging purposes, with 72-hour sessions.",
-					"contributor": "DeKleineKobini"
-				}
+				{ "message": "Optionally send logs to our logging server for debugging purposes, with 72-hour sessions.", "contributor": "DeKleineKobini" }
 			],
 			"fixes": [
 				{ "message": "Change the link for the Company Trains reminder to the company page instead of education.", "contributor": "DeKleineKobini" },
