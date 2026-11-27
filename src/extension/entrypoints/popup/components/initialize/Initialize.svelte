@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { loadDatabase } from "@common/utils/data/database";
 	import { changeAPIKey, checkAPIPermission } from "@common/utils/functions/api-key";
+	import { TORNTOOLS_PRIVACY_POLICY } from "@common/utils/functions/torn.ts";
 	import { sleep, TO_MILLIS } from "@common/utils/functions/utilities";
 	import { Button } from "@svelte/components/ui/button";
 	import { Card, CardContent, CardHeader, CardTitle } from "@svelte/components/ui/card";
@@ -76,8 +77,16 @@
 		<div class="text-muted-foreground text-xs">TornTools needs a <span class="text-amber-600 dark:text-amber-300">Limited Access</span> key.</div>
 
 		<Button size="sm" variant="outline" class="h-8 w-full" onclick={openImport}>Import previous settings</Button>
-		<a class="text-muted-foreground hover:text-foreground block text-xs" target="_blank" rel="noreferrer" href={browser.runtime.getURL("/tos.html")}
-			>Terms of Service</a
+		<a
+			class="text-muted-foreground hover:text-foreground block text-xs hover:underline"
+			target="_blank"
+			rel="noreferrer"
+			href={browser.runtime.getURL("/tos.html")}
 		>
+			Terms of Service
+		</a>
+		<a class="text-muted-foreground hover:text-foreground block text-xs hover:underline" target="_blank" rel="noreferrer" href={TORNTOOLS_PRIVACY_POLICY}>
+			Privacy policy
+		</a>
 	</CardContent>
 </Card>

@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { TORNTOOLS_FORUM_POST } from "@common/utils/functions/torn";
+	import { TORNTOOLS_FORUM_POST, TORNTOOLS_PRIVACY_POLICY } from "@common/utils/functions/torn";
 	import { Kbd, KbdGroup } from "@svelte/components/ui/kbd";
 	import { Separator } from "@svelte/components/ui/separator";
+	import { browser } from "wxt/browser";
 	import ContactLink from "./ContactLink.svelte";
 </script>
 
@@ -12,7 +13,8 @@
 		<p>
 			Our source code is available on <ContactLink href="https://github.com/Mephiles/torntools_extension">GitHub</ContactLink>
 			and licensed under the GNU General Public Licence. Our terms of service can be found
-			<ContactLink href={browser.runtime.getURL("/tos.html")}>here</ContactLink>.
+			<ContactLink href={browser.runtime.getURL("/tos.html")}>here</ContactLink>
+			and our privacy policy <ContactLink href={TORNTOOLS_PRIVACY_POLICY}>here</ContactLink>.
 		</p>
 		<p>
 			We can be contacted through our <ContactLink href="https://discord.gg/ukyK6f6">Discord</ContactLink>

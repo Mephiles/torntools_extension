@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { exposeDebugObjects } from "@common/utils/functions/pages-debug";
+	import { TORNTOOLS_PRIVACY_POLICY } from "@common/utils/functions/torn";
 	import { initializeDatabaseStore, settingsStore } from "@extension/entrypoints/tos/stores/database-store.svelte";
 	import * as Table from "@svelte/components/ui/table";
 	import { ModeWatcher, setMode } from "mode-watcher";
@@ -50,8 +51,8 @@
 			<h2 class="text-lg font-bold">Data Collection</h2>
 
 			<p class="text-muted-foreground text-sm">
-				TornTools collects and stores data only locally. External services might require your API key and store the data differently. All external
-				services are opt in, and we'll list to the terms of service for each service when opting in.
+				TornTools stores data locally by default. External services might require your API key and store the data differently. All external services are
+				opt in, and we'll list the terms of service for each service when opting in.
 			</p>
 
 			<div class="bg-card mt-1 rounded-sm border">
@@ -83,6 +84,11 @@
 					</Table.Body>
 				</Table.Root>
 			</div>
+
+			<p class="text-muted-foreground text-sm">
+				Our privacy policy can be found
+				<a class="text-primary hover:underline" href={TORNTOOLS_PRIVACY_POLICY} target="_blank" rel="noreferrer">here</a>.
+			</p>
 		</div>
 	</section>
 </main>
